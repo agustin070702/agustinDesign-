@@ -417,6 +417,8 @@ padding-bottom: 3rem; /* Margen de seguridad en la parte inferior para la barra 
     padding: 0.5rem;
     background-size: cover;
     background-position: center;
+    border-radius: 8px; /* Puedes ajustar este valor (ej. 4px, 12px, 10%) */
+    overflow: hidden; /* **MUY IMPORTANTE:** Asegura que la imagen de fondo y el contenido *dentro* de .card-image no se salgan de las esquinas redondeadas. */
 }
 
 .image-label {
@@ -428,7 +430,14 @@ padding-bottom: 3rem; /* Margen de seguridad en la parte inferior para la barra 
     font-family: var(--font-heading);
 }
 
-.project-placeholder-1 { background-image: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%); }
+.project-placeholder-1 { 
+    /* Esta es la regla que ahora estará en el proyecto "Tap In" */
+    background-image: url('img/tap_in_portada.jpg');
+    
+    /* 💥 CAMBIOS CLAVE AÑADIDOS: */
+    background-repeat: no-repeat; /* Asegura que la imagen no se repita */
+    background-size: cover; /* Asegura que la imagen cubra todo el espacio */
+}
 .project-placeholder-2 { background-image: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%); }
 .project-placeholder-3 { background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); }
 .project-placeholder-4 { background-image: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%); }
