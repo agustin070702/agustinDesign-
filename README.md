@@ -39,8 +39,9 @@ Este portafolio está dirigido a posibles empleadores, agencias, estudios de dis
 ## 2. BREND  
 **Link:** https://www.brend.cl/
 
-**Imagen sugerida:**  
-https://www.brend.cl/_next/image?url=%2Fimages%2Fhome.jpg&w=1920&q=80
+![Image alt text](https://raw.githubusercontent.com/agustin070702/agustinDesign-/refs/heads/main/moodboard/brend-1.png)
+![Image alt text](https://raw.githubusercontent.com/agustin070702/agustinDesign-/refs/heads/main/moodboard/brend-2.png)
+![Image alt text](https://raw.githubusercontent.com/agustin070702/agustinDesign-/refs/heads/main/moodboard/brend-3.png)
 
 ### Lo que me gusta  
 - Las transiciones y animaciones sutiles que acompañan el scroll.  
