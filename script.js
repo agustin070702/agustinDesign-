@@ -9,7 +9,55 @@ document.addEventListener('DOMContentLoaded', () => {
     const projectOverlay = document.getElementById('project-overlay');
     const closeProjectBtn = document.getElementById('close-project-btn');
     const sections = document.querySelectorAll('main section'); // Todas las secciones para el fade-in
+    
+    // NUEVAS REFERENCIAS PARA EL MODO OSCURO
+    const themeToggleBtn = document.getElementById('theme-toggle-btn');
+    const body = document.body;
 
+    /* =======================================
+       0. LÓGICA DE MODO OSCURO/CLARO
+       ======================================= */
+    
+    // Clave de almacenamiento local
+    const THEME_KEY = 'portfolio-theme';
+
+    // Función para alternar el tema
+    const toggleTheme = () => {
+        const isDarkMode = body.classList.toggle('dark-mode');
+        // Guardar la preferencia en el LocalStorage
+        localStorage.setItem(THEME_KEY, isDarkMode ? 'dark' : 'light');
+        // Actualizar el texto del botón
+        themeToggleBtn.textContent = isDarkMode ? '☾' : '☀︎';
+    };
+
+    // Aplicar el tema al cargar la página
+    const applySavedTheme = () => {
+        const savedTheme = localStorage.getItem(THEME_KEY);
+        // 1. Priorizar la preferencia guardada
+        if (savedTheme === 'dark') {
+            body.classList.add('dark-mode');
+            themeToggleBtn.textContent = '☾';
+        } else if (savedTheme === 'light') {
+             body.classList.remove('dark-mode');
+             themeToggleBtn.textContent = '☀︎';
+        } 
+        // 2. Si no hay preferencia guardada, usar la preferencia del sistema operativo
+        else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            body.classList.add('dark-mode');
+            themeToggleBtn.textContent = '☾';
+        } else {
+             themeToggleBtn.textContent = '☀︎';
+        }
+    };
+
+    // Inicializar el tema al cargar
+    applySavedTheme();
+
+    // Evento para alternar el tema
+    if (themeToggleBtn) {
+        themeToggleBtn.addEventListener('click', toggleTheme);
+    }
+    
     /* =======================================
        1. FUNCIONALIDAD DEL MENÚ LATERAL
        ======================================= */
@@ -18,14 +66,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const openMenu = () => {
         sidebarMenu.classList.add('is-open');
         sidebarMenu.setAttribute('aria-hidden', 'false');
-        document.body.style.overflow = 'hidden'; // Evita el scroll del fondo
+        body.style.overflow = 'hidden'; // Evita el scroll del fondo
     };
 
     // Función para cerrar el menú
     const closeMenu = () => {
         sidebarMenu.classList.remove('is-open');
         sidebarMenu.setAttribute('aria-hidden', 'true');
-        document.body.style.overflow = ''; // Restaura el scroll
+        body.style.overflow = ''; // Restaura el scroll
     };
 
     menuToggleBtn.addEventListener('click', openMenu);
@@ -77,13 +125,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // Función para abrir el overlay
     const openProjectOverlay = (projectId) => {
         // En un caso real, aquí cargarías el contenido del proyecto (HTML/JSON) usando el projectId
-        // Por ahora, solo abrimos el modal
         projectOverlay.classList.add('is-open');
         projectOverlay.setAttribute('aria-hidden', 'false');
-        document.body.style.overflow = 'hidden'; // Bloquea el scroll del fondo
+        body.style.overflow = 'hidden'; // Bloquea el scroll del fondo
         projectOverlay.focus(); // Enfoca el modal para accesibilidad
         
-        // Placeholder de contenido dinámico (se podría usar AJAX o un objeto JS con el contenido)
+        // Placeholder de contenido dinámico 
         const detailTitle = projectOverlay.querySelector('.detail-title');
         const longDesc = projectOverlay.querySelectorAll('.project-long-desc');
         detailTitle.textContent = `Detalle de Proyecto: ${projectId.replace('-', ' ').toUpperCase()}`;
@@ -95,7 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const closeProjectOverlay = () => {
         projectOverlay.classList.remove('is-open');
         projectOverlay.setAttribute('aria-hidden', 'true');
-        document.body.style.overflow = '';
+        body.style.overflow = '';
     };
 
     projectCards.forEach(card => {

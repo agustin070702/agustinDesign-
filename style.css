@@ -1,30 +1,47 @@
 /* =======================================
-   VARIABLES GLOBALES & RESET
+   VARIABLES GLOBALES & TEMAS
+   (Se mantiene igual)
    ======================================= */
 :root {
-    /* Paleta de colores */
-    --color-background: #fdfdfd; /* Blanco/Gris muy claro */
-    --color-text-primary: #1a1a1a; /* Casi negro */
+    /* 🌙 Tema Claro (Por Defecto) */
+    --color-background: #fdfdfd; 
+    --color-text-primary: #1a1a1a; 
     --color-text-secondary: #666666;
-    --color-accent: #6c47ff; /* Morado violáceo sutil */
+    --color-accent: #6c47ff; 
     --color-accent-hover: #5033c4;
     --color-border: #eeeeee;
 
-    /* Tipografía */
-    --font-heading: 'Space Grotesk', sans-serif;
-    --font-body: 'Inter', sans-serif;
-    --font-size-base: 1.1rem; /* Aumentado para legibilidad editorial */
+    transition: 
+        background-color 0.5s ease, 
+        color 0.5s ease, 
+        border-color 0.5s ease;
+
+    /* Tipografía (DM SANS) */
+    --font-heading: 'DM Sans', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+    --font-size-base: 1.1rem; 
     --line-height-base: 1.7;
 
     /* Espaciado */
     --padding-sm: 1rem;
     --padding-md: 2rem;
     --padding-lg: 5rem;
-    --max-content-width: 1200px;
-    --grid-margin-desktop: 8vw; /* Márgenes laterales amplios en desktop */
+    --max-content-width: 1400px;
+    --grid-margin-desktop: 5vw; 
 }
 
-/* Reset Básico */
+/* 🌙 Tema Oscuro */
+.dark-mode {
+    --color-background: #1a1a1a; 
+    --color-text-primary: #fdfdfd; 
+    --color-text-secondary: #aaaaaa; 
+    --color-accent: #a18cd1; 
+    --color-accent-hover: #8e7bc4;
+    --color-border: #333333; 
+}
+
+
+/* Reset Básico y Tipografía (Se mantiene igual) */
 *, *::before, *::after {
     box-sizing: border-box;
     margin: 0;
@@ -42,10 +59,10 @@ body {
     color: var(--color-text-primary);
     background-color: var(--color-background);
     -webkit-font-smoothing: antialiased;
-    overflow-x: hidden; /* Evita el scroll horizontal causado por el menú off-canvas */
+    overflow-x: hidden; 
+    transition: background-color 0.5s ease, color 0.5s ease; 
 }
 
-/* Tipografía y Jerarquía */
 h1, h2, h3 {
     font-family: var(--font-heading);
     line-height: 1.1;
@@ -53,28 +70,30 @@ h1, h2, h3 {
     margin-bottom: 0.5em;
 }
 
-h1.hero-title { /* H1 muy grande (hero) */
-    font-size: clamp(2.5rem, 8vw, 6.5rem);
+h1.hero-title { 
+    font-size: clamp(2.5rem, 8vw, 6.5rem); 
     font-weight: 700;
     letter-spacing: -0.05em;
+    margin-bottom: 0.2em; 
 }
 
-h2.section-title { /* H2 para títulos de secciones */
+h2.section-title { 
     font-size: clamp(2rem, 5vw, 4rem);
     font-weight: 500;
+    margin-top: 0; /* <-- AGREGAR: Eliminar margen superior */
     margin-bottom: 1.5rem;
     padding-bottom: 0.5rem;
     border-bottom: 1px solid var(--color-border);
 }
 
-h3 { /* H3 para subtítulos / categorías */
+h3 { 
     font-size: 1.5rem;
     font-weight: 700;
 }
 
 p {
     margin-bottom: 1.5em;
-    max-width: 85ch; /* Limite de caracteres para legibilidad */
+    max-width: 85ch; 
 }
 
 a {
@@ -88,7 +107,7 @@ a:hover {
 }
 
 /* =======================================
-   LAYOUT GENERAL & REUTILIZABLES
+   LAYOUT GENERAL & REUTILIZABLES (Se mantiene igual)
    ======================================= */
 .section-padding {
     padding: var(--padding-lg) var(--padding-md);
@@ -104,7 +123,6 @@ a:hover {
     margin: 0 auto;
 }
 
-/* Botón principal (Editorial y acentuado) */
 .btn {
     display: inline-block;
     padding: 0.8rem 1.8rem;
@@ -133,7 +151,6 @@ a:hover {
     margin-top: 1rem;
 }
 
-/* Microanimación de entrada (para JS) */
 .fade-in {
     opacity: 0;
     transform: translateY(20px);
@@ -147,7 +164,7 @@ a:hover {
 
 
 /* =======================================
-   HEADER & MENÚ LATERAL (MOBILE-FIRST)
+   HEADER & MENÚ LATERAL (Se mantiene igual)
    ======================================= */
 .main-header {
     position: fixed;
@@ -157,14 +174,14 @@ a:hover {
     z-index: 1000;
     padding: var(--padding-sm);
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between; 
     align-items: center;
-    background-color: var(--color-background); /* EVITAR TRANSPARENCIAS */
+    background-color: var(--color-background); 
+    border-bottom: 1px solid var(--color-border); 
 }
 
-/* Ajuste para que el contenido de la página comience después del header fijo */
 main {
-    padding-top: 4rem; 
+    padding-top: 0rem; 
 }
 
 
@@ -192,24 +209,29 @@ main {
     font-weight: 300;
 }
 
-/* Menú Sidebar (Off-Canvas) */
+.theme-toggle-btn {
+    margin-left: auto; 
+    margin-right: 0.5rem;
+    font-size: 1.2rem;
+}
+
 .sidebar-menu {
     position: fixed;
     top: 0;
     left: 0;
-    width: 80%; /* Ancho en mobile */
+    width: 80%; 
     max-width: 350px;
     height: 100%;
     background-color: var(--color-background);
     box-shadow: 4px 0 15px rgba(0, 0, 0, 0.1);
-    transform: translateX(-100%); /* Oculto por defecto */
-    transition: transform 0.4s cubic-bezier(0.65, 0.05, 0.36, 1); /* Animación suave */
+    transform: translateX(-100%); 
+    transition: transform 0.4s cubic-bezier(0.65, 0.05, 0.36, 1); 
     z-index: 1001;
     padding-top: 4rem;
 }
 
 .sidebar-menu.is-open {
-    transform: translateX(0); /* Abierto */
+    transform: translateX(0); 
 }
 
 .sidebar-content {
@@ -248,10 +270,10 @@ main {
 }
 
 /* =======================================
-   BARRA DE PROGRESO DERECHA
+   BARRA DE PROGRESO DE SCROLL (Se mantiene igual)
    ======================================= */
 .progress-bar-container {
-    display: none; /* Oculto en mobile */
+    display: none; 
     position: fixed;
     top: 0;
     right: 0;
@@ -263,7 +285,7 @@ main {
 .progress-bar {
     width: 3px;
     background-color: var(--color-accent);
-    height: 0%; /* Se actualiza con JS */
+    height: 0%; 
     position: absolute;
     top: 0;
     right: 50%;
@@ -274,12 +296,12 @@ main {
    1. HERO
    ======================================= */
 .hero-section {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    padding-top: 6rem; /* Espacio para el header fijo */
+min-height: 100vh;
+display: flex;
+align-items: center; 
+padding-top: 10rem; /* Asegura espacio para el header fijo (4rem) + margen extra */
+padding-bottom: 3rem; /* Margen de seguridad en la parte inferior para la barra de tareas */
 }
-
 .hero-content {
     display: flex;
     flex-direction: column;
@@ -304,57 +326,70 @@ main {
     margin-bottom: 2rem;
 }
 
-/* Bloque contenedor del avatar y texto */
+/* Bloque contenedor del avatar y texto (MOBILE) */
 .hero-avatar-block {
-    text-align: center;
-    background-color: transparent; /* Quitamos el color de placeholder */
-    min-height: auto; /* Dejamos que la imagen defina la altura */
-    width: 100%;
-    margin-bottom: 1rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    align-items: center;
-    padding: 0; /* Quitamos el padding del placeholder */
-}
+        /* CAMBIO CLAVE: Aumentamos el ancho máximo para que sea más grande */
+        width: 450px; 
+        height: auto; 
+        min-height: auto; 
+        text-align: right;
+        margin-left: initial;
+        margin-right: initial;
+        margin-top: -8rem; 
+        
+        /* 👉 CAMBIOS NUEVOS: Usar Flexbox para alinear a la derecha */
+        display: flex; /* Habilitar Flexbox */
+        flex-direction: column; /* Apila los elementos verticalmente (foto, texto, botón) */
+        align-items: flex-end; /* 👈 ESTO ES LO CLAVE: Alinea todos los ítems a la DERECHA */
+    }
 
 /* ESTILOS PARA LA IMAGEN REAL (profile-avatar) */
 .profile-avatar {
-    width: 100%; /* Ocupa todo el ancho del contenedor padre */
-    height: auto;
+    width: 100%; 
+    height: auto; 
     display: block;
-    margin-bottom: 1.5rem;
-    object-fit: cover;
     
-    /* Efecto de foto en Blanco y Negro */
+    object-fit: contain; 
+    object-position: center top; 
+    
     filter: grayscale(100%); 
     
-    /* Transición sutil al color al hacer hover */
-    transition: filter 0.5s ease;
+    border-radius: 12px; 
+    border: 3px solid var(--color-border); 
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); 
+    
+    transition: filter 0.5s ease, 
+                transform 0.3s ease, 
+                box-shadow 0.3s ease,
+                border-color 0.5s ease;
 }
 
 .profile-avatar:hover {
-    filter: grayscale(0%); /* Vuelve al color al pasar el mouse */
+    filter: grayscale(0%) brightness(1.1); 
+    transform: translateY(-5px); 
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2); 
+    border-color: var(--color-accent); 
 }
 
 .hero-intro-text {
-    font-size: 0.9rem;
-    color: var(--color-text-secondary);
-    max-width: 30ch;
-}
-
+        /* Necesitas que el texto *dentro* del bloque del avatar se alinee a la derecha */
+        text-align: right; /* 👈 CAMBIO: Forzar la alineación del texto a la derecha */
+        
+        /* 👉 CAMBIOS NUEVOS */
+        max-width: 100%; 
+        margin-top: 2rem; 
+    }
 
 /* =======================================
-   2. WORK (PROYECTOS)
+   2. WORK & OTRAS SECCIONES (Se mantienen igual)
    ======================================= */
 .work-section {
-    /* Mantenemos el padding superior para compensar el header */
     padding-top: var(--padding-lg);
 }
 
 .project-grid {
     display: grid;
-    grid-template-columns: 1fr; /* Una columna en mobile */
+    grid-template-columns: 1fr; 
     gap: var(--padding-md);
 }
 
@@ -367,14 +402,14 @@ main {
 }
 
 .project-card:hover {
-    transform: translateY(-5px) scale(1.01); /* Ligero scale + lift */
+    transform: translateY(-5px) scale(1.01); 
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
 }
 
 .card-image {
     width: 100%;
     height: 250px;
-    background-color: var(--color-border); /* Placeholder base */
+    background-color: var(--color-border); 
     margin-bottom: var(--padding-sm);
     display: flex;
     align-items: flex-end;
@@ -393,7 +428,6 @@ main {
     font-family: var(--font-heading);
 }
 
-/* Placeholders para las portadas (usa gradientes para distinguirlas) */
 .project-placeholder-1 { background-image: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%); }
 .project-placeholder-2 { background-image: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%); }
 .project-placeholder-3 { background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); }
@@ -425,9 +459,6 @@ main {
     margin-bottom: 0;
 }
 
-/* =======================================
-   3. ABOUT
-   ======================================= */
 .about-content {
     display: flex;
     flex-direction: column;
@@ -466,7 +497,6 @@ main {
     margin-left: -1.5em;
 }
 
-/* Barras de habilidad (con CSS variable) */
 .skill-list li {
     padding: 0.3rem 0;
     position: relative;
@@ -479,14 +509,11 @@ main {
     bottom: 0;
     left: 0;
     height: 4px;
-    width: var(--skill-level, 50%); /* Usa la variable --skill-level de HTML/JS */
+    width: var(--skill-level, 50%); 
     background-color: var(--color-accent);
     opacity: 0.6;
 }
 
-/* =======================================
-   4. CONTACT
-   ======================================= */
 .contact-invitation {
     font-size: 1.2rem;
     font-weight: 300;
@@ -516,20 +543,17 @@ main {
     word-break: break-all;
 }
 
-/* =======================================
-   DETALLE DE PROYECTO (OVERLAY)
-   ======================================= */
 .project-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(253, 253, 253, 0.98); /* Fondo semi-transparente para "sacar" la página */
+    background-color: var(--color-background); 
+    opacity: 0.98;
     z-index: 2000;
     overflow-y: scroll;
     padding: var(--padding-md);
-    /* Animación de apertura: Oculto por defecto */
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.4s ease, visibility 0.4s ease;
@@ -589,8 +613,8 @@ main {
 .detail-image-full {
     width: 100%;
     height: auto;
-    min-height: 400px; /* Placeholder visual */
-    background-color: #e0e0e0;
+    min-height: 400px; 
+    background-color: var(--color-border);
     margin: 3rem 0;
     display: flex;
     flex-direction: column;
@@ -612,10 +636,9 @@ figcaption {
 }
 
 .project-long-desc {
-    max-width: 75ch; /* Legibilidad en párrafos largos */
+    max-width: 75ch; 
 }
 
-/* FOOTER */
 .main-footer {
     text-align: center;
     padding: 2rem var(--padding-md);
@@ -629,10 +652,9 @@ figcaption {
    ======================================= */
 @media (min-width: 768px) {
     .section-padding {
-        padding: var(--padding-lg) var(--grid-margin-desktop); /* Más margen a los lados */
+        padding: var(--padding-lg) var(--grid-margin-desktop); 
     }
 
-    /* Header */
     .main-header {
         left: var(--grid-margin-desktop);
         right: var(--grid-margin-desktop);
@@ -645,28 +667,45 @@ figcaption {
     /* Hero */
     .hero-content {
         flex-direction: row;
-        align-items: center;
+    /* CAMBIO CLAVE: Alineamos los elementos por el centro de la fila.
+       Esto hará que el título grande se centre mejor con la foto. */
+    align-items: center;
+        justify-content: space-between; 
     }
 
-    /* Ajuste de Hero Avatar Block para Desktop */
+    /* Bloque contenedor del avatar y texto (DESKTOP) */
     .hero-avatar-block {
-        width: 300px; /* Ancho fijo para el avatar */
-        min-height: 450px; /* Altura mínima para el bloque */
-        text-align: left;
+        /* CAMBIO CLAVE: Aumentamos el ancho máximo para que sea más grande */
+        width: 450px; 
+        height: auto; 
+        min-height: auto; 
+        text-align: right;
+        margin-left: initial;
+        margin-right: initial;
+        margin-top: 1rem; 
+
     }
     
     .profile-avatar {
-        height: 80%; /* Imagen ocupa 80% de la altura del bloque */
-        object-fit: cover; 
+        width: 100%;
+        /* CAMBIO CLAVE: Quitamos la altura fija. El "rectangle" (el contenedor) ya se ajusta con height: auto. */
+        height: auto; 
+        object-fit: contain; 
+    }
+
+    .hero-text {
+        /* Le damos un ancho fijo para que no sea muy grande y empuje la imagen a la derecha */
+        max-width: 55%; 
     }
 
     .hero-intro-text {
         text-align: left;
+        margin-top: 2rem;
     }
 
     /* Work Grid */
     .project-grid {
-        grid-template-columns: repeat(2, 1fr); /* 2 columnas en desktop medio */
+        grid-template-columns: repeat(2, 1fr); 
         gap: 40px;
     }
 
@@ -680,7 +719,7 @@ figcaption {
     }
     .about-details-grid {
         flex: 1;
-        grid-template-columns: repeat(2, 1fr); /* 2x2 */
+        grid-template-columns: repeat(2, 1fr); 
     }
 
     /* Contact Grid */
@@ -696,13 +735,20 @@ figcaption {
     /* Barra de Progreso: Visible en Desktop */
     .progress-bar-container {
         display: block;
-        right: var(--grid-margin-desktop); /* Alineado con el margen derecho */
+        right: var(--grid-margin-desktop); 
         width: 30px;
     }
 }
 
 @media (min-width: 1200px) {
     .project-grid {
-        grid-template-columns: repeat(3, 1fr); /* 3 columnas en desktop grande */
+        grid-template-columns: repeat(3, 1fr); 
+    }
+}
+
+/* Regla específica para el botón dentro del bloque de avatar en Desktop */
+@media (min-width: 768px) {
+    .hero-avatar-block .btn {
+        margin-top: 0rem; /* Mayor separación entre el texto descriptivo y el botón */
     }
 }
