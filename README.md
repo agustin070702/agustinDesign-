@@ -18,7 +18,7 @@ Este portafolio está dirigido a posibles empleadores, agencias, estudios de dis
 ![!(https://raw.githubusercontent.com/agustin070702/agustinDesign-/refs/heads/main/moodboard/alexcoven-2.png)](https://raw.githubusercontent.com/agustin070702/agustinDesign-/refs/heads/main/moodboard/alexcoven-2.png)
 ![https://raw.githubusercontent.com/agustin070702/agustinDesign-/refs/heads/main/moodboard/alexcoven-3.png](https://raw.githubusercontent.com/agustin070702/agustinDesign-/refs/heads/main/moodboard/alexcoven-3.png)]
 
-
+![Image alt text](https://raw.githubusercontent.com/agustin070702/agustinDesign-/refs/heads/main/moodboard/alexcoven-3.png)
 
 
 
