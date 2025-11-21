@@ -59,7 +59,9 @@ Este portafolio está dirigido a posibles empleadores, agencias, estudios de dis
 **Link:** https://www.instagram.com/vallon.emma/
 
 **Imagen sugerida:**  
-https://scontent.fscl22-1.fna.fbcdn.net/v/t39.30808-6/326084356_878734690150593_6801165566773815287_n.jpg
+![Image alt text](https://raw.githubusercontent.com/agustin070702/agustinDesign-/refs/heads/main/moodboard/emma-1.png)
+![Image alt text](https://raw.githubusercontent.com/agustin070702/agustinDesign-/refs/heads/main/moodboard/emma-2.png)
+
 
 ### Lo que me gusta  
 - El enfoque editorial y el uso de la tipografía como elemento gráfico.  
@@ -79,7 +81,9 @@ https://scontent.fscl22-1.fna.fbcdn.net/v/t39.30808-6/326084356_878734690150593_
 https://www.behance.net/gallery/157599973/Portafolio-de-Diseno-Grafico
 
 **Imagen sugerida:**  
-https://mir-s3-cdn-cf.behance.net/project_modules/fs/ea7dd1157599973.638e02bd2848a.jpg
+![Image alt text]()
+![Image alt text]()
+![Image alt text]()
 
 ### Lo que me gusta  
 - La estructura clara de portadas por proyecto.  
@@ -98,7 +102,8 @@ https://mir-s3-cdn-cf.behance.net/project_modules/fs/ea7dd1157599973.638e02bd284
 **Link:** https://www.semplice.com/showcase
 
 **Imagen sugerida:**  
-https://uploads-ssl.webflow.com/60352f012c44f94fb35ed005/6036f07d916c37b921087b3d_semplice-showcase.jpg
+![Image alt text]()
+![Image alt text]()
 
 ### Lo que me gusta  
 - La variedad de estilos profesionales cohesivos.  
@@ -116,7 +121,9 @@ https://uploads-ssl.webflow.com/60352f012c44f94fb35ed005/6036f07d916c37b921087b3
 **Referentes combinados:** Alex Coven, BREND, Vallon Emma
 
 ### Imagen sugerida  
-Usar capturas propias una vez que el diseño esté maquetado.
+![Image alt text]()
+![Image alt text]()
+![Image alt text]()
 
 ### Lo que me gusta  
 - Un enfoque editorial moderno combinado con UI minimalista.  
