@@ -76,14 +76,13 @@ Este portafolio está dirigido a posibles empleadores, agencias, estudios de dis
 
 ---
 
-## 4. Behance – Portafolio de Diseño Gráfico  
-**Link:**  
-https://www.behance.net/gallery/157599973/Portafolio-de-Diseno-Grafico
+## 4. Behance – Mi Portafolio de Diseño 
+miportafolio:)
 
 **Imagen sugerida:**  
-![Image alt text]()
-![Image alt text]()
-![Image alt text]()
+![Image alt text](https://raw.githubusercontent.com/agustin070702/agustinDesign-/refs/heads/main/moodboard/miportafolio-1.png)
+![Image alt text](https://raw.githubusercontent.com/agustin070702/agustinDesign-/refs/heads/main/moodboard/miportafolio-2.png)
+![Image alt text](https://raw.githubusercontent.com/agustin070702/agustinDesign-/refs/heads/main/moodboard/miportafolio-3.png)
 
 ### Lo que me gusta  
 - La estructura clara de portadas por proyecto.  
@@ -96,34 +95,21 @@ https://www.behance.net/gallery/157599973/Portafolio-de-Diseno-Grafico
 - Necesito incorporar microanimaciones (hover, fade-in, desplazamientos).  
 - No saturar las portadas con información innecesaria.
 
----
 
-## 5. Semplice Showcase  
-**Link:** https://www.semplice.com/showcase
+## Notas personales basadas en mi portafolio actual  
+Mi portafolio contiene proyectos universitarios, colaboraciones con marcas reales, trabajos de UX/UI, industrial y gráfico. Este nivel de variedad necesita:
 
-**Imagen sugerida:**  
-![Image alt text]()
-![Image alt text]()
-
-### Lo que me gusta  
-- La variedad de estilos profesionales cohesivos.  
-- El uso de tipografía grande con mucho aire blanco.  
-- La claridad narrativa en páginas de proyecto.  
-- Es una buena referencia para casos de estudio en UX/UI.
-
-### A tener cuidado  
-- No mezclar demasiados estilos; necesito una identidad visual clara.  
-- Evitar elementos visuales superfluos que no aporten al contenido.
+- una base visual neutra y editorial  
+- una tipografía sans serif con familia amplia  
+- una estructura de navegación clara  
+- un sistema de portadas consistente  
+- animaciones sutiles que entreguen dinamismo sin distraer  
+- una identidad visual que unifique todo el contenido
 
 ---
 
 ## 6. Interfaz editorial y estructura limpia  
 **Referentes combinados:** Alex Coven, BREND, Vallon Emma
-
-### Imagen sugerida  
-![Image alt text]()
-![Image alt text]()
-![Image alt text]()
 
 ### Lo que me gusta  
 - Un enfoque editorial moderno combinado con UI minimalista.  
@@ -137,15 +123,6 @@ https://www.behance.net/gallery/157599973/Portafolio-de-Diseno-Grafico
 
 ---
 
-## Notas personales basadas en mi portafolio actual  
-Mi portafolio contiene proyectos universitarios, colaboraciones con marcas reales, trabajos de UX/UI, industrial y gráfico. Este nivel de variedad necesita:
-
-- una base visual neutra y editorial  
-- una tipografía sans serif con familia amplia  
-- una estructura de navegación clara  
-- un sistema de portadas consistente  
-- animaciones sutiles que entreguen dinamismo sin distraer  
-- una identidad visual que unifique todo el contenido
 
 Con este moodboard establezco la dirección visual que guiará el diseño final de mi portafolio web.
 
