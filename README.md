@@ -16,7 +16,7 @@ Este portafolio está dirigido a posibles empleadores, agencias, estudios de dis
 **Imagen sugerida:**  
 ![https://alexcoven.com/img/alex-coven-banner.png](https://raw.githubusercontent.com/agustin070702/agustinDesign-/refs/heads/main/moodboard/alexcoven-1.png)
 ![!(https://raw.githubusercontent.com/agustin070702/agustinDesign-/refs/heads/main/moodboard/alexcoven-2.png)](https://raw.githubusercontent.com/agustin070702/agustinDesign-/refs/heads/main/moodboard/alexcoven-2.png)
-![[https://raw.githubusercontent.com/agustin070702/agustinDesign-/refs/heads/main/moodboard/alexcoven-3.png](https://raw.githubusercontent.com/agustin070702/agustinDesign-/refs/heads/main/moodboard/alexcoven-3.png)]
+![https://raw.githubusercontent.com/agustin070702/agustinDesign-/refs/heads/main/moodboard/alexcoven-3.png](https://raw.githubusercontent.com/agustin070702/agustinDesign-/refs/heads/main/moodboard/alexcoven-3.png)]
 
 
 
