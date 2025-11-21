@@ -13,7 +13,7 @@ Este portafolio está dirigido a posibles empleadores, agencias, estudios de dis
 ## 1. Alex Coven  
 **Link:** https://alexcoven.com/
 
-**Imagen sugerida:**  
+ 
 ![https://alexcoven.com/img/alex-coven-banner.png](https://raw.githubusercontent.com/agustin070702/agustinDesign-/refs/heads/main/moodboard/alexcoven-1.png)
 ![!(https://raw.githubusercontent.com/agustin070702/agustinDesign-/refs/heads/main/moodboard/alexcoven-2.png)](https://raw.githubusercontent.com/agustin070702/agustinDesign-/refs/heads/main/moodboard/alexcoven-2.png)
 ![https://raw.githubusercontent.com/agustin070702/agustinDesign-/refs/heads/main/moodboard/alexcoven-3.png](https://raw.githubusercontent.com/agustin070702/agustinDesign-/refs/heads/main/moodboard/alexcoven-3.png)
@@ -58,7 +58,7 @@ Este portafolio está dirigido a posibles empleadores, agencias, estudios de dis
 ## 3. Vallon Emma  
 **Link:** https://www.instagram.com/vallon.emma/
 
-**Imagen sugerida:**  
+
 ![Image alt text](https://raw.githubusercontent.com/agustin070702/agustinDesign-/refs/heads/main/moodboard/emma-1.png)
 ![Image alt text](https://raw.githubusercontent.com/agustin070702/agustinDesign-/refs/heads/main/moodboard/emma-2.png)
 
@@ -79,7 +79,7 @@ Este portafolio está dirigido a posibles empleadores, agencias, estudios de dis
 ## 4. Behance – Mi Portafolio de Diseño 
 miportafolio:)
 
-**Imagen sugerida:**  
+  
 ![Image alt text](https://raw.githubusercontent.com/agustin070702/agustinDesign-/refs/heads/main/moodboard/miportafolio-1.png)
 ![Image alt text](https://raw.githubusercontent.com/agustin070702/agustinDesign-/refs/heads/main/moodboard/miportafolio-2.png)
 ![Image alt text](https://raw.githubusercontent.com/agustin070702/agustinDesign-/refs/heads/main/moodboard/miportafolio-3.png)
