@@ -875,7 +875,7 @@ body {
 
 .works-section {
     background-color: #dddddd;
-    min-height: 100vh;
+    /*  min-height: 100vh;  */ /*Quitamos el min-height: 100vh; para que no fuerce altura extra */
     padding: 120px 60px;
     display: flex;
     flex-direction: column;
@@ -1066,4 +1066,244 @@ body {
         align-items: flex-start;
         gap: 20px;
     }
+}
+
+/* =========================================
+   SECCIÓN CONTACTO (Nuevo Diseño Claro)
+   ========================================= */
+
+.contact-section {
+    background-color: #dddddd; /* CONTINUIDAD VISUAL: Mismo color que Works */
+    color: #202020;            /* Texto oscuro */
+    min-height: 90vh;
+    padding: 60px 60px 40px 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end; /* Empuja el contenido hacia abajo */
+}
+
+.contact-container {
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+/* --- CONTENIDO PRINCIPAL (Grid 2 Columnas) --- */
+.contact-main-content {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr; /* La izq un poco más ancha para el texto grande */
+    gap: 60px;
+    margin-bottom: 100px; /* Espacio antes del footer */
+    align-items: flex-start;
+}
+
+/* Columna Izquierda: Título Gigante */
+.contact-big-title {
+    font-size: 7rem; /* Tamaño muy grande */
+    font-weight: 700; /* Negrita extra */
+    line-height: 0.9;
+    letter-spacing: -0.06em;
+    color: #202020;
+}
+
+/* Columna Derecha: Grid de detalles */
+.contact-right {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Divide email y social en dos columnas */
+    gap: 40px;
+    padding-top: 20px; /* Para alinear visualmente con la altura del título gigante */
+}
+
+.block-label {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #666666;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+/* Estilos del Email */
+.contact-email-link {
+    font-size: 1.3rem;
+    font-weight: 500;
+    color: #202020;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.3s ease;
+}
+
+.arrow-icon {
+    font-size: 1rem;
+    transition: transform 0.3s ease;
+}
+
+.contact-email-link:hover {
+    opacity: 0.7;
+}
+
+.contact-email-link:hover .arrow-icon {
+    transform: translate(5px, -5px); /* Flecha se mueve al pasar el mouse */
+}
+
+/* Lista de Redes Sociales */
+.social-list {
+    list-style: none;
+    padding: 0;
+}
+
+.social-list li {
+    margin-bottom: 12px;
+}
+
+.social-list a {
+    font-size: 1.3rem;
+    font-weight: 300;
+    color: #202020;
+    text-decoration: none;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+/* Efecto de línea al pasar el mouse por las redes */
+.social-list a::after {
+    content: '';
+    position: absolute;
+    width: 0%;
+    height: 1px;
+    bottom: -2px;
+    left: 0;
+    background-color: #202020;
+    transition: width 0.3s ease;
+}
+
+.social-list a:hover::after {
+    width: 100%;
+}
+
+/* --- FOOTER DE LA SECCIÓN --- */
+.contact-footer {
+    border-top: 1px solid rgba(32, 32, 32, 0.2); /* Línea sutil */
+    padding-top: 30px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.95rem;
+    color: #666;
+    font-weight: 300;
+}
+
+.footer-right {
+    display: flex;
+    gap: 40px;
+}
+
+.back-to-top {
+    text-decoration: none;
+    color: #202020;
+    font-weight: 500;
+    transition: opacity 0.3s ease;
+}
+
+.back-to-top:hover {
+    opacity: 0.6;
+}
+
+
+/* Responsive Contacto */
+@media (max-width: 968px) {
+    .contact-main-content {
+        grid-template-columns: 1fr; /* Una sola columna */
+        gap: 40px;
+    }
+
+    .contact-big-title {
+        font-size: 5rem;
+    }
+
+    .contact-right {
+        grid-template-columns: 1fr; /* Email arriba, redes abajo */
+        gap: 40px;
+    }
+
+    .contact-footer {
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .footer-right {
+        justify-content: space-between;
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .contact-section {
+        padding: 80px 30px 30px 30px;
+    }
+    
+    .contact-big-title {
+        font-size: 4rem;
+    }
+
+    .contact-email-link, .social-list a {
+        font-size: 1.1rem;
+    }
+}
+
+/* =========================================
+   CINTA INFINITA (MARQUEE)
+   ========================================= */
+
+.marquee-container {
+    background-color: #dddddd; /* Mismo fondo para continuidad */
+    overflow: hidden; /* Oculta lo que se sale de la pantalla */
+    padding: 40px 0; /* Espacio arriba y abajo de las letras */
+    border-top: 1px solid rgba(32, 32, 32, 0.1); /* Línea sutil separadora */
+    border-bottom: 1px solid rgba(32, 32, 32, 0.1);
+    display: flex;
+    align-items: center;
+}
+
+.marquee-content {
+    display: flex;
+    gap: 0;
+    /* La animación mágica */
+    animation: scrollText 20s linear infinite;
+    white-space: nowrap; /* Impide que el texto baje de línea */
+}
+
+.marquee-content span {
+    font-size: 3rem; /* Texto grande */
+    font-weight: 150;
+    color: transparent; /* Truco para hacer texto hueco (outline) */
+    -webkit-text-stroke: 1px #aaaaaa; /* Borde gris suave */
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding-right: 20px; /* Espacio entre las repeticiones */
+}
+
+/* Animación: Mueve el texto de derecha a izquierda infinitamente */
+@keyframes scrollText {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        /* Se mueve hacia la izquierda el 50% (porque duplicamos el texto) */
+        transform: translateX(-50%);
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .marquee-content span {
+        font-size: 2rem;
+    }
+}
+.credits {
+    font-size: 0.8rem; /* Un poco más chico */
+    color: #888888;    /* Gris suave */
+    margin-top: 5px;   /* Separación del copyright */
+    font-weight: 300;
 }
