@@ -179,3 +179,17 @@ console.log(
     "font-size: 24px; font-weight: bold; color: #666;", 
     "font-size: 14px; color: #666;"
 );
+
+// Reloj en tiempo real
+function updateClock() {
+    const now = new Date();
+    const timeString = now.toLocaleTimeString('en-US', { 
+        hour: '2-digit', 
+        minute: '2-digit', 
+        second: '2-digit' 
+    });
+    const clockElement = document.getElementById('clock');
+    if(clockElement) clockElement.innerText = timeString;
+}
+setInterval(updateClock, 1000);
+updateClock(); // Iniciar inmediatamente
