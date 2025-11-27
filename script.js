@@ -1,198 +1,172 @@
-document.addEventListener('DOMContentLoaded', () => {
-    // Referencias DOM
-    const menuToggleBtn = document.getElementById('menu-toggle-btn');
-    const closeMenuBtn = document.getElementById('close-menu-btn');
-    const sidebarMenu = document.getElementById('sidebar-menu');
-    const navLinks = document.querySelectorAll('.nav-link');
-    const progressBar = document.getElementById('progress-bar');
-    const projectCards = document.querySelectorAll('.project-card');
-    const projectOverlay = document.getElementById('project-overlay');
-    const closeProjectBtn = document.getElementById('close-project-btn');
-    const sections = document.querySelectorAll('main section'); // Todas las secciones para el fade-in
+// Elementos del DOM
+const menuToggle = document.getElementById('menuToggle');
+const sideMenu = document.getElementById('sideMenu');
+const overlay = document.getElementById('overlay');
+
+// Links que deben cerrar el menú (todos los <a> dentro del side-menu)
+const closeMenuLinks = document.querySelectorAll('.side-menu a');
+
+// Toggle para el submenú de Works
+const submenuToggle = document.querySelector('.submenu-toggle');
+const submenu = document.querySelector('.submenu');
+
+// Función para abrir/cerrar menú principal
+function toggleMenu() {
+    menuToggle.classList.toggle('active');
+    sideMenu.classList.toggle('active');
+    overlay.classList.toggle('active');
     
-    // NUEVAS REFERENCIAS PARA EL MODO OSCURO
-    const themeToggleBtn = document.getElementById('theme-toggle-btn');
-    const body = document.body;
+    // Prevenir scroll cuando el menú está abierto
+    if (sideMenu.classList.contains('active')) {
+        document.body.style.overflow = 'hidden';
+    } else {
+        document.body.style.overflow = 'auto';
+        // Opcional: cerrar el submenú al cerrar el menú principal
+        // submenu.classList.remove('open');
+        // submenuToggle.classList.remove('open');
+    }
+}
 
-    /* =======================================
-       0. LÓGICA DE MODO OSCURO/CLARO
-       ======================================= */
-    
-    // Clave de almacenamiento local
-    const THEME_KEY = 'portfolio-theme';
+// Event listeners para el menú principal
+menuToggle.addEventListener('click', toggleMenu);
+overlay.addEventListener('click', toggleMenu);
 
-    // Función para alternar el tema
-    const toggleTheme = () => {
-        const isDarkMode = body.classList.toggle('dark-mode');
-        // Guardar la preferencia en el LocalStorage
-        localStorage.setItem(THEME_KEY, isDarkMode ? 'dark' : 'light');
-        // Actualizar el texto del botón
-        themeToggleBtn.textContent = isDarkMode ? '☾' : '☀︎';
-    };
+// Cerrar menú al hacer click en un link de navegación (Home, Tap In, Posters, etc.)
+closeMenuLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+        // Permitimos la navegación normal, pero cerramos el menú
+        toggleMenu();
+    });
+});
 
-    // Aplicar el tema al cargar la página
-    const applySavedTheme = () => {
-        const savedTheme = localStorage.getItem(THEME_KEY);
-        // 1. Priorizar la preferencia guardada
-        if (savedTheme === 'dark') {
-            body.classList.add('dark-mode');
-            themeToggleBtn.textContent = '☾';
-        } else if (savedTheme === 'light') {
-             body.classList.remove('dark-mode');
-             themeToggleBtn.textContent = '☀︎';
-        } 
-        // 2. Si no hay preferencia guardada, usar la preferencia del sistema operativo
-        else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            body.classList.add('dark-mode');
-            themeToggleBtn.textContent = '☾';
-        } else {
-             themeToggleBtn.textContent = '☀︎';
+// Lógica para el acordeón del submenú "Works"
+if(submenuToggle) {
+    submenuToggle.addEventListener('click', (e) => {
+        e.preventDefault(); // Evita comportamiento de link si fuera un <a>
+        submenu.classList.toggle('open');
+        submenuToggle.classList.toggle('open');
+    });
+}
+
+// Cerrar menú con tecla ESC
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && sideMenu.classList.contains('active')) {
+        toggleMenu();
+    }
+});
+
+// Smooth scroll con offset para las anclas
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href');
+        if (targetId === '#') return;
+        
+        const target = document.querySelector(targetId);
+        
+        if (target) {
+            const offsetTop = target.offsetTop;
+            window.scrollTo({
+                top: offsetTop,
+                behavior: 'smooth'
+            });
         }
-    };
+    });
+});
 
-    // Inicializar el tema al cargar
-    applySavedTheme();
+// Animación de aparición al hacer scroll
+// Animación de aparición al hacer scroll
+const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+};
 
-    // Evento para alternar el tema
-    if (themeToggleBtn) {
-        themeToggleBtn.addEventListener('click', toggleTheme);
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            // PARTE 1: Cuando el elemento ENTRA en la pantalla
+            // Le ponemos opacidad 1 y lo movemos a su lugar original
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+        } else {
+            // PARTE 2 (NUEVA): Cuando el elemento SALE de la pantalla
+            // Lo volvemos a esconder y lo bajamos 30px.
+            // Así, cuando vuelvas a bajar, estará listo para animarse de nuevo.
+            entry.target.style.opacity = '0';
+            entry.target.style.transform = 'translateY(30px)';
+        }
+    });
+}, observerOptions);
+
+// Seleccionamos qué cosas vamos a animar:
+// 1. Los links del menú (.nav-link)
+// 2. Los elementos de la sección About (.scroll-animate)
+const elementsToAnimate = document.querySelectorAll('.nav-link, .scroll-animate');
+
+elementsToAnimate.forEach((el) => {
+    // Configuración inicial
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(30px)';
+    el.style.transition = 'opacity 0.8s ease-out, transform 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
+    
+    // Empezar a observar
+    observer.observe(el);
+});
+// Efecto parallax sutil en la imagen al hacer scroll
+let lastScrollTop = 0;
+const heroImage = document.querySelector('.hero-image img');
+
+window.addEventListener('scroll', () => {
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    
+    if (heroImage && scrollTop < window.innerHeight) {
+        const translateY = scrollTop * 0.3;
+        heroImage.style.transform = `translateY(${translateY}px)`;
     }
     
-    /* =======================================
-       1. FUNCIONALIDAD DEL MENÚ LATERAL
-       ======================================= */
-    
-    // Función para abrir el menú
-    const openMenu = () => {
-        sidebarMenu.classList.add('is-open');
-        sidebarMenu.setAttribute('aria-hidden', 'false');
-        body.style.overflow = 'hidden'; // Evita el scroll del fondo
-    };
-
-    // Función para cerrar el menú
-    const closeMenu = () => {
-        sidebarMenu.classList.remove('is-open');
-        sidebarMenu.setAttribute('aria-hidden', 'true');
-        body.style.overflow = ''; // Restaura el scroll
-    };
-
-    menuToggleBtn.addEventListener('click', openMenu);
-    closeMenuBtn.addEventListener('click', closeMenu);
-
-    // Cerrar menú al hacer clic en un enlace y hacer scroll suave
-    navLinks.forEach(link => {
-        link.addEventListener('click', (e) => {
-            e.preventDefault();
-            closeMenu();
-
-            const targetId = link.getAttribute('href');
-            const targetElement = document.querySelector(targetId);
-
-            // Scroll suave a la sección
-            if (targetElement) {
-                targetElement.scrollIntoView({ behavior: 'smooth' });
-            }
-        });
-    });
-
-    /* =======================================
-       2. BARRA DE PROGRESO DE SCROLL
-       ======================================= */
-
-    const updateProgressBar = () => {
-        // Altura total del documento menos la altura visible del viewport
-        const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-        
-        // Posición actual del scroll
-        const scrollTop = document.documentElement.scrollTop;
-        
-        // Cálculo del porcentaje de avance
-        const scrollPercent = (scrollTop / scrollHeight) * 100;
-        
-        // Actualiza la altura de la barra
-        progressBar.style.height = scrollPercent + '%';
-    };
-
-    window.addEventListener('scroll', updateProgressBar);
-    // Ejecutar al cargar para inicializar
-    updateProgressBar();
-
-
-    /* =======================================
-       3. DETALLE DE PROYECTO (OVERLAY MODAL)
-       ======================================= */
-
-    // Función para abrir el overlay
-    const openProjectOverlay = (projectId) => {
-        // En un caso real, aquí cargarías el contenido del proyecto (HTML/JSON) usando el projectId
-        projectOverlay.classList.add('is-open');
-        projectOverlay.setAttribute('aria-hidden', 'false');
-        body.style.overflow = 'hidden'; // Bloquea el scroll del fondo
-        projectOverlay.focus(); // Enfoca el modal para accesibilidad
-        
-        // Placeholder de contenido dinámico 
-        const detailTitle = projectOverlay.querySelector('.detail-title');
-        const longDesc = projectOverlay.querySelectorAll('.project-long-desc');
-        detailTitle.textContent = `Detalle de Proyecto: ${projectId.replace('-', ' ').toUpperCase()}`;
-        longDesc[0].textContent = 'Este es el resumen de la investigación y la estrategia detrás del proyecto ' + projectId + '. Aquí irían los párrafos completos y la galería.';
-
-    };
-
-    // Función para cerrar el overlay
-    const closeProjectOverlay = () => {
-        projectOverlay.classList.remove('is-open');
-        projectOverlay.setAttribute('aria-hidden', 'true');
-        body.style.overflow = '';
-    };
-
-    projectCards.forEach(card => {
-        card.addEventListener('click', () => {
-            const projectId = card.dataset.projectId;
-            openProjectOverlay(projectId);
-        });
-        
-        // Soporte de accesibilidad para teclado (Enter/Espacio)
-        card.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault(); // Previene la acción por defecto
-                const projectId = card.dataset.projectId;
-                openProjectOverlay(projectId);
-            }
-        });
-    });
-
-    closeProjectBtn.addEventListener('click', closeProjectOverlay);
-
-    // Cerrar el modal al presionar ESC
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && projectOverlay.classList.contains('is-open')) {
-            closeProjectOverlay();
-        }
-    });
-
-    /* =======================================
-       4. MICROANIMACIONES (FADE-IN AL SCROLL)
-       ======================================= */
-    
-    // Función de observador para aplicar clase al entrar en el viewport
-    const observer = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('is-visible');
-                observer.unobserve(entry.target); // Dejar de observar una vez que es visible
-            }
-        });
-    }, {
-        rootMargin: '0px',
-        threshold: 0.1 // Porcentaje de visibilidad del elemento para disparar
-    });
-
-    // Agregar la clase inicial 'fade-in' a todas las secciones (excepto la home/hero)
-    sections.forEach(section => {
-        if (section.id !== 'home') {
-            section.classList.add('fade-in');
-            observer.observe(section);
-        }
-    });
-
+    lastScrollTop = scrollTop;
 });
+
+// Agregar clase al body cuando se hace scroll
+window.addEventListener('scroll', () => {
+    if (window.scrollY > 50) {
+        document.body.classList.add('scrolled');
+    } else {
+        document.body.classList.remove('scrolled');
+    }
+});
+
+// ... (Todo tu código anterior) ...
+
+// ==========================================
+// LÓGICA DEL CARRUSEL DE PROYECTOS
+// ==========================================
+
+const track = document.getElementById('carouselTrack');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+
+if (track && prevBtn && nextBtn) {
+    
+    // Función para mover el carrusel
+    const scrollAmount = () => {
+        // Calculamos el ancho de una tarjeta + el gap (30px)
+        const firstCard = track.querySelector('.project-card');
+        const cardWidth = firstCard.offsetWidth + 30; 
+        return cardWidth;
+    };
+
+    nextBtn.addEventListener('click', () => {
+        track.scrollBy({
+            left: scrollAmount(),
+            behavior: 'smooth'
+        });
+    });
+
+    prevBtn.addEventListener('click', () => {
+        track.scrollBy({
+            left: -scrollAmount(),
+            behavior: 'smooth'
+        });
+    });
+}

@@ -3,262 +3,291 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agustín´s Portfolio</title>
-    <link rel="stylesheet" href="style.css"> 
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
+    <title>Agustín Avendaño - Portafolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
 
-    <aside class="progress-bar-container">
-        <div id="progress-bar" class="progress-bar"></div>
-    </aside>
-
-    <nav id="sidebar-menu" class="sidebar-menu" aria-label="Navegación principal">
-        <button id="close-menu-btn" class="menu-toggle-btn close-btn" aria-label="Cerrar menú de navegación">✕</button>
-        <div class="sidebar-content">
-            <h3 class="sidebar-role">Diseñador Gráfico &amp; UX/UI</h3>
-            <p class="sidebar-bio">Diseñando soluciones que equilibran la estética editorial con la usabilidad digital.</p>
-            <ul class="nav-links">
-                <li><a href="#home" class="nav-link" data-section="home">Home</a></li>
-                <li><a href="#work" class="nav-link" data-section="work">Work</a></li>
-                <li><a href="#about" class="nav-link" data-section="about">About</a></li>
-                <li><a href="#contact" class="nav-link" data-section="contact">Contact</a></li>
-            </ul>
-        </div>
+    <nav class="side-menu" id="sideMenu">
+        <ul class="main-menu">
+            <li><a href="#home" class="main-link">Home</a></li>
+            
+            <li class="has-submenu">
+                <span class="main-link submenu-toggle">Works <span class="arrow">+</span></span>
+                <ul class="submenu">
+                    <li><a href="proyecto-tapin.html">Tap In</a></li>
+                    <li><a href="proyecto-posters.html">Posters y Afiches</a></li>
+                    <li><a href="proyecto-mido.html">Mido</a></li>
+                    <li><a href="proyecto-hai.html">HAI Group</a></li>
+                    <li><a href="proyecto-anco.html">Anco</a></li>
+                    <li><a href="proyecto-domingo.html">Domingo de Partido</a></li>
+                </ul>
+            </li>
+        </ul>
     </nav>
 
-    <header class="main-header">
-    <button id="menu-toggle-btn" class="menu-toggle-btn" aria-label="Abrir menú de navegación">
-        <span class="icon-menu">☰</span>
-    </button>
-    <span class="site-title-mobile"></span>
-    
-    <button id="theme-toggle-btn" class="menu-toggle-btn theme-toggle-btn" aria-label="Alternar modo oscuro y claro">
-        ☀︎
-    </button>
-</header>
+    <div class="overlay" id="overlay"></div>
 
-    <main>
-        <section id="home" class="hero-section section-padding">
-           <div class="hero-content">
-    <div class="hero-text">
-        <h1 class="hero-title">Agustín Avendaño González</h1>
-        <p class="hero-role">Diseñador gráfico y UX/UI</p>
-        <p class="hero-statement">Combino diseño editorial, producto y experiencias digitales para crear soluciones claras, usables y visualmente coherentes.</p>
+    <section class="hero" id="home">
+        <nav class="top-nav">
+            <a href="#about" class="nav-link">About</a>
+            <a href="#work" class="nav-link">Works</a>
+            <a href="#contact" class="nav-link">Contact</a>
+        </nav>
+
+        <div class="hero-content">
+            <h1 class="hero-title">
+                <span class="name-first">agustín</span><br>
+                <span class="name-last">avendaño</span>
+            </h1>
+            
+            <a href="#work" class="btn-projects">ver proyectos</a>
         </div>
-    <div class="hero-avatar-block">
-        <img src="img/fotodeperfilgus.jpg" alt="Agustín Avendaño González - Foto de perfil en blanco y negro" class="profile-avatar">
-        <p class="hero-intro-text">Estudiante de Diseño Integral en la UC. Mi enfoque es la intersección entre la dirección de arte y la funcionalidad.</p>
-        <a href="#work" class="btn primary-btn large-btn">Ver proyectos</a> </div>
+
+        <div class="hero-image">
+            <img src="img/fotodeperfilgus.png" alt="Agustín Avendaño">
+        </div>
+    </section>
+
+    <section id="about" class="about-section">
+        <div class="about-container">
+            
+            <div class="about-profile">
+                <div class="photo-wrapper scroll-animate"> 
+    
+    <div class="about-photo-frame"> 
+        <img src="img/fotoaboutdelgus.jpg" alt="Agustín Avendaño"> 
+    </div>
+
 </div>
-        </section>
-        
-        <hr class="section-divider">
 
-        <section id="work" class="work-section section-padding">
-            <h2 class="section-title">Work</h2>
-            <div class="project-grid">
-
-                 <article class="project-card" data-project-id="tap-in" role="button" tabindex="0">
-                    <div class="card-image project-placeholder-1">
-                        <span class="image-label">Personal | Branding y UX/UI</span>
-                    </div>
-                    <div class="card-info">
-                        <h3 class="project-title">Tap In - Pedidos Digitales</h3>
-                        <p class="project-category">Branding, UX/UI, Marketing</p>
-                        <p class="project-tools">Herramientas: Illustrator, Figma, Photoshop</p>
-                        <p class="project-description">Identidad visual y prototipo de plataforma para optimizar la gestión de pedidos en cafeterías universitarias.</p>
-                    </div>
-                </article>
-
-                <article class="project-card" data-project-id="posters-grafica" role="button" tabindex="0">
-                    <div class="card-image project-placeholder-6"><span class="image-label">Personal | Gráfico</span></div>
-                    <div class="card-info">
-                        <h3 class="project-title">Posters y Afiches</h3>
-                        <p class="project-category">Gráfico, Arte Digital</p>
-                        <p class="project-tools">Herramientas: Illustrator, Photoshop, Procreate</p>
-                        <p class="project-description">Selección curada de piezas gráficas personales, explorando distintas paletas y composiciones visuales.</p>
-                    </div>
-                </article>
-
-                <article class="project-card" data-project-id="infinity-60" role="button" tabindex="0">
-                    <div class="card-image project-placeholder-5"><span class="image-label">Personal | Branding y UX/UI</span></div>
-                    <div class="card-info">
-                        <h3 class="project-title">Mido</h3>
-                        <p class="project-category">Branding, UX/UI, Marketing</p>
-                        <p class="project-tools">Herramientas: Illustrator, Figma, Photoshop </p>
-                        <p class="project-description">Diseño 1:1 de una silla con foco en ergonomía y representación de renders de alta fidelidad.</p>
-                    </div>
-                </article>
-
-                <article class="project-card" data-project-id="domingo-partido" role="button" tabindex="0">
-                    <div class="card-image project-placeholder-3">
-                        <span class="image-label">Editorial | UC</span>
-                    </div>
-                    <div class="card-info">
-                        <h3 class="project-title">Domingo de Partido</h3>
-                        <p class="project-category">Editorial, Gráfico</p>
-                        <p class="project-tools">Herramientas: **InDesign**, Photoshop</p>
-                        <p class="project-description">Investigación y diseño de una revista deportiva con foco en diagramación limpia y tipografía expresiva.</p>
-                    </div>
-                </article>
-
-                <article class="project-card" data-project-id="anco-app" role="button" tabindex="0">
-                    <div class="card-image project-placeholder-2">
-                         <span class="image-label">UX/UI | UC</span>
-                    </div>
-                    <div class="card-info">
-                        <h3 class="project-title">Anco App</h3>
-                        <p class="project-category">UX/UI, Accesibilidad, Producto</p>
-                        <p class="project-tools">Herramientas: **Figma**, User Research</p>
-                        <p class="project-description">Aplicación diseñada para mejorar la calidad de vida de adultos mayores con artritis mediante una interfaz simple.</p>
-                    </div>
-                </article>
-
-               
-
-                <article class="project-card" data-project-id="barra-svelty" role="button" tabindex="0">
-                    <div class="card-image project-placeholder-4"><span class="image-label">Producto | Nestlé</span></div>
-                    <div class="card-info">
-                        <h3 class="project-title">Barra Svelty</h3>
-                        <p class="project-category">Packaging, Producto</p>
-                        <p class="project-tools">Herramientas: Photoshop, Ai</p>
-                        <p class="project-description">Propuesta de rediseño de packaging y material gráfico para un producto de consumo masivo.</p>
-                    </div>
-                </article>
-                 
                 
-
-                </div>
-        </section>
-
-        <hr class="section-divider">
-
-        <section id="about" class="about-section section-padding">
-            <h2 class="section-title">Sobre mí</h2>
-            <div class="about-content">
-                <div class="about-bio-text">
-                    <p>Actualmente curso el quinto año de **Diseño Integral en la Pontificia Universidad Católica de Chile**, con una especialización marcada en diseño gráfico, visual y UX/UI. Mi formación me ha permitido desarrollar una visión holística donde la estética y la función son inseparables.</p>
-                    <p>Mi principal interés es la intersección entre la **investigación**, la **experiencia de usuario** y la **dirección de arte**. Busco desarrollar proyectos que no solo sean visualmente impactantes y consistententes (con un marcado sello editorial), sino que también entreguen soluciones claras y bien ejecutadas a problemas reales. Me considero una persona perseverante, detallista y con una gran capacidad para el trabajo en equipo bajo presión.</p>
-                </div>
-
-                <div class="about-details-grid">
-                    <div class="details-block">
-                        <h3 class="block-title">Estudios</h3>
-                        <ul class="detail-list">
-                            <li>Colegio SS.CC. Manquehue (2004–2020)</li>
-                            <li>Diseño Integral, **Pontificia Universidad Católica de Chile** (2021–2026)</li>
-                        </ul>
-                    </div>
-                    <div class="details-block">
-                        <h3 class="block-title">Experiencia</h3>
-                        <ul class="detail-list">
-                            <li>Diseñador y Community Manager para @entrenapo y @lacolumnapl.</li>
-                            <li>Diseñador gráfico y marketing digital en emprendimientos Tap In y Mido.</li>
-                            <li>Practicante en agencia publicitaria **La Familia** (Santiago, Chile y Lima, Perú).</li>
-                        </ul>
-                    </div>
-                    <div class="details-block">
-                        <h3 class="block-title">Software</h3>
-                        <ul class="skill-list">
-                            <li style="--skill-level: 95%;">Illustrator</li>
-                            <li style="--skill-level: 90%;">Photoshop / Lightroom</li>
-                            <li style="--skill-level: 98%;">Figma / Adobe XD</li>
-                            <li style="--skill-level: 80%;">Procreate / C4D (Básico)</li>
-                        </ul>
-                    </div>
-                    <div class="details-block">
-                        <h3 class="block-title">Idiomas</h3>
-                        <ul class="detail-list">
-                            <li>Español (Nativo)</li>
-                            <li>Inglés (Avanzado)</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <hr class="section-divider">
-
-        <section id="contact" class="contact-section section-padding">
-            <h2 class="section-title">Contacto</h2>
-            <div class="contact-content">
-                <p class="contact-invitation">¿Tienes un proyecto en mente, o crees que mi perfil podría encajar en tu equipo? Escríbeme. Estaré encantado de conversar sobre diseño, estrategia y colaboración.</p>
-                <div class="contact-info-grid">
-                    <div class="contact-detail">
-                        <h3 class="block-title">Mail</h3>
-                        <a href="mailto:agustin@uc.cl" class="contact-link">agustin@uc.cl</a>
-                    </div>
-                    <div class="contact-detail">
-                        <h3 class="block-title">Teléfono</h3>
-                        <a href="tel:+56956247539" class="contact-link">+56 9 5624 7539</a>
-                    </div>
-                    <div class="contact-detail">
-                        <h3 class="block-title">Behance</h3>
-                        <a href="https://www.behance.net/agustnavendao1" target="_blank" class="contact-link">agustnavendao1</a>
-                    </div>
-                    <div class="contact-detail">
-                        <h3 class="block-title">Instagram</h3>
-                        <a href="https://www.instagram.com/_agustin.jpg/" target="_blank" class="contact-link">@_agustin.jpg</a>
-                    </div>
-                </div>
-                <a href="mailto:agustin@uc.cl" class="btn primary-btn large-btn">Enviar un correo</a>
-            </div>
-        </section>
-    </main>
-
-    <footer class="main-footer">
-        <p>© 2025 Agustín Avendaño G. | Diseñado y programado desde cero con ♥.</p>
-    </footer>
-
-    <section id="project-overlay" class="project-overlay" aria-modal="true" role="dialog" aria-hidden="true">
-        <div class="overlay-content">
-            <button id="close-project-btn" class="close-btn" aria-label="Cerrar detalle de proyecto">✕</button>
-
-            <article class="project-detail-container">
-                <header class="project-detail-header">
-                    <h2 class="detail-title">Título del Proyecto [Placeholder]</h2>
-                    <p class="detail-subtitle">Categoría principal | Año</p>
-                </header>
                 
-                <div class="project-info-grid">
-                    <div class="info-item">
-                        <h4 class="info-title">Tipo de Encargo</h4>
-                        <p class="info-value">Proyecto Universitario (UC)</p>
-                    </div>
-                    <div class="info-item">
-                        <h4 class="info-title">Mi Rol</h4>
-                        <p class="info-value">Diseñador Líder, UX Researcher, Director de Arte.</p>
-                    </div>
-                    <div class="info-item">
-                        <h4 class="info-title">Herramientas</h4>
-                        <p class="info-value">Figma, Illustrator, Photoshop, InDesign.</p>
-                    </div>
-                    <div class="info-item">
-                        <h4 class="info-title">Objetivos</h4>
-                        <p class="info-value">Crear un sistema usable, establecer una identidad de marca moderna y validar la propuesta con usuarios reales.</p>
-                    </div>
+                <div class="profile-text">
+                    <h2 class="about-name scroll-animate">Agustín Avendaño González</h2>
+                    <h3 class="about-role scroll-animate">Diseñador Gráfico y UX/UI</h3>
+                    
+                    <p class="about-bio scroll-animate">
+                        Curso el quinto año de Diseño Integral con especialización en Diseño Gráfico en la Universidad Católica de Santiago, Chile.
+                    </p>
+                    <p class="about-bio scroll-animate">
+                        Me caracterizo por ser una persona perseverante y detallista, con una buena gestión del tiempo y un desempeño sólido tanto en proyectos individuales como colaborativos.
+                    </p>
+                    <p class="about-bio scroll-animate">
+                         Mi curiosidad, junto con una fuerte capacidad de aprendizaje e investigación, han sido los pilares fundamentales en mi desarrollo académico y en la manera en que abordo cada desafío de diseño.
+                    </p>
                 </div>
-
-                <div class="project-detail-body">
-                    <figure class="detail-image-full">
-                                                <figcaption>Imagen principal del proyecto y su contexto.</figcaption>
-                    </figure>
-
-                    <h3 class="detail-section-title">Contexto y Desafío</h3>
-                    <p class="project-long-desc">Este proyecto nació de la necesidad de...</p>
-                    <p class="project-long-desc">La investigación reveló que...</p>
-
-                    <h3 class="detail-section-title">Solución y Ejecución</h3>
-                    <p class="project-long-desc">La propuesta de diseño se centró en...</p>
-                    <p class="project-long-desc">El resultado final fue...</p>
-
-                    <figure class="detail-image-full">
-                                                <figcaption>Wireframes y prototipos de la solución UX/UI.</figcaption>
-                    </figure>
-                </div>
-            </article>
             </div>
+
+            <div class="about-resume">
+                
+                <div class="resume-block scroll-animate">
+                    <h4 class="resume-title">Experiencia Laboral</h4>
+                    
+                    <div class="resume-item scroll-animate">
+                        <span class="year">2025</span>
+                        <div class="info">
+                            <strong>Practicante en Agencia Publicitaria</strong>
+                            <p>La Familia - Santiago, Chile y Lima, Perú</p>
+                        </div>
+                    </div>
+
+                    <div class="resume-item scroll-animate">
+                        <span class="year">2025</span>
+                        <div class="info">
+                            <strong>Diseñador Gráfico y Marketing Digital</strong>
+                            <p>Tap In y Mido</p>
+                        </div>
+                    </div>
+
+                    <div class="resume-item scroll-animate">
+                        <span class="year">2022-2024</span>
+                        <div class="info">
+                            <strong>Diseñador y Manejo de redes</strong>
+                            <p>@entrenapo y @lacolumnapl</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="resume-block scroll-animate">
+                    <h4 class="resume-title">Estudios</h4>
+                    
+                    <div class="resume-item scroll-animate">
+                        <span class="year">2021 - 2026</span>
+                        <div class="info">
+                            <strong>Diseño Integral Universidad Católica</strong>
+                        </div>
+                    </div>
+                    
+                    <div class="resume-item scroll-animate">
+                        <span class="year">2006 - 2020</span>
+                        <div class="info">
+                            <strong>Colegio SSCC Manquehue</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="resume-block scroll-animate">
+                    <h4 class="resume-title">Manejo de Software</h4>
+                    
+                    <div class="skill-bar scroll-animate">
+                        <span class="skill-name">Adobe Illustrator</span>
+                        <div class="bar-container">
+                            <div class="bar-fill" style="width: 90%;"></div> </div>
+                    </div>
+
+                    <div class="skill-bar scroll-animate">
+                        <span class="skill-name">Adobe Photoshop</span>
+                        <div class="bar-container">
+                            <div class="bar-fill" style="width: 70%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="skill-bar scroll-animate">
+                        <span class="skill-name">Figma</span>
+                        <div class="bar-container">
+                            <div class="bar-fill" style="width: 85%;"></div>
+                        </div>
+                    </div>
+
+                     <div class="skill-bar scroll-animate">
+                        <span class="skill-name">Procreate</span>
+                        <div class="bar-container">
+                            <div class="bar-fill" style="width: 75%;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                 <div class="resume-block scroll-animate">
+                    <h4 class="resume-title">Idiomas</h4>
+                    <div class="languages-grid">
+                        <div class="lang-item">
+                            <strong>Español</strong>
+                            <p>Lengua Nativa</p>
+                        </div>
+                        <div class="lang-item">
+                            <strong>Inglés</strong>
+                            <p>Avanzado</p>
+                        </div>
+                        <div class="lang-item">
+                            <strong>Catalán</strong>
+                            <p>Principiante</p>
+                        </div>
+                        <div class="lang-item">
+                            <strong>Portugués</strong>
+                            <p>Principiante / nivel duolingo :)</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="work" class="works-section">
+        <div class="works-container">
+            
+            <div class="works-header scroll-animate">
+                <h2 class="section-title">Selected Works</h2>
+                <div class="carousel-controls">
+                    <button id="prevBtn" class="carousel-btn">←</button>
+                    <button id="nextBtn" class="carousel-btn">→</button>
+                </div>
+            </div>
+
+            <div class="carousel-track" id="carouselTrack">
+                
+                <div class="card-wrapper scroll-animate">
+                    <a href="proyecto-tapin.html" class="project-card">
+                        <div class="card-image">
+                            <img src="img/tap_in_portada.jpg" alt="Tap In">
+                        </div>
+                        <div class="card-content">
+                            <span class="card-category">UX/UI Design</span>
+                            <h3 class="card-title">Tap In</h3>
+                            <p class="card-desc">Aplicación móvil diseñada para mejorar la experiencia de usuario en estadios deportivos.</p>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="card-wrapper scroll-animate">
+                    <a href="proyecto-posters.html" class="project-card">
+                        <div class="card-image">
+                            <img src="img/lacolumna_portada2.jpg" alt="Posters">
+                        </div>
+                        <div class="card-content">
+                            <span class="card-category">Graphic Design</span>
+                            <h3 class="card-title">Posters & Afiches</h3>
+                            <p class="card-desc">Colección de exploraciones gráficas, tipografía experimental y composición visual.</p>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="card-wrapper scroll-animate">
+                    <a href="proyecto-mido.html" class="project-card">
+                        <div class="card-image">
+                            <img src="img/mido-thumb.jpg" alt="Mido">
+                        </div>
+                        <div class="card-content">
+                            <span class="card-category">Branding</span>
+                            <h3 class="card-title">Mido</h3>
+                            <p class="card-desc">Identidad visual completa para una marca de ropa urbana emergente.</p>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="card-wrapper scroll-animate">
+                    <a href="proyecto-hai.html" class="project-card">
+                        <div class="card-image">
+                            <img src="img/hai-thumb.jpg" alt="HAI Group">
+                        </div>
+                        <div class="card-content">
+                            <span class="card-category">Corporate</span>
+                            <h3 class="card-title">HAI Group</h3>
+                            <p class="card-desc">Rediseño corporativo enfocado en transmitir solidez y confianza empresarial.</p>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="card-wrapper scroll-animate">
+                    <a href="proyecto-anco.html" class="project-card">
+                        <div class="card-image">
+                            <img src="img/anco-thumb.jpg" alt="Anco">
+                        </div>
+                        <div class="card-content">
+                            <span class="card-category">Packaging</span>
+                            <h3 class="card-title">Anco</h3>
+                            <p class="card-desc">Diseño de empaques sostenibles para productos alimenticios orgánicos.</p>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="card-wrapper scroll-animate">
+                    <a href="proyecto-domingo.html" class="project-card">
+                        <div class="card-image">
+                            <img src="img/domingo-thumb.jpg" alt="Domingo">
+                        </div>
+                        <div class="card-content">
+                            <span class="card-category">Editorial</span>
+                            <h3 class="card-title">Domingo de Partido</h3>
+                            <p class="card-desc">Publicación editorial que captura la pasión del fútbol de barrio.</p>
+                        </div>
+                    </a>
+                </div>
+
+            </div>
+    </section>
+
+    <section id="contact" class="temp-section" style="background-color: #f0f0f0; display: flex; align-items: center; justify-content: center;">
+        <h2>Contact Section</h2>
     </section>
 
     <script src="script.js"></script>
