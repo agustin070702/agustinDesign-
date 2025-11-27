@@ -139,7 +139,7 @@ window.addEventListener('scroll', () => {
 // ... (Todo tu código anterior) ...
 
 // ==========================================
-// LÓGICA DEL CARRUSEL DE PROYECTOS
+// LÓGICA DEL CARRUSEL DE PROYECTOS (CIRCULAR)
 // ==========================================
 
 const track = document.getElementById('carouselTrack');
@@ -148,26 +148,55 @@ const nextBtn = document.getElementById('nextBtn');
 
 if (track && prevBtn && nextBtn) {
     
-    // Función para mover el carrusel
-    const scrollAmount = () => {
-        // Calculamos el ancho de una tarjeta + el gap (30px)
-        const firstCard = track.querySelector('.project-card');
-        const cardWidth = firstCard.offsetWidth + 30; 
-        return cardWidth;
+    // Función para calcular el ancho de avance
+    const getScrollAmount = () => {
+        const firstCard = track.querySelector('.card-wrapper'); // Ojo: ahora buscamos el wrapper
+        if (!firstCard) return 0;
+        return firstCard.offsetWidth; // Ya incluye el gap visualmente al scrollear
     };
 
+    // BOTÓN SIGUIENTE
     nextBtn.addEventListener('click', () => {
-        track.scrollBy({
-            left: scrollAmount(),
-            behavior: 'smooth'
-        });
+        const amount = getScrollAmount();
+        
+        // Calculamos si ya llegamos al final
+        // (Scroll actual + Ancho visible >= Ancho total del contenido)
+        const maxScroll = track.scrollWidth - track.clientWidth;
+        
+        // Usamos una pequeña tolerancia de 10px por si acaso
+        if (track.scrollLeft >= maxScroll - 10) {
+            // Si estamos al final, volvemos al principio suavemente
+            track.scrollTo({
+                left: 0,
+                behavior: 'smooth'
+            });
+        } else {
+            // Si no, avanzamos normal
+            track.scrollBy({
+                left: amount,
+                behavior: 'smooth'
+            });
+        }
     });
 
+    // BOTÓN ANTERIOR
     prevBtn.addEventListener('click', () => {
-        track.scrollBy({
-            left: -scrollAmount(),
-            behavior: 'smooth'
-        });
+        const amount = getScrollAmount();
+
+        // Calculamos si estamos al principio
+        if (track.scrollLeft <= 10) {
+            // Si estamos al inicio, vamos al final suavemente
+            track.scrollTo({
+                left: track.scrollWidth,
+                behavior: 'smooth'
+            });
+        } else {
+            // Si no, retrocedemos normal
+            track.scrollBy({
+                left: -amount,
+                behavior: 'smooth'
+            });
+        }
     });
 }
 
