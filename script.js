@@ -277,3 +277,87 @@ if (slides.length > 0 && trackContainer) {
         carouselObserver.observe(slide);
     });
 }
+
+
+// ==========================================
+// CARRUSEL CUADRADO (LÓGICA FINAL)
+// ==========================================
+const trackClean = document.getElementById('trackClean');
+const btnPrevClean = document.getElementById('btnPrevClean');
+const btnNextClean = document.getElementById('btnNextClean');
+const slidesClean = document.querySelectorAll('#trackClean .slide-clean');
+
+if (trackClean) {
+    const getCleanScroll = () => {
+        const slide = trackClean.querySelector('.slide-clean');
+        if (!slide) return 0;
+        return slide.offsetWidth + 30; 
+    };
+
+    if (btnNextClean) {
+        btnNextClean.addEventListener('click', () => {
+            trackClean.scrollBy({ left: getCleanScroll(), behavior: 'smooth' });
+        });
+    }
+
+    if (btnPrevClean) {
+        btnPrevClean.addEventListener('click', () => {
+            trackClean.scrollBy({ left: -getCleanScroll(), behavior: 'smooth' });
+        });
+    }
+
+    const observerClean = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('is-active');
+            } else {
+                entry.target.classList.remove('is-active');
+            }
+        });
+    }, { root: trackClean, threshold: 0.2 });
+
+    slidesClean.forEach(slide => observerClean.observe(slide));
+}
+
+
+// ==========================================
+// CARRUSEL POSTERS (LÓGICA AISLADA PG)
+// ==========================================
+
+const trackPG = document.getElementById('trackPG');
+const btnPrevPG = document.getElementById('btnPrevPG');
+const btnNextPG = document.getElementById('btnNextPG');
+
+// Solo ejecutamos si existen los elementos
+if (trackPG && btnPrevPG && btnNextPG) {
+
+    // Función para calcular ancho de movimiento
+    const getScrollPG = () => {
+        const item = trackPG.querySelector('.pg-item');
+        // Ancho del item + el gap (20px)
+        return item.offsetWidth + 20; 
+    };
+
+    btnNextPG.addEventListener('click', () => {
+        trackPG.scrollBy({ left: getScrollPG(), behavior: 'smooth' });
+    });
+
+    btnPrevPG.addEventListener('click', () => {
+        trackPG.scrollBy({ left: -getScrollPG(), behavior: 'smooth' });
+    });
+
+    // Observador para la animación de entrada
+    const observerPG = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('is-active');
+            } else {
+                entry.target.classList.remove('is-active');
+            }
+        });
+    }, { root: trackPG, threshold: 0.5 });
+
+    trackPG.querySelectorAll('.pg-item').forEach(item => {
+        observerPG.observe(item);
+    });
+}

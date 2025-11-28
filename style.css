@@ -121,58 +121,84 @@ body {
     transform: translateX(20px);
 }
 
-/* --- ESTILOS NUEVOS PARA EL SUBMENÚ (WORKS) --- */
+/* --- ESTILOS MEJORADOS PARA EL SUBMENÚ (WORKS) --- */
 
 .submenu-toggle {
     display: flex;
     align-items: center;
     gap: 15px;
+    cursor: pointer; /* Agregado para que se vea clickeable */
 }
 
 .arrow {
-    font-size: 1.5rem;
+    font-size: 1.2rem; /* Un poco más pequeño y elegante */
     transition: transform 0.3s ease;
+    color: #888; /* Color gris suave por defecto */
 }
 
+/* Nota: Tu JS agrega la clase 'open' al <li> padre (.has-submenu), no al toggle directamente a veces.
+   Asegúrate de que tu JS funcione, pero esta regla cubre el caso visual */
+.has-submenu.open .arrow,
 .submenu-toggle.open .arrow {
     transform: rotate(45deg); /* Efecto de cruz cuando abre */
+    color: #fff;
 }
 
 .submenu {
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.5s ease;
-    padding-left: 20px; /* Sangría para subitems */
-    border-left: 1px solid rgba(221, 221, 221, 0.2);
-    margin-left: 10px;
-    margin-top: 10px;
+    transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1); /* Animación más fluida */
+    
+    /* MEJORA VISUAL: Jerarquía más limpia */
+    padding-left: 20px; 
+    border-left: 0px solid rgba(255, 255, 255, 0.1); /* Línea guía muy sutil */
+    margin-left: 10px; /* Ajuste fino */
+    margin-top: 0;
+    opacity: 0; /* Oculto visualmente al inicio */
 }
 
 .submenu.open {
-    max-height: 500px; /* Altura máxima arbitraria suficiente para el contenido */
+    max-height: 500px;
+    margin-top: 15px; /* Espacio solo cuando se abre */
+    opacity: 1;
+    transition: all 0.5s ease;
 }
 
 .submenu li {
-    margin: 15px 0;
-    transform: translateX(0) !important; /* Override de la animación padre */
+    margin: 12px 0; /* Espaciado vertical equilibrado */
+    transform: translateX(0) !important;
     opacity: 1 !important;
 }
 
 .submenu li a {
-    font-size: 1.2rem; /* Texto más pequeño para proyectos */
-    font-weight: 300;
-    font-style: normal;
-    color: #aaaaaa;
+    font-size: 1.1rem; /* Tamaño intermedio perfecto */
+    font-weight: 300;  /* Letra fina */
+    color: #888888;    /* Gris medio */
     text-decoration: none;
     display: block;
-    transition: color 0.2s ease, transform 0.2s ease;
+    position: relative;
+    padding-left: 10px; /* Separación de la línea borde */
+    transition: all 0.3s ease;
 }
 
+/* Efecto Hover mejorado */
 .submenu li a:hover {
     color: #ffffff;
+    padding-left: 18px; /* Se mueve más a la derecha al pasar el mouse */
     transform: translateX(10px);
+    font-weight: 500;
+     /* background: linear-gradient(to right, rgba(100,100,100,0.05), transparent); /* Sutil luz de fondo */
+    border-radius: 4px;
 }
 
+
+/* Indicador de página activa (Opcional, si usas la clase .active) */
+.submenu li a.active {
+    color: #ffffff;
+    font-weight: 400;
+    padding-left: 18px;
+    border-left: 2px solid #fff; /* Pequeña marca visual */
+}
 
 /* Overlay */
 .overlay {
@@ -1576,7 +1602,8 @@ body {
 }
 
 .gallery-item img:hover {
-    transform: translateY(-5px);
+    transform: translateY(-10px);
+    box-shadow: 0 30px 50px rgba(0,0,0,0.2); /* Sombra difusa y profunda */
 }
 
 /* Navegación Siguiente Proyecto */
@@ -1665,7 +1692,7 @@ body {
    ========================================= */
 
 .process-carousel-wrapper {
-    max-width: 800px;
+    max-width: 100%;
     margin: 0 auto 80px auto;
     
     /* --- NUEVO: Espacio para que la sombra lateral no se corte --- */
@@ -1782,4 +1809,206 @@ body {
 }
 .process-slide:hover img {
     transform: scale(1.03); /* Pequeño zoom extra al pasar mouse */
+}
+
+
+/* Llave de seguridad por si algo quedó abierto antes */
+}
+
+/* =========================================
+   CARRUSEL CUADRADO (VERSIÓN SOMBRA SUAVE)
+   ========================================= */
+
+/* 1. EL CONTENEDOR */
+.carousel-wrapper-clean {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto 100px auto;
+    position: relative;
+    overflow: visible; /* Dejamos visible por si acaso */
+}
+
+/* 2. LA PISTA (TRACK) */
+#trackClean {
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 30px; 
+    
+    /* Padding estándar (ya no necesitamos 70px porque la sombra es chica) */
+    padding: 30px 20px 60px 20px;
+    
+    overflow-x: auto;
+    overflow-y: visible;
+    scroll-snap-type: x mandatory;
+    
+    justify-content: flex-start;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+#trackClean::-webkit-scrollbar {
+    display: none;
+}
+
+/* 3. LA TARJETA (3 FOTOS EXACTAS) */
+.slide-clean {
+    /* FÓRMULA: (100% - 60px huecos) / 3 */
+    flex: 0 0 calc((100% - 60px) / 3);
+    width: calc((100% - 60px) / 3);
+    min-width: calc((100% - 60px) / 3);
+    
+    /* Evita que aparezca la 4ta foto */
+    flex-shrink: 0;
+    
+    aspect-ratio: 1/1; 
+    scroll-snap-align: start;
+    position: relative;
+    z-index: 1;
+    
+    border-radius: 12px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* 4. IMAGEN */
+.slide-clean img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 12px;
+    
+    /* Sombra base muy sutil */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+    
+    opacity: 0;
+    transform: translateY(50px);
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.slide-clean.is-active img {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* 5. HOVER (SUTIL Y ELEGANTE) */
+.slide-clean:hover {
+    transform: translateY(-15px); /* Subimos menos (5px) */
+    
+    /* SOMBRA CORREGIDA: */
+    /* Más chica (20px difuminado) y más transparente (0.1) */
+    /* Al ser pequeña, no llega a cortarse con los bordes */
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1); 
+    
+    z-index: 100;
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 1000px) {
+    .slide-clean {
+        flex: 0 0 calc((100% - 30px) / 2);
+        width: calc((100% - 30px) / 2);
+        min-width: calc((100% - 30px) / 2);
+    }
+}
+
+@media (max-width: 600px) {
+    .slide-clean {
+        flex: 0 0 100%;
+        width: 100%;
+        min-width: 100%;
+    }
+}
+
+
+
+
+/* =========================================
+   CARRUSEL POSTERS (SISTEMA AISLADO PG)
+   ========================================= */
+
+/* 1. El Contenedor Principal (Ancho limitado) */
+.pg-wrapper {
+    max-width: 800px;
+    margin: 0 auto 120px auto;
+    position: relative;
+}
+
+/* 2. La Pista (Track) - Flexbox es la clave */
+.pg-track {
+    display: flex;             /* Obligatorio para ponerlos de lado */
+    gap: 20px;                 /* Espacio entre fotos */
+    overflow-x: auto;          /* Scroll horizontal */
+    scroll-snap-type: x mandatory;
+    
+    /* Espacio para que la sombra no se corte */
+    padding: 30px 20px 60px 20px;
+    
+    /* Ocultar scrollbar */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.pg-track::-webkit-scrollbar {
+    display: none;
+}
+
+/* 3. La Tarjeta (Item) */
+.pg-item {
+    /* Mantenemos el ancho de 3 columnas */
+    flex: 0 0 calc((100% - 40px) / 3);
+    
+    /* --- CAMBIO AQUÍ: Eliminamos aspect-ratio --- */
+    /* Antes: aspect-ratio: 1/1; */
+    height: auto; /* Dejamos que la altura se ajuste sola */
+    
+    scroll-snap-align: start;
+    border-radius: 12px;
+    
+    /* Mantenemos la animación */
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    
+    /* Importante: Alineamos el contenido al inicio por si hay alturas distintas */
+    align-self: start; 
+}
+
+/* 4. La Imagen */
+.pg-item img {
+    display: block;
+    width: 100%;
+    
+    /* --- CAMBIO AQUÍ: Altura automática y sin recorte --- */
+    height: auto;      /* Respeta la proporción original */
+    object-fit: contain; /* Muestra la imagen completa sin cortar nada */
+    
+    border-radius: 12px;
+    
+    /* Efecto de entrada */
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 0.6s ease;
+    
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05); /* Sombra pegada a la imagen */
+}
+
+/* Ajuste del Hover para que la sombra siga la forma de la imagen */
+.pg-item:hover img {
+    /* Movemos la sombra al hover SOBRE LA IMAGEN, no sobre el div */
+    box-shadow: 0 25px 40px rgba(0,0,0,0.15);
+}
+
+/* Quitamos el hover del contenedor padre para que no quede sombra vacía */
+.pg-item:hover {
+    transform: translateY(-15px);
+    box-shadow: none; 
+}
+
+.pg-item.is-active img {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Mobile: 1 sola columna */
+@media (max-width: 600px) {
+    .pg-item {
+        flex: 0 0 85%;
+    }
 }
