@@ -3,15 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nombre del Proyecto - Agustín Avendaño</title>
+    <title>Tap In - Agustín Avendaño</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
-    
-    <button class="menu-toggle" id="menuToggle">
+<body class="project-page"> <button class="menu-toggle" id="menuToggle">
         <span></span>
         <span></span>
         <span></span>
@@ -23,7 +21,7 @@
             <li class="has-submenu">
                 <span class="main-link submenu-toggle">Works <span class="arrow">+</span></span>
                 <ul class="submenu">
-                    <li><a href="proyecto-tapin.html">Tap In</a></li>
+                    <li><a href="proyecto-tapin.html" class="active">Tap In</a></li>
                     <li><a href="proyecto-posters.html">Posters y Afiches</a></li>
                     <li><a href="proyecto-mido.html">Mido</a></li>
                     <li><a href="proyecto-hai.html">HAI Group</a></li>
@@ -33,85 +31,150 @@
             </li>
         </ul>
     </nav>
-
     <div class="overlay" id="overlay"></div>
 
-    <nav class="top-nav project-nav">
-        <a href="index.html#about" class="nav-link">About</a>
-        <a href="index.html#work" class="nav-link">Works</a>
-        <a href="index.html#contact" class="nav-link">Contact</a>
-    </nav>
-
-    <main class="project-container">
-        
-        <header class="project-header">
-            <h1 class="project-title">Tap In</h1> <p class="project-subtitle">UX/UI Design & Prototyping</p> </header>
-
-        <div class="project-hero-image">
-            <img src="img/tap_in_portada.jpg" alt="Portada del proyecto"> 
+    <header class="project-header">
+        <div class="header-content scroll-animate">
+            <span class="project-category-tag">Branding & UX/UI Design</span>
+            <h1 class="project-big-title">Tap In</h1>
+            <p class="project-intro">Sistema digital que centraliza pedidos, automatiza procesos y entrega datos accionables para optimizar la operación de distintos entornos de servicio</p>
         </div>
+    </header>
 
-        <section class="project-info">
-            <div class="info-item">
-                <h3>Cliente</h3>
-                <p>Proyecto Académico</p>
+    <div class="project-hero-image scroll-animate">
+        <img src="img/tapin_portadilla.jpg" alt="Tap In Portada">
+    </div>
+
+    <div class="project-body-container">
+        
+        <div class="project-stats scroll-animate">
+            <div class="stat-item">
+                <h3>Proyecto</h3>
+                <p>Starup junto a un</p>
+                <p>equipo multidisciplinario</p>
             </div>
-            <div class="info-item">
+            <div class="stat-item">
                 <h3>Año</h3>
                 <p>2025</p>
             </div>
-            <div class="info-item">
+            <div class="stat-item">
                 <h3>Rol</h3>
-                <p>Chief Head of Product / Product Designer UX Research, UI Design, Prototyping</p>
+                <p>Branding, UX Research</p>
+                <p>UI Design, Prototyping</p>
             </div>
-            <div class="info-item">
+            <div class="stat-item">
                 <h3>Herramientas</h3>
                 <p>Figma, Illustrator, Photoshop, Canva</p>
             </div>
-        </section>
-
-        <article class="project-body">
-            
-            <div class="text-block">
-                <h2>El Desafío</h2>
-                <p>
-                    Tap In nace como respuesta a un problema transversal en los campus: la falta de digitalización y visibilidad sobre la operación diaria de los servicios.
-Los estudiantes pierden tiempo en filas, los locales no cuentan con datos para planificar, y la institución no tiene herramientas para entender el flujo real de consumo ni gestionar de forma eficiente.
-
-El desafío fue diseñar una solución que permitiera ordenar, centralizar y automatizar la experiencia completa del campus, integrando tanto a usuarios finales como a los servicios internos.
-                </p>
-            </div>
-
-            <div class="image-block">
-                <img src="img/tu-imagen-detalle-1.jpg" alt="Detalle del proceso">
-            </div>
-
-            <div class="text-block">
-                <h2>La Solución</h2>
-                <p>
-                    Diseñé una plataforma digital que permite pedir online, visualizar tiempos reales, y capturar datos operativos para locales y administración.
-El enfoque fue crear una experiencia intuitiva para estudiantes y, al mismo tiempo, una herramienta robusta para la institución: dashboards, reportabilidad, integración con servicios y automatización de procesos.
-
-El proyecto incluye investigación de usuarios, mapeo del flujo operativo del campus, wireframes, sistema visual, diseño de interfaces, marketing físico/digital y prototipos funcionales.
-                </p>
-            </div>
-
-            <div class="image-grid">
-                <img src="img/tu-imagen-mobile-1.jpg" alt="Vista mobile 1">
-                <img src="img/tu-imagen-mobile-2.jpg" alt="Vista mobile 2">
-            </div>
-
-        </article>
-
-        <div class="next-project">
-            <p>Siguiente Proyecto</p>
-            <a href="proyecto-posters.html" class="btn-projects">Posters y Afiches</a>
         </div>
 
-    </main>
+        <section class="project-narrative">
+            
+            <div class="text-block scroll-animate">
+                <h2>Contexto y Oportunidad</h2>
+                <p>
+                    En espacios de alta afluencia, como eventos, recintos deportivos o lugares con múltiples servicios, las personas suelen enfrentarse a largas filas, falta de información y tiempos muertos innecesarios. Por otro lado, los locales operan sin datos que les permitan anticipar demanda, planificar o gestionar sus recursos con eficiencia.
+                </p>
+                <p>
+                La oportunidad fue diseñar una <strong>solución digital</strong> que mejorara simultáneamente la experiencia de los usuarios y la operación interna de los servicios, reduciendo tiempos de espera y habilitando decisiones basadas en datos reales.
+                </p>
+            </div>
 
-    <footer class="simple-footer">
-        <p>© 2025 Agustín Avendaño González</p>
+            <div class="process-carousel-wrapper scroll-animate">
+                
+                <div class="process-header">
+                    <span class="image-caption" style="margin: 0; text-align: left;">Proceso de Diseño & Wireframes</span>
+                    
+                    <div class="process-controls">
+                        <button id="prevProcess" class="mini-btn">←</button>
+                        <button id="nextProcess" class="mini-btn">→</button>
+                    </div>
+                </div>
+
+                <div class="process-track" id="processTrack">
+
+                    <div class="process-slide">
+                        <img src="img/tapin_contenido11.jpg" alt="Boceto 1">
+                    </div>
+                    
+                    <div class="process-slide">
+                        <img src="img/tapin_contenido10.jpg" alt="Boceto 1">
+                    </div>
+
+                    <div class="process-slide">
+                        <img src="img/tapin_contenido7.jpg" alt="Boceto 2">
+                    </div>
+
+                    <div class="process-slide">
+                        <img src="img/tapin_contenido8.jpg" alt="Boceto 3">
+                    </div>
+
+                    <div class="process-slide">
+                        <img src="img/tapin_contenido2.jpg" alt="Boceto 3">
+                    </div>
+
+                    </div>
+            </div>
+
+            <div class="text-block scroll-animate">
+                <h2>Enfoque de Diseño</h2>
+                <p>
+                    El proyecto comenzó con una investigación exploratoria para entender cómo se movían los usuarios, qué frustraciones tenían y qué puntos críticos existían dentro del flujo de compra. A partir de esto, mapeé la experiencia completa, identifiqué oportunidades y definí los requerimientos clave del sistema.
+                </p>
+                <p>
+                    El foco estuvo en diseñar una interfaz que fuera rápida de usar, visualmente clara y consistente en distintos contextos de uso.
+                </p>
+            </div>
+
+            <div class="project-gallery-grid">
+                <div class="gallery-item scroll-animate">
+                    <img src="img/tapin_contenido5.jpg" alt="Pantalla Login">
+                </div>
+                <div class="gallery-item scroll-animate">
+                    <img src="img/tapin_contenido4.jpg" alt="Pantalla Home">
+                </div>
+                <div class="gallery-item scroll-animate">
+                    <img src="img/tapin_contenido6.jpg" alt="Pantalla Mapa">
+                </div>
+                <div class="gallery-item scroll-animate">
+                    <img src="img/tapin_contenido3.jpg" alt="Pantalla Orden">
+                </div>
+            </div>
+
+            <div class="text-block scroll-animate">
+                <h2>La Propuesta</h2>
+                <p>
+                    Como diseñador del proyecto, desarrollé el sistema de interfaces de Tap In para dos tipos de usuarios: quienes hacen pedidos y los locales que gestionan su operación. Diseñé los flujos principales, la arquitectura del producto y un panel capaz de visualizar demanda, tiempos y datos clave para optimizar la gestión.
+                </p>
+                <p>
+                    A nivel visual y funcional, construí un sistema modular con componentes reutilizables, una retícula adaptable, una paleta vibrante y una jerarquía clara orientada a la rapidez y facilidad de uso. Esto permitió crear una experiencia coherente, escalable y útil tanto para usuarios finales como para los operadores del servicio.
+                </p>
+            </div>
+
+        </section>
+
+        <div class="next-project-nav scroll-animate">
+            <span class="next-label">Siguiente Proyecto</span>
+            
+            <div style="margin-top: 30px;">
+                <a href="proyecto-posters.html" class="btn-projects">
+                    Posters y Afiches
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+    <footer class="project-footer">
+        <p>© 2025 Agustín Avendaño</p>
+        
+        <a href="index.html" class="back-home">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+            Home
+        </a>
     </footer>
 
     <script src="script.js"></script>

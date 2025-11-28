@@ -222,3 +222,58 @@ function updateClock() {
 }
 setInterval(updateClock, 1000);
 updateClock(); // Iniciar inmediatamente
+
+// ==========================================
+// CARRUSEL INTERNO (PÁGINA DE PROYECTO)
+// ==========================================
+
+const processTrack = document.getElementById('processTrack');
+const prevProcess = document.getElementById('prevProcess');
+const nextProcess = document.getElementById('nextProcess');
+
+if (processTrack && prevProcess && nextProcess) {
+    
+    nextProcess.addEventListener('click', () => {
+        // Avanzamos el ancho exacto de un slide
+        const slideWidth = processTrack.clientWidth;
+        processTrack.scrollBy({ left: slideWidth, behavior: 'smooth' });
+    });
+
+    prevProcess.addEventListener('click', () => {
+        const slideWidth = processTrack.clientWidth;
+        processTrack.scrollBy({ left: -slideWidth, behavior: 'smooth' });
+    });
+}
+
+// ==========================================
+// ANIMACIÓN DE ENTRADA CARRUSEL (Is-Active)
+// ==========================================
+
+const slides = document.querySelectorAll('.process-slide');
+const trackContainer = document.getElementById('processTrack');
+
+if (slides.length > 0 && trackContainer) {
+    
+    // Configuración del observador
+    const carouselObserverOptions = {
+        root: trackContainer, // Vigilar dentro de la pista
+        threshold: 0.5        // Activar cuando el 50% de la imagen sea visible
+    };
+
+    const carouselObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                // Si la imagen entra en la zona visible, la activamos
+                entry.target.classList.add('is-active');
+            } else {
+                // Si sale, la desactivamos (para que se anime de nuevo al volver)
+                entry.target.classList.remove('is-active');
+            }
+        });
+    }, carouselObserverOptions);
+
+    // Empezar a vigilar todas las slides
+    slides.forEach(slide => {
+        carouselObserver.observe(slide);
+    });
+}

@@ -570,7 +570,7 @@ body {
 .text-block h2 {
     font-size: 2rem;
     font-weight: 400;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
     letter-spacing: -0.03em;
 }
 
@@ -935,12 +935,19 @@ body {
 /* Pista del Carrusel (Donde ocurre el scroll) */
 .carousel-track {
     display: flex;
-    gap: 30px; /* Espacio entre tarjetas */
-    overflow-x: auto; /* Permite scroll horizontal */
-    scroll-snap-type: x mandatory; /* Hace que se detenga tarjeta por tarjeta */
-    padding: 50px 60px 100px 60px; /* Espacio para sombra */
-    scrollbar-width: none; /* Oculta barra de scroll en Firefox */
-    -ms-overflow-style: none; /* Oculta barra en IE/Edge */
+    gap: 30px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    
+    /* MANTIENE ESTO: */
+    padding: 50px 60px 100px 60px; 
+    
+    /* --- AGREGA ESTA LÍNEA NUEVA --- */
+    /* Esto es vital para que al alinearse a la izquierda respete el margen */
+    scroll-padding-left: 60px; 
+    
+    scrollbar-width: none;
+    -ms-overflow-style: none;
 }
 
 /* Ocultar barra scroll en Chrome/Safari */
@@ -953,9 +960,15 @@ body {
 /* --- NUEVA CLASE PARA EL PADRE --- */
 /* Se encarga del layout dentro del carrusel */
 .card-wrapper {
-    min-width: calc(33.333% - 20px); /* Movelos el cálculo del ancho aquí */
+    min-width: calc(33.333% - 20px);
+    
+    /* --- CAMBIA ESTA LÍNEA --- */
+    /* BORRA: scroll-snap-align: center; */
+    /* PON: */
+    scroll-snap-align: start; 
+    
     display: flex; 
-    height: auto;
+    height: auto; 
 }
 
 
@@ -1372,3 +1385,401 @@ body {
     }
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* =========================================
+   ESTILOS DE PÁGINAS DE PROYECTO
+   ========================================= */
+
+.project-page {
+    background-color: #ffffff; /* Fondo blanco puro para limpieza */
+    color: #202020;
+}
+
+/* Header del Proyecto */
+.project-header {
+    padding: 55px 60px 80px 60px;
+    
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.header-content {
+        grid-column: auto;
+    }
+
+.project-category-tag {
+    display: inline-block;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    border: 1px solid #202020;
+    padding: 8px 16px;
+    border-radius: 50px;
+    margin-bottom: 30px;
+}
+
+.project-big-title {
+    font-size: 5rem;
+    font-weight: 600;
+    line-height: 1;
+    margin-bottom: 20px;
+    letter-spacing: -0.04em;
+}
+
+.project-intro {
+    font-size: 1.2rem;
+    font-weight: 300;
+    color: #666;
+    line-height: 1.4;
+    max-width: 100%; /* Ahora puede ocupar todo el ancho de su columna */
+    
+    /* CAMBIO: Quitamos el margin: 0 auto; */
+    margin: 0; 
+}
+
+/* Imagen Hero Gigante (Versión Estética) */
+.project-hero-image {
+    width: 90%; /* Dejamos un margen a los lados (5% cada lado) */
+    max-width: 1000px; /* Que no crezca infinitamente en pantallas gigantes */
+    /* --- CAMBIO AQUÍ --- */
+    /* ANTES: height: 40vh; (Esto causaba el zoom en monitores anchos) */
+    /* AHORA: Usamos aspect-ratio para mantener la forma rectangular fija */
+    aspect-ratio: 16/4;
+    margin: 0 auto 80px auto; /* Centrado horizontalmente y margen abajo */
+    
+    border-radius: 20px; /* Borde redondeado suave */
+    overflow: hidden; /* Para que la imagen respete el borde redondeado */
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1); /* Sombra suave para darle profundidad */
+}
+
+.project-hero-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Asegura que cubra todo el espacio sin deformarse */
+    object-position: center;
+}
+
+/* Contenedor del Cuerpo */
+.project-body-container {
+    max-width: 1000px; /* Ancho de lectura cómodo */
+    margin: 0 auto;
+    padding: 0 30px;
+}
+
+/* Ficha Técnica */
+.project-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+    padding: 40px 0;
+    margin-bottom: 100px;
+}
+
+.stat-item h3 {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    color: #999;
+    margin-bottom: 8px;
+    letter-spacing: 0.05em;
+}
+
+.stat-item p {
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+/* Narrativa */
+.text-block {
+    margin-bottom: 80px;
+    max-width: 700px; /* Texto centrado más angosto para lectura */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.text-block h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+/* Narrativa - Estilos de Texto */
+.text-block p {
+    font-size: 1.1rem;
+    line-height: 1.8; /* Altura de línea para que respire */
+    color: #444;
+    
+    /* Forzamos el margen con !important por si algo lo está bloqueando */
+    margin-bottom: 30px !important; 
+    display: block; /* Aseguramos que se comporte como bloque */
+}
+
+/* Estilo para las palabras destacadas */
+.text-block strong, 
+.project-intro strong {
+    font-weight: 350; /* Semi-bold (no tan grueso como 700) se ve más elegante en Inter */
+    color: #000000;   /* Color negro puro para destacar sobre el gris */
+}
+
+/* Quitamos el margen solo al último párrafo para que no empuje demás */
+.text-block p:last-child {
+    margin-bottom: 0 !important;
+}
+
+/* Imágenes dentro del contenido */
+.image-block-full {
+    width: 100%;
+    margin-bottom: 80px;
+}
+
+.image-block-full img {
+    width: 100%;
+    border-radius: 8px;
+    display: block;
+}
+
+.image-caption {
+    display: block;
+    text-align: center;
+    font-size: 0.85rem;
+    color: #888;
+    margin-top: 15px;
+    font-style: italic;
+}
+
+/* Grilla de Galería */
+.project-gallery-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    margin-bottom: 120px;
+}
+
+.gallery-item img {
+    width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05); /* Sombra suave */
+    transition: transform 0.4s ease;
+}
+
+.gallery-item img:hover {
+    transform: translateY(-5px);
+}
+
+/* Navegación Siguiente Proyecto */
+.next-project-nav {
+    text-align: center;
+    padding: 120px 0; /* Buen espacio arriba y abajo */
+    border-top: 1px solid #eee;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.next-label {
+    display: block;
+    font-size: 0.9rem;
+    color: #999;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+}
+
+/* Nota: No necesitamos agregar estilos para el botón porque 
+   la clase .btn-projects ya está definida al principio de tu CSS 
+   y funcionará automáticamente aquí. */
+
+/* Footer del Proyecto */
+.project-footer {
+    background-color: #f9f9f9;
+    padding: 40px 60px; /* Un poco más de aire a los lados */
+    text-align: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* Alineación vertical centrada */
+    font-size: 0.9rem;
+    color: #666;
+}
+
+/* Estilo igual al "Back to top" */
+.back-home {
+    color: #202020;
+    text-decoration: none;
+    font-weight: 500;
+    
+    /* Flexbox para alinear el icono y el texto */
+    display: flex; 
+    align-items: center;
+    gap: 8px; /* Espacio entre la casita y la palabra Home */
+    
+    transition: opacity 0.3s ease;
+}
+
+.back-home:hover {
+    opacity: 0.6; /* El mismo efecto de desvanecimiento */
+}
+
+/* Responsive Proyectos */
+@media (max-width: 768px) {
+    .project-header {
+        display: block; /* Volvemos a bloque normal en móvil */
+        padding: 100px 30px 50px 30px; /* Más espacio arriba en móvil para no chocar con el menú */
+        text-align: left;
+    }
+    
+    .project-big-title {
+        font-size: 3.5rem;
+    }
+    
+    .project-stats {
+        grid-template-columns: 1fr 1fr; /* 2 columnas en tablet */
+        gap: 30px;
+    }
+    
+    .project-gallery-grid {
+        grid-template-columns: 1fr; /* 1 columna en móvil */
+        gap: 30px;
+    }
+
+    .next-project-link {
+        font-size: 2rem;
+    }
+}
+
+/* =========================================
+   CARRUSEL INTERNO DE PROYECTO (PROCESO)
+   ========================================= */
+
+.process-carousel-wrapper {
+    max-width: 800px;
+    margin: 0 auto 80px auto;
+    
+    /* --- NUEVO: Espacio para que la sombra lateral no se corte --- */
+    padding: 0px; 
+    
+    /* --- NUEVO: Asegura que las fotos vecinas se corten invisiblemente --- */
+    overflow: hidden; 
+}
+
+.process-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding: 0 5px;
+}
+
+/* Botones Mini */
+.mini-btn {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 1px solid #ddd;
+    background: transparent;
+    cursor: pointer;
+    color: #202020;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 5px;
+}
+
+.mini-btn:hover {
+    background: #202020;
+    color: #fff;
+    border-color: #202020;
+}
+
+/* Pista del Carrusel */
+.process-track {
+    display: flex;
+    gap: 50px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding: 30px 40px 70px 40px;
+    
+    /* Ocultar barra de scroll */
+    scrollbar-width: none; 
+    -ms-overflow-style: none;
+}
+
+.process-track::-webkit-scrollbar {
+    display: none;
+}
+
+/* Cada Slide Individual */
+.process-slide {
+    min-width: 100%;
+    aspect-ratio: 16/9;
+    
+    scroll-snap-align: center;
+    border-radius: 12px;
+    overflow: hidden; /* IMPORTANTE: Para que el zoom no se salga de los bordes */
+    background-color: transparent;
+    border: 1px solid #eee;
+    
+    /* 1. LA FÍSICA DEL MOVIMIENTO (Igual a Works) */
+    /* Usamos la misma curva bezier para que se sienta "premium" */
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+/* 2. LA IMAGEN ADENTRO (Animación: Subir desde abajo SIN ZOOM) */
+.process-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    
+    /* --- ESTADO INICIAL (Fuera de foco) --- */
+    /* 1. Opacidad 0: Para que aparezca de la nada */
+    opacity: 0;
+    
+    /* 2. Movimiento: Solo translateY positivo (hacia abajo). 
+       Quitamos el 'scale' para eliminar el zoom. 
+       Ponemos 50px para que el viaje hacia arriba sea notorio. */
+    transform: translateY(50px); 
+    
+    /* Opcional: Mantener blanco y negro hasta que se active */
+        /*filter: grayscale(100%);
+    
+    /* Física del movimiento */
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* --- ESTADO ACTIVO (En foco) --- */
+.process-slide.is-active img {
+    opacity: 1;
+    
+    /* La imagen sube a su posición original (0) */
+    transform: translateY(0); 
+    
+    filter: grayscale(0%);
+}
+
+/* MANTENEMOS EL EFECTO HOVER EN EL PADRE */
+/* El hover afecta al contenedor, así que se suman los efectos */
+.process-slide:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 30px 50px rgba(0,0,0,0.2);
+    border-color: #ccc;
+}
+.process-slide:hover img {
+    transform: scale(1.03); /* Pequeño zoom extra al pasar mouse */
+}
