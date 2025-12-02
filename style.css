@@ -2012,3 +2012,37 @@ body {
         flex: 0 0 85%;
     }
 }
+
+
+
+
+
+/* Grilla de Galería Mido */
+.project-gallery-grid2 {
+    display: grid;
+    
+    /* 1. CAMBIO: Tres columnas de igual tamaño */
+    grid-template-columns: repeat(3, 1fr); 
+    
+    gap: 30px;
+    
+    /* 2. CAMBIO: Centrado en la página */
+    /* El 'auto' a los lados es lo que lo centra horizontalmente */
+    margin: 0 auto 120px auto; 
+    
+    /* 3. CAMBIO: Aumentamos el ancho máximo */
+    /* Antes era 750px. Lo subimos para que las 3 fotos quepan sin achicarse */
+    max-width: 1150px; 
+    
+    /* Opcional: Centrar items verticalmente si tienen alturas distintas */
+    align-items: center; 
+}
+
+/* RECOMENDACIÓN: Ajuste para celulares (Responsive) */
+/* Para que en el celular no se vean 3 columnas diminutas */
+@media (max-width: 768px) {
+    .project-gallery-grid2 {
+        grid-template-columns: 1fr; /* 1 sola columna en móvil */
+        max-width: 90%;
+    }
+}
