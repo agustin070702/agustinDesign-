@@ -361,3 +361,138 @@ if (trackPG && btnPrevPG && btnNextPG) {
         observerPG.observe(item);
     });
 }
+
+// ==========================================
+// LIGHTBOX INTELIGENTE (CON NAVEGACIÓN)
+// ==========================================
+
+const modal = document.getElementById('imageModal');
+const modalImg = document.getElementById('lightboxImg');
+const closeBtn = document.querySelector('.close-btn');
+const btnPrevLB = document.getElementById('lbPrev');
+const btnNextLB = document.getElementById('lbNext');
+
+// Variables para controlar la galería actual
+let currentGalleryImages = []; // Aquí guardaremos la lista de fotos del carrusel actual
+let currentImageIndex = 0;     // Aquí guardaremos en qué número vamos
+
+if (modal) {
+    
+    // Función para abrir el Modal en una foto específica
+    const openModal = (index) => {
+        if (index >= 0 && index < currentGalleryImages.length) {
+            currentImageIndex = index;
+            modalImg.src = currentGalleryImages[index].src;
+            modal.style.display = "flex";
+            document.body.style.overflow = "hidden";
+            
+            // Ocultar flechas si es una foto única (como la portada)
+            if (currentGalleryImages.length <= 1) {
+                btnPrevLB.style.display = 'none';
+                btnNextLB.style.display = 'none';
+            } else {
+                btnPrevLB.style.display = 'block';
+                btnNextLB.style.display = 'block';
+            }
+        }
+    };
+
+    // SELECTOR UNIVERSAL: Detectamos todas las fotos zoomables
+    const allZoomableImages = document.querySelectorAll(`
+        .hero-image,
+        .square-slide img,
+        .slide-clean img,
+        .pg-item img,
+        .project-gallery-grid img,
+        .project-gallery-grid2 img,
+        .gallery-item img,
+        .process-slide img
+    `);
+
+    allZoomableImages.forEach(img => {
+        img.addEventListener('click', function() {
+            // TRUCO DE MAGIA: Detectar el "grupo" de la foto
+            // Buscamos el contenedor padre (el Track o la Grilla)
+            const parentContext = this.closest(`
+                #squareTrack, 
+                #trackClean, 
+                #trackPG, 
+                #processTrack, 
+                .project-gallery-grid, 
+                .project-gallery-grid2
+            `);
+
+            if (parentContext) {
+                // Si está en un grupo, coleccionamos todas las fotos de ese grupo
+                currentGalleryImages = Array.from(parentContext.querySelectorAll('img'));
+            } else {
+                // Si no tiene grupo (ej: Portada), es una galería de 1 sola foto
+                currentGalleryImages = [this];
+            }
+
+            // Encontramos qué número es la foto que clickeaste
+            const index = currentGalleryImages.indexOf(this);
+            openModal(index);
+        });
+    });
+
+   // --- NAVEGACIÓN CON TRANSICIÓN SUAVE ---
+    
+    const changeImageWithFade = (newIndex) => {
+        // 1. Desvanecer la foto actual (Fade Out)
+        modalImg.style.opacity = "0";
+        modalImg.style.transform = "scale(0.95)"; // Se achica un poquito para efecto elegante
+        
+        // 2. Esperar 300ms (lo que dura la transición CSS)
+        setTimeout(() => {
+            currentImageIndex = newIndex;
+            
+            // 3. Cambiar la foto
+            modalImg.src = currentGalleryImages[currentImageIndex].src;
+            
+            // 4. Volver a mostrarla (Fade In)
+            modalImg.style.opacity = "1";
+            modalImg.style.transform = "scale(1)";
+            
+        }, 250); // Tiene que coincidir con los 0.3s del CSS
+    };
+
+    const showNext = (e) => {
+        if(e) e.stopPropagation();
+        let newIndex = currentImageIndex + 1;
+        if (newIndex >= currentGalleryImages.length) newIndex = 0;
+        
+        changeImageWithFade(newIndex);
+    };
+
+    const showPrev = (e) => {
+        if(e) e.stopPropagation();
+        let newIndex = currentImageIndex - 1;
+        if (newIndex < 0) newIndex = currentGalleryImages.length - 1;
+        
+        changeImageWithFade(newIndex);
+    };
+
+    if (btnNextLB) btnNextLB.addEventListener('click', showNext);
+    if (btnPrevLB) btnPrevLB.addEventListener('click', showPrev);
+
+    // --- NAVEGACIÓN (TECLADO) ---
+    document.addEventListener('keydown', (e) => {
+        if (modal.style.display === "flex") {
+            if (e.key === "ArrowRight") showNext(e);
+            if (e.key === "ArrowLeft") showPrev(e);
+            if (e.key === "Escape") closeModal();
+        }
+    });
+
+    // --- CERRAR ---
+    const closeModal = () => {
+        modal.style.display = "none";
+        document.body.style.overflow = "auto";
+    };
+
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+    });
+}

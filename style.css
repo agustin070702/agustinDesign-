@@ -2046,3 +2046,144 @@ body {
         max-width: 90%;
     }
 }
+
+
+/* =========================================
+   LIGHTBOX / POP-UP DE IMÁGENES
+   ========================================= */
+
+/* El fondo oscuro (oculto por defecto) */
+.lightbox-modal {
+    display: none; /* Oculto */
+    position: fixed; 
+    z-index: 9999; /* Encima de todo, incluso del menú */
+    padding-top: 0px; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: hidden; 
+    background: radial-gradient(circle, rgba(0,0,0,0.7) 40%, rgba(0,0,0,0.75) 100%);
+    backdrop-filter: blur(8px); /* Efecto borroso elegante detrás */
+    
+    /* Flex para centrar */
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+/* La Imagen en grande */
+.lightbox-content {
+    margin: 0;
+    display: block;
+    width: auto;
+    height: auto;
+    max-width: 60%; /* Que no se salga de la pantalla */
+    max-height: 85vh; /* Altura máxima */
+    border-radius: 8px;
+    box-shadow: 0 0 50px rgba(0,0,0,0.5);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    
+    /* Animación de zoom al abrir */
+    animation: zoomIn 0.5s ease;
+}
+
+@keyframes zoomIn {
+    from {transform: scale(0.9); opacity: 0;}
+    to {transform: scale(1); opacity: 1;}
+}
+
+/* Botón de Cerrar (Estilo Premium: Escala + Brillo) */
+.close-btn {
+    position: absolute;
+    top: 30px;
+    right: 40px;
+    
+    color: #e0e0e0; /* Un blanco NO tan puro al inicio (gris muy claro) */
+    font-family: 'Inter', sans-serif;
+    font-size: 50px;
+    font-weight: 200; /* Delgado */
+    line-height: 1;
+    
+    cursor: pointer;
+    z-index: 10000;
+    
+    /* Transición rápida y elástica */
+    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    
+    /* Quitamos estilos feos */
+    text-decoration: none;
+    outline: none;
+    user-select: none;
+}
+
+/* Hover: Crece y Brilla */
+.close-btn:hover,
+.close-btn:focus {
+    color: #ffffff; /* Se vuelve Blanco Puro */
+    
+    /* EFECTO NUEVO: Crece un 20% y brilla */
+    transform: scale(1.2); 
+}
+
+/* Efecto al hacer clic (se achica un poco para dar feedback táctil) */
+.close-btn:active {
+    transform: scale(0.95);
+}
+
+/* Caption (Texto opcional debajo) */
+#caption {
+    margin: auto;
+    display: none !important;
+    width: 50%;
+    max-width: 700px;
+    text-align: center;
+    color: #ccc;
+    padding: 10px 0;
+    height: 150px;
+    font-size: 14px;
+    font-weight: 300;
+}
+
+/* Cursor de lupa para las imágenes clicables */
+.square-slide img, .slide-clean img, .hero-image, .pg-item img {
+    cursor: zoom-in;
+}
+
+
+/* =========================================
+   ESTILO DE LAS FLECHAS DEL POP-UP
+   ========================================= */
+
+.nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.7); /* Blanco semitransparente */
+    font-size: 30px;
+    font-weight: 100; /* Muy fino */
+    cursor: pointer;
+    z-index: 10001;
+    padding: 35px;
+    transition: all 0.4s ease;
+    user-select: none;
+    outline: none;
+}
+
+.nav-btn:hover {
+    color: #ffffff;
+    transform: translateY(-50%) scale(1.2); /* Efecto de crecer */
+    
+}
+
+.prev-btn { left: 20px; }
+.next-btn { right: 20px; }
+
+/* En celular, las flechas se separan más para no tapar la foto */
+@media (max-width: 768px) {
+    .nav-btn { font-size: 30px; padding: 10px; }
+    .prev-btn { left: 10px; }
+    .next-btn { right: 10px; }
+}
