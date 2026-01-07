@@ -2269,7 +2269,7 @@ body {
         position: absolute !important; /* Forzamos posición absoluta */
         width: auto;
         height: 60vh;      /* Altura: 60% de la pantalla */
-        right: -15%;       /* Un poco salida a la derecha para dar profundidad */
+        right: 15%;       /* Un poco salida a la derecha para dar profundidad */
         bottom: 0;         /* Pegada al suelo */
         top: auto;         /* Ignoramos el top */
         left: auto;        /* Ignoramos el left */
