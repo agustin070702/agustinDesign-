@@ -2187,3 +2187,159 @@ body {
     .prev-btn { left: 10px; }
     .next-btn { right: 10px; }
 }
+
+
+
+
+
+
+
+
+
+/* =======================================================
+   VISTA MÓVIL (SOLO PARA PANTALLAS MENORES A 768PX)
+   No afecta en nada a la versión de PC
+   ======================================================= */
+@media screen and (max-width: 768px) {
+
+    /* 1. AJUSTES GENERALES DEL CUERPO */
+    body {
+        overflow-x: hidden; /* Evita que la página baile hacia los lados */
+    }
+    
+    .container, .wrapper {
+        padding: 0 20px; /* Márgenes laterales seguros */
+    }
+
+    /* 2. MENÚ DE NAVEGACIÓN (Pantalla completa en móvil) */
+    .side-menu {
+        width: 100%; /* Que ocupe toda la pantalla */
+        left: -100%;
+    }
+    
+    .side-menu .main-link {
+        font-size: 2.5rem; /* Texto un poco más chico para que quepa */
+    }
+
+    /* Ocultar la navegación de arriba (About/Works/Contact) porque ya está en el menú hamburguesa */
+    .top-nav {
+        display: none; 
+    }
+
+    /* 3. PORTADA (HOME) - Reordenar verticalmente */
+    .hero {
+        flex-direction: column-reverse; /* Texto arriba, foto abajo */
+        padding: 120px 20px 60px 20px; /* Espacio para no chocar con el logo */
+        justify-content: flex-start;
+        min-height: auto;
+        height: auto;
+        text-align: center;
+    }
+
+    .hero-content {
+        width: 100%;
+        margin: 0;
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+    .hero-title {
+        font-size: 3.5rem; /* Achicar el título gigante */
+        line-height: 1.1;
+        margin-bottom: 30px;
+    }
+
+    /* Arreglar la imagen flotante de la portada */
+    .hero-image {
+        position: relative; /* Ya no flota libre */
+        width: 100%;
+        height: 50vh; /* Altura controlada */
+        left: auto;
+        bottom: auto;
+        margin-top: 20px;
+        opacity: 1; /* Asegurar que se vea */
+    }
+
+    /* 4. PÁGINAS DE PROYECTOS (Tap In, La Columna, etc.) */
+    
+    /* Convertir las grillas de 2 columnas en 1 sola columna */
+    .project-gallery-grid, 
+    .project-gallery-grid2,
+    .two-column-grid,
+    .process-header {
+        display: flex;
+        flex-direction: column;
+        grid-template-columns: 1fr !important; /* Forzar columna única */
+        gap: 30px;
+        width: 100%;
+    }
+
+    /* Ajustar imágenes dentro de los proyectos */
+    .project-gallery-grid img, 
+    .project-gallery-grid2 img,
+    .full-width-img,
+    .hero-project-img {
+        width: 100% !important;
+        height: auto !important;
+        object-fit: contain;
+    }
+
+    /* Textos de los proyectos */
+    .project-description, 
+    .intro-text, 
+    .process-text {
+        width: 100%;
+        padding: 0 20px;
+        text-align: left;
+        font-size: 1rem; /* Texto legible */
+    }
+    
+    .project-header h1 {
+        font-size: 3rem; /* Títulos de proyectos más chicos */
+        padding: 0 20px;
+    }
+
+    /* 5. CARRUSELES (Proceso) */
+    .process-carousel-wrapper {
+        padding: 0 20px;
+    }
+    
+    .process-controls {
+        justify-content: center; /* Centrar flechitas del carrusel */
+        margin-top: 15px;
+    }
+
+    /* 6. LIGHTBOX (POP-UP) EN MÓVIL */
+    .lightbox-content {
+        max-width: 95%; /* Usar casi toda la pantalla */
+        max-height: 70vh;
+    }
+
+    .nav-btn {
+        padding: 10px; /* Área táctil cómoda */
+        font-size: 30px; /* Flechas visibles */
+        background: rgba(0,0,0,0.3); /* Fondo oscurito para que se vean sobre fotos claras */
+        border-radius: 50%;
+    }
+    
+    .prev-btn { left: 10px; }
+    .next-btn { right: 10px; }
+    
+    .close-btn {
+        top: 10px;
+        right: 15px;
+        font-size: 40px;
+    }
+
+    /* 7. FOOTER */
+    .contact-footer, .project-footer {
+        flex-direction: column;
+        text-align: center;
+        gap: 30px;
+        padding: 40px 20px;
+    }
+    
+    .footer-right {
+        text-align: center;
+    }
+}
