@@ -2072,46 +2072,45 @@ body {
 }
 
 /* =======================================================
-   VISTA MÓVIL DEFINITIVA (TEXTOS DERECHA + FOTO AJUSTADA)
+   VISTA MÓVIL TOTAL (HOME + ABOUT CORREGIDO)
    ======================================================= */
 
 @media screen and (max-width: 968px) {
 
-    /* --- 1. AJUSTES GENERALES --- */
-    body {
-        overflow-x: hidden; /* Adiós scroll lateral */
-        width: 100%;
+    /* --- 1. AJUSTES GENERALES (EVITAR DESBORDE) --- */
+    body, html {
+        overflow-x: hidden !important; /* CRUCIAL: Corta todo lo que sobresalga */
+        width: 100% !important;
+        position: relative;
     }
     
     .container, .wrapper {
-        padding: 0 20px;
+        padding: 0 20px !important;
+        width: 100% !important;
+        max-width: 100% !important;
     }
 
     /* --- 2. MENÚ SUPERIOR (Works - About - Contact) --- */
-    /* Alineado totalmente a la DERECHA */
     .top-nav {
         display: flex !important;
         flex-direction: row !important;
-        justify-content: flex-end !important; /* Empuja todo a la derecha */
-        
+        justify-content: flex-end !important;
         position: absolute !important;
         top: 35px !important;
-        right: 10px !important;  /* MARGEN PEQUEÑO (pegado a la derecha) */
-        left: auto !important;   /* Anulamos el centrado */
-        transform: none !important;
-        
+        right: 15px !important; 
+        left: auto !important;
         gap: 15px !important;
         width: auto !important;
         z-index: 1001 !important;
     }
 
     .nav-link {
-        font-size: 0.8rem !important;
+        font-size: 0.85rem !important;
         color: #202020 !important;
         font-weight: 500 !important;
     }
 
-    /* Menú hamburguesa (Se queda a la Izquierda) */
+    /* Menú hamburguesa (Izquierda) */
     .menu-toggle {
         top: 25px;
         left: 20px;
@@ -2124,70 +2123,69 @@ body {
         flex-direction: row;
         align-items: center;
         height: 100vh;
-        min-height: 300px;
+        min-height: 500px;
         position: relative;
-        overflow: hidden;
-        padding: 0 10px; /* Margen general muy fino */
+        overflow: hidden; /* Asegura que la foto no expanda la web */
+        padding: 0 10px;
     }
 
     .hero-content {
-        position: relative;
         width: 100% !important;
         margin: 0 !important;
-        z-index: 10;
         margin-top: -10vh !important;
+        z-index: 10;
         
-        /* --- ALINEACIÓN A LA DERECHA --- */
+        /* ALINEACIÓN A LA DERECHA FORZADA */
         display: flex !important;
         flex-direction: column !important;
-        align-items: flex-end !important; /* Empuja los elementos hijos a la derecha */
+        align-items: flex-end !important; 
         text-align: right !important;
-        padding-right: 10px !important; /* Pegadito al borde derecho */
+        padding-right: 10px !important;
     }
 
     .hero-title {
-        font-size: 3rem !important;
+        font-size: 2.8rem !important; /* Un poco más chico para asegurar que quepa */
         line-height: 1;
         margin-bottom: 20px;
         text-align: right !important;
         width: 100%;
+        word-wrap: break-word; /* Evita que palabras largas rompan el ancho */
     }
     
     .hero-subtitle {
         font-size: 1rem;
         text-align: right !important;
         margin-left: auto;
+        max-width: 80%; /* Para que no ocupe todo el ancho */
     }
 
-    /* Botón Ver Proyectos */
     .btn-projects {
-        margin-right: 0 !important; /* Pegado a la derecha */
+        margin-right: 0 !important;
         margin-left: auto !important;
         font-size: 0.9rem !important;
         padding: 12px 25px !important;
     }
 
-    /* --- 4. LA FOTO (AJUSTADA) --- */
+    /* --- 4. LA FOTO HOME (AJUSTADA) --- */
     .hero-image {
         position: absolute !important;
         width: auto !important;
-        
-        /* Altura: Reducida al 50vh (antes era 60) */
         height: 50vh !important;       
-        
-        /* Posición: Más escondida a la derecha (-40%) */
-        right: -40% !important;        
-        
+        right: -40% !important; /* Escondida a la derecha */       
         bottom: 0 !important;
         top: auto !important;
         left: auto !important;
-        
         opacity: 1 !important;
         z-index: 1;
         pointer-events: none;
     }
+    
+    .hero-image img {
+        height: 100% !important;
+        width: auto !important;
+    }
 
-    /* --- 5. MENÚ LATERAL (Pantalla completa) --- */
+    /* --- 5. MENÚ LATERAL --- */
     .side-menu {
         width: 100% !important;
         left: -100% !important;
@@ -2195,11 +2193,8 @@ body {
     .side-menu.active {
         left: 0 !important;
     }
-    .side-menu .main-link { 
-        font-size: 2.5rem !important; 
-    }
 
-    /* --- 6. ARREGLOS DE PROYECTOS (Una sola columna) --- */
+    /* --- 6. PROYECTOS --- */
     .project-gallery-grid, 
     .project-gallery-grid2,
     .two-column-grid,
@@ -2207,46 +2202,81 @@ body {
     .contact-main-content {
         display: flex !important;
         flex-direction: column !important;
+        width: 100% !important;
         gap: 30px !important;
-        grid-template-columns: 1fr !important;
     }
 
-    /* Imágenes de proyecto full ancho */
     .project-gallery-grid img, 
-    .project-gallery-grid2 img,
     .full-width-img {
         width: 100% !important;
         height: auto !important;
-        object-fit: contain;
     }
+
+    /* --- 9. FIX ABOUT & SKILLS (AQUÍ ESTÁ LA SOLUCIÓN AL PROBLEMA) --- */
     
-    /* Textos de proyecto */
-    .project-header h1 {
-        font-size: 2.5rem !important;
-        padding: 0 10px;
-    }
-    
-    .project-description, .intro-text {
-        padding: 0 10px;
+    /* Contenedor del About en columna */
+    .about-content {
+        display: flex !important;
+        flex-direction: column !important;
         width: 100% !important;
     }
 
-    /* --- 7. LIGHTBOX / POPUP --- */
-    .lightbox-content {
-        max-width: 95%;
+    /* Texto del About */
+    .about-text {
+        width: 100% !important;
+        padding: 0 !important;
+        order: 2; /* Texto abajo */
     }
-    .nav-btn {
-        font-size: 25px;
-        padding: 15px;
-        background: rgba(0,0,0,0.3);
-        border-radius: 50%;
+
+    /* Marco de la Foto del About - RESTRINGIDO */
+    .about-photo-frame {
+        width: 100% !important;
+        max-width: 280px !important; /* Límite máximo para que no se salga */
+        height: auto !important;     /* Altura automática */
+        aspect-ratio: 3/4;           /* Mantiene la proporción */
+        margin: 0 auto 40px auto !important; /* Centrado y con margen abajo */
+        order: 1; /* Foto arriba */
+        position: relative !important;
+        left: auto !important;
+        top: auto !important;
+    }
+
+    /* Imagen dentro del marco */
+    .about-image {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+    }
+
+    /* Habilidades (Skills) - RESTRINGIDAS */
+    .skills-section, .skills-grid {
+        width: 100% !important;
+        max-width: 100% !important;
+        display: flex !important;
+        flex-direction: column !important;
+    }
+
+    .skill-item {
+        width: 100% !important;
+        margin-bottom: 20px;
+    }
+
+    /* Barras de progreso - Asegurar que no pasen del 100% */
+    .skill-bar-container {
+        width: 100% !important;
+        box-sizing: border-box !important; /* El borde cuenta en el ancho */
+    }
+
+    /* Líneas bajo los títulos */
+    .section-title::after {
+        width: 60px !important; /* Forzar tamaño pequeño */
+        max-width: 20% !important;
     }
     
-    /* --- 8. FOOTER --- */
-    .contact-footer, .project-footer {
+    /* Footer */
+    .contact-footer {
+        padding: 40px 20px !important;
         flex-direction: column;
-        gap: 20px;
         text-align: center;
-        padding: 40px 20px;
     }
 }
