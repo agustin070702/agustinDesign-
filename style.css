@@ -582,7 +582,7 @@ body {
 
 .about-photo-frame {
     width: 100%;
-    max-width: 350px;
+    max-width: 250px;
     aspect-ratio: 1/1; 
     overflow: hidden;
     border-radius: 4px;
