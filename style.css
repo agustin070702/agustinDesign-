@@ -1900,26 +1900,30 @@ body {
 }
 
 /* =======================================================
-   VISTA MÓVIL: ONE COLUMN LAYOUT (TODO EN FILA INDIA)
+   VISTA MÓVIL BLINDADA: VERSIÓN FINAL (IDIOMAS ARREGLADO)
    ======================================================= */
 
 @media screen and (max-width: 968px) {
 
-    /* 1. REGLA DE ORO: ANCHO MÁXIMO DEL 100% */
+    /* --- 1. REGLA MAESTRA: CERO DESBORDAMIENTO --- */
     html, body {
         overflow-x: hidden !important;
-        max-width: 100vw !important;
+        width: 100% !important;
+        max-width: 100% !important;
         position: relative;
     }
     
-    .container, section {
+    .container, section, .wrapper {
+        width: 100% !important;
+        max-width: 100vw !important;
         padding-left: 20px !important;
         padding-right: 20px !important;
-        width: 100% !important;
-        box-sizing: border-box !important;
+        box-sizing: border-box !important; /* El padding cuenta dentro del ancho */
+        margin-left: 0 !important;
+        margin-right: 0 !important;
     }
 
-    /* 2. HEADER Y MENÚ (Alineado derecha) */
+    /* --- 2. HEADER Y MENÚ (Derecha) --- */
     .top-nav {
         display: flex !important;
         flex-direction: row !important;
@@ -1928,9 +1932,11 @@ body {
         top: 35px !important;
         right: 15px !important;
         width: auto !important;
+        gap: 15px !important;
     }
-    
-    /* 3. HOME (Texto derecha, Foto escondida) */
+    .nav-link { font-size: 0.85rem !important; color: #202020 !important; }
+
+    /* --- 3. HOME (Texto Derecha / Foto Escondida) --- */
     .hero-content {
         align-items: flex-end !important;
         text-align: right !important;
@@ -1945,81 +1951,72 @@ body {
         bottom: 0 !important;
     }
 
-    /* 4. ABOUT: LA "FILA INDIA" (Aquí está tu solución) */
-    
-    /* El contenedor principal se vuelve una columna vertical */
+    /* --- 4. ABOUT: COLUMNA ÚNICA FORZADA --- */
     .about-content {
         display: flex !important;
         flex-direction: column !important;
         width: 100% !important;
-        gap: 40px !important; /* Espacio entre bloques */
         margin: 0 !important;
+        gap: 40px !important;
     }
 
-    /* Texto: Ocupa todo el ancho */
     .about-text {
         width: 100% !important;
         padding: 0 !important;
-        text-align: left !important;
+        margin: 0 !important;
+        display: flex !important;
+        flex-direction: column !important; /* Fuerza a todo dentro del texto a ir hacia abajo */
     }
 
-    /* Foto: Centrada y contenida */
     .about-photo-frame {
-        position: relative !important;
         width: 100% !important;
-        max-width: 280px !important;
+        max-width: 260px !important;
         margin: 0 auto !important;
-        left: auto !important;
-        top: auto !important;
-        right: auto !important;
+        position: relative !important;
+        left: auto !important; top: auto !important;
         transform: none !important;
     }
 
-    /* 5. ARREGLO DE SKILLS E IDIOMAS (El problema de los márgenes) */
+    /* --- 5. FIX FINAL IDIOMAS Y LISTAS (LA SOLUCIÓN) --- */
     
-    .skills-section {
-        width: 100% !important;
-        margin-top: 20px !important;
-    }
-
-    /* Forzamos a que las grillas sean de UNA SOLA columna */
-    .skills-grid, .languages-grid, .grid-2-cols {
-        display: flex !important; /* Cambiamos grid por flex vertical */
-        flex-direction: column !important;
-        width: 100% !important;
-        gap: 20px !important;
-        margin: 0 !important;
-        padding: 0 !important;
-    }
-
-    /* Cada item (habilidad o idioma) ocupa el 100% disponible */
-    .skill-item, .language-item, .skill-bar-container {
+    /* Atacamos cualquier lista (ul), item (li) o div dentro del texto del About */
+    .about-text ul, 
+    .about-text li, 
+    .about-text div,
+    .skills-grid, 
+    .language-item {
         width: 100% !important;
         max-width: 100% !important;
+        box-sizing: border-box !important;
+        
+        display: flex !important;       /* Usar flexbox */
+        flex-direction: column !important; /* Orientación Vertical (Fila India) */
+        
         margin-left: 0 !important;
         margin-right: 0 !important;
-        box-sizing: border-box !important; /* El borde cuenta dentro del ancho */
+        padding-right: 0 !important; /* Evitar que el padding empuje hacia afuera */
     }
 
-    /* Si usas una lista para los idiomas */
-    .about-content ul, .about-content li {
+    /* Si los idiomas están en una lista, quitamos la sangría izquierda exagerada */
+    .about-text ul {
+        padding-left: 0 !important; 
+        list-style-position: inside !important; /* Los puntos de la lista quedan dentro */
+    }
+
+    /* Barras de habilidades */
+    .skill-bar-container {
         width: 100% !important;
         box-sizing: border-box !important;
     }
-    
-    /* 6. OTROS AJUSTES (Proyectos, Footer) */
+
+    /* --- 6. RESTO DE AJUSTES --- */
     .project-gallery-grid, .process-header {
         display: flex !important;
         flex-direction: column !important;
         width: 100% !important;
     }
-    
     .project-gallery-grid img, .full-width-img {
-        width: 100% !important;
-        height: auto !important;
+        width: 100% !important; height: auto !important;
     }
-    
-    .section-title::after {
-        width: 50px !important; /* Línea decorativa corta */
-    }
+    .section-title::after { width: 50px !important; }
 }
