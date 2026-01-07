@@ -526,27 +526,6 @@ body {
     color: #888;
 }
 
-/* Responsive para Proyectos */
-@media (max-width: 768px) {
-    .project-title {
-        font-size: 3rem;
-    }
-    
-    .project-info {
-        grid-template-columns: 1fr 1fr; /* 2 columnas en tablet */
-        gap: 30px;
-    }
-
-    .image-grid {
-        grid-template-columns: 1fr; /* 1 columna en móvil */
-    }
-}
-
-@media (max-width: 480px) {
-    .project-info {
-        grid-template-columns: 1fr; /* 1 columna en móvil pequeño */
-    }
-}
 
 /* =========================================
    SECCIÓN ABOUT (Dark Mode Elegante)
@@ -747,28 +726,7 @@ body {
     color: #888;
 }
 
-/* Responsive para About */
-@media (max-width: 968px) {
-    .about-container {
-        grid-template-columns: 1fr; /* Una sola columna */
-        gap: 60px;
-    }
 
-    .about-photo-frame {
-        max-width: 100%; /* Foto ancho completo en tablet */
-        aspect-ratio: 16/9;
-        object-position: center top;
-    }
-    
-    .resume-item {
-        grid-template-columns: 1fr; /* Año arriba, info abajo */
-        gap: 5px;
-    }
-    
-    .resume-item .year {
-        text-align: left;
-    }
-}
 
 /* =========================================
    SECCIÓN WORKS (Carrusel Horizontal)
@@ -953,34 +911,7 @@ body {
     overflow: hidden;
 }
 
-/* Responsive para el carrusel */
-@media (max-width: 968px) {
-    /* CAMBIO: Ahora apuntamos a .card-wrapper */
-    .card-wrapper {
-        min-width: calc(50% - 15px); /* 2 tarjetas en tablet */
-    }
-    
-    .works-section {
-        padding: 80px 30px;
-    }
-}
 
-@media (max-width: 600px) {
-    /* CAMBIO: Ahora apuntamos a .card-wrapper */
-    .card-wrapper {
-        min-width: 85%; /* 1 tarjeta en móvil */
-    }
-    
-    .section-title {
-        font-size: 2.5rem;
-    }
-    
-    .works-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 20px;
-    }
-}
 
 /* =========================================
    SECCIÓN CONTACTO (Diseño Final Alineado)
@@ -1196,51 +1127,8 @@ body {
     opacity: 0.6;
 }
 
-/* Responsive */
-@media (max-width: 968px) {
-    .contact-main-content {
-        grid-template-columns: 1fr;
-        gap: 60px;
-    }
 
-    .contact-big-title {
-        font-size: 5rem;
-        margin-bottom: 0;
-    }
 
-    .contact-right {
-        gap: 60px;
-    }
-
-    .contact-footer {
-        flex-direction: column;
-        gap: 20px;
-    }
-    
-    .footer-right {
-        justify-content: space-between;
-        width: 100%;
-    }
-}
-
-@media (max-width: 480px) {
-    .contact-section {
-        padding: 60px 30px 30px 30px;
-    }
-    
-    .contact-big-title {
-        font-size: 4rem;
-    }
-
-    .contact-email-link, .social-list a {
-        font-size: 1.1rem;
-    }
-    
-    .contact-details-top {
-        grid-template-columns: 1fr; /* Una columna en móvil */
-        gap: 30px;
-    }
-}
 
 /* =========================================
    CINTA INFINITA (MARQUEE)
@@ -1534,32 +1422,7 @@ body {
     opacity: 0.6; /* El mismo efecto de desvanecimiento */
 }
 
-/* Responsive Proyectos */
-@media (max-width: 768px) {
-    .project-header {
-        display: block; /* Volvemos a bloque normal en móvil */
-        padding: 100px 30px 50px 30px; /* Más espacio arriba en móvil para no chocar con el menú */
-        text-align: left;
-    }
-    
-    .project-big-title {
-        font-size: 3.5rem;
-    }
-    
-    .project-stats {
-        grid-template-columns: 1fr 1fr; /* 2 columnas en tablet */
-        gap: 30px;
-    }
-    
-    .project-gallery-grid {
-        grid-template-columns: 1fr; /* 1 columna en móvil */
-        gap: 30px;
-    }
 
-    .next-project-link {
-        font-size: 2rem;
-    }
-}
 
 /* =========================================
    CARRUSEL INTERNO DE PROYECTO (PROCESO)
@@ -1775,22 +1638,6 @@ body {
     z-index: 100;
 }
 
-/* --- RESPONSIVE --- */
-@media (max-width: 1000px) {
-    .slide-clean {
-        flex: 0 0 calc((100% - 30px) / 2);
-        width: calc((100% - 30px) / 2);
-        min-width: calc((100% - 30px) / 2);
-    }
-}
-
-@media (max-width: 600px) {
-    .slide-clean {
-        flex: 0 0 100%;
-        width: 100%;
-        min-width: 100%;
-    }
-}
 
 
 
@@ -1880,12 +1727,6 @@ body {
     transform: translateY(0);
 }
 
-/* Mobile: 1 sola columna */
-@media (max-width: 600px) {
-    .pg-item {
-        flex: 0 0 85%;
-    }
-}
 
 
 
@@ -1912,14 +1753,6 @@ body {
     align-items: center; 
 }
 
-/* RECOMENDACIÓN: Ajuste para celulares (Responsive) */
-/* Para que en el celular no se vean 3 columnas diminutas */
-@media (max-width: 768px) {
-    .project-gallery-grid2 {
-        grid-template-columns: 1fr; /* 1 sola columna en móvil */
-        max-width: 90%;
-    }
-}
 
 
 /* =========================================
@@ -2055,12 +1888,7 @@ body {
 .prev-btn { left: 20px; }
 .next-btn { right: 20px; }
 
-/* En celular, las flechas se separan más para no tapar la foto */
-@media (max-width: 768px) {
-    .nav-btn { font-size: 30px; padding: 10px; }
-    .prev-btn { left: 10px; }
-    .next-btn { right: 10px; }
-}
+
 
 
 
@@ -2072,211 +1900,167 @@ body {
 }
 
 /* =======================================================
-   VISTA MÓVIL TOTAL (HOME + ABOUT CORREGIDO)
+   VISTA MÓVIL BLINDADA (SOLUCIÓN FINAL DE DESBORDAMIENTO)
    ======================================================= */
 
 @media screen and (max-width: 968px) {
 
-    /* --- 1. AJUSTES GENERALES (EVITAR DESBORDE) --- */
-    body, html {
-        overflow-x: hidden !important; /* CRUCIAL: Corta todo lo que sobresalga */
-        width: 100% !important;
+    /* 1. ELIMINAR EL DESBORDAMIENTO (La regla de oro) */
+    html, body {
+        max-width: 100% !important;
+        overflow-x: hidden !important; /* Corta cualquier cosa que se salga */
         position: relative;
     }
-    
-    .container, .wrapper {
-        padding: 0 20px !important;
+
+    .container, .wrapper, section {
         width: 100% !important;
-        max-width: 100% !important;
+        max-width: 100vw !important; /* Nunca más ancho que la pantalla */
+        padding-left: 20px !important;
+        padding-right: 20px !important;
+        box-sizing: border-box !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
     }
 
-    /* --- 2. MENÚ SUPERIOR (Works - About - Contact) --- */
+    /* 2. ARREGLO DE TEXTOS Y MENÚ (Alineados a la derecha) */
     .top-nav {
         display: flex !important;
         flex-direction: row !important;
         justify-content: flex-end !important;
         position: absolute !important;
         top: 35px !important;
-        right: 15px !important; 
-        left: auto !important;
-        gap: 15px !important;
+        right: 15px !important;
         width: auto !important;
-        z-index: 1001 !important;
+        gap: 15px !important;
     }
-
-    .nav-link {
-        font-size: 0.85rem !important;
+    
+    .nav-link { 
+        font-size: 0.85rem !important; 
         color: #202020 !important;
-        font-weight: 500 !important;
     }
 
-    /* Menú hamburguesa (Izquierda) */
-    .menu-toggle {
-        top: 25px;
-        left: 20px;
-        transform: scale(0.8);
-    }
-
-    /* --- 3. PORTADA (HOME) --- */
-    .hero {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        height: 100vh;
-        min-height: 500px;
-        position: relative;
-        overflow: hidden; /* Asegura que la foto no expanda la web */
-        padding: 0 10px;
-    }
-
+    /* 3. HOME: Textos a la derecha, Foto ajustada */
     .hero-content {
-        width: 100% !important;
-        margin: 0 !important;
         margin-top: -10vh !important;
-        z-index: 10;
-        
-        /* ALINEACIÓN A LA DERECHA FORZADA */
-        display: flex !important;
-        flex-direction: column !important;
-        align-items: flex-end !important; 
+        align-items: flex-end !important;
         text-align: right !important;
         padding-right: 10px !important;
     }
-
+    
     .hero-title {
-        font-size: 2.8rem !important; /* Un poco más chico para asegurar que quepa */
-        line-height: 1;
-        margin-bottom: 20px;
         text-align: right !important;
-        width: 100%;
-        word-wrap: break-word; /* Evita que palabras largas rompan el ancho */
+        font-size: 2.8rem !important;
     }
     
     .hero-subtitle {
-        font-size: 1rem;
         text-align: right !important;
-        margin-left: auto;
-        max-width: 80%; /* Para que no ocupe todo el ancho */
-    }
-
-    .btn-projects {
-        margin-right: 0 !important;
         margin-left: auto !important;
-        font-size: 0.9rem !important;
-        padding: 12px 25px !important;
     }
 
-    /* --- 4. LA FOTO HOME (AJUSTADA) --- */
     .hero-image {
-        position: absolute !important;
-        width: auto !important;
-        height: 50vh !important;       
-        right: -40% !important; /* Escondida a la derecha */       
+        height: 45vh !important; /* Un poco más chica para asegurar */
+        right: -35% !important;
         bottom: 0 !important;
-        top: auto !important;
-        left: auto !important;
-        opacity: 1 !important;
-        z-index: 1;
-        pointer-events: none;
     }
+
+    /* 4. CIRUGÍA MAYOR AL ABOUT (Aquí estaba el problema grave) */
     
-    .hero-image img {
-        height: 100% !important;
-        width: auto !important;
-    }
-
-    /* --- 5. MENÚ LATERAL --- */
-    .side-menu {
-        width: 100% !important;
-        left: -100% !important;
-    }
-    .side-menu.active {
-        left: 0 !important;
-    }
-
-    /* --- 6. PROYECTOS --- */
-    .project-gallery-grid, 
-    .project-gallery-grid2,
-    .two-column-grid,
-    .process-header,
-    .contact-main-content {
-        display: flex !important;
-        flex-direction: column !important;
-        width: 100% !important;
-        gap: 30px !important;
-    }
-
-    .project-gallery-grid img, 
-    .full-width-img {
-        width: 100% !important;
-        height: auto !important;
-    }
-
-    /* --- 9. FIX ABOUT & SKILLS (AQUÍ ESTÁ LA SOLUCIÓN AL PROBLEMA) --- */
-    
-    /* Contenedor del About en columna */
+    /* El contenedor principal */
     .about-content {
         display: flex !important;
-        flex-direction: column !important;
+        flex-direction: column !important; /* En columna */
         width: 100% !important;
-    }
-
-    /* Texto del About */
-    .about-text {
-        width: 100% !important;
+        margin: 0 !important;
         padding: 0 !important;
-        order: 2; /* Texto abajo */
+        gap: 40px !important;
     }
 
-    /* Marco de la Foto del About - RESTRINGIDO */
+    /* El marco de la foto: RESET TOTAL */
     .about-photo-frame {
-        width: 100% !important;
-        max-width: 280px !important; /* Límite máximo para que no se salga */
-        height: auto !important;     /* Altura automática */
-        aspect-ratio: 3/4;           /* Mantiene la proporción */
-        margin: 0 auto 40px auto !important; /* Centrado y con margen abajo */
-        order: 1; /* Foto arriba */
-        position: relative !important;
-        left: auto !important;
+        position: relative !important; /* Ya no flota libre */
         top: auto !important;
+        left: auto !important;
+        right: auto !important;
+        bottom: auto !important;
+        
+        width: 100% !important;
+        max-width: 260px !important; /* Ancho máximo controlado */
+        height: auto !important;
+        aspect-ratio: 3/4;
+        
+        margin: 0 auto !important; /* Centrado horizontal */
+        transform: none !important; /* Quitamos rotaciones raras */
     }
 
-    /* Imagen dentro del marco */
+    /* La imagen dentro del marco */
     .about-image {
         width: 100% !important;
         height: 100% !important;
         object-fit: cover !important;
     }
 
-    /* Habilidades (Skills) - RESTRINGIDAS */
-    .skills-section, .skills-grid {
+    /* El texto del About */
+    .about-text {
+        width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        text-align: left !important;
+    }
+
+    /* 5. ARREGLO DE LÍNEAS DE TÍTULOS (Esas rayas negras) */
+    .section-title {
         width: 100% !important;
         max-width: 100% !important;
+        overflow: hidden; /* Si la línea es larga, se corta */
+    }
+    
+    .section-title::after {
+        width: 50px !important; /* Línea cortita */
+        left: 0 !important;
+        margin-left: 0 !important;
+    }
+
+    /* 6. HABILIDADES (Skills) */
+    .skills-section {
+        width: 100% !important;
+        padding: 0 !important;
+    }
+    
+    .skills-grid {
         display: flex !important;
         flex-direction: column !important;
+        width: 100% !important;
+        gap: 20px !important;
     }
 
     .skill-item {
         width: 100% !important;
-        margin-bottom: 20px;
+        margin: 0 !important;
     }
 
-    /* Barras de progreso - Asegurar que no pasen del 100% */
+    /* Barra gris de fondo */
     .skill-bar-container {
         width: 100% !important;
-        box-sizing: border-box !important; /* El borde cuenta en el ancho */
-    }
-
-    /* Líneas bajo los títulos */
-    .section-title::after {
-        width: 60px !important; /* Forzar tamaño pequeño */
-        max-width: 20% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
     }
     
-    /* Footer */
-    .contact-footer {
-        padding: 40px 20px !important;
-        flex-direction: column;
-        text-align: center;
+    /* Barra negra de progreso */
+    .skill-bar {
+        max-width: 100% !important;
+    }
+
+    /* 7. PROYECTOS Y OTROS */
+    .project-gallery-grid, 
+    .project-gallery-grid2,
+    .process-header {
+        width: 100% !important;
+        margin: 0 !important;
+    }
+    
+    .process-slide img,
+    .gallery-item img {
+        max-width: 100% !important;
+        height: auto !important;
     }
 }
