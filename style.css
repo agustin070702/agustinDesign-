@@ -2245,7 +2245,7 @@ body {
 
     .hero-content {
         position: relative;
-        width: 100%;
+        width: 120%;
         text-align: left;    /* Alineado a la izquierda */
         z-index: 10;         /* IMPORTANTE: El texto flota SOBRE la foto */
         margin-top: -15vh;   /* Subimos el texto un poco */
