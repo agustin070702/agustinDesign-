@@ -2124,7 +2124,7 @@ body {
         flex-direction: row;
         align-items: center;
         height: 100vh;
-        min-height: 500px;
+        min-height: 300px;
         position: relative;
         overflow: hidden;
         padding: 0 10px; /* Margen general muy fino */
