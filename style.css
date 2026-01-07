@@ -379,134 +379,8 @@ body {
 }
 
 /* Responsive */
-@media (max-width: 968px) {
-    .contact-main-content {
-        grid-template-columns: 1fr;
-        gap: 40px;
-    }
-    
-    .top-nav {
-        gap: 40px;
-    }
-}
 
-@media (max-width: 968px) {
-    .side-menu {
-        width: 50%; /* Aumentado para móvil */
-        left: -50%;
-    }
 
-    .side-menu .main-link {
-        font-size: 2.5rem;
-    }
-
-    .hero {
-        padding: 0 40px;
-    }
-
-    .hero-content {
-        margin-left: 5%;
-    }
-
-    .hero-title {
-        font-size: 4rem;
-    }
-
-    .top-nav {
-        flex-direction: column;
-        gap: 20px;
-        align-items: center;
-    }
-
-    .hero-image {
-        width: 50%;
-    }
-}
-
-@media (max-width: 768px) {
-    .side-menu {
-        width: 70%;
-        left: -70%;
-    }
-
-    .side-menu .main-link {
-        font-size: 2rem;
-    }
-
-    .menu-toggle {
-        width: 50px;
-        height: 50px;
-        top: 20px;
-        left: 20px;
-    }
-
-    .hero {
-        padding: 0 30px;
-    }
-
-    .hero-content {
-        margin-left: 0;
-    }
-
-    .hero-title {
-        font-size: 3rem;
-    }
-
-    .btn-projects {
-        padding: 15px 35px;
-        font-size: 1rem;
-    }
-
-    .top-nav {
-        top: 100px;
-        gap: 15px;
-    }
-
-    .nav-link {
-        font-size: 0.95rem;
-    }
-
-    .hero-image {
-        width: 55%;
-        object-position: center center;
-    }
-
-    .hero-image img {
-        object-position: 70% top;
-    }
-}
-
-@media (max-width: 480px) {
-    .side-menu {
-        width: 85%;
-        left: -85%;
-    }
-
-    .side-menu .main-link {
-        font-size: 1.8rem;
-    }
-
-    .hero-title {
-        font-size: 2.5rem;
-    }
-
-    .btn-projects {
-        padding: 12px 28px;
-        font-size: 0.9rem;
-    }
-
-    .top-nav {
-        gap: 12px;
-    }
-
-    .nav-link {
-        font-size: 0.85rem;
-    }
-
-    .hero-image {
-        width: 60%;
-    }
-}
 
 /* =========================================
    ESTILOS DE PÁGINA DE PROYECTO INDIVIDUAL
@@ -2195,16 +2069,17 @@ body {
 
 
 
-}/* =======================================================
-   VISTA MÓVIL DEFINITIVA (Versión "Clean Slate")
-   Pegar esto al final de style.css
+}
+
+/* =======================================================
+   VISTA MÓVIL DEFINITIVA (TEXTOS DERECHA + FOTO AJUSTADA)
    ======================================================= */
 
 @media screen and (max-width: 968px) {
 
     /* --- 1. AJUSTES GENERALES --- */
     body {
-        overflow-x: hidden; /* Evita scroll horizontal */
+        overflow-x: hidden; /* Adiós scroll lateral */
         width: 100%;
     }
     
@@ -2212,87 +2087,95 @@ body {
         padding: 0 20px;
     }
 
-    /* --- 2. MENÚ SUPERIOR (About - Works - Contact) --- */
+    /* --- 2. MENÚ SUPERIOR (Works - About - Contact) --- */
+    /* Alineado totalmente a la DERECHA */
     .top-nav {
         display: flex !important;
-        flex-direction: row !important; /* En fila, no columna */
-        position: absolute;
-        top: 35px;
-        right: 20px !important; /* Pegado a la derecha */
-        left: auto !important;  /* Anulamos cualquier centrado */
+        flex-direction: row !important;
+        justify-content: flex-end !important; /* Empuja todo a la derecha */
+        
+        position: absolute !important;
+        top: 35px !important;
+        right: 10px !important;  /* MARGEN PEQUEÑO (pegado a la derecha) */
+        left: auto !important;   /* Anulamos el centrado */
         transform: none !important;
+        
         gap: 15px !important;
-        z-index: 1001;
         width: auto !important;
+        z-index: 1001 !important;
     }
 
     .nav-link {
-        font-size: 0.8rem !important; /* Texto legible */
-        font-weight: 500;
+        font-size: 0.8rem !important;
         color: #202020 !important;
+        font-weight: 500 !important;
     }
 
-    /* Menú hamburguesa (Izquierda) */
+    /* Menú hamburguesa (Se queda a la Izquierda) */
     .menu-toggle {
         top: 25px;
         left: 20px;
         transform: scale(0.8);
-        border-color: #202020;
     }
 
-    /* --- 3. PORTADA (HOME) - ESTILO FLOTANTE --- */
+    /* --- 3. PORTADA (HOME) --- */
     .hero {
         display: flex;
         flex-direction: row;
         align-items: center;
         height: 100vh;
-        min-height: 600px; /* Evita que se colapse en pantallas cortas */
+        min-height: 500px;
         position: relative;
         overflow: hidden;
-        padding: 0 20px;
+        padding: 0 10px; /* Margen general muy fino */
     }
 
     .hero-content {
         position: relative;
-        width: 100%;
-        margin: 0 !important; /* Reseteamos márgenes */
-        margin-top: -10vh !important;
+        width: 100% !important;
+        margin: 0 !important;
         z-index: 10;
+        margin-top: -10vh !important;
         
-        /* AQUÍ ESTÁ EL CAMBIO QUE PEDISTE: */
-        text-align: right !important; /* Alineamos todo a la derecha */
-        padding-right: 10px; /* Un pequeño aire desde el borde derecho */
-        padding-left: 40px;  /* Empujamos desde la izquierda */
+        /* --- ALINEACIÓN A LA DERECHA --- */
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: flex-end !important; /* Empuja los elementos hijos a la derecha */
+        text-align: right !important;
+        padding-right: 10px !important; /* Pegadito al borde derecho */
     }
 
     .hero-title {
-        font-size: 3.2rem !important;
+        font-size: 3rem !important;
         line-height: 1;
         margin-bottom: 20px;
-        text-align: right; /* Aseguramos alineación derecha */
+        text-align: right !important;
+        width: 100%;
     }
     
     .hero-subtitle {
         font-size: 1rem;
-        margin-left: auto; /* Empuja el subtítulo a la derecha */
+        text-align: right !important;
+        margin-left: auto;
     }
 
     /* Botón Ver Proyectos */
     .btn-projects {
-        font-size: 1rem !important;
-        padding: 12px 30px !important;
-        margin-right: 0; /* Alineado a la derecha */
+        margin-right: 0 !important; /* Pegado a la derecha */
+        margin-left: auto !important;
+        font-size: 0.9rem !important;
+        padding: 12px 25px !important;
     }
 
-    /* --- 4. LA FOTO (Ajustada según tus indicaciones) --- */
+    /* --- 4. LA FOTO (AJUSTADA) --- */
     .hero-image {
         position: absolute !important;
         width: auto !important;
         
-        /* Altura reducida un 10% (antes era más grande) */
+        /* Altura: Reducida al 50vh (antes era 60) */
         height: 50vh !important;       
         
-        /* Más a la derecha para que no tape el texto */
+        /* Posición: Más escondida a la derecha (-40%) */
         right: -40% !important;        
         
         bottom: 0 !important;
@@ -2302,13 +2185,6 @@ body {
         opacity: 1 !important;
         z-index: 1;
         pointer-events: none;
-        filter: grayscale(100%);
-    }
-
-    .hero-image img {
-        width: auto !important;
-        height: 100% !important;
-        object-fit: contain !important;
     }
 
     /* --- 5. MENÚ LATERAL (Pantalla completa) --- */
@@ -2335,6 +2211,7 @@ body {
         grid-template-columns: 1fr !important;
     }
 
+    /* Imágenes de proyecto full ancho */
     .project-gallery-grid img, 
     .project-gallery-grid2 img,
     .full-width-img {
@@ -2343,6 +2220,7 @@ body {
         object-fit: contain;
     }
     
+    /* Textos de proyecto */
     .project-header h1 {
         font-size: 2.5rem !important;
         padding: 0 10px;
