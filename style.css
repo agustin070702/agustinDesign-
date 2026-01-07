@@ -2195,50 +2195,58 @@ body {
 
 
 
-}
-/* =======================================================
-   VISTA MÓVIL (AJUSTADO: FOTO DERECHA + TEXTO DERECHA)
+}/* =======================================================
+   VISTA MÓVIL DEFINITIVA (Versión "Clean Slate")
+   Pegar esto al final de style.css
    ======================================================= */
-@media screen and (max-width: 768px) {
 
-    /* 1. AJUSTES GENERALES */
+@media screen and (max-width: 968px) {
+
+    /* --- 1. AJUSTES GENERALES --- */
     body {
-        overflow-x: hidden;
+        overflow-x: hidden; /* Evita scroll horizontal */
+        width: 100%;
     }
     
     .container, .wrapper {
         padding: 0 20px;
     }
 
-    /* 2. MENÚ SUPERIOR (About - Works - Contact) */
+    /* --- 2. MENÚ SUPERIOR (About - Works - Contact) --- */
     .top-nav {
         display: flex !important;
+        flex-direction: row !important; /* En fila, no columna */
         position: absolute;
-        top: 30px;
-        /* CAMBIO: Lo pegamos mucho más al borde derecho (antes 20px) */
-        right: 10px; 
-        gap: 10px;   
+        top: 35px;
+        right: 20px !important; /* Pegado a la derecha */
+        left: auto !important;  /* Anulamos cualquier centrado */
+        transform: none !important;
+        gap: 15px !important;
         z-index: 1001;
+        width: auto !important;
     }
 
     .nav-link {
-        font-size: 0.75rem; /* Un pelín más chico para que entre bien */
+        font-size: 0.8rem !important; /* Texto legible */
         font-weight: 500;
+        color: #202020 !important;
     }
 
     /* Menú hamburguesa (Izquierda) */
     .menu-toggle {
-        top: 20px;
+        top: 25px;
         left: 20px;
         transform: scale(0.8);
+        border-color: #202020;
     }
 
-    /* 3. PORTADA (HOME) */
+    /* --- 3. PORTADA (HOME) - ESTILO FLOTANTE --- */
     .hero {
         display: flex;
         flex-direction: row;
         align-items: center;
         height: 100vh;
+        min-height: 600px; /* Evita que se colapse en pantallas cortas */
         position: relative;
         overflow: hidden;
         padding: 0 20px;
@@ -2247,61 +2255,84 @@ body {
     .hero-content {
         position: relative;
         width: 100%;
-        text-align: left;
+        margin: 0 !important; /* Reseteamos márgenes */
+        margin-top: -10vh !important;
         z-index: 10;
-        margin-top: -10vh;
         
-        /* --- CAMBIO CLAVE: EMPUJAR TEXTOS A LA DERECHA --- */
-        /* Agregamos un margen izquierdo grande para mover todo el bloque a la derecha */
-        padding-left: 40px; 
+        /* AQUÍ ESTÁ EL CAMBIO QUE PEDISTE: */
+        text-align: right !important; /* Alineamos todo a la derecha */
+        padding-right: 10px; /* Un pequeño aire desde el borde derecho */
+        padding-left: 40px;  /* Empujamos desde la izquierda */
     }
 
     .hero-title {
-        font-size: 3rem; /* Título un poco más compacto */
+        font-size: 3.2rem !important;
         line-height: 1;
         margin-bottom: 20px;
-        text-shadow: 0 2px 10px rgba(0,0,0,0.1); 
+        text-align: right; /* Aseguramos alineación derecha */
     }
-
+    
     .hero-subtitle {
         font-size: 1rem;
-        max-width: 90%;
+        margin-left: auto; /* Empuja el subtítulo a la derecha */
     }
 
-    /* --- CAMBIO CLAVE: IMAGEN --- */
+    /* Botón Ver Proyectos */
+    .btn-projects {
+        font-size: 1rem !important;
+        padding: 12px 30px !important;
+        margin-right: 0; /* Alineado a la derecha */
+    }
+
+    /* --- 4. LA FOTO (Ajustada según tus indicaciones) --- */
     .hero-image {
         position: absolute !important;
-        width: auto;
+        width: auto !important;
         
-        /* 1. ACHICAR: Bajamos de 60vh a 54vh (aprox 10% menos) */
-        height: 54vh;      
+        /* Altura reducida un 10% (antes era más grande) */
+        height: 50vh !important;       
         
-        /* 2. MOVER A LA DERECHA: La escondemos más (de -15% a -35%) */
-        right: -35%;       
+        /* Más a la derecha para que no tape el texto */
+        right: -40% !important;        
         
-        bottom: 0;
-        top: auto;
-        left: auto;
-        opacity: 1;
+        bottom: 0 !important;
+        top: auto !important;
+        left: auto !important;
+        
+        opacity: 1 !important;
         z-index: 1;
         pointer-events: none;
+        filter: grayscale(100%);
     }
 
-    /* 4. MENÚ LATERAL (Full Screen) */
+    .hero-image img {
+        width: auto !important;
+        height: 100% !important;
+        object-fit: contain !important;
+    }
+
+    /* --- 5. MENÚ LATERAL (Pantalla completa) --- */
     .side-menu {
-        width: 100%;
-        left: -100%;
+        width: 100% !important;
+        left: -100% !important;
     }
-    .side-menu .main-link { font-size: 2.5rem; }
+    .side-menu.active {
+        left: 0 !important;
+    }
+    .side-menu .main-link { 
+        font-size: 2.5rem !important; 
+    }
 
-    /* 5. ARREGLOS DE PROYECTOS */
+    /* --- 6. ARREGLOS DE PROYECTOS (Una sola columna) --- */
     .project-gallery-grid, 
     .project-gallery-grid2,
     .two-column-grid,
-    .process-header {
-        display: flex;
-        flex-direction: column;
-        gap: 30px;
+    .process-header,
+    .contact-main-content {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 30px !important;
+        grid-template-columns: 1fr !important;
     }
 
     .project-gallery-grid img, 
@@ -2313,31 +2344,31 @@ body {
     }
     
     .project-header h1 {
-        font-size: 2.8rem;
-        padding: 0 20px;
+        font-size: 2.5rem !important;
+        padding: 0 10px;
     }
     
     .project-description, .intro-text {
-        padding: 0 20px;
-        width: 100%;
+        padding: 0 10px;
+        width: 100% !important;
     }
 
-    /* 6. LIGHTBOX / POPUP */
+    /* --- 7. LIGHTBOX / POPUP --- */
+    .lightbox-content {
+        max-width: 95%;
+    }
     .nav-btn {
         font-size: 25px;
         padding: 15px;
-        background: rgba(0,0,0,0.2);
+        background: rgba(0,0,0,0.3);
         border-radius: 50%;
     }
-    .prev-btn { left: 5px; }
-    .next-btn { right: 5px; }
     
-    /* 7. FOOTER */
+    /* --- 8. FOOTER --- */
     .contact-footer, .project-footer {
         flex-direction: column;
         gap: 20px;
         text-align: center;
         padding: 40px 20px;
     }
-    .footer-right { text-align: center; }
 }
