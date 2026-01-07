@@ -2195,8 +2195,9 @@ body {
 
 
 
-}/* =======================================================
-   VISTA MÓVIL (CORREGIDA - ESTILO PC)
+}
+/* =======================================================
+   VISTA MÓVIL (AJUSTADO: FOTO DERECHA + TEXTO DERECHA)
    ======================================================= */
 @media screen and (max-width: 768px) {
 
@@ -2210,73 +2211,80 @@ body {
     }
 
     /* 2. MENÚ SUPERIOR (About - Works - Contact) */
-    /* ¡Ahora sí se ven! */
     .top-nav {
-        display: flex !important; /* Forzar visibilidad */
+        display: flex !important;
         position: absolute;
         top: 30px;
-        right: 20px; /* Pegado a la derecha */
-        gap: 15px;   /* Espacio entre palabras más pequeño */
-        z-index: 1001; /* Por encima de todo */
+        /* CAMBIO: Lo pegamos mucho más al borde derecho (antes 20px) */
+        right: 10px; 
+        gap: 10px;   
+        z-index: 1001;
     }
 
     .nav-link {
-        font-size: 0.8rem; /* Texto un pelín más chico para que quepa */
+        font-size: 0.75rem; /* Un pelín más chico para que entre bien */
         font-weight: 500;
     }
 
-    /* El menú hamburguesa sigue a la izquierda */
+    /* Menú hamburguesa (Izquierda) */
     .menu-toggle {
         top: 20px;
         left: 20px;
-        transform: scale(0.8); /* Un poco más chico */
+        transform: scale(0.8);
     }
 
-    /* 3. PORTADA (HOME) - ESTILO FLOTANTE COMO PC */
+    /* 3. PORTADA (HOME) */
     .hero {
         display: flex;
-        flex-direction: row; /* Mantenemos dirección fila */
-        align-items: center; /* Centrado vertical */
-        height: 100vh;       /* Pantalla completa */
+        flex-direction: row;
+        align-items: center;
+        height: 100vh;
         position: relative;
-        overflow: hidden;    /* Si la foto corta, que no genere scroll */
+        overflow: hidden;
         padding: 0 20px;
     }
 
     .hero-content {
         position: relative;
-        width: 120%;
-        text-align: left;    /* Alineado a la izquierda */
-        z-index: 10;         /* IMPORTANTE: El texto flota SOBRE la foto */
-        margin-top: -15vh;   /* Subimos el texto un poco */
+        width: 100%;
+        text-align: left;
+        z-index: 10;
+        margin-top: -10vh;
+        
+        /* --- CAMBIO CLAVE: EMPUJAR TEXTOS A LA DERECHA --- */
+        /* Agregamos un margen izquierdo grande para mover todo el bloque a la derecha */
+        padding-left: 40px; 
     }
 
     .hero-title {
-        font-size: 3.2rem;   /* Grande e impactante */
+        font-size: 3rem; /* Título un poco más compacto */
         line-height: 1;
         margin-bottom: 20px;
-        /* Opcional: Sombra suave por si el texto queda sobre parte blanca de la foto */
         text-shadow: 0 2px 10px rgba(0,0,0,0.1); 
     }
 
     .hero-subtitle {
         font-size: 1rem;
-        max-width: 80%;      /* Que no choque con el borde derecho */
+        max-width: 90%;
     }
 
-    /* LA IMAGEN FLOTANTE (Igual que en PC pero ajustada) */
+    /* --- CAMBIO CLAVE: IMAGEN --- */
     .hero-image {
-        position: absolute !important; /* Forzamos posición absoluta */
+        position: absolute !important;
         width: auto;
-        height: 60vh;      /* Altura: 60% de la pantalla */
-        right: 15%;       /* Un poco salida a la derecha para dar profundidad */
-        bottom: 0;         /* Pegada al suelo */
-        top: auto;         /* Ignoramos el top */
-        left: auto;        /* Ignoramos el left */
         
+        /* 1. ACHICAR: Bajamos de 60vh a 54vh (aprox 10% menos) */
+        height: 54vh;      
+        
+        /* 2. MOVER A LA DERECHA: La escondemos más (de -15% a -35%) */
+        right: -35%;       
+        
+        bottom: 0;
+        top: auto;
+        left: auto;
         opacity: 1;
-        z-index: 1;        /* Detrás del texto */
-        pointer-events: none; /* Para que puedas hacer clic en el texto aunque la foto esté encima */
+        z-index: 1;
+        pointer-events: none;
     }
 
     /* 4. MENÚ LATERAL (Full Screen) */
@@ -2286,7 +2294,7 @@ body {
     }
     .side-menu .main-link { font-size: 2.5rem; }
 
-    /* 5. ARREGLOS DE PROYECTOS (Para que no se vean mal) */
+    /* 5. ARREGLOS DE PROYECTOS */
     .project-gallery-grid, 
     .project-gallery-grid2,
     .two-column-grid,
