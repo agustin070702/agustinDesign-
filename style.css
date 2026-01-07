@@ -1900,29 +1900,26 @@ body {
 }
 
 /* =======================================================
-   VISTA MÓVIL BLINDADA (SOLUCIÓN FINAL DE DESBORDAMIENTO)
+   VISTA MÓVIL: ONE COLUMN LAYOUT (TODO EN FILA INDIA)
    ======================================================= */
 
 @media screen and (max-width: 968px) {
 
-    /* 1. ELIMINAR EL DESBORDAMIENTO (La regla de oro) */
+    /* 1. REGLA DE ORO: ANCHO MÁXIMO DEL 100% */
     html, body {
-        max-width: 100% !important;
-        overflow-x: hidden !important; /* Corta cualquier cosa que se salga */
+        overflow-x: hidden !important;
+        max-width: 100vw !important;
         position: relative;
     }
-
-    .container, .wrapper, section {
-        width: 100% !important;
-        max-width: 100vw !important; /* Nunca más ancho que la pantalla */
+    
+    .container, section {
         padding-left: 20px !important;
         padding-right: 20px !important;
+        width: 100% !important;
         box-sizing: border-box !important;
-        margin-left: 0 !important;
-        margin-right: 0 !important;
     }
 
-    /* 2. ARREGLO DE TEXTOS Y MENÚ (Alineados a la derecha) */
+    /* 2. HEADER Y MENÚ (Alineado derecha) */
     .top-nav {
         display: flex !important;
         flex-direction: row !important;
@@ -1931,136 +1928,98 @@ body {
         top: 35px !important;
         right: 15px !important;
         width: auto !important;
-        gap: 15px !important;
     }
     
-    .nav-link { 
-        font-size: 0.85rem !important; 
-        color: #202020 !important;
-    }
-
-    /* 3. HOME: Textos a la derecha, Foto ajustada */
+    /* 3. HOME (Texto derecha, Foto escondida) */
     .hero-content {
-        margin-top: -10vh !important;
         align-items: flex-end !important;
         text-align: right !important;
+        margin-top: -10vh !important;
         padding-right: 10px !important;
     }
-    
-    .hero-title {
-        text-align: right !important;
-        font-size: 2.8rem !important;
-    }
-    
-    .hero-subtitle {
-        text-align: right !important;
-        margin-left: auto !important;
-    }
-
+    .hero-title { font-size: 2.8rem !important; text-align: right !important; }
+    .hero-subtitle { text-align: right !important; margin-left: auto !important; }
     .hero-image {
-        height: 45vh !important; /* Un poco más chica para asegurar */
+        height: 45vh !important;
         right: -35% !important;
         bottom: 0 !important;
     }
 
-    /* 4. CIRUGÍA MAYOR AL ABOUT (Aquí estaba el problema grave) */
+    /* 4. ABOUT: LA "FILA INDIA" (Aquí está tu solución) */
     
-    /* El contenedor principal */
+    /* El contenedor principal se vuelve una columna vertical */
     .about-content {
-        display: flex !important;
-        flex-direction: column !important; /* En columna */
-        width: 100% !important;
-        margin: 0 !important;
-        padding: 0 !important;
-        gap: 40px !important;
-    }
-
-    /* El marco de la foto: RESET TOTAL */
-    .about-photo-frame {
-        position: relative !important; /* Ya no flota libre */
-        top: auto !important;
-        left: auto !important;
-        right: auto !important;
-        bottom: auto !important;
-        
-        width: 100% !important;
-        max-width: 260px !important; /* Ancho máximo controlado */
-        height: auto !important;
-        aspect-ratio: 3/4;
-        
-        margin: 0 auto !important; /* Centrado horizontal */
-        transform: none !important; /* Quitamos rotaciones raras */
-    }
-
-    /* La imagen dentro del marco */
-    .about-image {
-        width: 100% !important;
-        height: 100% !important;
-        object-fit: cover !important;
-    }
-
-    /* El texto del About */
-    .about-text {
-        width: 100% !important;
-        padding: 0 !important;
-        margin: 0 !important;
-        text-align: left !important;
-    }
-
-    /* 5. ARREGLO DE LÍNEAS DE TÍTULOS (Esas rayas negras) */
-    .section-title {
-        width: 100% !important;
-        max-width: 100% !important;
-        overflow: hidden; /* Si la línea es larga, se corta */
-    }
-    
-    .section-title::after {
-        width: 50px !important; /* Línea cortita */
-        left: 0 !important;
-        margin-left: 0 !important;
-    }
-
-    /* 6. HABILIDADES (Skills) */
-    .skills-section {
-        width: 100% !important;
-        padding: 0 !important;
-    }
-    
-    .skills-grid {
         display: flex !important;
         flex-direction: column !important;
         width: 100% !important;
-        gap: 20px !important;
-    }
-
-    .skill-item {
-        width: 100% !important;
+        gap: 40px !important; /* Espacio entre bloques */
         margin: 0 !important;
     }
 
-    /* Barra gris de fondo */
-    .skill-bar-container {
+    /* Texto: Ocupa todo el ancho */
+    .about-text {
+        width: 100% !important;
+        padding: 0 !important;
+        text-align: left !important;
+    }
+
+    /* Foto: Centrada y contenida */
+    .about-photo-frame {
+        position: relative !important;
+        width: 100% !important;
+        max-width: 280px !important;
+        margin: 0 auto !important;
+        left: auto !important;
+        top: auto !important;
+        right: auto !important;
+        transform: none !important;
+    }
+
+    /* 5. ARREGLO DE SKILLS E IDIOMAS (El problema de los márgenes) */
+    
+    .skills-section {
+        width: 100% !important;
+        margin-top: 20px !important;
+    }
+
+    /* Forzamos a que las grillas sean de UNA SOLA columna */
+    .skills-grid, .languages-grid, .grid-2-cols {
+        display: flex !important; /* Cambiamos grid por flex vertical */
+        flex-direction: column !important;
+        width: 100% !important;
+        gap: 20px !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    /* Cada item (habilidad o idioma) ocupa el 100% disponible */
+    .skill-item, .language-item, .skill-bar-container {
         width: 100% !important;
         max-width: 100% !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        box-sizing: border-box !important; /* El borde cuenta dentro del ancho */
+    }
+
+    /* Si usas una lista para los idiomas */
+    .about-content ul, .about-content li {
+        width: 100% !important;
         box-sizing: border-box !important;
     }
     
-    /* Barra negra de progreso */
-    .skill-bar {
-        max-width: 100% !important;
-    }
-
-    /* 7. PROYECTOS Y OTROS */
-    .project-gallery-grid, 
-    .project-gallery-grid2,
-    .process-header {
+    /* 6. OTROS AJUSTES (Proyectos, Footer) */
+    .project-gallery-grid, .process-header {
+        display: flex !important;
+        flex-direction: column !important;
         width: 100% !important;
-        margin: 0 !important;
     }
     
-    .process-slide img,
-    .gallery-item img {
-        max-width: 100% !important;
+    .project-gallery-grid img, .full-width-img {
+        width: 100% !important;
         height: auto !important;
+    }
+    
+    .section-title::after {
+        width: 50px !important; /* Línea decorativa corta */
     }
 }
