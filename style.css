@@ -527,7 +527,7 @@ body {
 
 
 /* =========================================
-   SECCIÓN ABOUT (Dark Mode Elegante)
+   SECCIÓN ABOUT (Dark Mode Elegante - FINAL)
    ========================================= */
 
 .about-section {
@@ -535,7 +535,7 @@ body {
     background-image: radial-gradient(circle at top right, #2a2a2a 0%, #202020 60%);
     color: #dddddd;
     min-height: 100vh;
-    padding: 120px 60px; /* Padding generoso */
+    padding: 120px 60px; /* PC: Padding generoso */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -545,7 +545,7 @@ body {
     max-width: 1200px;
     width: 100%;
     display: grid;
-    grid-template-columns: 40% 55%; /* Columna izq más chica, der más ancha */
+    grid-template-columns: 40% 55%; /* PC: Columna izq más chica, der más ancha */
     gap: 5%;
 }
 
@@ -556,8 +556,6 @@ body {
     gap: 30px;
 }
 
-/* --- Columna Izquierda: Perfil --- */
-
 .about-photo-frame {
     width: 100%;
     max-width: 250px;
@@ -566,20 +564,17 @@ body {
     border-radius: 4px;
     
     /* Estado Inicial */
-    filter: grayscale(100%); /* Blanco y negro */
-    transform: translateY(0); /* Posición original */
-    box-shadow: 0 0 0 rgba(0,0,0,0); /* Sin sombra */
+    filter: grayscale(100%);
+    transform: translateY(0);
+    box-shadow: 0 0 0 rgba(0,0,0,0);
     
-    /* LA CLAVE: Copiamos la misma transición suave del botón (cubic-bezier) */
+    /* Transición suave */
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .about-photo-frame:hover {
-    /* Estado al pasar el mouse */
     filter: grayscale(0%); 
     transform: translateY(-15px); 
-    
-    /* Sombra más grande y difusa para acompañar la altura */
     box-shadow: 0 30px 50px rgba(0, 0, 0, 0.5); 
 }
 
@@ -610,10 +605,10 @@ body {
     line-height: 1.6;
     font-weight: 200;
     color: #cccccc;
-    text-align: margin-left;
-    max-width: 350px; /* Esto iguala el ancho al de tu foto */
-    margin-bottom: 20px; /* Esto crea el espacio entre parrafos */
-    display: block;      /* Asegura que se comporten como bloques separados */
+    text-align: left; /* CORREGIDO: "margin-left" no es un valor válido */
+    max-width: 350px;
+    margin-bottom: 20px;
+    display: block;
 }
 
 /* --- Columna Derecha: Resume --- */
@@ -642,7 +637,7 @@ body {
 /* Items de Experiencia y Estudios */
 .resume-item {
     display: grid;
-    grid-template-columns: 100px 1fr; /* Año a la izq, info a la der */
+    grid-template-columns: 100px 1fr; /* Año fijo, info flexible */
     gap: 20px;
 }
 
@@ -667,10 +662,8 @@ body {
     color: #aaaaaa;
 }
 
-/* Barras de Software (Estilo personalizado) */
-.skill-bar {
-    margin-bottom: 15px;
-}
+/* Barras de Software */
+.skill-bar { margin-bottom: 15px; }
 
 .skill-name {
     display: block;
@@ -682,24 +675,22 @@ body {
 .bar-container {
     width: 100%;
     height: 2px;
-    background-color: #444444; /* Fondo oscuro de la barra */
+    background-color: #444444;
     position: relative;
 }
 
 .bar-fill {
     height: 100%;
-    background-color: #dddddd; /* Relleno claro */
+    background-color: #dddddd;
     position: absolute;
-    top: 0;
-    left: 0;
+    top: 0; left: 0;
 }
 
-/* El círculo al final de la barra */
 .bar-fill::after {
     content: '';
     position: absolute;
-    right: -6px; /* Ajuste para centrar el punto */
-    top: -5px;   /* Ajuste vertical */
+    right: -6px;
+    top: -5px;
     width: 12px;
     height: 12px;
     background-color: #dddddd;
@@ -725,6 +716,71 @@ body {
     color: #888;
 }
 
+/* =========================================
+   REGLAS MÓVILES (Aquí está la solución)
+   ========================================= */
+@media screen and (max-width: 968px) {
+    
+    /* 1. Ajuste del contenedor principal (Regla del Aire) */
+    .about-section {
+        padding: 60px 20px; /* Reducimos padding drásticamente */
+        display: block; /* Quitamos el flex centrado para que fluya natural */
+    }
+
+    /* 2. Romper la Grilla (Regla de Estructura) */
+    .about-container {
+        display: flex;
+        flex-direction: column; /* Apilamos verticalmente */
+        gap: 60px; /* Espacio entre Perfil y Resume */
+        width: 100%;
+    }
+
+    /* 3. Ajustes de la Columna Perfil (Regla de Orden y Centro) */
+    .about-profile {
+        width: 100%;
+        align-items: center; /* Centramos foto y textos */
+        text-align: center;
+    }
+
+    .about-photo-frame {
+        margin: 0 auto; /* Centrar foto */
+    }
+    
+    .about-bio {
+        text-align: center; /* Texto centrado se lee mejor en móvil aquí */
+        max-width: 100%;
+    }
+
+    /* 4. Ajustes del Resume */
+    .about-resume {
+        width: 100%;
+        padding-top: 0;
+    }
+
+    /* Ajuste crítico para que los años no se aplasten */
+    .resume-item {
+        grid-template-columns: 80px 1fr; /* Reducimos un poco la columna del año */
+        gap: 15px;
+    }
+    
+    /* Si la pantalla es MUY pequeña (celulares antiguos), apilamos años */
+    @media screen and (max-width: 480px) {
+        .resume-item {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        .resume-item .year {
+            text-align: left; /* Año a la izquierda */
+            color: #dddddd; /* Destacarlo un poco más */
+        }
+        
+        .languages-grid {
+            flex-direction: column; /* Idiomas uno bajo otro */
+            gap: 20px;
+        }
+    }
+}
 
 
 /* =========================================
