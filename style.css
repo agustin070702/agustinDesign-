@@ -378,7 +378,6 @@ body {
     min-height: 100vh;
 }
 
-/* Responsive */
 
 
 
@@ -1899,62 +1898,155 @@ body {
 
 }
 
-/* =======================================================
-   CORRECCIÓN DEFINITIVA DEL ABOUT (Mobile)
-   ======================================================= */
+
+/* ==========================================================================
+   VISTA MÓVIL MAESTRA (SOLUCIÓN FINAL - PEGAR AL FINAL DE STYLE.CSS)
+   ========================================================================== */
 
 @media screen and (max-width: 968px) {
 
-    /* 1. APAGAR EL GRID (La clave del éxito) */
-    .about-content {
-        display: block !important; /* Desactiva Grid y Flex, usa bloques simples */
+    /* --- 1. REGLAS DE SEGURIDAD (Evita que se rompa el ancho) --- */
+    html, body {
+        overflow-x: hidden !important;
         width: 100% !important;
-        height: auto !important;
-        margin: 0 !important;
-        padding: 0 20px !important; /* Un poco de aire a los lados */
+        max-width: 100vw !important;
+    }
+    
+    .container, section, .wrapper {
+        width: 100% !important;
+        max-width: 100vw !important;
+        padding-left: 20px !important;
+        padding-right: 20px !important;
+        box-sizing: border-box !important;
     }
 
-    /* 2. LA FOTO (Bloque superior) */
-    /* Al ser block, ocupará su propia línea automáticamente */
+    /* --- 2. HEADER Y MENÚ (Alineado a la derecha) --- */
+    .top-nav {
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: flex-end !important;
+        position: absolute !important;
+        top: 35px !important;
+        right: 20px !important;
+        width: auto !important;
+        gap: 15px !important;
+        z-index: 999;
+    }
+
+    /* Menú lateral (Pantalla completa) */
+    .side-menu {
+        width: 100% !important;
+        left: -100% !important;
+    }
+    .side-menu.active {
+        left: 0 !important;
+    }
+
+    /* --- 3. HOME (Texto Derecha, Foto abajo derecha) --- */
+    .hero-content {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: flex-end !important; /* Todo a la derecha */
+        text-align: right !important;
+        margin-top: -5vh !important;
+        padding-right: 10px !important;
+    }
+
+    .hero-image {
+        height: 40vh !important;
+        right: -30% !important; /* Foto hacia la derecha */
+        bottom: 5vh !important;
+        position: absolute !important;
+    }
+
+    /* --- 4. ABOUT (UNA SOLA COLUMNA - ARREGLADO) --- */
+    
+    /* Contenedor Principal: Se convierte en Torre Vertical */
+    .about-content {
+        display: flex !important;
+        flex-direction: column !important; /* Uno debajo del otro */
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        gap: 40px !important;
+        grid-template-columns: 1fr !important; /* Desactiva columnas PC */
+    }
+
+    /* LA FOTO (Va Primero) */
     .about-photo-frame {
         width: 100% !important;
-        max-width: 280px !important; /* Controlamos que no sea gigante */
+        max-width: 280px !important; /* Tamaño controlado */
         height: auto !important;
-        aspect-ratio: 3/4 !important; /* Mantiene la proporción vertical */
+        aspect-ratio: 3/4 !important;
         
-        /* Centrado */
         display: block !important;
-        margin-left: auto !important;
-        margin-right: auto !important;
-        margin-bottom: 40px !important; /* Empuja el texto hacia abajo */
+        margin: 0 auto !important; /* Centrada */
+        order: -1 !important;      /* Orden -1 asegura que suba al principio */
         
-        /* Reset de posiciones */
         position: relative !important;
-        left: auto !important;
-        top: auto !important;
+        top: auto !important; left: auto !important;
+        transform: none !important;
     }
-
-    /* Imagen interna */
-    .about-photo-frame img, 
-    .about-image {
+    
+    .about-photo-frame img, .about-image {
         width: 100% !important;
         height: 100% !important;
         object-fit: cover !important;
     }
 
-    /* 3. EL TEXTO (Bloque inferior) */
+    /* EL TEXTO (Va Segundo) */
     .about-text {
         width: 100% !important;
+        max-width: 100% !important;
         padding: 0 !important;
         margin: 0 !important;
-        
-        /* Asegurar que el texto fluya normal */
         display: block !important;
         text-align: left !important;
+        order: 2 !important;
     }
 
-    /* Ajuste extra para los títulos dentro del texto */
-    .about-text h2 {
-        margin-top: 0 !important;
+    /* --- 5. SKILLS E IDIOMAS (Control de desborde) --- */
+    .skills-grid, .languages-grid {
+        display: flex !important;
+        flex-direction: column !important;
+        width: 100% !important;
+        gap: 20px !important;
+    }
+
+    .skill-item, .language-item, .about-text ul, .about-text li {
+        width: 100% !important;
+        box-sizing: border-box !important;
+        margin-left: 0 !important;
+        padding-left: 0 !important;
+    }
+    
+    .about-text ul {
+        list-style-position: inside !important;
+    }
+
+    /* --- 6. PROYECTOS (Una columna) --- */
+    .project-gallery-grid, .project-gallery-grid2, .process-header {
+        display: flex !important;
+        flex-direction: column !important;
+        width: 100% !important;
+        gap: 30px !important;
+    }
+
+    .project-gallery-grid img, .full-width-img {
+        width: 100% !important;
+        height: auto !important;
+        object-fit: contain !important;
+    }
+    
+    .section-title::after {
+        width: 60px !important;
+    }
+    
+    /* Footer */
+    .contact-footer {
+        flex-direction: column !important;
+        text-align: center;
+        gap: 20px;
+        padding: 40px 20px !important;
     }
 }
