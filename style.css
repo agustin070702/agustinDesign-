@@ -452,7 +452,7 @@ body {
         /* Bajamos de 4.5rem a 3.5rem. 
            Esto es lo suficientemente grande para impactar, 
            pero cabe "avendaño" sin salirse. */
-        font-size: 3.5rem; 
+        font-size: 4rem; 
         
         line-height: 0.95; /* Un poco más pegadito verticalmente */
         margin-bottom: 20px;
