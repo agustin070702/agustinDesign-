@@ -346,17 +346,18 @@ body {
     box-shadow: 0 10px 20px rgba(32, 32, 32, 0.2);
 }
 
-/* Imagen hero */
+/* Imagen hero - CORREGIDO */
 .hero-image {
     position: absolute;
     left: 0;
     bottom: 0;
-    width: 90%;
-    height: 130vh;
+    width: 100%; /* CAMBIO CLAVE 1: Ocupa todo el ancho */
+    height: 100vh; /* CAMBIO CLAVE 2: Altura de pantalla normal, no exagerada */
     overflow: hidden;
     animation: fadeIn 1.2s ease forwards;
     animation-delay: 0.3s;
     opacity: 0;
+    z-index: 1; /* Aseguramos que esté detrás del texto si es necesario */
 }
 
 @keyframes fadeIn {
@@ -369,15 +370,9 @@ body {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center top;
+    object-position: center top; /* Mantiene el foco arriba al centro */
     filter: grayscale(100%);
 }
-
-/* Secciones temporales */
-.temp-section {
-    min-height: 100vh;
-}
-
 
 
 
