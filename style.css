@@ -291,10 +291,21 @@ body {
     }
 }
 
+/* =========================================
+   TEXTOS HERO (Título, Subtítulo y Botón)
+   ========================================= */
+
+/* --- 1. TÍTULO (TU NOMBRE) --- */
 .hero-title {
-    font-size: 6rem;
+    font-size: 6rem;            /* TAMAÑO PC (Tu diseño original) */
+    font-weight: 400;
     line-height: 0.9;
-    margin-bottom: 50px;
+    margin-bottom: 30px;
+    color: #202020;
+    
+    /* Animación de entrada */
+    opacity: 0;
+    animation: fadeUp 1s forwards 0.5s;
 }
 
 .name-first {
@@ -308,22 +319,47 @@ body {
     letter-spacing: -0.08em;
 }
 
-.btn-projects {
-    display: inline-block;
-    padding: 15px 45px;
-    font-size: 1.5rem;
-    font-weight: 200;
-    font-style: italic;
-    letter-spacing: -0.05em;
-    color: #202020;
-    text-decoration: none;
-    border: 2px solid #202020;
-    border-radius: 25px;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-    overflow: hidden;
+
+/* --- 3. BOTÓN (VER PROYECTOS) --- */
+
+/* 1. EL CONTENEDOR: Se encarga SOLO de la animación de entrada */
+.btn-container {
+    display: inline-block; /* Para que se ajuste al tamaño del botón */
+    opacity: 0;
+    
+    /* Aquí va el 'fadeUp' para que aparezca desde abajo al cargar la página */
+    animation: fadeUp 1s forwards 0.9s;
 }
 
+/* 2. EL BOTÓN: Se encarga SOLO del diseño y el movimiento Hover */
+.btn-projects {
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    display: block; /* Ocupa el espacio del contenedor */
+    padding: 15px 45px;
+    border: 2px solid #202020;
+    border-radius: 25px;
+    
+    /* Tipografía */
+    font-size: 0.9rem;
+    font-weight: 250;
+    font-style: italic;
+    color: #202020;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+
+    /* LA MAGIA DE LA FLUIDEZ: 
+       Usamos una curva suave (cubic-bezier) para que flote al moverse.
+       0.6s es el tiempo perfecto para que se sienta "premium". */
+    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), 
+                color 0.6s ease, 
+                box-shadow 0.6s ease;
+}
+
+/* Fondo Negro (Animación de llenado) */
 .btn-projects::before {
     content: '';
     position: absolute;
@@ -332,45 +368,126 @@ body {
     width: 100%;
     height: 100%;
     background-color: #202020;
-    transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    /* Sincronizado con el botón (0.6s) */
+    transition: left 0.6s cubic-bezier(0.25, 1, 0.5, 1);
     z-index: -1;
 }
 
+/* --- ESTADO HOVER (Cuando pasas el mouse) --- */
+
 .btn-projects:hover::before {
-    left: 0;
+    left: 0; /* El color llena el botón */
 }
 
 .btn-projects:hover {
     color: #dddddd;
-    transform: translateY(-15px);
-    box-shadow: 0 10px 20px rgba(32, 32, 32, 0.2);
+    
+    /* MOVIMIENTO SUAVE */
+    /* Al no tener conflicto con la animación de entrada, 
+       esto subirá flotando suavemente, sin saltos. */
+    transform: translateY(-10px); 
+    
+    box-shadow: 0 15px 25px rgba(32, 32, 32, 0.2);
 }
 
-/* Imagen hero - CORREGIDO */
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px); /* Empieza 40px más abajo */
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);    /* Termina en su lugar original */
+    }
+}
+
+/* =========================================
+   REGLAS DE ADAPTACIÓN (RESPONSIVE)
+   ========================================= */
+
+/* A. PARA TABLETS Y LAPTOPS PEQUEÑAS (Max 1024px) */
+@media screen and (max-width: 1024px) {
+    .hero-title {
+        font-size: 4.5rem;      /* El nombre baja de 6rem a 4.5rem */
+    }
+
+    .hero-subtitle {
+        font-size: 1rem;
+        max-width: 100%;        /* Aprovechamos más espacio */
+    }
+}
+
+/* B. PARA CELULARES (Max 768px) */
+@media screen and (max-width: 768px) {
+    .hero-content {
+        width: 100%;            /* El contenedor de texto usa todo el ancho */
+        padding-right: 20px;    /* Margen de seguridad a la derecha */
+    }
+
+    .hero-title {
+        font-size: 3.2rem;      /* El nombre baja a un tamaño seguro para móvil */
+        margin-bottom: 20px;
+    }
+
+    .hero-subtitle {
+        font-size: 0.95rem;
+        margin-bottom: 30px;
+    }
+
+    .btn-projects {
+        padding: 12px 30px;     /* Botón más compacto */
+        font-size: 0.85rem;
+    }
+}
+
+/* =========================================
+   IMAGEN HERO (Responsive)
+   ========================================= */
+
 .hero-image {
     position: absolute;
     left: 0;
-    bottom: 0;
-    width: 100%; /* CAMBIO CLAVE 1: Ocupa todo el ancho */
-    height: 100vh; /* CAMBIO CLAVE 2: Altura de pantalla normal, no exagerada */
+    bottom: 0;       /* Anclada al piso del contenedor */
+    width: 100%;     /* Ancho total */
+    height: 100vh;   /* IMPORTANTE: Altura exacta de la pantalla (ya no 130vh) */
+    
     overflow: hidden;
     animation: fadeIn 1.2s ease forwards;
     animation-delay: 0.3s;
     opacity: 0;
-    z-index: 1; /* Aseguramos que esté detrás del texto si es necesario */
+    z-index: 1;
+}
+
+/* 2. EN TABLETS (Pantallas medianas) */
+@media screen and (max-width: 1024px) {
+    .hero-image {
+        height: 70vh; /* Ocupa el 70% de la altura */
+    }
+}
+
+/* 3. EN MÓVILES (Pantallas chicas) */
+@media screen and (max-width: 768px) {
+    .hero-image {
+        height: 55vh; /* Ocupa poco más de la mitad */
+    }
 }
 
 @keyframes fadeIn {
-    to {
-        opacity: 1;
-    }
+    to { opacity: 1; }
 }
 
 .hero-image img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    object-position: center top; /* Mantiene el foco arriba al centro */
+    object-fit: cover; /* Cubre todo el espacio sin deformarse */
+    
+    /* LA CLAVE MAESTRA:
+       - El primer valor (50%) es la posición horizontal (Izquierda/Derecha).
+       - El segundo valor (bottom) obliga a la foto a pegarse ABAJO. 
+    */
+    object-position: 50% bottom; 
+    
     filter: grayscale(100%);
 }
 
