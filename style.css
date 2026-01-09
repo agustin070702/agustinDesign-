@@ -976,7 +976,7 @@ body {
     background-color: #dddddd; /* Mismo fondo que Works */
     color: #202020;            /* Texto oscuro */
     min-height: 90vh;
-    padding: 60px 60px 40px 60px; /* Padding ajustado */
+    padding: 60px 60px 40px 60px; /* Padding ajustado PC */
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
@@ -988,14 +988,12 @@ body {
     margin: 0 auto;
 }
 
-/* --- CONTENIDO PRINCIPAL --- */
+/* --- CONTENIDO PRINCIPAL (PC: DOS COLUMNAS) --- */
 .contact-main-content {
     display: grid;
     grid-template-columns: 1.2fr 1fr; /* Izquierda un poco más ancha */
     gap: 60px;
     margin-bottom: 80px;
-    
-    /* CLAVE: Esto hace que ambas columnas tengan la misma altura */
     align-items: stretch; 
 }
 
@@ -1008,7 +1006,7 @@ body {
 }
 
 .big-arrow-container {
-    margin-bottom: 30px; /* Espacio entre la flecha y el título "Let's" */
+    margin-bottom: 30px; 
 }
 
 .big-arrow-container svg {
@@ -1021,12 +1019,9 @@ body {
 .contact-big-title {
     font-size: 7rem;
     font-weight: 700;
-    line-height: 0.85; /* Reducido para juntar las líneas */
+    line-height: 0.85; 
     letter-spacing: -0.06em;
     color: #202020;
-    
-    /* TRUCO VISUAL: Margen negativo para que la base de la letra 
-       coincida con la base de la fecha a la derecha */
     margin-bottom: -15px; 
 }
 
@@ -1034,8 +1029,8 @@ body {
 .contact-right {
     display: flex;
     flex-direction: column;
-    justify-content: space-between; /* Separa al máximo: Detalles arriba, Fecha abajo */
-    padding-top: 15px; /* Un poco de aire arriba para alinear con la altura visual del título */
+    justify-content: space-between; 
+    padding-top: 15px; 
 }
 
 /* Parte Superior: Grid para Email y Social */
@@ -1122,8 +1117,6 @@ body {
     font-size: 0.9rem;
     color: #666;
     letter-spacing: 0.05em;
-    
-    /* Alineación final con el borde inferior del título */
     margin-bottom: 8px; 
 }
 
@@ -1180,6 +1173,63 @@ body {
 
 .back-to-top:hover {
     opacity: 0.6;
+}
+
+/* =========================================================
+   AQUÍ ESTÁ LA SOLUCIÓN MÓVIL (Sin tocar PC)
+   ========================================================= */
+@media screen and (max-width: 968px) {
+
+    /* 1. Ajuste del Padding del contenedor */
+    .contact-section {
+        padding: 60px 20px 30px 20px !important; /* Más estrecho a los lados */
+    }
+
+    /* 2. ROMPER EL GRID PRINCIPAL: Todo en una columna vertical */
+    .contact-main-content {
+        display: flex !important;
+        flex-direction: column !important; /* Apilado vertical */
+        gap: 50px !important;
+        margin-bottom: 40px !important;
+    }
+
+    /* 3. Ajuste del Título Gigante */
+    .contact-big-title {
+        font-size: 3.5rem !important; /* Mucho más pequeño para que quepa */
+        line-height: 1 !important;
+        margin-bottom: 0 !important;
+    }
+    
+    .big-arrow-container svg {
+        width: 50px !important; /* Flecha un poco más chica */
+        height: 50px !important;
+    }
+
+    /* 4. Columna Derecha (Email/Social/Reloj) */
+    .contact-right {
+        width: 100% !important;
+        padding-top: 0 !important;
+        gap: 40px !important;
+    }
+
+    /* 5. Romper el Grid de Email y Social (Poner uno bajo otro) */
+    .contact-details-top {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 30px !important;
+    }
+
+    /* 6. Ajuste del Footer (Apilado y centrado) */
+    .contact-footer {
+        flex-direction: column !important;
+        gap: 20px !important;
+        text-align: center !important;
+        align-items: center !important;
+    }
+
+    .footer-right {
+        justify-content: center !important;
+    }
 }
 
 
