@@ -422,25 +422,87 @@ body {
 
 /* B. PARA CELULARES (Max 768px) */
 @media screen and (max-width: 768px) {
+
+    /* 1. QUITAMOS EL RELLENO GIGANTE DEL PADRE */
+    .hero {
+        padding: 0 20px; /* Bajamos de 60px a 20px (o 10px si quieres más al borde) */
+        
+        /* Opcional: Alinear todo el bloque flexible a la derecha si hace falta */
+        justify-content: flex-end; 
+    }
+    
     .hero-content {
-        width: 100%;            /* El contenedor de texto usa todo el ancho */
-        padding-right: 5px;    /* Margen de seguridad a la derecha */
-        transform: translateY(-30px);
+        width: 100%;
+        /* 1. ALINEACIÓN A LA DERECHA */
+        text-align: right; 
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end; /* Fuerza a los hijos flexibles a la derecha */
+        
+        /* 2. ESPACIO DE SEGURIDAD */
+        /* 5px era muy poco, aumentamos a 20px para que no se pegue al borde */
+        padding-right: 10px; 
+        box-sizing: border-box; /* Evita que el padding sume al ancho total */
+        margin-bottom: 50px;
+
     }
 
     .hero-title {
-        font-size: 4.5rem;      /* El nombre baja a un tamaño seguro para móvil */
+        /* 3. TAMAÑO SEGURO */
+        /* Bajamos de 4.5rem a 3.5rem. 
+           Esto es lo suficientemente grande para impactar, 
+           pero cabe "avendaño" sin salirse. */
+        font-size: 3.5rem; 
+        
+        line-height: 0.95; /* Un poco más pegadito verticalmente */
         margin-bottom: 20px;
+        word-break: normal; /* Evita que rompa la palabra mal */
+    }
+
+    /* Ajuste fino para apellido largo si es necesario */
+    .name-last {
+        display: inline-block; /* Ayuda a que respete los márgenes */
     }
 
     .hero-subtitle {
         font-size: 0.95rem;
         margin-bottom: 30px;
+        /* Aseguramos que el subtítulo también se vaya a la derecha */
+        margin-left: auto; 
     }
 
     .btn-projects {
-        padding: 12px 30px;     /* Botón más compacto */
+        padding: 12px 30px;
         font-size: 0.75rem;
+        border: 1px solid #202020;
+
+        /* El botón ya se alineará a la derecha por el flex-end del padre */
+    }
+
+    /* --- NUEVO: MENÚ VERTICAL ALINEADO A LA DERECHA --- */
+    .top-nav {
+        /* 1. Cambiamos de fila a columna */
+        flex-direction: column;
+        
+        /* 2. Alineamos los items a la derecha (igual que tu nombre) */
+        align-items: flex-end;
+        
+        /* 3. Ajustamos la separación vertical entre links */
+        gap: 15px; 
+        
+        /* 4. Posición exacta */
+        /* Lo ponemos arriba a la derecha. 
+           'right: 30px' coincide visualmente con el padding de 20px + 10px de seguridad */
+        top: 30px; 
+        right: -70px; 
+        
+        /* Aseguramos que no ocupe todo el ancho para que no bloquee clics */
+        width: auto; 
+    }
+
+    /* Opcional: Si quieres la letra un pelín más chica en el menú vertical */
+    .nav-link {
+        font-size: 1.2rem;
     }
 }
 
