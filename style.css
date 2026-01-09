@@ -452,7 +452,7 @@ body {
         /* Bajamos de 4.5rem a 3.5rem. 
            Esto es lo suficientemente grande para impactar, 
            pero cabe "avendaño" sin salirse. */
-        font-size: 3.5rem; 
+        font-size: 3.0rem; 
         
         line-height: 0.95; /* Un poco más pegadito verticalmente */
         margin-bottom: 20px;
@@ -494,7 +494,7 @@ body {
         /* Lo ponemos arriba a la derecha. 
            'right: 30px' coincide visualmente con el padding de 20px + 10px de seguridad */
         top: 30px; 
-        right: -70px; 
+        right: 30px; 
         
         /* Aseguramos que no ocupe todo el ancho para que no bloquee clics */
         width: auto; 
