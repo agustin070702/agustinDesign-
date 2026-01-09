@@ -278,6 +278,8 @@ body {
     text-align: right;   
     animation: fadeInUp 1s ease forwards;
     opacity: 0;
+    /* Al darle margen abajo, "empujamos" el texto hacia arriba */
+    margin-bottom: 35vh; /* Prueba con 10vh, 15vh o 20vh hasta que te guste */
 }
 
 @keyframes fadeInUp {
@@ -409,7 +411,7 @@ body {
 /* A. PARA TABLETS Y LAPTOPS PEQUEÑAS (Max 1024px) */
 @media screen and (max-width: 1024px) {
     .hero-title {
-        font-size: 4.5rem;      /* El nombre baja de 6rem a 4.5rem */
+        font-size: 5.5rem;      /* El nombre baja de 6rem a 4.5rem */
     }
 
     .hero-subtitle {
@@ -422,11 +424,12 @@ body {
 @media screen and (max-width: 768px) {
     .hero-content {
         width: 100%;            /* El contenedor de texto usa todo el ancho */
-        padding-right: 20px;    /* Margen de seguridad a la derecha */
+        padding-right: 5px;    /* Margen de seguridad a la derecha */
+        transform: translateY(-30px);
     }
 
     .hero-title {
-        font-size: 3.2rem;      /* El nombre baja a un tamaño seguro para móvil */
+        font-size: 4.5rem;      /* El nombre baja a un tamaño seguro para móvil */
         margin-bottom: 20px;
     }
 
@@ -437,7 +440,7 @@ body {
 
     .btn-projects {
         padding: 12px 30px;     /* Botón más compacto */
-        font-size: 0.85rem;
+        font-size: 0.75rem;
     }
 }
 
