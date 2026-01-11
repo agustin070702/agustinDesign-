@@ -481,28 +481,30 @@ body {
 
     /* --- NUEVO: MENÚ VERTICAL ALINEADO A LA DERECHA --- */
     .top-nav {
-        /* 1. Cambiamos de fila a columna */
-        flex-direction: column;
+        /* 1. POSICIÓN ABSOLUTA */
+        position: absolute;
         
-        /* 2. Alineamos los items a la derecha (igual que tu nombre) */
-        align-items: flex-end;
-        
-        /* 3. Ajustamos la separación vertical entre links */
-        gap: 15px; 
-        
-        /* 4. Posición exacta */
-        /* Lo ponemos arriba a la derecha. 
-           'right: 30px' coincide visualmente con el padding de 20px + 10px de seguridad */
-        top: 30px; 
+        /* 2. LA ECUACIÓN DE ALINEACIÓN */
+        /* Coincide con el margen visual de tu nombre */
         right: 30px; 
+        top: 40px; 
+
+        /* 3. MODO COLUMNA */
+        display: flex;
+        flex-direction: column;    /* Uno debajo del otro */
+        align-items: flex-end;     /* Pegados a la derecha */
+        gap: 15px;                 /* Espacio entre Works, About, Contact */
         
-        /* Aseguramos que no ocupe todo el ancho para que no bloquee clics */
-        width: auto; 
+        /* 4. LIMPIEZA */
+        width: auto;
+        left: auto;
     }
 
-    /* Opcional: Si quieres la letra un pelín más chica en el menú vertical */
     .nav-link {
-        font-size: 1.2rem;
+        /* Opcional: Un tamaño cómodo para tocar con el dedo en tablet */
+        font-size: 1rem; 
+        line-height: 1;
+        margin: 0;
     }
 }
 
