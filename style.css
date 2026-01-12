@@ -570,23 +570,39 @@ body {
 
     /* 1. ANCHO DEL MENÚ */
     .side-menu {
-        /* Usamos 85% para que sea ancho pero deje ver un borde del fondo */
+        /* ESTO ES LO QUE FALTABA: Forzamos que se esconda a la izquierda */
+        position: fixed; /* Asegura que flote */
+        left: -100% !important; /* ¡Vete fuera de la pantalla! */
+        top: 0;
+        
+        /* Tus ajustes de diseño */
         width: 85%; 
-        padding: 30px; /* Más espacio interno para que no se pegue al borde */
+        height: 100%; /* Que ocupe todo el alto */
+        padding: 30px;
+        
+        /* Aseguramos que la transición sea suave al abrir */
+        transition: left 0.5s ease;
+        z-index: 999; /* Debajo del botón (que tiene 99999), encima del resto */
+        
+        /* Si tu fondo es negro, asegúrate de definirlo aquí también */
+        /* background-color: #dddddd; */ 
+    }
+    
+    /* IMPORTANTE: Cuando se abre (tiene clase .active), lo traemos a la vista */
+    .side-menu.active {
+        left: 0 !important; /* ¡Vuelve a la pantalla! */
     }
 
     /* 2. TIPOGRAFÍA MÁS CHICA (Para que no se rompa) */
     .main-link {
-        /* Bajamos el tamaño para que palabras largas como "Contact" quepan bien */
         font-size: 2.8rem !important;
-        
-        line-height: 1.1; /* Más pegadito para que se vea compacto */
+        line-height: 1.1;
     }
 
     /* 3. SUBMENÚS (Proyectos) */
     .submenu li a {
         font-size: 1.2rem !important;
-        padding: 8px 0; /* Más espacio para el dedo */
+        padding: 2px 0; /* Más espacio para el dedo */
     }
     
     .submenu {
