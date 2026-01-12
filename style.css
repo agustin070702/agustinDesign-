@@ -15,51 +15,89 @@ body {
     overflow-x: hidden;
 }
 
-/* Menú hamburguesa */
+/* =========================================
+   MENÚ HAMBURGUESA (ICONO)
+   ========================================= */
 .menu-toggle {
     position: fixed;
     top: 30px;
     left: 30px;
     width: 60px;
     height: 60px;
+    
+    /* DISEÑO INICIAL (Cerrado) */
     background: transparent;
     border: 2px solid #202020;
     border-radius: 8px;
     cursor: pointer;
+    
+    /* ALINEACIÓN DE LAS RAYITAS */
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 6px;
-    z-index: 1000;
+    
+    /* IMPORTANTE: Este gap de 6px define la matemática de la X */
+    gap: 6px; 
+    
+    /* CAPA SUPREMA: 99999 asegura que NADA (ni el menú abierto) lo tape */
+    z-index: 99999; 
     transition: all 0.3s ease;
 }
 
+/* Efecto Hover cuando está cerrado (Fondo negro, líneas claras) */
 .menu-toggle:hover {
     background: #202020;
 }
 
+/* Las 3 rayitas (Spans) */
 .menu-toggle span {
+    display: block;
     width: 24px;
-    height: 2px;
+    height: 2px; /* Altura de la línea */
     background-color: #202020;
     transition: all 0.3s ease;
 }
 
+/* Color de líneas al pasar el mouse (cuando está cerrado) */
 .menu-toggle:hover span {
     background-color: #dddddd;
 }
 
-.menu-toggle.active span:nth-child(1) {
-    transform: rotate(45deg) translate(7px, 7px);
+/* =========================================
+   ESTADO ACTIVO (CUANDO SE ABRE EL MENÚ)
+   ========================================= */
+
+/* 1. EL BOTÓN PIERDE EL BORDE */
+.menu-toggle.active {
+    border-color: transparent;
+    background-color: transparent;
 }
 
+/* Evitamos que el fondo cambie al pasar el mouse cuando ya es una X */
+.menu-toggle.active:hover {
+    background-color: transparent;
+}
+
+/* 2. LA MATEMÁTICA DE LA "X" */
+/* Cálculo: Gap (6px) + Altura Línea (2px) = 8px de movimiento */
+
+/* Línea SUPERIOR: Baja 8px y rota 45° */
+.menu-toggle.active span:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+    background-color: #ffffff !important;
+}
+
+/* Línea MEDIO: Se desvanece hacia la izquierda */
 .menu-toggle.active span:nth-child(2) {
     opacity: 0;
+    transform: translateX(-15px);
 }
 
+/* Línea INFERIOR: Sube 8px y rota -45° */
 .menu-toggle.active span:nth-child(3) {
-    transform: rotate(-45deg) translate(7px, -7px);
+    transform: translateY(-8px) rotate(-45deg);
+    background-color: #ffffff !important;
 }
 
 /* Menú lateral */
@@ -418,6 +456,23 @@ body {
         font-size: 1rem;
         max-width: 100%;        /* Aprovechamos más espacio */
     }
+
+    /* 1. Texto Principal (Home, Works...) un poco más chico que en PC */
+    .main-link {
+        font-size: 3.5rem !important; /* Forzamos el cambio */
+        line-height: 1.2;
+    }
+
+    /* 2. Submenú (Proyectos) */
+    .submenu li a {
+        font-size: 1.4rem !important;
+    }
+    
+    /* 3. Flecha */
+    .arrow {
+        font-size: 2rem;
+    }
+
 }
 
 /* B. PARA CELULARES (Max 768px) */
@@ -506,7 +561,52 @@ body {
         line-height: 1;
         margin: 0;
     }
+
+
+
+    /* =========================================
+       ARREGLO DEL MENÚ LATERAL (HAMBURGUESA)
+       ========================================= */
+
+    /* 1. ANCHO DEL MENÚ */
+    .side-menu {
+        /* Usamos 85% para que sea ancho pero deje ver un borde del fondo */
+        width: 85%; 
+        padding: 30px; /* Más espacio interno para que no se pegue al borde */
+    }
+
+    /* 2. TIPOGRAFÍA MÁS CHICA (Para que no se rompa) */
+    .main-link {
+        /* Bajamos el tamaño para que palabras largas como "Contact" quepan bien */
+        font-size: 2.8rem !important;
+        
+        line-height: 1.1; /* Más pegadito para que se vea compacto */
+    }
+
+    /* 3. SUBMENÚS (Proyectos) */
+    .submenu li a {
+        font-size: 1.2rem !important;
+        padding: 8px 0; /* Más espacio para el dedo */
+    }
+    
+    .submenu {
+        margin: 15px 0; /* Separación limpia arriba y abajo */
+    }
+
+    /* 4. Separación entre Home, Works... */
+    .main-menu > li {
+        margin-bottom: 15px;
+    }
+
+    /* 4. LA FLECHA */
+    .arrow {
+        font-size: 2rem;
+        position: relative;
+        top: -3px; /* Ajuste fino para alinearla con el texto */
+    }
 }
+
+
 
 /* =========================================
    IMAGEN HERO (Responsive)
@@ -557,6 +657,8 @@ body {
     
     filter: grayscale(100%);
 }
+
+
 
 
 
@@ -2302,3 +2404,5 @@ body {
         text-align: center !important;
     }
 }
+
+
