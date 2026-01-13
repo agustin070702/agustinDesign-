@@ -16,9 +16,7 @@ function toggleMenu() {
     sideMenu.classList.toggle('active');
     overlay.classList.toggle('active');
     
-    /* ¡IMPORTANTE! NO AGREGUES CÓDIGO AQUÍ QUE DIGA: 
-       document.body.style.overflow = 'hidden'; 
-       Si esas líneas existen, BÓRRALAS. Eso es lo que corta la página en iPhone. */
+   
 }
 
 // Event listeners para el menú principal

@@ -110,37 +110,64 @@ body {
     background-color: #ffffff !important;
 }
 
-/* Menú lateral */
+/* =========================================
+   MENÚ LATERAL (ARREGLO FINAL: Centrado + Anti-Corte)
+   ========================================= */
+
 .side-menu {
     position: fixed;
     top: 0;
+    
+    /* Configuración Desktop (luego el @media lo cambia para móvil) */
     left: -30%; 
     width: 30%;
     
-    /* AQUÍ ESTÁ EL ARREGLO: */
-    height: 100dvh;      /* Ocupa el 100% de la altura REAL visible */
-    min-height: 100dvh;  /* Asegura que no se encoja */
+    /* 1. ALTURA BLINDADA (Safari/Mobile) */
+    height: 100vh;   /* Fallback */
+    height: 100dvh;  /* Se adapta a las barras del navegador */
     
     background-color: #202020;
     z-index: 999;
     transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    /* 2. FLEXIBILIDAD */
     display: flex;
-    flex-direction: column; 
-    justify-content: center;
+    flex-direction: column;
+    
+    /* 3. ALINEACIÓN SEGURA */
+    /* NO usamos 'justify-content: center' porque corta el contenido en pantallas bajas.
+       En su lugar usamos padding y margin automático (ver abajo). */
+    padding-top: 100px; /* Espacio vital para que la 'X' no tape el texto */
     padding-left: 40px; 
-    overflow-y: auto; 
+    padding-bottom: 40px;
+    
+    /* 4. SCROLL */
+    overflow-y: auto; /* Permite bajar si la lista es muy larga */
 }
 
+/* Estado activo (Abierto) */
 .side-menu.active {
     left: 0;
 }
 
-.side-menu ul {
+/* ---------------------------------------------------------
+   LA CLAVE DEL ÉXITO: CENTRADO SEGURO
+   --------------------------------------------------------- */
+/* Esto es lo que faltaba en tu código anterior: */
+.side-menu .main-menu {
+    /* 'margin: auto 0' le dice al navegador: 
+       "Si hay espacio de sobra, ponme al centro vertical.
+        Si NO hay espacio (pantalla chica/horizontal), déjame arriba y activa el scroll". */
+    margin: auto 0; 
+    
     list-style: none;
     padding: 0;
+    width: 100%; /* Asegura que ocupe el ancho disponible */
 }
 
-/* Items principales del menú */
+/* ---------------------------------------------------------
+   ANIMACIONES Y ESTILOS DE LINKS
+   --------------------------------------------------------- */
 .side-menu .main-menu > li {
     margin: 30px 0;
     opacity: 0;
@@ -153,9 +180,12 @@ body {
     transform: translateX(0);
 }
 
+/* Retrasos en la aparición */
 .side-menu.active .main-menu > li:nth-child(1) { transition-delay: 0.1s; }
 .side-menu.active .main-menu > li:nth-child(2) { transition-delay: 0.2s; }
+/* Si tienes más items, agrégalos aquí (3, 4, etc.) */
 
+/* Estilos del texto (Links) */
 .side-menu .main-link {
     font-size: 3rem;
     font-weight: 200;
