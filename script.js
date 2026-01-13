@@ -16,7 +16,14 @@ function toggleMenu() {
     sideMenu.classList.toggle('active');
     overlay.classList.toggle('active');
     
-   
+    // --- LÓGICA DE BLOQUEO DE SCROLL (MODERNA) ---
+    if (sideMenu.classList.contains('active')) {
+        // Bloqueamos el scroll del documento HTML, no del body
+        document.documentElement.style.overflow = 'hidden';
+    } else {
+        // Restauramos
+        document.documentElement.style.overflow = '';
+    }
 }
 
 // Event listeners para el menú principal

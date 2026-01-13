@@ -5,14 +5,28 @@
 }
 
 html {
+    /* 1. Altura completa para evitar cortes */
+    height: 100%;
+    
+    /* 2. TRUCO VISUAL: Pintamos el fondo base del color del menú (#202020)
+       o del color de tu web (#dddddd). Si el menú es el que se ve cortado, usa #202020.
+       Si es la página la que se corta, usa #dddddd. 
+       Yo recomiendo el GRIS para que se funda con la web. */
+    background-color: #dddddd; 
+    
     scroll-behavior: smooth;
+    
+    /* 3. Evita el rebote lateral */
+    overflow-x: hidden;
 }
 
 body {
     font-family: 'Inter', sans-serif;
+    min-height: 100%;
     background-color: #dddddd;
     color: #202020;
     overflow-x: hidden;
+    position: relative; /* Base segura */
 }
 
 /* =========================================
@@ -116,32 +130,38 @@ body {
 
 .side-menu {
     position: fixed;
+    
+    /* ANCLAJES FÍSICOS (La clave del éxito) */
     top: 0;
-    bottom: 0;      /* ANCLAJE TOTAL: Fuerza a tocar el suelo */
-    left: -30%; 
+    bottom: 0;       /* Obliga a tocar el borde inferior siempre */
+    left: -30%;      /* Estado cerrado */
     width: 30%;
     
-    /* Mantenemos dvh para asegurar compatibilidad con Safari */
-    height: 100dvh;  
+    /* ELIMINAMOS 'height: 100dvh'. 
+       Al tener top:0 y bottom:0, la altura es automática y perfecta. */
+    height: auto !important; 
     
     background-color: #202020;
     z-index: 999;
+    
+    /* TRANSICIONES */
     transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     
+    /* FLEXIBILIDAD */
     display: flex;
     flex-direction: column;
     
-    /* Alineación vertical segura */
-    padding-top: 100px; 
-    padding-left: 40px; 
-    padding-bottom: 40px; 
+    /* Espaciado de seguridad */
+    padding-top: 100px;
+    padding-left: 40px;
+    padding-bottom: 40px; /* Importante para el notch de abajo */
     
-    /* SCROLL Y COMPORTAMIENTO */
+    /* SCROLL INTERNO */
     overflow-y: auto; 
     
-    /* ESTA ES LA CLAVE REAL: */
-    /* Le dice al navegador: "Si llegas al final del menú, NO muevas la página de atrás" */
+    /* EVITAR QUE EL SCROLL MUEVA LA PÁGINA DE ATRÁS */
     overscroll-behavior: contain; 
+    -webkit-overflow-scrolling: touch; /* Suavidad en iOS */
 }
 
 /* Estado activo (Abierto) */
