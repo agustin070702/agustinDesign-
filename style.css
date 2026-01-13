@@ -114,17 +114,21 @@ body {
 .side-menu {
     position: fixed;
     top: 0;
-    left: -30%; /* Un poco más ancho para acomodar submenús */
+    left: -30%; 
     width: 30%;
-    height: 100vh;
+    
+    /* AQUÍ ESTÁ EL ARREGLO: */
+    height: 100vh;   /* Respaldo para navegadores antiguos */
+    height: 100dvh;  /* Dynamic Viewport Height: Se ajusta a las barras de Safari */
+    
     background-color: #202020;
     z-index: 999;
     transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     display: flex;
-    flex-direction: column; /* Cambiado para mejor alineación vertical */
+    flex-direction: column; 
     justify-content: center;
-    padding-left: 40px; /* Padding izquierdo para alinear contenido */
-    overflow-y: auto; /* Permitir scroll si el menú es muy largo */
+    padding-left: 40px; 
+    overflow-y: auto; 
 }
 
 .side-menu.active {
