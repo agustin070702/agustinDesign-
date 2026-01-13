@@ -117,32 +117,31 @@ body {
 .side-menu {
     position: fixed;
     top: 0;
-    
-    /* Configuración Desktop (luego el @media lo cambia para móvil) */
+    bottom: 0;      /* ANCLAJE TOTAL: Fuerza a tocar el suelo */
     left: -30%; 
     width: 30%;
     
-    /* 1. ALTURA BLINDADA (Safari/Mobile) */
-    height: 100vh;   /* Fallback */
-    height: 100dvh;  /* Se adapta a las barras del navegador */
+    /* Mantenemos dvh para asegurar compatibilidad con Safari */
+    height: 100dvh;  
     
     background-color: #202020;
     z-index: 999;
     transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     
-    /* 2. FLEXIBILIDAD */
     display: flex;
     flex-direction: column;
     
-    /* 3. ALINEACIÓN SEGURA */
-    /* NO usamos 'justify-content: center' porque corta el contenido en pantallas bajas.
-       En su lugar usamos padding y margin automático (ver abajo). */
-    padding-top: 100px; /* Espacio vital para que la 'X' no tape el texto */
+    /* Alineación vertical segura */
+    padding-top: 100px; 
     padding-left: 40px; 
-    padding-bottom: 40px;
+    padding-bottom: 40px; 
     
-    /* 4. SCROLL */
-    overflow-y: auto; /* Permite bajar si la lista es muy larga */
+    /* SCROLL Y COMPORTAMIENTO */
+    overflow-y: auto; 
+    
+    /* ESTA ES LA CLAVE REAL: */
+    /* Le dice al navegador: "Si llegas al final del menú, NO muevas la página de atrás" */
+    overscroll-behavior: contain; 
 }
 
 /* Estado activo (Abierto) */
