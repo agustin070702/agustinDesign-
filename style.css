@@ -2422,3 +2422,166 @@ body {
 }
 
 
+
+
+
+
+
+
+
+/* --- SIEMPRE LAB STYLES --- */
+#jotita-trigger {
+    cursor: pointer;
+    opacity: 1; /* Casi invisible para que sea un secreto */
+    font-size: 10px;
+    margin-left: 5px;
+    transition: opacity 0.3s;
+}
+
+#jotita-trigger:hover {
+    opacity: 1;
+    color: #ff4d4d; /* Un toque de color al pasar el mouse */
+}
+
+#siempre-lab-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    
+    /* Fondo con transparencia */
+    background: rgba(221, 221, 221, 0.98); 
+    z-index: 100000;
+    
+    /* AJUSTES PARA ANIMACIÓN SUAVE */
+    display: flex;           /* Siempre es flex para centrar */
+    justify-content: center;
+    align-items: center;
+    
+    /* Estado inicial: Invisible */
+    opacity: 0;
+    visibility: hidden;      /* Para que no intercepte clics cuando no se ve */
+    pointer-events: none;    /* Doble seguridad para no bloquear tu web */
+    
+    /* Transición suave de 0.5 segundos */
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+    
+    font-family: 'Inter', sans-serif;
+}
+
+/* Clase que agregaremos con JS para mostrarlo */
+#siempre-lab-overlay.active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: all; /* Reactivamos los clics */
+}
+
+.lab-content {
+    background: #fff;
+    padding: 40px;
+    border-radius: 15px;
+    max-width: 500px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    position: relative;
+    border: 1px solid #eee;
+}
+
+#close-lab {
+    position: absolute;
+    top: 15px; right: 20px;
+    border: none; background: none;
+    font-size: 24px; cursor: pointer; color: #888;
+}
+
+.lab-title { letter-spacing: 2px; font-weight: 600; margin-bottom: 5px; }
+.lab-subtitle { color: #666; font-size: 14px; margin-bottom: 30px; text-transform: uppercase; }
+
+#lab-timer { display: flex; justify-content: center; gap: 15px; margin-bottom: 20px; }
+.timer-block { display: flex; flex-direction: column; background: #202020; color: #fff; padding: 10px; border-radius: 8px; min-width: 60px; }
+.timer-block span { font-size: 20px; font-weight: 600; }
+.timer-block small { font-size: 10px; text-transform: uppercase; opacity: 0.7; }
+
+/* --- ESTILO DE LA LISTA CON TRANSICIÓN SUAVE --- */
+.lab-hidden-content {
+    /* Estado inicial: Oculto */
+    display: block; 
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    
+    /* CORRECCIÓN: 
+       1. Quitamos la opacidad duplicada.
+       2. Usamos 'cubic-bezier' para que el inicio y fin sean más naturales.
+    */
+    transition: max-height 1.5s cubic-bezier(0.4, 0, 0.2, 1), 
+                opacity 1.5s ease, 
+                padding-top 1.5s ease, 
+                margin-top 1.5s ease;
+    
+    /* Estilos visuales */
+    text-align: left;
+    border-top: 1px solid transparent;
+    padding-top: 0;
+    margin-top: 0;
+}
+
+/* Clase cuando se abre */
+.lab-hidden-content.open {
+    /* CORRECCIÓN: Bajamos de 800px a 500px. 
+       Esto reduce el "tiempo muerto" al cerrar */
+    max-height: 500px; 
+    opacity: 1;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+}
+
+/* El resto sigue igual... */
+.lab-hidden-content h3 { font-size: 14px; margin-bottom: 15px; color: #202020; }
+.lab-hidden-content ul { list-style: none; padding: 0; font-size: 13px; line-height: 1.8; }
+/* --- AGREGAR ESTO PARA LA LETRA MÁS FINA --- */
+
+/* 1. Texto general de la lista (Ingredientes) más fino */
+.lab-hidden-content li {
+    font-weight: 300; /* Peso "Light" de la fuente Inter */
+    color: #333;      /* Un gris muy oscuro en vez de negro puro ayuda a la suavidad */
+    margin-bottom: 8px; /* Un poco de aire entre cada ítem */
+}
+
+/* 2. Los títulos en negrita (Proteína del Mar, etc.) */
+.lab-hidden-content li strong {
+    font-weight: 450; /* "Semi-bold" en lugar de Bold tosco */
+    color: #000;      /* Los títulos un poco más oscuros para contraste */
+}
+.lab-footer { margin-top: 20px; font-style: italic; font-size: 12px; color: #888; text-align: center; }
+
+.lab-logo {
+    width: 180px; 
+    height: auto;
+    margin-bottom: 10px; 
+    display: block;
+    margin-left: auto;
+    margin-right: auto; 
+}
+
+/* Estilo del botón desplegable */
+.lab-btn-reveal {
+    background: transparent;
+    border: 1px solid #202020;
+    color: #202020;
+    padding: 10px 20px;
+    border-radius: 20px; /* Bordes redondeados */
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    cursor: pointer;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+}
+
+.lab-btn-reveal:hover {
+    background: #202020;
+    color: #fff;
+    transform: translateY(-2px); /* Pequeño efecto de elevación */
+}

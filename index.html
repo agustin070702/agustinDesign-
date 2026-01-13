@@ -369,7 +369,7 @@
 
             <footer class="contact-footer scroll-animate">
                 <div class="footer-left">
-                    <p>© 2025 Agustín Avendaño :)</p>
+                    <p>© 2025 Agustín Avendaño :) <span id="jotita-trigger">jotita</span></p>
                     <p class="credits">Designed & Coded by me</p>
                 </div>
                 <div class="footer-right">
@@ -382,5 +382,39 @@
     </section>
 
     <script src="script.js" defer></script>
+
+
+    <div id="siempre-lab-overlay" class="lab-hidden">
+    <div class="lab-content">
+        <button id="close-lab">×</button>
+        <img src="img/siemprelablogo.webp" alt="Siempre Lab Online" class="lab-logo">
+        <button id="toggle-list-btn" class="lab-btn-reveal">Ver el listado de ingredientes :)</button>
+        
+        <div id="lab-timer">
+            <div class="timer-block"><span id="days">00</span><small>Días</small></div>
+            <div class="timer-block"><span id="hours">00</span><small>Hrs</small></div>
+            <div class="timer-block"><span id="minutes">00</span><small>Min</small></div>
+            <div class="timer-block"><span id="seconds">00</span><small>Seg</small></div>
+        </div>
+
+        <div id="lab-list" class="lab-hidden-content">
+            <h3>SUMINISTROS A TENER</h3>
+            <ul>
+                <li><strong>Proteína del Mar I:</strong> 200g de Salmón (fresco o ahumado).</li>
+                <li><strong>Proteína del Mar II:</strong> 250g de Camarones pelados.</li>
+                <li><strong>La Base Estructural:</strong> 250g de Pasta larga (Linguine o Spaguetti).</li>
+                <li><strong>Cítricos:</strong> 3 Limones amarillos grandes.</li>
+                <li><strong>El Toque de Color:</strong> 1 cajita de Frutos Rojos.</li>
+                <li><strong>Lácteos:</strong> Mantequilla, Queso en bloque y Crema de leche.</li>
+                <li><strong>El Toque Crujiente:</strong> Galletas de mantequilla.</li>
+                <li><strong>Esenciales:</strong> Ajo, Hierbas Frescas (ciboulette?), Oliva, Sal y Pimienta.</li>
+            </ul>
+            <p class="lab-footer">Prepárate para la competencia de emplatado</p>
+            <p class="lab-footer">Nota: El laboratorio no permite ingesta de alcohol esta noche</p>
+        </div>
+    </div>
+</div>
+
+
 </body>
 </html>

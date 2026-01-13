@@ -496,3 +496,80 @@ if (modal) {
         if (e.target === modal) closeModal();
     });
 }
+
+
+
+
+
+
+
+
+
+// --- LÓGICA SIEMPRE LAB ---
+const jotitaTrigger = document.getElementById('jotita-trigger');
+const labOverlay = document.getElementById('siempre-lab-overlay');
+const closeLab = document.getElementById('close-lab');
+const labList = document.getElementById('lab-list');
+
+// CONFIGURA AQUÍ LA FECHA (Año, Mes (0-11), Día, Hora, Minuto)
+// Ejemplo: 14 de Febrero 2026 a las 20:00 -> (2026, 1, 14, 20, 0)
+const fechaEvento = new Date(2026, 0, 17, 20, 0).getTime(); 
+
+jotitaTrigger.addEventListener('click', () => {
+    // En vez de style.display, agregamos la clase
+    labOverlay.classList.add('active'); 
+    
+    document.body.style.overflow = 'hidden'; // Bloquea scroll
+    actualizarContador();
+});
+
+closeLab.addEventListener('click', () => {
+    // Quitamos la clase para que se desvanezca suavemente
+    labOverlay.classList.remove('active');
+    
+    document.body.style.overflow = 'auto'; // Reactiva scroll
+});
+
+function actualizarContador() {
+    const x = setInterval(function() {
+        const ahora = new Date().getTime();
+        const distancia = fechaEvento - ahora;
+
+        const d = Math.floor(distancia / (1000 * 60 * 60 * 24));
+        const h = Math.floor((distancia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const m = Math.floor((distancia % (1000 * 60 * 60)) / (1000 * 60));
+        const s = Math.floor((distancia % (1000 * 60)) / 1000);
+
+        document.getElementById("days").innerHTML = d;
+        document.getElementById("hours").innerHTML = h;
+        document.getElementById("minutes").innerHTML = m;
+        document.getElementById("seconds").innerHTML = s;
+
+        if (distancia < 0) {
+            clearInterval(x);
+            document.getElementById("lab-timer").style.display = "none";
+            labList.style.display = "block";
+        }
+    }, 1000);
+}
+
+// --- LÓGICA DEL BOTÓN DESPLEGABLE (CON TRANSICIÓN) ---
+const toggleBtn = document.getElementById('toggle-list-btn');
+
+toggleBtn.addEventListener('click', () => {
+    // Alternamos la clase 'open' en la lista
+    labList.classList.toggle('open');
+    
+    // Verificamos si la clase está puesta para cambiar el texto
+    if (labList.classList.contains('open')) {
+        toggleBtn.textContent = "Ocultar listado";
+        
+        // Pequeña espera para hacer el scroll suave y que no sea brusco
+        setTimeout(() => {
+            labList.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }, 300);
+        
+    } else {
+        toggleBtn.textContent = "Ver el listado de compras :)";
+    }
+});
