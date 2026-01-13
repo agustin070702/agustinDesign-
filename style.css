@@ -117,17 +117,33 @@ body {
     left: -30%; 
     width: 30%;
     
-    /* AQUÍ ESTÁ EL ARREGLO: */
-    height: 100vh;   /* Respaldo para navegadores antiguos */
-    height: 100dvh;  /* Dynamic Viewport Height: Se ajusta a las barras de Safari */
+    /* ALTURA: Mantenemos el dvh que es correcto para Safari */
+    height: 100vh;
+    height: 100dvh; 
     
     background-color: #202020;
     z-index: 999;
     transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    
     display: flex;
     flex-direction: column; 
-    justify-content: center;
+    
+    /* --- EL CAMBIO CLAVE --- */
+    /* 1. Cambiamos 'center' por 'flex-start'. 
+       Esto obliga al menú a empezar arriba y crecer hacia abajo. 
+       Si sobra contenido, el scroll funcionará perfecto. */
+    justify-content: flex-start; 
+    
+    /* 2. ESPACIO DE SEGURIDAD SUPERIOR */
+    /* Como ahora empieza arriba, necesitamos empujar el texto hacia abajo
+       para que la "X" (que está en top: 30px) no tape el link "Home". */
+    padding-top: 100px; 
+    
+    /* Espacio a los lados y abajo */
     padding-left: 40px; 
+    padding-bottom: 40px;
+    
+    /* Scroll si la pantalla es muy bajita */
     overflow-y: auto; 
 }
 
