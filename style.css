@@ -45,23 +45,33 @@ body {
     transition: all 0.3s ease;
 }
 
-/* Efecto Hover cuando está cerrado (Fondo negro, líneas claras) */
-.menu-toggle:hover {
-    background: #202020;
-}
+/* =========================================
+   ESTILOS DEL HOVER (CORREGIDO PARA MÓVIL)
+   ========================================= */
 
-/* Las 3 rayitas (Spans) */
+/* Estilos base de las líneas (Siempre presentes) */
 .menu-toggle span {
     display: block;
     width: 24px;
-    height: 2px; /* Altura de la línea */
+    height: 2px;
     background-color: #202020;
     transition: all 0.3s ease;
 }
 
-/* Color de líneas al pasar el mouse (cuando está cerrado) */
-.menu-toggle:hover span {
-    background-color: #dddddd;
+/* LA SOLUCIÓN: Solo activamos el fondo negro si el usuario tiene Mouse (PC) */
+@media (hover: hover) {
+    .menu-toggle:hover {
+        background: #202020;
+    }
+
+    .menu-toggle:hover span {
+        background-color: #dddddd;
+    }
+}
+
+/* OPCIONAL: Quita el destello azul/gris por defecto al tocar en Android/iOS */
+.menu-toggle {
+    -webkit-tap-highlight-color: transparent;
 }
 
 /* =========================================
