@@ -619,9 +619,37 @@ body {
         padding: 2px 0; /* Más espacio para el dedo */
     }
     
-    .submenu {
-        margin: 15px 0; /* Separación limpia arriba y abajo */
-    }
+    
+/* Estado CERRADO */
+.submenu {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0; 
+    margin-top: 0;
+    
+    /* CAMBIO: Usamos 0.5s con 'ease' normal.
+       Esto hace que el cierre dure lo mismo que la apertura, 
+       eliminando el efecto de "golpe". */
+    transition: all 0.5s ease;
+
+    /* Estilos visuales (sin cambios) */
+    padding-left: 20px; 
+    border-left: 0px solid rgba(255, 255, 255, 0.1); 
+    margin-left: 10px; 
+}
+
+/* Estado ABIERTO */
+.submenu.open {
+    /* Mantenemos 200px o 250px para evitar la latencia de inicio,
+       pero con la transición suave se verá fluido. */
+    max-height: 250px; 
+    
+    margin-top: 15px; 
+    opacity: 1;
+    
+    /* Misma velocidad para abrir */
+    transition: all 0.5s ease;
+}
 
     /* 4. Separación entre Home, Works... */
     .main-menu > li {
