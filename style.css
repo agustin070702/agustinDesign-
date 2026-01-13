@@ -219,14 +219,28 @@ body {
     transition: all 0.3s ease;
 }
 
-/* Efecto Hover mejorado */
-.submenu li a:hover {
+/* =======================================================
+   EFECTO HOVER INTELIGENTE (Solución al bug de celular)
+   ======================================================= */
+
+/* 1. ANIMACIÓN SOLO PARA COMPUTADORES (Donde hay mouse) */
+@media (hover: hover) {
+    .submenu li a:hover {
+        color: #ffffff;         /* Se vuelve blanco */
+        padding-left: 18px;     /* Se mueve a la derecha */
+        transform: translateX(10px);
+        font-weight: 500;       /* Se pone un poco más grueso */
+        border-radius: 4px;
+    }
+}
+
+/* 2. OPCIONAL: PEQUEÑO FEEDBACK PARA CELULAR (Al tocar) */
+/* Esto hace que cuando toques con el dedo, se mueva un poquito 
+   para que sientas que el botón funciona, pero vuelve a su lugar enseguida */
+.submenu li a:active {
+    transform: translateX(5px); /* Movimiento más corto */
     color: #ffffff;
-    padding-left: 18px; /* Se mueve más a la derecha al pasar el mouse */
-    transform: translateX(10px);
-    font-weight: 500;
-     /* background: linear-gradient(to right, rgba(100,100,100,0.05), transparent); /* Sutil luz de fondo */
-    border-radius: 4px;
+    transition: 0.1s; /* Reacción rápida */
 }
 
 
