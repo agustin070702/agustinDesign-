@@ -16,15 +16,10 @@ function toggleMenu() {
     sideMenu.classList.toggle('active');
     overlay.classList.toggle('active');
     
-    // Prevenir scroll cuando el menú está abierto
-    if (sideMenu.classList.contains('active')) {
-        document.body.style.overflow = 'hidden';
-    } else {
-        document.body.style.overflow = 'auto';
-        // Opcional: cerrar el submenú al cerrar el menú principal
-        // submenu.classList.remove('open');
-        // submenuToggle.classList.remove('open');
-    }
+    /* --- HE BORRADO EL BLOQUE IF/ELSE DE AQUÍ --- */
+    /* Al quitar el 'overflow: hidden', el iPhone ya no 
+       intentará redimensionar la página bruscamente, 
+       eliminando el efecto de corte visual. */
 }
 
 // Event listeners para el menú principal
