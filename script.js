@@ -16,10 +16,9 @@ function toggleMenu() {
     sideMenu.classList.toggle('active');
     overlay.classList.toggle('active');
     
-    /* --- HE BORRADO EL BLOQUE IF/ELSE DE AQUÍ --- */
-    /* Al quitar el 'overflow: hidden', el iPhone ya no 
-       intentará redimensionar la página bruscamente, 
-       eliminando el efecto de corte visual. */
+    /* ¡IMPORTANTE! NO AGREGUES CÓDIGO AQUÍ QUE DIGA: 
+       document.body.style.overflow = 'hidden'; 
+       Si esas líneas existen, BÓRRALAS. Eso es lo que corta la página en iPhone. */
 }
 
 // Event listeners para el menú principal
