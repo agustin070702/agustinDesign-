@@ -566,3 +566,36 @@ toggleBtn.addEventListener('click', () => {
         toggleBtn.textContent = "Ver el listado de compras :)";
     }
 });
+
+
+/* script.js - PEGAR AL FINAL */
+
+// --- EFECTO SMART TOGGLE PARA EL BOTÓN (SOLO MÓVIL) ---
+let lastScrollTop = 0;
+const smartBtn = document.getElementById('menuToggle');
+
+window.addEventListener('scroll', function() {
+    // 1. Si la pantalla es grande (PC), no hacemos nada y salimos.
+    if (window.innerWidth > 1024) return;
+
+    // 2. Obtenemos posición actual
+    let currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+
+    // 3. PROTECCIÓN: Si el menú está abierto, NO escondemos el botón
+    if (sideMenu.classList.contains('active')) {
+        smartBtn.classList.remove('is-hidden');
+        return; 
+    }
+
+    // 4. Lógica de dirección
+    if (currentScroll > lastScrollTop && currentScroll > 50) {
+        // HACIENDO SCROLL ABAJO (> 50px para evitar rebotes al inicio)
+        smartBtn.classList.add('is-hidden');
+    } else {
+        // HACIENDO SCROLL ARRIBA
+        smartBtn.classList.remove('is-hidden');
+    }
+
+    // Actualizamos el "último scroll" para la siguiente vez
+    lastScrollTop = currentScroll <= 0 ? 0 : currentScroll; 
+}, false);

@@ -2694,3 +2694,24 @@ body {
     color: #fff;
     transform: translateY(-2px); /* Pequeño efecto de elevación */
 }
+
+
+
+
+
+
+/* Transición base para que siempre se mueva suave */
+.menu-toggle {
+    transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1), transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Solo aplicamos la lógica de esconderse en pantallas menores a 1024px (Tablets y Móviles) */
+@media screen and (max-width: 1024px) {
+    
+    /* Esta es la clase que JS pondrá cuando bajemos */
+    .menu-toggle.is-hidden {
+        opacity: 0;
+        pointer-events: none; /* Evita que le des click si no se ve */
+        transform: scale(0.8) translateY(-20px); /* Se encoge un pelín y sube */
+    }
+}
