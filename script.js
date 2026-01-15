@@ -568,34 +568,34 @@ toggleBtn.addEventListener('click', () => {
 });
 
 
-/* script.js - PEGAR AL FINAL */
 
-// --- EFECTO SMART TOGGLE PARA EL BOTÓN (SOLO MÓVIL) ---
+/* --- EFECTO SMART TOGGLE (Agregado al final) --- */
 let lastScrollTop = 0;
-const smartBtn = document.getElementById('menuToggle');
 
 window.addEventListener('scroll', function() {
-    // 1. Si la pantalla es grande (PC), no hacemos nada y salimos.
+    // 1. Si la pantalla es de compu (mayor a 1024px), no hacemos nada.
     if (window.innerWidth > 1024) return;
 
-    // 2. Obtenemos posición actual
+    // 2. PROTECCIÓN CRÍTICA: 
+    // Si el menú lateral está abierto, ¡NO escondemos el botón!
+    // Esto arregla que no pudieras cerrarlo antes.
+    if (sideMenu.classList.contains('active')) {
+        menuToggle.classList.remove('hide-btn'); 
+        return;
+    }
+
+    // 3. Detectar si subimos o bajamos
     let currentScroll = window.pageYOffset || document.documentElement.scrollTop;
 
-    // 3. PROTECCIÓN: Si el menú está abierto, NO escondemos el botón
-    if (sideMenu.classList.contains('active')) {
-        smartBtn.classList.remove('is-hidden');
-        return; 
-    }
-
-    // 4. Lógica de dirección
+    // Si bajamos más de 50px...
     if (currentScroll > lastScrollTop && currentScroll > 50) {
-        // HACIENDO SCROLL ABAJO (> 50px para evitar rebotes al inicio)
-        smartBtn.classList.add('is-hidden');
+        // BAJANDO -> Escondemos (agregamos la clase)
+        menuToggle.classList.add('hide-btn');
     } else {
-        // HACIENDO SCROLL ARRIBA
-        smartBtn.classList.remove('is-hidden');
+        // SUBIENDO -> Mostramos (quitamos la clase)
+        menuToggle.classList.remove('hide-btn');
     }
 
-    // Actualizamos el "último scroll" para la siguiente vez
-    lastScrollTop = currentScroll <= 0 ? 0 : currentScroll; 
+    // Actualizamos la posición para el siguiente movimiento
+    lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
 }, false);

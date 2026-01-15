@@ -2698,20 +2698,26 @@ body {
 
 
 
+/* --- EFECTO SMART TOGGLE (FINAL DE STYLE.CSS) --- */
 
-
-/* Transición base para que siempre se mueva suave */
+/* 1. Definimos la transición base del botón para que se mueva suave */
 .menu-toggle {
-    transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1), transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    /* Esto asegura que la desaparición sea suave */
+    transition: opacity 0.4s ease, transform 0.4s ease;
 }
 
-/* Solo aplicamos la lógica de esconderse en pantallas menores a 1024px (Tablets y Móviles) */
-@media screen and (max-width: 1024px) {
-    
-    /* Esta es la clase que JS pondrá cuando bajemos */
-    .menu-toggle.is-hidden {
-        opacity: 0;
-        pointer-events: none; /* Evita que le des click si no se ve */
-        transform: scale(0.8) translateY(-20px); /* Se encoge un pelín y sube */
-    }
+/* 2. Esta clase la pone JS cuando bajamos (esconde el botón) */
+.menu-toggle.hide-btn {
+    opacity: 0; 
+    pointer-events: none; /* Para que no puedas clickearlo si no se ve */
+    transform: translateY(-20px); /* Se va un poquito para arriba */
+}
+
+/* 3. REGLA DE ORO: Si el menú está abierto, el botón SIEMPRE se ve */
+/* Esto evita que el botón desaparezca si tienes el menú abierto y scrolleas */
+.side-menu.active ~ .menu-toggle,
+body.menu-open .menu-toggle {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+    pointer-events: auto !important;
 }
