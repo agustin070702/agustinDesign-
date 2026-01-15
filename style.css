@@ -1034,13 +1034,25 @@ body {
 
 /* Regla EXCLUSIVA para celulares (pantallas menores a 768px) */
 @media screen and (max-width: 768px) {
-    #about {
-        /* Aumentamos el espacio a los lados para que respire */
+    
+    /* 1. Usamos la clase CORRECTA (.about-section) en vez de #about */
+    .about-section {
+        /* Ajustamos el relleno: 
+           80px arriba/abajo (para que no quede tan alto)
+           25px a los lados (para que no toque los bordes) */
         padding-left: 40px !important;
         padding-right: 40px !important;
+        padding-top: 40px;
         
-        /* Opcional: Si sientes que el texto está muy pegado arriba también */
-        padding-top: 40px; 
+        /* Opcional: aseguramos que la altura se ajuste al contenido */
+        min-height: auto;
+    }
+
+    /* 2. IMPORTANTE: Hacemos que la grid se ponga en 1 sola columna */
+    /* Si no pones esto, las columnas de 40% y 55% se verán aplastadas en el cel */
+    .about-container {
+        grid-template-columns: 1fr !important; /* 1 columna ocupa todo */
+        gap: 40px; /* Espacio entre la foto y el texto */
     }
 }
 
