@@ -56,7 +56,12 @@ body {
     
     /* CAPA SUPREMA: 99999 asegura que NADA (ni el menú abierto) lo tape */
     z-index: 99999; 
-    transition: all 0.3s ease;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+
+    /* --- NUEVO: EFECTO DE ENTRADA AL CARGAR --- */
+    opacity: 0; /* 1. Empieza invisible */
+    animation: fadeInUp 0.8s ease-out forwards; /* 2. Ejecuta la animación */
+    animation-delay: 0.6s; /* 3. Espera un poquito (después del título) */
 }
 
 /* =========================================
@@ -122,6 +127,16 @@ body {
 .menu-toggle.active span:nth-child(3) {
     transform: translateY(-8px) rotate(-45deg);
     background-color: #ffffff !important;
+}
+
+/* --- EFECTO SMART SCROLL --- */
+
+/* Clase que JS añadirá cuando bajemos */
+.menu-toggle.oculto {
+    opacity: 0;
+    /* Movemos el botón hacia arriba (-100%) para que salga de la pantalla */
+    transform: translateY(-100%); 
+    pointer-events: none; /* Evita que le des click sin querer cuando es invisible */
 }
 
 /* =========================================
@@ -2698,26 +2713,3 @@ body {
 
 
 
-/* --- EFECTO SMART TOGGLE (FINAL DE STYLE.CSS) --- */
-
-/* 1. Definimos la transición base del botón para que se mueva suave */
-.menu-toggle {
-    /* Esto asegura que la desaparición sea suave */
-    transition: opacity 0.4s ease, transform 0.4s ease;
-}
-
-/* 2. Esta clase la pone JS cuando bajamos (esconde el botón) */
-.menu-toggle.hide-btn {
-    opacity: 0; 
-    pointer-events: none; /* Para que no puedas clickearlo si no se ve */
-    transform: translateY(-20px); /* Se va un poquito para arriba */
-}
-
-/* 3. REGLA DE ORO: Si el menú está abierto, el botón SIEMPRE se ve */
-/* Esto evita que el botón desaparezca si tienes el menú abierto y scrolleas */
-.side-menu.active ~ .menu-toggle,
-body.menu-open .menu-toggle {
-    opacity: 1 !important;
-    transform: translateY(0) !important;
-    pointer-events: auto !important;
-}
