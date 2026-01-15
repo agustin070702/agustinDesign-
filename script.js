@@ -16,11 +16,8 @@ function toggleMenu() {
     sideMenu.classList.toggle('active');
     overlay.classList.toggle('active');
     
-    // --- EL CANDADO MAESTRO ---
-    // Agregamos una clase al BODY entero.
-    // Al combinarlo con el CSS 'position: fixed', la página de fondo
-    // se queda petrificada, eliminando cualquier "corte" visual.
-    document.body.classList.toggle('menu-open');
+    // IMPORTANTE: Borra cualquier línea que diga document.body...
+    // No toques el body, deja que el CSS maneje el color de fondo.
 }
 
 // Event listeners para el menú principal
