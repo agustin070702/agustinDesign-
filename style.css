@@ -133,13 +133,12 @@ body {
     
     /* ANCLAJES FÍSICOS (La clave del éxito) */
     top: 0;
-    bottom: 0;       /* Obliga a tocar el borde inferior siempre */
     left: -30%;      /* Estado cerrado */
     width: 30%;
     
     /* ELIMINAMOS 'height: 100dvh'. 
        Al tener top:0 y bottom:0, la altura es automática y perfecta. */
-    height: auto !important; 
+    height: 100dvh;
     
     background-color: #202020;
     z-index: 999;
