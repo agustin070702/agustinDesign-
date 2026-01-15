@@ -1036,11 +1036,11 @@ body {
 @media screen and (max-width: 768px) {
     #about {
         /* Aumentamos el espacio a los lados para que respire */
-        padding-left: 25px !important;
-        padding-right: 25px !important;
+        padding-left: 40px !important;
+        padding-right: 40px !important;
         
         /* Opcional: Si sientes que el texto está muy pegado arriba también */
-        /* padding-top: 40px; */
+        padding-top: 40px; 
     }
 }
 
