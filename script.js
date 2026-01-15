@@ -568,31 +568,3 @@ toggleBtn.addEventListener('click', () => {
 });
 
 
-/* --- EFECTO SMART SCROLL (Nuevo y Limpio) --- */
-let ultimoScroll = 0;
-
-window.addEventListener('scroll', () => {
-    // 1. Si es pantalla grande (>1024px), no hacemos nada
-    if (window.innerWidth > 1024) return;
-
-    // 2. PROTECCIÓN: Si el menú está abierto, ¡NO ocultamos el botón!
-    if (sideMenu.classList.contains('active')) {
-        menuToggle.classList.remove('oculto'); // Aseguramos que se vea
-        return; 
-    }
-
-    // 3. Detectar dirección del scroll
-    const scrollActual = window.pageYOffset || document.documentElement.scrollTop;
-
-    // Si bajamos más de 50px...
-    if (scrollActual > ultimoScroll && scrollActual > 50) {
-        // BAJANDO -> Agregamos la clase para ocultar
-        menuToggle.classList.add('oculto');
-    } else {
-        // SUBIENDO -> Quitamos la clase para mostrar
-        menuToggle.classList.remove('oculto');
-    }
-
-    // 4. Actualizar posición (evitando números negativos)
-    ultimoScroll = Math.max(0, scrollActual);
-});
