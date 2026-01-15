@@ -1032,6 +1032,18 @@ body {
     display: block;
 }
 
+/* Regla EXCLUSIVA para celulares (pantallas menores a 768px) */
+@media screen and (max-width: 768px) {
+    #about {
+        /* Aumentamos el espacio a los lados para que respire */
+        padding-left: 25px !important;
+        padding-right: 25px !important;
+        
+        /* Opcional: Si sientes que el texto está muy pegado arriba también */
+        /* padding-top: 40px; */
+    }
+}
+
 /* --- Columna Derecha: Resume --- */
 .about-resume {
     display: flex;
