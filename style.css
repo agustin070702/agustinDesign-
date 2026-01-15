@@ -41,7 +41,7 @@ body {
     
     /* DISEÑO INICIAL (Cerrado) */
     background: transparent;
-    border: 1px solid #202020;
+    border: 1.5px solid #202020;
     border-radius: 8px;
     cursor: pointer;
     
@@ -86,6 +86,21 @@ body {
 /* OPCIONAL: Quita el destello azul/gris por defecto al tocar en Android/iOS */
 .menu-toggle {
     -webkit-tap-highlight-color: transparent;
+}
+
+/* Regla solo para móviles (pantallas menores a 768px) */
+@media (max-width: 768px) {
+    .menu-toggle {
+        /* Opción 1: Si quieres el borde MÁS FINO */
+        border-width: 1px; 
+
+        /* Opción 2: Si quieres el borde MÁS PEQUEÑO (menos redondeado) */
+        /* border-radius: 10px; */ 
+
+        /* Opción 3: Si quieres que el botón sea un poco más chico en general */
+        /* width: 50px; */
+        /* height: 50px; */
+    }
 }
 
 /* =========================================
