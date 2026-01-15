@@ -33,38 +33,30 @@ body {
    MENÚ HAMBURGUESA (ICONO)
    ========================================= */
 .menu-toggle {
-    position: fixed; /* Siempre quieto en la pantalla */
+    position: absolute;
     top: 30px;
     left: 30px;
     width: 60px;
     height: 60px;
     
-    /* Fondo transparente y bordes */
-    background: transparent; 
-    border: 2px solid #202020; /* Color base */
+    /* DISEÑO INICIAL (Cerrado) */
+    background: transparent;
+    border: 2px solid #202020;
     border-radius: 8px;
     cursor: pointer;
     
-    /* Flex para centrar las rayitas */
+    /* ALINEACIÓN DE LAS RAYITAS */
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    
+    /* IMPORTANTE: Este gap de 6px define la matemática de la X */
     gap: 6px; 
     
-    /* CAPA SUPREMA */
+    /* CAPA SUPREMA: 99999 asegura que NADA (ni el menú abierto) lo tape */
     z-index: 99999; 
-    
-    /* TRANSICIÓN SUAVE (Solo para cuando se convierte en X) */
-    transition: all 0.3s ease-in-out;
-
-    /* --- EL TRUCO DE DISEÑO (OPCIONAL) --- */
-    /* Esto hace que el botón invierta su color según el fondo.
-       Si el fondo es negro, el botón se ve blanco, y viceversa.
-       Pruébalo, si no te gusta, borra esta línea. */
-    mix-blend-mode: difference; 
-    color: #fff; /* Necesario para que el mix-blend-mode funcione bien */
-    border-color: #fff;
+    transition: opacity 0.4s ease, transform 0.4s ease;
 }
 
 /* =========================================
@@ -74,11 +66,10 @@ body {
 /* Estilos base de las líneas (Siempre presentes) */
 .menu-toggle span {
     display: block;
-    width: 28px;
+    width: 24px;
     height: 2px;
-    background-color: #fff; /* Blanco base para que el difference lo invierta a negro */
-    border-radius: 2px;
-    transition: all 0.3s ease-in-out;
+    background-color: #202020;
+    transition: all 0.3s ease;
 }
 
 /* LA SOLUCIÓN: Solo activamos el fondo negro si el usuario tiene Mouse (PC) */
@@ -131,26 +122,6 @@ body {
 .menu-toggle.active span:nth-child(3) {
     transform: translateY(-8px) rotate(-45deg);
     background-color: #ffffff !important;
-}
-
-/* ESTADO OCULTO (Cuando bajas scrolleando) */
-.menu-toggle.oculto {
-    opacity: 0 !important;
-    transform: translateY(-150%) !important; /* Se va para arriba */
-    pointer-events: none;
-}
-
-/* --- LA RECETA DE LA ANIMACIÓN (Keyframes) --- */
-/* Definimos esto aquí para no depender de otros archivos */
-@keyframes fadeInBtn {
-    from {
-        opacity: 0;
-        transform: translateY(20px); /* Entra desde abajo un poquito */
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
 }
 
 /* =========================================
@@ -2723,6 +2694,18 @@ body {
     color: #fff;
     transform: translateY(-2px); /* Pequeño efecto de elevación */
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
