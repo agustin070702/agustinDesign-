@@ -16,9 +16,11 @@ function toggleMenu() {
     sideMenu.classList.toggle('active');
     overlay.classList.toggle('active');
     
-    // --- HE ELIMINADO EL BLOQUEO DE SCROLL AQUÍ ---
-    // Al quitar el 'overflow = hidden', eliminamos el "salto" 
-    // brusco de la pantalla en iPhone.
+    // --- EL CANDADO MAESTRO ---
+    // Agregamos una clase al BODY entero.
+    // Al combinarlo con el CSS 'position: fixed', la página de fondo
+    // se queda petrificada, eliminando cualquier "corte" visual.
+    document.body.classList.toggle('menu-open');
 }
 
 // Event listeners para el menú principal
