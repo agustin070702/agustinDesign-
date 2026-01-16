@@ -1290,23 +1290,25 @@ body {
     transform: scale(1.1);
 }
 
-/* Pista del Carrusel (Donde ocurre el scroll) */
-.carousel-track {
-    display: flex;
-    gap: 30px;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    
-    /* MANTIENE ESTO: */
-    padding: 50px 60px 100px 60px; 
-    
-    /* --- AGREGA ESTA LÍNEA NUEVA --- */
-    /* Esto es vital para que al alinearse a la izquierda respete el margen */
-    scroll-padding-left: 60px; 
-    
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-}
+/* 3. EL CARRUSEL "FLOTANTE" (Ajustado para Centrado Perfecto) */
+    .carousel-track {
+        display: flex !important;
+        flex-wrap: nowrap !important;
+        overflow-x: auto !important;
+        scroll-snap-type: x mandatory;
+        
+        gap: 20px !important; 
+        
+        /* --- EL CAMBIO MATEMÁTICO --- */
+        /* Arriba: 10px */
+        /* Lados: 10vw (Esto es el 10% exacto de la pantalla) */
+        /* Abajo: 50px (Para proteger la sombra) */
+        padding: 10px 10vw 50px 10vw !important; 
+        
+        width: 100% !important;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none; 
+    }
 
 /* Ocultar barra scroll en Chrome/Safari */
 .carousel-track::-webkit-scrollbar {
@@ -2765,7 +2767,7 @@ body {
     .works-header {
         padding-left: 25px !important;
         padding-right: 25px !important;
-        margin-bottom: 10px !important;
+        margin-bottom: 50px !important;
     }
 
     /* --- FLECHAS (Tu diseño ajustado) --- */
