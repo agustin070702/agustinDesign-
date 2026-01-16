@@ -2919,3 +2919,68 @@ body {
         padding: 15px 10px !important; /* Menos padding lateral en el texto */
     }
 }
+
+
+
+
+
+/* =========================================
+   REPARACIÓN DE PÁGINAS DE PROYECTO (MÓVIL)
+   Orden: Título -> Tag -> Info
+   ========================================= */
+
+@media screen and (max-width: 768px) {
+
+    /* 1. EL CONTENEDOR (Activamos el modo columna) */
+    .project-header {
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+        align-items: center !important;
+        padding-top: 80px !important; 
+        padding-left: 20px !important;
+        padding-right: 20px !important;
+        text-align: center !important;
+    }
+
+    /* 2. EL TÍTULO (Ahora va PRIMERO) */
+    .project-big-title {
+        /* LA CLAVE: order 1 lo pone al principio */
+        order: 1 !important; 
+        
+        font-size: 32px !important; 
+        line-height: 1.1 !important;
+        
+        /* Margen abajo para separarlo de la etiqueta que viene después */
+        margin-bottom: 15px !important; 
+        
+        width: 100% !important;
+        word-wrap: break-word !important;
+    }
+
+    /* 3. LA ETIQUETA (Ahora va SEGUNDA) */
+    .project-category-tag {
+        /* LA CLAVE: order 2 lo pone debajo del título */
+        order: 2 !important; 
+        
+        position: relative !important; 
+        top: auto !important; right: auto !important; left: auto !important;
+        display: inline-block !important;
+        
+        /* Margen abajo para separarlo del texto de info */
+        margin-bottom: 20px !important; 
+        
+        font-size: 10px !important;
+        padding: 5px 12px !important;
+        background: rgba(255, 255, 255, 0.1) !important;
+        backdrop-filter: blur(5px);
+    }
+
+    /* 4. EL SUBTÍTULO / INFO (Va TERCERO) */
+    .project-info {
+        order: 3 !important; 
+        font-size: 14px !important;
+        max-width: 100% !important;
+        padding: 0 !important;
+    }
+}
