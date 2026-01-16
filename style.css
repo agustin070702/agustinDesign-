@@ -2759,7 +2759,7 @@ body {
     /* 2. LOGO Y TÍTULOS MÁS PEQUEÑOS */
     .lab-logo {
         width: 120px !important;       /* Logo más chico */
-        margin-bottom: 5px !important;
+        margin-bottom: 8px !important;
     }
 
     .lab-title {
@@ -2798,6 +2798,7 @@ body {
         /* Si la lista es muy larga, scroll dentro de ella también */
         max-height: none !important; 
         overflow: visible !important;
+        line-height: 1.3 !important;
     }
 }
 
