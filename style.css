@@ -2738,30 +2738,3 @@ body {
 
 
 
-
-
-/* Ajuste EXCLUSIVO para flechas de Works en celular */
-@media screen and (max-width: 768px) {
-    .carousel-nav {
-        /* Forzamos el tamaño pequeño */
-        width: 35px !important;
-        height: 35px !important;
-        
-        /* Ajustamos el icono de la flecha */
-        font-size: 16px !important;
-        
-        /* Centramos el contenido por si acaso */
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-    }
-}
-
-
-
-
-
-
-
-
-

@@ -8,6 +8,32 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+
+    <style>
+        @media screen and (max-width: 768px) {
+            /* Ruta ultra-específica para obligar al navegador */
+            .works-header .carousel-controls .carousel-btn {
+                /* 1. TAMAÑO DEL CÍRCULO */
+                width: 40px !important;
+                height: 40px !important;
+                min-width: 30px !important; /* Evita que se aplasten */
+                
+                /* 2. TAMAÑO DE LA FLECHA (← →) */
+                font-size: 18px !important;
+                line-height: 1 !important;
+                
+                /* 3. CENTRADO PERFECTO */
+                padding: 10px !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                
+                /* 4. SEPARACIÓN (Opcional) */
+                margin: 0 5px !important;
+            }
+        }
+    </style>
+
 </head>
 <body>
     <button class="menu-toggle scroll-animate" id="menuToggle" aria-label="Abrir menú">
