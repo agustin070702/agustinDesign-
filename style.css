@@ -2738,6 +2738,12 @@ body {
 
 
 
+
+
+
+
+
+
 /* =========================================
    SOLUCIÓN FINAL MÓVIL (WORKS "FULL WIDTH")
    Pegar al final de style.css
@@ -2745,30 +2751,29 @@ body {
 
 @media screen and (max-width: 768px) {
 
-    /* 1. ROMPER LA JAULA (Hacer la sección ancho completo) */
+    /* 1. ELIMINAR LA CAJA CONTENEDORA (Visualmente) */
+    /* Quitamos el padding de la sección para que nada frene al carrusel */
     .works-section, .works-container {
         padding-left: 0 !important;
         padding-right: 0 !important;
         width: 100% !important;
         max-width: 100% !important;
-        overflow-x: hidden !important; /* Evita scroll horizontal en toda la web */
+        overflow-x: hidden !important; /* Evita que la web entera se mueva de lado */
     }
 
-    /* 2. ALINEAR EL TÍTULO Y FLECHAS (Les devolvemos el margen) */
+    /* 2. ALINEAR EL TÍTULO (Le devolvemos su margen manualmente) */
     .works-header {
-        padding-left: 25px !important;  /* Margen izquierdo */
-        padding-right: 25px !important; /* Margen derecho */
-        margin-bottom: 20px !important;
+        padding-left: 25px !important;
+        padding-right: 25px !important;
+        margin-bottom: 10px !important;
     }
 
-    /* 3. ARREGLO DE FLECHAS (Pequeñas y sin hover) */
+    /* --- FLECHAS (Tu diseño ajustado) --- */
     .works-header .carousel-controls {
         display: flex !important;
         justify-content: flex-end !important;
         gap: 10px !important;
-        margin-top: 5px !important; /* Ajuste fino vertical */
     }
-
     .works-header .carousel-controls .carousel-btn {
         width: 40px !important;
         height: 40px !important;
@@ -2781,45 +2786,59 @@ body {
         align-items: center !important;
         justify-content: center !important;
     }
-
-    /* Matar el hover pegajoso en celular */
-    .works-header .carousel-controls .carousel-btn:hover,
-    .works-header .carousel-controls .carousel-btn:focus {
+    /* Matar hover en celular */
+    .works-header .carousel-controls .carousel-btn:hover {
         background: transparent !important;
         color: #202020 !important;
         border: 1px solid #202020 !important;
         transform: none !important;
     }
 
-    /* 4. CARRUSEL DE BORDE A BORDE */
+    /* 3. EL CARRUSEL "FLOTANTE" (Aquí está el truco de la sombra) */
     .carousel-track {
         display: flex !important;
         flex-wrap: nowrap !important;
         overflow-x: auto !important;
         scroll-snap-type: x mandatory;
-        gap: 15px !important; /* Espacio entre tarjetas */
         
-        /* AQUÍ ESTÁ EL TRUCO: Padding en el carril, no en la sección */
-        padding-left: 25px !important; 
-        padding-right: 25px !important; 
-        padding-bottom: 30px !important;
+        /* Espacio entre tarjetas */
+        gap: 20px !important; 
+        
+        /* TRUCO MAESTRO: */
+        /* Padding-bottom alto (50px) para que la sombra NO se corte abajo */
+        /* Padding laterales (25px) para que la primera tarjeta no quede pegada al borde */
+        padding: 10px 25px 50px 25px !important; 
         
         width: 100% !important;
         -webkit-overflow-scrolling: touch;
+        
+        /* Asegura que el scrollbar no tape el diseño (opcional) */
+        scrollbar-width: none; 
+    }
+    
+    /* Ocultar barra de scroll en Chrome/Safari */
+    .carousel-track::-webkit-scrollbar {
+        display: none;
     }
 
-    /* 5. TARJETAS (Tamaño perfecto) */
+    /* 4. TARJETAS MÁS ESTILIZADAS */
     .card-wrapper {
-        flex: 0 0 85vw !important; /* 85% del ancho de pantalla */
-        width: 85vw !important;
-        max-width: 350px !important;
-        scroll-snap-align: center; /* Se imanta al centro */
+        /* Bajamos de 85vw a 80vw para que sean menos anchas */
+        flex: 0 0 80vw !important; 
+        width: 80vw !important;
+        max-width: 320px !important; /* Tope máximo */
+        
+        scroll-snap-align: center;
         margin: 0 !important;
+        
+        /* Esto asegura que la tarjeta tenga su propio espacio */
+        position: relative;
     }
 
     .card-image {
         height: 220px !important;
         width: 100% !important;
+        border-radius: 4px; /* Opcional: suaviza esquinas */
     }
 
     .card-image img {
@@ -2829,6 +2848,6 @@ body {
     }
     
     .card-content {
-        padding: 15px !important;
+        padding: 15px 10px !important; /* Menos padding lateral en el texto */
     }
 }
