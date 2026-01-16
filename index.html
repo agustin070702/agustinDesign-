@@ -11,25 +11,32 @@
 
     <style>
         @media screen and (max-width: 768px) {
-            /* Ruta ultra-específica para obligar al navegador */
+            
+            /* 1. EL CONTENEDOR (La caja que tiene los dos botones) */
+            .works-header .carousel-controls {
+                display: flex !important;
+                
+                /* Esto los empuja a la DERECHA */
+                justify-content: flex-end !important; 
+                
+                /* ESTE ES EL NÚMERO QUE BUSCAS: Distancia entre los dos círculos */
+                gap: 10px !important; 
+            }
+
+            /* 2. LOS BOTONES (Los círculos individuales) */
             .works-header .carousel-controls .carousel-btn {
-                /* 1. TAMAÑO DEL CÍRCULO */
                 width: 40px !important;
                 height: 40px !important;
-                min-width: 30px !important; /* Evita que se aplasten */
-                
-                /* 2. TAMAÑO DE LA FLECHA (← →) */
+                min-width: 30px !important;
                 font-size: 18px !important;
                 line-height: 1 !important;
-                
-                /* 3. CENTRADO PERFECTO */
-                padding: 10px !important;
+                padding: 0 !important;
                 display: flex !important;
                 align-items: center !important;
                 justify-content: center !important;
                 
-                /* 4. SEPARACIÓN (Opcional) */
-                margin: 0 5px !important;
+                /* Quitamos márgenes individuales para controlar todo con el "gap" de arriba */
+                margin: 0 !important; 
             }
         }
     </style>
