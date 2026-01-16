@@ -2923,64 +2923,77 @@ body {
 
 
 
+/* } <--- CIERRE DE SEGURIDAD (Por si quedó algo abierto antes) */
 
 /* =========================================
-   REPARACIÓN DE PÁGINAS DE PROYECTO (MÓVIL)
-   Orden: Título -> Tag -> Info
+   ARREGLO DEFINITIVO: HEADER MÓVIL
    ========================================= */
-
 @media screen and (max-width: 768px) {
 
-    /* 1. EL CONTENEDOR (Activamos el modo columna) */
+    /* 1. EL CONTENEDOR PRINCIPAL (HEADER) */
+    /* Le damos altura automática y mucho espacio arriba para el menú */
     .project-header {
-        display: flex !important;
-        flex-direction: column !important;
-        justify-content: center !important;
-        align-items: center !important;
-        padding-top: 80px !important; 
+        display: block !important; /* Desactiva el flex de escritorio */
+        height: auto !important;
+        min-height: auto !important;
+        padding-top: 100px !important; /* BAJAMOS TODO EL CONTENIDO */
+        padding-bottom: 50px !important;
         padding-left: 20px !important;
         padding-right: 20px !important;
-        text-align: center !important;
+        box-sizing: border-box !important;
     }
 
-    /* 2. EL TÍTULO (Ahora va PRIMERO) */
-    .project-big-title {
-        /* LA CLAVE: order 1 lo pone al principio */
-        order: 1 !important; 
-        
-        font-size: 32px !important; 
-        line-height: 1.1 !important;
-        
-        /* Margen abajo para separarlo de la etiqueta que viene después */
-        margin-bottom: 15px !important; 
-        
+    /* 2. LA CAJA DE CONTENIDO (Aquí ordenamos) */
+    .header-content {
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: flex-start !important;
+        align-items: center !important;
         width: 100% !important;
-        word-wrap: break-word !important;
+        margin-top: 0 !important;
     }
 
-    /* 3. LA ETIQUETA (Ahora va SEGUNDA) */
+    /* 3. TÍTULO (Tap In) -> PRIMERO */
+    .project-big-title {
+        order: 1 !important;
+        
+        font-size: 36px !important;
+        line-height: 1.1 !important;
+        text-align: center !important;
+        margin-bottom: 15px !important;
+        width: 100% !important;
+        
+        /* Aseguramos que se vea */
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+
+    /* 4. ETIQUETA (Branding...) -> SEGUNDA */
     .project-category-tag {
-        /* LA CLAVE: order 2 lo pone debajo del título */
-        order: 2 !important; 
+        order: 2 !important;
         
-        position: relative !important; 
-        top: auto !important; right: auto !important; left: auto !important;
+        /* ESTO ES CRUCIAL: 'static' mata cualquier posición flotante anterior */
+        position: static !important; 
+        transform: none !important;
+        float: none !important;
+        
         display: inline-block !important;
+        margin-bottom: 25px !important;
+        margin-top: 0 !important;
         
-        /* Margen abajo para separarlo del texto de info */
-        margin-bottom: 20px !important; 
-        
-        font-size: 10px !important;
-        padding: 5px 12px !important;
-        background: rgba(255, 255, 255, 0.1) !important;
-        backdrop-filter: blur(5px);
+        /* Estilo visual */
+        font-size: 11px !important;
+        padding: 6px 14px !important;
+        background: rgba(255,255,255,0.15) !important;
+        border-radius: 50px !important;
     }
 
-    /* 4. EL SUBTÍTULO / INFO (Va TERCERO) */
-    .project-info {
-        order: 3 !important; 
-        font-size: 14px !important;
-        max-width: 100% !important;
-        padding: 0 !important;
+    /* 5. TEXTO INTRO -> TERCERO */
+    .project-intro {
+        order: 3 !important;
+        font-size: 15px !important;
+        line-height: 1.6 !important;
+        text-align: center !important;
+        margin-top: 0 !important;
     }
 }
