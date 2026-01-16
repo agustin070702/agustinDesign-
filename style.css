@@ -2738,3 +2738,84 @@ body {
 
 
 
+
+/* =========================================
+   SOLUCIÓN MAESTRA MÓVIL (WORKS + CARRUSEL)
+   Pegar al final de style.css
+   ========================================= */
+
+@media screen and (max-width: 768px) {
+
+    /* --- 1. ARREGLO DE BOTONES (CÍRCULOS) --- */
+    .works-header .carousel-controls {
+        display: flex !important;
+        justify-content: flex-end !important; /* Alineados a la derecha */
+        gap: 10px !important; /* Separación entre botones */
+        margin-top: 10px !important;
+    }
+
+    .works-header .carousel-controls .carousel-btn {
+        width: 40px !important;
+        height: 40px !important;
+        min-width: 40px !important;
+        font-size: 18px !important;
+        line-height: 1 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+
+    /* Quitamos el hover pegajoso en celular */
+    .works-header .carousel-controls .carousel-btn:hover,
+    .works-header .carousel-controls .carousel-btn:focus {
+        background: transparent !important;
+        color: #202020 !important;
+        border: 1px solid #202020 !important;
+        transform: none !important;
+    }
+
+    /* --- 2. ARREGLO DEL CARRUSEL (TARJETAS) --- */
+    
+    /* El contenedor que se desliza */
+    .carousel-track {
+        display: flex !important;
+        flex-wrap: nowrap !important; /* Obliga a estar en una fila */
+        overflow-x: auto !important;  /* Habilita el scroll con el dedo */
+        scroll-snap-type: x mandatory; /* Efecto magnético al soltar */
+        gap: 20px !important;
+        padding-bottom: 30px !important; /* Espacio para que no se corte la sombra */
+        -webkit-overflow-scrolling: touch; /* Suavidad en iPhone */
+    }
+
+    /* La tarjeta individual */
+    .card-wrapper {
+        /* TRUCO: 85vw hace que se vea un poco de la siguiente tarjeta */
+        flex: 0 0 85vw !important; 
+        width: 85vw !important;
+        max-width: 340px !important; /* Que no se hagan gigantes */
+        scroll-snap-align: center;   /* La tarjeta se centra sola */
+        margin: 0 !important;
+    }
+
+    /* La imagen (para que no se aplaste) */
+    .card-image {
+        height: 220px !important; /* Altura fija para uniformidad */
+        width: 100% !important;
+        overflow: hidden !important;
+    }
+
+    .card-image img {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important; /* CORTA la imagen para llenar, no la estira */
+        object-position: center !important;
+    }
+    
+    /* Ajuste del contenido de texto */
+    .card-content {
+        padding: 20px !important;
+        height: auto !important; /* Altura automática según texto */
+    }
+}
