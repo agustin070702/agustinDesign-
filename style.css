@@ -2689,14 +2689,14 @@ body {
 
 /* El resto sigue igual... */
 .lab-hidden-content h3 { font-size: 14px; margin-bottom: 15px; color: #202020; }
-.lab-hidden-content ul { list-style: none; padding: 0; font-size: 13px; line-height: 1.8; }
+.lab-hidden-content ul { list-style: none; padding: 0; font-size: 13px; line-height: 1.2; }
 /* --- AGREGAR ESTO PARA LA LETRA MÁS FINA --- */
 
 /* 1. Texto general de la lista (Ingredientes) más fino */
 .lab-hidden-content li {
     font-weight: 300; /* Peso "Light" de la fuente Inter */
     color: #333;      /* Un gris muy oscuro en vez de negro puro ayuda a la suavidad */
-    margin-bottom: 8px; /* Un poco de aire entre cada ítem */
+    margin-bottom: 6px; /* Un poco de aire entre cada ítem */
 }
 
 /* 2. Los títulos en negrita (Proteína del Mar, etc.) */
