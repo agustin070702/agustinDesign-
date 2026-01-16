@@ -2739,6 +2739,21 @@ body {
 
 
 
+/* Ajuste específico para las flechas del carrusel en celular */
+@media screen and (max-width: 768px) {
+    .carousel-nav {
+        /* Reducimos el círculo (En PC es de 50px) */
+        width: 15px !important;
+        height: 15px !important;
+        
+        /* Reducimos la flecha interna (En PC es de 24px) */
+        font-size: 16px !important;
+        
+        /* Ajuste opcional: Si sientes que tocan mucho el borde de la pantalla */
+        /* left: 5px; */ /* Para el botón izquierdo */
+        /* right: 5px; */ /* Para el botón derecho */
+    }
+}
 
 
 
