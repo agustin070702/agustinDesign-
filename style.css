@@ -2736,6 +2736,71 @@ body {
     transform: translateY(-2px); /* Pequeño efecto de elevación */
 }
 
+/* =========================================
+   ARREGLO DEL POP-UP (SUMINISTROS) EN MÓVIL
+   Pegar al final de style.css
+   ========================================= */
+
+@media screen and (max-width: 768px) {
+
+    /* 1. LA CAJA BLANCA PRINCIPAL */
+    .lab-content {
+        padding: 20px 15px !important; /* Mucho menos margen interno (Antes 40px) */
+        width: 90% !important;         /* Ancho seguro */
+        
+        /* ESTO ES LO IMPORTANTE PARA QUE NO SE CORTE: */
+        max-height: 85vh !important;   /* Altura máxima: 85% de la pantalla */
+        overflow-y: auto !important;   /* Si el contenido es largo, permite hacer scroll dentro de la caja */
+        
+        /* Aseguramos que el botón de cerrar no se tape */
+        margin-top: 0 !important; 
+    }
+
+    /* 2. LOGO Y TÍTULOS MÁS PEQUEÑOS */
+    .lab-logo {
+        width: 120px !important;       /* Logo más chico */
+        margin-bottom: 5px !important;
+    }
+
+    .lab-title {
+        font-size: 16px !important;    /* Título más compacto */
+    }
+
+    .lab-subtitle {
+        font-size: 12px !important;
+        margin-bottom: 15px !important;
+    }
+
+    /* 3. TIMER COMPACTO (Para ganar espacio vertical) */
+    #lab-timer {
+        gap: 8px !important;           /* Menos espacio entre cajitas */
+        margin-bottom: 15px !important;
+    }
+    
+    .timer-block {
+        min-width: 45px !important;    /* Cajitas más angostas */
+        padding: 5px !important;       /* Menos relleno */
+    }
+    
+    .timer-block span {
+        font-size: 16px !important;    /* Números más chicos */
+    }
+
+    /* 4. BOTÓN CERRAR (La 'X') */
+    #close-lab {
+        top: 10px !important;
+        right: 10px !important;
+        font-size: 20px !important;    /* Un poco más discreto */
+    }
+    
+    /* 5. LISTA DE INGREDIENTES (Ajuste final) */
+    .lab-hidden-content.open {
+        /* Si la lista es muy larga, scroll dentro de ella también */
+        max-height: none !important; 
+        overflow: visible !important;
+    }
+}
+
 
 
 
