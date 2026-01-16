@@ -2738,20 +2738,35 @@ body {
 
 
 
-
 /* =========================================
-   SOLUCIÓN MAESTRA MÓVIL (WORKS + CARRUSEL)
+   SOLUCIÓN FINAL MÓVIL (WORKS "FULL WIDTH")
    Pegar al final de style.css
    ========================================= */
 
 @media screen and (max-width: 768px) {
 
-    /* --- 1. ARREGLO DE BOTONES (CÍRCULOS) --- */
+    /* 1. ROMPER LA JAULA (Hacer la sección ancho completo) */
+    .works-section, .works-container {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        overflow-x: hidden !important; /* Evita scroll horizontal en toda la web */
+    }
+
+    /* 2. ALINEAR EL TÍTULO Y FLECHAS (Les devolvemos el margen) */
+    .works-header {
+        padding-left: 25px !important;  /* Margen izquierdo */
+        padding-right: 25px !important; /* Margen derecho */
+        margin-bottom: 20px !important;
+    }
+
+    /* 3. ARREGLO DE FLECHAS (Pequeñas y sin hover) */
     .works-header .carousel-controls {
         display: flex !important;
-        justify-content: flex-end !important; /* Alineados a la derecha */
-        gap: 10px !important; /* Separación entre botones */
-        margin-top: 10px !important;
+        justify-content: flex-end !important;
+        gap: 10px !important;
+        margin-top: 5px !important; /* Ajuste fino vertical */
     }
 
     .works-header .carousel-controls .carousel-btn {
@@ -2767,7 +2782,7 @@ body {
         justify-content: center !important;
     }
 
-    /* Quitamos el hover pegajoso en celular */
+    /* Matar el hover pegajoso en celular */
     .works-header .carousel-controls .carousel-btn:hover,
     .works-header .carousel-controls .carousel-btn:focus {
         background: transparent !important;
@@ -2776,46 +2791,44 @@ body {
         transform: none !important;
     }
 
-    /* --- 2. ARREGLO DEL CARRUSEL (TARJETAS) --- */
-    
-    /* El contenedor que se desliza */
+    /* 4. CARRUSEL DE BORDE A BORDE */
     .carousel-track {
         display: flex !important;
-        flex-wrap: nowrap !important; /* Obliga a estar en una fila */
-        overflow-x: auto !important;  /* Habilita el scroll con el dedo */
-        scroll-snap-type: x mandatory; /* Efecto magnético al soltar */
-        gap: 20px !important;
-        padding-bottom: 30px !important; /* Espacio para que no se corte la sombra */
-        -webkit-overflow-scrolling: touch; /* Suavidad en iPhone */
+        flex-wrap: nowrap !important;
+        overflow-x: auto !important;
+        scroll-snap-type: x mandatory;
+        gap: 15px !important; /* Espacio entre tarjetas */
+        
+        /* AQUÍ ESTÁ EL TRUCO: Padding en el carril, no en la sección */
+        padding-left: 25px !important; 
+        padding-right: 25px !important; 
+        padding-bottom: 30px !important;
+        
+        width: 100% !important;
+        -webkit-overflow-scrolling: touch;
     }
 
-    /* La tarjeta individual */
+    /* 5. TARJETAS (Tamaño perfecto) */
     .card-wrapper {
-        /* TRUCO: 85vw hace que se vea un poco de la siguiente tarjeta */
-        flex: 0 0 85vw !important; 
+        flex: 0 0 85vw !important; /* 85% del ancho de pantalla */
         width: 85vw !important;
-        max-width: 340px !important; /* Que no se hagan gigantes */
-        scroll-snap-align: center;   /* La tarjeta se centra sola */
+        max-width: 350px !important;
+        scroll-snap-align: center; /* Se imanta al centro */
         margin: 0 !important;
     }
 
-    /* La imagen (para que no se aplaste) */
     .card-image {
-        height: 220px !important; /* Altura fija para uniformidad */
+        height: 220px !important;
         width: 100% !important;
-        overflow: hidden !important;
     }
 
     .card-image img {
-        width: 100% !important;
+        object-fit: cover !important;
         height: 100% !important;
-        object-fit: cover !important; /* CORTA la imagen para llenar, no la estira */
-        object-position: center !important;
+        width: 100% !important;
     }
     
-    /* Ajuste del contenido de texto */
     .card-content {
-        padding: 20px !important;
-        height: auto !important; /* Altura automática según texto */
+        padding: 15px !important;
     }
 }
