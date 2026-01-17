@@ -2804,6 +2804,91 @@ body {
 
 
 
+/* --- NUEVOS ESTILOS PARA EL MENÚ --- */
+
+/* 1. Agrupación de botones */
+.lab-buttons-group {
+    display: flex;
+    flex-direction: column; /* Uno arriba del otro en celus */
+    gap: 15px; /* Espacio entre ellos */
+    align-items: center;
+    margin-bottom: 20px; /* Separación del Timer */
+    width: 100%;
+}
+
+/* 2. Estilo específico para el botón del menú */
+/* Hereda de .lab-btn-reveal, pero le damos un toque propio */
+.lab-btn-menu {
+    background-color: transparent; /* Fondo transparente */
+    border: 1px solid #1D1D1F; /* Borde fino elegante */
+    color: #1D1D1F;
+    margin-top: 0 !important; /* Quitamos márgenes extra si heredan */
+}
+
+.lab-btn-menu:hover {
+    background-color: #1D1D1F;
+    color: #fff;
+}
+
+/* 3. La Pantalla Negra (Overlay) */
+.menu-modal-overlay {
+    display: none;
+    position: fixed;
+    /* EL CAMBIO CLAVE: Usamos el número máximo posible para que tape TODO */
+    z-index: 2147483647 !important; 
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(29, 29, 31, 0.98); /* Fondo casi opaco para tapar lo de atrás */
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(10px);
+    animation: fadeInMenu 0.3s ease;
+}
+
+/* 4. Contenedor de la foto */
+.menu-modal-content {
+    position: relative;
+    width: 100%;
+    max-width: 450px; /* Ancho máximo similar a un celular */
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* 5. La Imagen del Menú */
+.menu-img-full {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+    display: block;
+}
+
+/* 6. Botón Cerrar (X) */
+.close-menu-modal {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    color: #fff;
+    font-size: 40px;
+    font-weight: 200;
+    cursor: pointer;
+    line-height: 1;
+    z-index: 100000;
+    transition: transform 0.2s;
+}
+
+.close-menu-modal:hover {
+    transform: rotate(90deg);
+}
+
+/* Animación de entrada */
+@keyframes fadeInMenu {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
 
 
 
@@ -2986,6 +3071,11 @@ body {
         padding: 6px 14px !important;
         background: rgba(255,255,255,0.15) !important;
         border-radius: 50px !important;
+
+        border-width: 0.5px !important;
+    
+    /* Asegúrate de que el estilo sea sólido */
+    border-style: solid !important;
     }
 
     /* 5. TEXTO INTRO -> TERCERO */

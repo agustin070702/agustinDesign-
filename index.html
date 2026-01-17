@@ -9,8 +9,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 
-
-
 </head>
 <body>
     <button class="menu-toggle scroll-animate" id="menuToggle" aria-label="Abrir menú">
@@ -391,14 +389,11 @@
     <div class="lab-content">
         <button id="close-lab">×</button>
         <img src="img/siemprelablogo.webp" alt="Siempre Lab Online" class="lab-logo">
-        <button id="toggle-list-btn" class="lab-btn-reveal">Ver el listado de ingredientes :)</button>
+        <div class="lab-buttons-group">
+    <button id="toggle-list-btn" class="lab-btn-reveal">Ver el listado de ingredientes :)</button>
+    <button id="open-menu-btn" class="lab-btn-reveal lab-btn-menu">Ver Menú de la Noche</button>
+</div>
         
-        <div id="lab-timer">
-            <div class="timer-block"><span id="days">00</span><small>Días</small></div>
-            <div class="timer-block"><span id="hours">00</span><small>Hrs</small></div>
-            <div class="timer-block"><span id="minutes">00</span><small>Min</small></div>
-            <div class="timer-block"><span id="seconds">00</span><small>Seg</small></div>
-        </div>
 
         <div id="lab-list" class="lab-hidden-content">
             <h3>SUMINISTROS A TENER</h3>
@@ -419,6 +414,37 @@
         </div>
     </div>
 </div>
+
+<div id="menuModal" class="menu-modal-overlay">
+    <span class="close-menu-modal">&times;</span>
+    <div class="menu-modal-content">
+        <img src="img/menu-noche.webp" alt="Menú Cena Siempre Lab" class="menu-img-full">
+    </div>
+</div>
+
+<script>
+    // 1. Capturamos los elementos
+    const menuModal = document.getElementById("menuModal");
+    const openMenuBtn = document.getElementById("open-menu-btn");
+    const closeMenuSpan = document.querySelector(".close-menu-modal");
+
+    // 2. Al hacer clic en "Ver Menú", se abre
+    openMenuBtn.addEventListener('click', function() {
+        menuModal.style.display = "flex";
+    });
+
+    // 3. Al hacer clic en la X, se cierra
+    closeMenuSpan.addEventListener('click', function() {
+        menuModal.style.display = "none";
+    });
+
+    // 4. Si hace clic fuera de la foto (en lo negro), se cierra
+    menuModal.addEventListener('click', function(e) {
+        if (e.target === menuModal) {
+            menuModal.style.display = "none";
+        }
+    });
+</script>
 
 
 </body>
