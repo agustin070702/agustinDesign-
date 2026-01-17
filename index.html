@@ -423,25 +423,58 @@
 </div>
 
 <script>
-    // 1. Capturamos los elementos
+    /* =========================================
+       1. LÓGICA DEL MENÚ DE LA NOCHE (FOTO)
+       ========================================= */
     const menuModal = document.getElementById("menuModal");
     const openMenuBtn = document.getElementById("open-menu-btn");
     const closeMenuSpan = document.querySelector(".close-menu-modal");
 
-    // 2. Al hacer clic en "Ver Menú", se abre
-    openMenuBtn.addEventListener('click', function() {
+    function openModal() {
         menuModal.style.display = "flex";
-    });
+        // Pequeña espera para que el navegador detecte el cambio a flex
+        setTimeout(() => {
+            menuModal.classList.add("open");
+        }, 10);
+    }
 
-    // 3. Al hacer clic en la X, se cierra
-    closeMenuSpan.addEventListener('click', function() {
-        menuModal.style.display = "none";
-    });
+    function closeModal() {
+        menuModal.classList.remove("open");
+        // CAMBIO: Esperamos 800ms (0.8s) igual que en el CSS
+        setTimeout(() => {
+            menuModal.style.display = "none";
+        }, 800);
+    }
 
-    // 4. Si hace clic fuera de la foto (en lo negro), se cierra
+    openMenuBtn.addEventListener('click', openModal);
+    closeMenuSpan.addEventListener('click', closeModal);
+    
+    // Cerrar al tocar el fondo negro
     menuModal.addEventListener('click', function(e) {
         if (e.target === menuModal) {
-            menuModal.style.display = "none";
+            closeModal();
+        }
+    });
+
+    /* =========================================
+       2. LÓGICA DE LA LISTA DE INGREDIENTES (CORREGIDA)
+       ========================================= */
+    const ingredientsBtn = document.getElementById("toggle-list-btn");
+    const ingredientsList = document.getElementById("lab-list");
+
+    // Nos aseguramos de borrar cualquier evento anterior clonando el botón (truco limpio)
+    const newIngredientsBtn = ingredientsBtn.cloneNode(true);
+    ingredientsBtn.parentNode.replaceChild(newIngredientsBtn, ingredientsBtn);
+
+    newIngredientsBtn.addEventListener("click", function() {
+        // Alternamos una clase 'active' para estilos si los tienes
+        this.classList.toggle("active");
+        
+        // Lógica de acordeón (detectamos altura automáticamente)
+        if (ingredientsList.style.maxHeight) {
+            ingredientsList.style.maxHeight = null; // Cerrar
+        } else {
+            ingredientsList.style.maxHeight = ingredientsList.scrollHeight + "px"; // Abrir
         }
     });
 </script>

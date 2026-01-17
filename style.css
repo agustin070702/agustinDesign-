@@ -2840,18 +2840,28 @@ body {
 .menu-modal-overlay {
     display: none;
     position: fixed;
-    /* EL CAMBIO CLAVE: Usamos el número máximo posible para que tape TODO */
-    z-index: 2147483647 !important; 
+    z-index: 2147483647 !important;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(29, 29, 31, 0.98); /* Fondo casi opaco para tapar lo de atrás */
+    background-color: rgba(29, 29, 31, 0.98);
     justify-content: center;
     align-items: center;
     backdrop-filter: blur(10px);
-    animation: fadeInMenu 0.3s ease;
+    
+    /* CAMBIO: 0.8s para que sea muy suave */
+    opacity: 0;
+    transition: opacity 0.8s ease, backdrop-filter 0.8s ease;
 }
+
+.menu-modal-overlay.open {
+    opacity: 1;
+}
+
+/* El resto de las reglas para celular (@media) déjalas tal cual estaban abajo */
+
+/* Regla para celulares (mantener igual que antes, solo asegúrate de no borrarla del final) */
 
 /* 4. Contenedor de la foto */
 .menu-modal-content {
@@ -2896,6 +2906,58 @@ body {
 }
 
 
+
+/* =========================================
+   REGLA SUPREMA PARA CELULARES (FULL SCREEN) SiempreLab
+   ========================================= */
+
+@media (max-width: 768px) {
+    
+    /* 1. El contenedor negro se vuelve transparente o irrelevante en los bordes */
+    .menu-modal-content {
+        width: 100% !important;
+        max-width: 100% !important;
+        height: 100% !important;
+        padding: 0 !important; /* Cero aire a los lados */
+        margin: 0 !important;
+        
+        /* Esto permite hacer scroll si la imagen es muy larga */
+        overflow-y: auto; 
+        display: block; 
+    }
+
+    /* 2. La imagen ocupa todo el ancho disponible */
+    .menu-img-full {
+        width: 100vw; /* 100% del ancho de la ventana */
+        height: auto; /* La altura se ajusta sola (probablemente sea larga) */
+        border-radius: 0 !important; /* Quitamos bordes curvos */
+        box-shadow: none !important; /* Quitamos sombras */
+        
+        /* Truco para que la imagen cubra toda la altura si es necesario */
+        min-height: 100vh; 
+        object-fit: cover; 
+    }
+
+    /* 3. El botón de cerrar (X) se ajusta para que no tape el texto del menú */
+    .close-menu-modal {
+        top: 15px;      /* Un poco más arriba */
+        right: 15px;    /* Un poco más a la derecha */
+        font-size: 35px;
+        
+        /* Le ponemos un fondo oscurito suave por si cae encima de una letra blanca */
+        background: rgba(0,0,0,0.3); 
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding-bottom: 4px; /* Ajuste óptico de la X */
+        
+        /* Aseguramos que se quede fijo aunque hagas scroll */
+        position: fixed; 
+    }
+}
 
 
 
