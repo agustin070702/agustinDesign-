@@ -2913,49 +2913,51 @@ body {
 
 @media (max-width: 768px) {
     
-    /* 1. El contenedor negro se vuelve transparente o irrelevante en los bordes */
+    /* 1. El contenedor se centra y usa la altura dinámica real (dvh) */
     .menu-modal-content {
+        display: flex !important;       /* Activa el centrado perfecto */
+        align-items: center !important; /* Centrado vertical */
+        justify-content: center !important; /* Centrado horizontal */
+        
         width: 100% !important;
-        max-width: 100% !important;
-        height: 100% !important;
-        padding: 0 !important; /* Cero aire a los lados */
+        height: 100dvh !important; /* CLAVE: dvh se adapta a las barras de Safari/Chrome */
+        
+        padding: 20px !important; /* Dejamos un marquito de aire para que no se pegue a los bordes */
+        box-sizing: border-box !important;
         margin: 0 !important;
-        
-        /* Esto permite hacer scroll si la imagen es muy larga */
-        overflow-y: auto; 
-        display: block; 
+        overflow: hidden !important; /* Prohibido el scroll */
     }
 
-    /* 2. La imagen ocupa todo el ancho disponible */
+    /* 2. La imagen se encoge para caber ENTERA */
     .menu-img-full {
-        width: 100vw; /* 100% del ancho de la ventana */
-        height: auto; /* La altura se ajusta sola (probablemente sea larga) */
-        border-radius: 0 !important; /* Quitamos bordes curvos */
-        box-shadow: none !important; /* Quitamos sombras */
+        width: auto !important;        /* Ya no forzamos el ancho */
+        height: auto !important;
         
-        /* Truco para que la imagen cubra toda la altura si es necesario */
-        min-height: 100vh; 
-        object-fit: cover; 
+        max-width: 100% !important;    /* Que no se salga de ancho */
+        max-height: 85dvh !important;  /* Que no se salga de alto (dejando espacio pa la X) */
+        
+        object-fit: contain !important; /* MÁGICO: Asegura que se vea la imagen completa sin cortes */
+        border-radius: 12px !important; /* Recuperamos los bordes bonitos */
+        box-shadow: 0 10px 30px rgba(0,0,0,0.5) !important;
     }
 
-    /* 3. El botón de cerrar (X) se ajusta para que no tape el texto del menú */
+    /* 3. La X se queda fija en la esquina de la pantalla */
     .close-menu-modal {
-        top: 15px;      /* Un poco más arriba */
-        right: 15px;    /* Un poco más a la derecha */
-        font-size: 35px;
+        position: absolute; /* O fixed si prefieres que no se mueva nunca */
+        top: 25px;
+        right: 25px;
+        z-index: 100;
         
-        /* Le ponemos un fondo oscurito suave por si cae encima de una letra blanca */
-        background: rgba(0,0,0,0.3); 
-        width: 40px;
-        height: 40px;
+        /* Ajuste visual para que se vea bien sobre el fondo oscuro */
+        background: rgba(0,0,0,0.4); 
+        width: 44px; /* Zona de toque más grande (dedo) */
+        height: 44px;
         border-radius: 50%;
         display: flex;
         justify-content: center;
         align-items: center;
-        padding-bottom: 4px; /* Ajuste óptico de la X */
-        
-        /* Aseguramos que se quede fijo aunque hagas scroll */
-        position: fixed; 
+        padding-bottom: 4px;
+        font-size: 28px;
     }
 }
 
