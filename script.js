@@ -505,7 +505,6 @@ const closeLab = document.getElementById('close-lab');
 const labList = document.getElementById('lab-list');
 
 
-
 jotitaTrigger.addEventListener('click', () => {
     // En vez de style.display, agregamos la clase
     labOverlay.classList.add('active'); 
@@ -521,28 +520,7 @@ closeLab.addEventListener('click', () => {
     document.body.style.overflow = 'auto'; // Reactiva scroll
 });
 
-function actualizarContador() {
-    const x = setInterval(function() {
-        const ahora = new Date().getTime();
-        const distancia = fechaEvento - ahora;
 
-        const d = Math.floor(distancia / (1000 * 60 * 60 * 24));
-        const h = Math.floor((distancia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const m = Math.floor((distancia % (1000 * 60 * 60)) / (1000 * 60));
-        const s = Math.floor((distancia % (1000 * 60)) / 1000);
-
-        document.getElementById("days").innerHTML = d;
-        document.getElementById("hours").innerHTML = h;
-        document.getElementById("minutes").innerHTML = m;
-        document.getElementById("seconds").innerHTML = s;
-
-        if (distancia < 0) {
-            clearInterval(x);
-            document.getElementById("lab-timer").style.display = "none";
-            labList.style.display = "block";
-        }
-    }, 1000);
-}
 
 // --- LÓGICA DEL BOTÓN DESPLEGABLE (CON TRANSICIÓN) ---
 const toggleBtn = document.getElementById('toggle-list-btn');
@@ -566,9 +544,40 @@ toggleBtn.addEventListener('click', () => {
 });
 
 
+/* --- SMART SCROLL BLINDADO --- */
+/* (Pega esto al final de script.js) */
 
+(function() { // "Caja" de seguridad para no chocar con nada
+    let ultimoScroll = 0;
 
+    window.addEventListener('scroll', () => {
+        // 1. RE-IDENTIFICAMOS LOS ELEMENTOS (Para evitar errores de "undefined")
+        const btn = document.getElementById('menuToggle');
+        const menu = document.getElementById('sideMenu');
+        
+        // Si no existen por alguna razón, no hacemos nada
+        if (!btn || !menu) return;
 
+        // 2. Si pantalla es grande, salir
+        if (window.innerWidth > 1024) return;
 
+        // 3. Si el menú está abierto, ¡el botón SE QUEDA!
+        if (menu.classList.contains('active')) {
+            btn.classList.remove('oculto'); 
+            return; 
+        }
 
+        // 4. Detectar dirección
+        const scrollActual = window.pageYOffset || document.documentElement.scrollTop;
 
+        if (scrollActual > ultimoScroll && scrollActual > 50) {
+            // BAJANDO -> Ocultar
+            btn.classList.add('oculto');
+        } else {
+            // SUBIENDO -> Mostrar
+            btn.classList.remove('oculto');
+        }
+
+        ultimoScroll = Math.max(0, scrollActual);
+    });
+})();
