@@ -2845,12 +2845,14 @@ body {
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(29, 29, 31, 0.98);
+    
+    /* CAMBIO: Usamos tu gris #dddddd con 98% de opacidad */
+    background-color: rgba(221, 221, 221, 0.98); 
+    
     justify-content: center;
     align-items: center;
     backdrop-filter: blur(10px);
     
-    /* CAMBIO: 0.8s para que sea muy suave */
     opacity: 0;
     transition: opacity 0.8s ease, backdrop-filter 0.8s ease;
 }
@@ -2883,17 +2885,23 @@ body {
 
 /* 6. Botón Cerrar (X) */
 .close-menu-modal {
-    position: absolute;
-    top: 20px;
-    right: 30px;
-    color: #fff;
-    font-size: 40px;
-    font-weight: 200;
-    cursor: pointer;
-    line-height: 1;
-    z-index: 100000;
-    transition: transform 0.2s;
-}
+        position: absolute; /* O fixed si prefieres que no se mueva nunca */
+        top: 25px;
+        right: 25px;
+        z-index: 100;
+        
+        /* Ajuste visual para que se vea bien sobre el fondo oscuro */
+        background: rgba(0,0,0,0.4); 
+        width: 44px; /* Zona de toque más grande (dedo) */
+        height: 44px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding-bottom: 4px;
+        font-size: 20px;
+        font-weight: 200; /* Esto hace las líneas finitas */
+    }
 
 .close-menu-modal:hover {
     transform: rotate(90deg);
@@ -2930,34 +2938,26 @@ body {
 
     /* 2. La imagen se encoge para caber ENTERA */
     .menu-img-full {
-        width: auto !important;        /* Ya no forzamos el ancho */
+        width: auto !important;
         height: auto !important;
+        max-width: 100% !important;
         
-        max-width: 100% !important;    /* Que no se salga de ancho */
-        max-height: 85dvh !important;  /* Que no se salga de alto (dejando espacio pa la X) */
+        /* CAMBIO: De 85dvh subimos a 92dvh. 
+           Ocupará casi toda la pantalla verticalmente */
+        max-height: 92dvh !important; 
         
-        object-fit: contain !important; /* MÁGICO: Asegura que se vea la imagen completa sin cortes */
-        border-radius: 12px !important; /* Recuperamos los bordes bonitos */
-        box-shadow: 0 10px 30px rgba(0,0,0,0.5) !important;
+        object-fit: contain !important;
+        border-radius: 12px !important;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2) !important; /* Sombra un poco más suave */
     }
 
     /* 3. La X se queda fija en la esquina de la pantalla */
     .close-menu-modal {
-        position: absolute; /* O fixed si prefieres que no se mueva nunca */
-        top: 25px;
-        right: 25px;
-        z-index: 100;
-        
-        /* Ajuste visual para que se vea bien sobre el fondo oscuro */
-        background: rgba(0,0,0,0.4); 
-        width: 44px; /* Zona de toque más grande (dedo) */
-        height: 44px;
-        border-radius: 50%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding-bottom: 4px;
-        font-size: 28px;
+        top: 15px;
+        right: 15px;
+        font-size: 32px;
+        color: #1D1D1F; /* Nos aseguramos que sea negra en móvil también */
+        background: rgba(255,255,255,0.5); /* Fondo blanquito suave */
     }
 }
 
