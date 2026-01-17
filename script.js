@@ -202,6 +202,19 @@ console.log(
     "font-size: 14px; color: #666;"
 );
 
+// Reloj en tiempo real
+function updateClock() {
+    const now = new Date();
+    const timeString = now.toLocaleTimeString('en-US', { 
+        hour: '2-digit', 
+        minute: '2-digit', 
+        second: '2-digit' 
+    });
+    const clockElement = document.getElementById('clock');
+    if(clockElement) clockElement.innerText = timeString;
+}
+setInterval(updateClock, 1000);
+updateClock(); // Iniciar inmediatamente
 
 // ==========================================
 // CARRUSEL INTERNO (PÁGINA DE PROYECTO)
@@ -491,9 +504,7 @@ const labOverlay = document.getElementById('siempre-lab-overlay');
 const closeLab = document.getElementById('close-lab');
 const labList = document.getElementById('lab-list');
 
-// CONFIGURA AQUÍ LA FECHA (Año, Mes (0-11), Día, Hora, Minuto)
-// Ejemplo: 14 de Febrero 2026 a las 20:00 -> (2026, 1, 14, 20, 0)
-const fechaEvento = new Date(2026, 0, 17, 20, 0).getTime(); 
+
 
 jotitaTrigger.addEventListener('click', () => {
     // En vez de style.display, agregamos la clase
