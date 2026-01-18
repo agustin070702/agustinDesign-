@@ -3515,7 +3515,12 @@ body {
         width: 100% !important;
         height: 100% !important;
         
-        overflow: hidden !important;
+        /* --- ESTO ES LO QUE BLOQUEA EL SCROLL --- */
+        touch-action: none !important;        /* Ignora el movimiento del dedo en el fondo */
+        overscroll-behavior: none !important; /* Evita que la página "rebote" */
+        overflow: hidden !important;          /* Corta cualquier contenido extra */
+        /* --------------------------------------- */
+
         z-index: 9999 !important;
         padding: 0 !important;
     }
