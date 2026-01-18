@@ -584,27 +584,26 @@ toggleBtn.addEventListener('click', () => {
 
 
 /* =========================================
-   SWIPE PARA LIGHTBOX (CORREGIDO)
+   SWIPE (DESLIZAMIENTO) LATERAL - CÓDIGO FINAL
    ========================================= */
 (function() {
     let xDown = null;
     let yDown = null;
     
-    // Seleccionamos el modal completo para escuchar el dedo
-    const modal = document.querySelector('.lightbox-modal');
-
-    if (!modal) return;
-
-    modal.addEventListener('touchstart', function(evt) {
-        const firstTouch = evt.touches[0];
-        xDown = firstTouch.clientX;
-        yDown = firstTouch.clientY;
+    // 1. Detectar inicio del toque
+    document.addEventListener('touchstart', function(evt) {
+        const modal = document.querySelector('.lightbox-modal');
+        // Solo activamos si el modal está visible
+        if (modal && getComputedStyle(modal).display !== 'none') {
+            const firstTouch = evt.touches[0];
+            xDown = firstTouch.clientX;
+            yDown = firstTouch.clientY;
+        }
     }, false);
 
-    modal.addEventListener('touchmove', function(evt) {
-        if (!xDown || !yDown) {
-            return;
-        }
+    // 2. Detectar movimiento
+    document.addEventListener('touchmove', function(evt) {
+        if (!xDown || !yDown) return;
 
         let xUp = evt.touches[0].clientX;
         let yUp = evt.touches[0].clientY;
@@ -612,21 +611,19 @@ toggleBtn.addEventListener('click', () => {
         let xDiff = xDown - xUp;
         let yDiff = yDown - yUp;
 
-        // Verificamos que el movimiento sea horizontal (más ancho que alto)
-        if (Math.abs(xDiff) > Math.abs(yDiff)) {
+        // Si el movimiento es horizontal
+        if (Math.abs(xDiff) > Math.abs(yDiff) && Math.abs(xDiff) > 10) {
             if (xDiff > 0) {
-                /* DESLIZAR IZQUIERDA -> SIGUIENTE FOTO */
+                // IZQUIERDA -> SIGUIENTE (Usa ID 'lbNext')
                 const btnNext = document.getElementById('lbNext');
                 if (btnNext) btnNext.click(); 
             } else {
-                /* DESLIZAR DERECHA -> FOTO ANTERIOR */
+                // DERECHA -> ANTERIOR (Usa ID 'lbPrev')
                 const btnPrev = document.getElementById('lbPrev');
                 if (btnPrev) btnPrev.click();
             }
+            xDown = null;
+            yDown = null;
         }
-        
-        // Reseteamos valores
-        xDown = null;
-        yDown = null;
     }, false);
 })();
