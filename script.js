@@ -583,47 +583,8 @@ toggleBtn.addEventListener('click', () => {
 })();
 
 
-/* =========================================
-   SWIPE (DESLIZAMIENTO) LATERAL - CÓDIGO FINAL
-   ========================================= */
-(function() {
-    let xDown = null;
-    let yDown = null;
-    
-    // 1. Detectar inicio del toque
-    document.addEventListener('touchstart', function(evt) {
-        const modal = document.querySelector('.lightbox-modal');
-        // Solo activamos si el modal está visible
-        if (modal && getComputedStyle(modal).display !== 'none') {
-            const firstTouch = evt.touches[0];
-            xDown = firstTouch.clientX;
-            yDown = firstTouch.clientY;
-        }
-    }, false);
 
-    // 2. Detectar movimiento
-    document.addEventListener('touchmove', function(evt) {
-        if (!xDown || !yDown) return;
 
-        let xUp = evt.touches[0].clientX;
-        let yUp = evt.touches[0].clientY;
 
-        let xDiff = xDown - xUp;
-        let yDiff = yDown - yUp;
 
-        // Si el movimiento es horizontal
-        if (Math.abs(xDiff) > Math.abs(yDiff) && Math.abs(xDiff) > 10) {
-            if (xDiff > 0) {
-                // IZQUIERDA -> SIGUIENTE (Usa ID 'lbNext')
-                const btnNext = document.getElementById('lbNext');
-                if (btnNext) btnNext.click(); 
-            } else {
-                // DERECHA -> ANTERIOR (Usa ID 'lbPrev')
-                const btnPrev = document.getElementById('lbPrev');
-                if (btnPrev) btnPrev.click();
-            }
-            xDown = null;
-            yDown = null;
-        }
-    }, false);
-})();
+
