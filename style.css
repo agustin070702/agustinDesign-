@@ -3498,59 +3498,77 @@ body {
 
 
 /* =========================================
-   LIGHTBOX MÓVIL: CORRECCIÓN FINAL
-   Fondo Gris Claro Sólido y Flechas Ocultas
+   LIGHTBOX MÓVIL: FONDO CLARO + FLECHAS FINAS
    ========================================= */
 
 @media screen and (max-width: 768px) {
 
-    /* 1. EL FONDO (Gris clarito #f0f0f0 casi opaco) */
-    /* Usamos '0.95' de opacidad para que tape el negro de fondo y se vea el color real */
+    /* 1. EL FONDO (Gris clarito sólido) - IGUAL QUE ANTES */
     html body .lightbox-modal {
         background: rgba(240, 240, 240, 0.95) !important; 
         backdrop-filter: blur(4px) !important;
         padding: 0 !important;
     }
 
-    /* 2. EXTERMINAR FLECHAS (Brute Force) */
-    /* Ocultamos el contenedor de navegación Y los botones individuales */
-    html body .lightbox-nav,
-    html body #prevBtn,
-    html body #nextBtn {
-        display: none !important;
-        width: 0 !important;
-        height: 0 !important;
-        opacity: 0 !important;
-        pointer-events: none !important;
-        visibility: hidden !important;
+    /* 2. FLECHAS (Visibles y súper finas) */
+    /* Contenedor para posicionarlas a los lados */
+    html body .lightbox-nav {
+        display: flex !important;
+        position: absolute !important;
+        top: 50% !important;
+        transform: translateY(-50%) !important;
+        width: 100% !important;
+        justify-content: space-between !important; /* Una a cada extremo */
+        z-index: 2001 !important;
+        pointer-events: none !important; /* Permite tocar la foto en el centro */
+        padding: 0 5px !important; /* Un pequeño margen de los bordes */
     }
 
-    /* 3. LA FOTO (Centrada y limpia) */
-    html body .lightbox-content {
-        /* Sombra fuerte para que la foto no se pierda en el gris */
-        box-shadow: 0 10px 40px rgba(0,0,0,0.3) !important; 
-        border-radius: 6px !important;
-        max-width: 90% !important;
-        max-height: 70vh !important;
+    /* Estilo de los botones individuales */
+    html body #prevBtn,
+    html body #nextBtn {
+        display: flex !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        pointer-events: auto !important; /* Activa el clic en las flechas */
+
+        /* --- AQUÍ ESTÁ EL CAMBIO DE GROSOR --- */
+        font-weight: 100 !important; /* El grosor más fino posible */
+        font-family: "Helvetica Neue", Arial, sans-serif !important; /* Fuentes que suelen tener pesos finos */
+        color: #333333 !important; /* Color gris oscuro elegante */
+        font-size: 50px !important; /* Grandes en altura, pero delgadas */
         
-        position: relative !important; /* Para que el z-index funcione */
+        background: none !important;
+        border: none !important;
+        align-items: center !important;
+        padding: 10px !important; /* Zona de toque cómoda */
+        cursor: pointer !important;
+        text-shadow: none !important; /* Quita sombras si tuvieran */
+    }
+
+    /* 3. LA FOTO (Centrada) */
+    html body .lightbox-content {
+        box-shadow: 0 10px 40px rgba(0,0,0,0.2) !important; 
+        border-radius: 6px !important;
+        /* Reducimos un pelín el ancho máximo para dar espacio a las flechas */
+        max-width: 88% !important; 
+        max-height: 70vh !important;
+        position: relative !important;
         z-index: 2000 !important;
     }
 
-    /* 4. BOTÓN CERRAR (X) - NEGRO */
-    /* Lo forzamos a negro oscuro (#333) para que contraste con el fondo gris */
+    /* 4. BOTÓN CERRAR (X) - Fino y oscuro */
     html body .close-btn {
         color: #333333 !important;
         top: 25px !important;
         right: 25px !important;
-        font-size: 40px !important;
+        font-size: 45px !important;
+        font-weight: 100 !important; /* También fino */
         opacity: 1 !important;
         z-index: 2005 !important;
         display: block !important;
     }
 
-    /* Ocultar cualquier texto o caption que pueda haber */
-    html body #caption {
-        display: none !important;
-    }
+    /* Ocultar caption */
+    html body #caption { display: none !important; }
 }
