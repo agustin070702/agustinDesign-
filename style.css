@@ -3349,3 +3349,149 @@ body {
         color: #333 !important;
     }
 }
+
+/* =========================================
+   CARRUSEL DE PROCESO (ESTILO HOME / MÓVIL)
+   Ajuste de distancias: Más lejos de arriba, más cerca del título
+   ========================================= */
+
+@media screen and (max-width: 768px) {
+
+    /* 1. EL CONTENEDOR PRINCIPAL */
+    body .process-carousel-wrapper {
+        width: 100% !important;
+        
+        /* AQUÍ EL CAMBIO 1: Alejamos el carrusel del texto de arriba */
+        margin-top: 50px !important; 
+        
+        margin-bottom: 40px !important;
+        overflow: hidden !important;
+    }
+
+    /* 2. EL ENCABEZADO (Texto "Proceso...") */
+    body .process-header {
+        display: flex !important;
+        justify-content: center !important; 
+        
+        /* AQUÍ EL CAMBIO 2: Acercamos el título a las fotos (de 20px a 10px) */
+        margin-bottom: 15px !important;
+        
+        padding: 0 30px !important; 
+    }
+
+    body .process-header .image-caption {
+        text-align: center !important;
+        font-size: 14px !important;
+        color: #666 !important;
+        width: 100% !important;
+    }
+
+    /* OCULTAR LOS BOTONES */
+    body .process-controls {
+        display: none !important;
+    }
+
+    /* 3. LA PISTA (TRACK) */
+    body .process-track {
+        display: flex !important; 
+        overflow-x: auto !important; 
+        scroll-snap-type: x mandatory; 
+        -webkit-overflow-scrolling: touch; 
+        
+        gap: 15px !important; 
+        
+        /* Padding sin espacio arriba para que pegue bien con el título */
+        padding: 0 30px 30px 30px !important; 
+        
+        scrollbar-width: none; 
+    }
+    
+    body .process-track::-webkit-scrollbar {
+        display: none;
+    }
+
+    /* 4. LAS DIAPOSITIVAS (SLIDES) */
+    body .process-slide {
+        flex: 0 0 85vw !important; 
+        width: 85vw !important;
+        max-width: 350px !important; 
+        scroll-snap-align: center; 
+        margin: 0 !important;
+        height: auto !important;
+    }
+
+    /* 5. LAS IMÁGENES */
+    body .process-slide img {
+        width: 100% !important;
+        height: auto !important;
+        object-fit: cover !important; 
+        border-radius: 8px !important; 
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important;
+        display: block !important;
+    }
+}
+
+/* =========================================
+   GALERÍA DE IMÁGENES (MÓVIL)
+   Transformación a Columna Vertical y Ajuste de Márgenes
+   ========================================= */
+
+@media screen and (max-width: 768px) {
+
+    /* 1. EL CONTENEDOR DE LA GALERÍA */
+    body .project-gallery-grid {
+        /* Desactivamos la grilla compleja */
+        display: flex !important;
+        flex-direction: column !important; /* Una foto debajo de la otra */
+        
+        /* Ancho total disponible */
+        width: 100% !important;
+        max-width: 100% !important;
+        
+        /* MÁRGENES DE SEPARACIÓN (CLAVE) */
+        /* Separa las fotos del texto de arriba ("Enfoque...") */
+        margin-top: 40px !important; 
+        
+        /* Separa las fotos del texto de abajo ("La Propuesta...") */
+        margin-bottom: 50px !important; 
+        
+        /* Espacio entre cada foto */
+        gap: 25px !important; 
+        
+        /* Reseteos de seguridad */
+        padding: 0 !important;
+        height: auto !important;
+    }
+
+    /* 2. CADA ITEM DE LA GALERÍA */
+    body .gallery-item {
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        display: block !important;
+    }
+
+    /* 3. LAS IMÁGENES DENTRO */
+    body .gallery-item img {
+        width: 100% !important; /* Ocupan todo el ancho posible */
+        height: auto !important;
+        display: block !important;
+        
+        /* Estética: Bordes redondeados y sombra suave */
+        border-radius: 8px !important;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.05) !important;
+    }
+
+    /* 4. AJUSTE DE LOS TEXTOS (Para asegurar que no se peguen) */
+    body .text-block {
+        /* Aseguramos que el texto tenga su propio espacio */
+        margin-bottom: 20px !important;
+    }
+    
+    /* Caso especial: El texto que va DESPUÉS de la galería */
+    /* Esto asegura que el título "La Propuesta" no flote raro */
+    body .project-gallery-grid + .text-block {
+        margin-top: 0 !important;
+        padding-top: 0 !important;
+    }
+}
