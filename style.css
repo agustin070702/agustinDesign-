@@ -3496,32 +3496,34 @@ body {
     }
 }
 
+
+
 /* =========================================
-   LIGHTBOX MÓVIL: FONDO CLARO + FLECHAS FINAS + ANIMACIÓN CIERRE
+   LIGHTBOX MÓVIL: BLOQUEO DE SCROLL + FLECHAS CORREGIDAS
    ========================================= */
 
 @media screen and (max-width: 768px) {
 
-    /* 1. EL FONDO (Gris clarito sólido) */
+    /* 1. EL FONDO (Gris clarito + BLOQUEO DE SCROLL) */
     html body .lightbox-modal {
+        /* --- PROPIEDADES PARA CONGELAR EL SCROLL --- */
+        position: fixed !important; /* Fija la ventana a la pantalla, no a la página */
+        top: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: 100% !important; /* Asegura que cubra todo el alto */
+        
+        overscroll-behavior: contain !important; /* Evita que el scroll "rebote" al fondo */
+        touch-action: none !important; /* Desactiva el gesto de deslizar el dedo en el fondo */
+        overflow: hidden !important; /* Corta cualquier contenido extra */
+        
+        /* --- ESTILOS VISUALES (Tus colores) --- */
         background: rgba(240, 240, 240, 0.95) !important; 
         backdrop-filter: blur(4px) !important;
         padding: 0 !important;
-
-        /* --- NUEVO: ESTO ACTIVA LA ANIMACIÓN AL CERRAR --- */
-        /* 'allow-discrete' es el truco para animar aunque se aplique display:none */
-        transition: opacity 0.4s ease, display 0.4s allow-discrete !important;
-        opacity: 1 !important;
     }
 
-    /* Definimos el estado "invisible" para que el navegador sepa interpolar */
-    @starting-style {
-        html body .lightbox-modal {
-            opacity: 0 !important;
-        }
-    }
-
-    /* 2. FLECHAS (Visibles y súper finas) - TU DISEÑO ORIGINAL */
+    /* 2. FLECHAS (ENCAPSULADAS para no romper el Home) */
     html body .lightbox-nav {
         display: flex !important;
         position: absolute !important;
@@ -3534,17 +3536,17 @@ body {
         padding: 0 5px !important; 
     }
 
-    html body #prevBtn,
-    html body #nextBtn {
+    html body .lightbox-nav #prevBtn,
+    html body .lightbox-nav #nextBtn {
         display: flex !important;
         visibility: visible !important;
         opacity: 1 !important;
         pointer-events: auto !important;
 
-        /* TU DISEÑO DE FLECHAS */
+        /* Estilo fino */
         font-weight: 100 !important; 
         font-family: "Helvetica Neue", Arial, sans-serif !important; 
-        color: #333333 !important; 
+        color: #333333 !important; /* Gris oscuro */
         font-size: 50px !important; 
         
         background: none !important;
@@ -3555,7 +3557,7 @@ body {
         text-shadow: none !important; 
     }
 
-    /* 3. LA FOTO (Centrada) */
+    /* 3. LA FOTO */
     html body .lightbox-content {
         box-shadow: 0 10px 40px rgba(0,0,0,0.2) !important; 
         border-radius: 6px !important;
@@ -3565,9 +3567,9 @@ body {
         z-index: 2000 !important;
     }
 
-    /* 4. BOTÓN CERRAR (X) - Fino y oscuro */
+    /* 4. BOTÓN CERRAR */
     html body .close-btn {
-        color: #FFFF !important;
+        color: #333333 !important;
         top: 25px !important;
         right: 25px !important;
         font-size: 45px !important;
