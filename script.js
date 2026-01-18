@@ -581,3 +581,52 @@ toggleBtn.addEventListener('click', () => {
         ultimoScroll = Math.max(0, scrollActual);
     });
 })();
+
+
+/* =========================================
+   SWIPE PARA LIGHTBOX (CORREGIDO)
+   ========================================= */
+(function() {
+    let xDown = null;
+    let yDown = null;
+    
+    // Seleccionamos el modal completo para escuchar el dedo
+    const modal = document.querySelector('.lightbox-modal');
+
+    if (!modal) return;
+
+    modal.addEventListener('touchstart', function(evt) {
+        const firstTouch = evt.touches[0];
+        xDown = firstTouch.clientX;
+        yDown = firstTouch.clientY;
+    }, false);
+
+    modal.addEventListener('touchmove', function(evt) {
+        if (!xDown || !yDown) {
+            return;
+        }
+
+        let xUp = evt.touches[0].clientX;
+        let yUp = evt.touches[0].clientY;
+
+        let xDiff = xDown - xUp;
+        let yDiff = yDown - yUp;
+
+        // Verificamos que el movimiento sea horizontal (más ancho que alto)
+        if (Math.abs(xDiff) > Math.abs(yDiff)) {
+            if (xDiff > 0) {
+                /* DESLIZAR IZQUIERDA -> SIGUIENTE FOTO */
+                const btnNext = document.getElementById('lbNext');
+                if (btnNext) btnNext.click(); 
+            } else {
+                /* DESLIZAR DERECHA -> FOTO ANTERIOR */
+                const btnPrev = document.getElementById('lbPrev');
+                if (btnPrev) btnPrev.click();
+            }
+        }
+        
+        // Reseteamos valores
+        xDown = null;
+        yDown = null;
+    }, false);
+})();
