@@ -3157,3 +3157,195 @@ body {
         margin-top: 0 !important;
     }
 }
+
+
+
+
+/* } <--- LLAVE DE SEGURIDAD */
+
+/* =========================================
+   ZONA INFERIOR MÓVIL: COMPACTA Y CENTRADA
+   ========================================= */
+
+@media screen and (max-width: 768px) {
+
+    /* 1. EL CONTENEDOR PADRE (Pegado a la foto) */
+    body .project-body-container {
+        display: block !important;
+        width: 100% !important;
+        
+        /* AQUÍ CAMBIÓ: De 20px a 0px para subirlo */
+        padding-top: 0px !important; 
+        
+        padding-left: 20px !important;
+        padding-right: 20px !important;
+        padding-bottom: 20px !important;
+        box-sizing: border-box !important;
+        margin: 0 !important;
+        text-align: center !important;
+    }
+
+    /* 2. LA COLUMNA DE DATOS (Pegada al texto de abajo) */
+    body .project-stats {
+        display: block !important;
+        width: 100% !important;
+        
+        /* AQUÍ CAMBIÓ: De 40px a 15px para acercar el texto */
+        margin-bottom: 25px !important; 
+        
+        border-bottom: 1px solid rgba(0,0,0,0.1) !important;
+        border-right: none !important;
+        padding-bottom: 20px !important;
+        text-align: center !important;
+    }
+
+    /* Items individuales */
+    body .project-stats .stat-item {
+        width: 100% !important;
+        margin-bottom: 20px !important; /* Menos espacio entre items también */
+        text-align: center !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+    }
+    
+    /* Reducir espacio dentro de cada item (Título vs Dato) */
+    body .project-stats .stat-item h3 {
+        margin-bottom: 5px !important;
+    }
+
+    /* 3. LA COLUMNA DE TEXTO */
+    body .project-narrative {
+        display: block !important;
+        width: 100% !important;
+        margin-top: 0 !important; /* Asegura que no haya espacio extra arriba */
+        text-align: center !important;
+    }
+    
+    body .project-narrative .text-block {
+        width: 100% !important;
+        margin-bottom: 30px !important;
+    }
+
+    body .project-narrative h2 {
+        text-align: center !important;
+        width: 100% !important;
+        margin-top: 0 !important; /* Pega el título "Contexto" a la línea divisoria */
+    }
+
+    body .project-narrative p {
+        text-align: center !important;
+        width: 100% !important; 
+    }
+}
+
+/* =========================================
+   QUITAR ESPACIO DEBAJO DE LA FOTO (MÓVIL)
+   ========================================= */
+
+@media screen and (max-width: 768px) {
+
+    /* 1. Atacamos al contenedor de la foto */
+    body .project-hero-image {
+        /* Le quitamos el margen de abajo agresivamente */
+        margin-bottom: 0 !important; 
+        padding-bottom: 0 !important;
+    }
+    
+    /* 2. Aseguramos que la imagen no deje una línea blanca extra */
+    body .project-hero-image img {
+        display: block !important;
+        margin-bottom: 0 !important;
+    }
+
+    /* 3. Reforzamos que el contenedor de abajo suba */
+    body .project-body-container {
+        padding-top: 20px !important; /* Un respiro mínimo de 20px se ve mejor que pegado */
+    }
+}
+
+
+
+/* } <--- LLAVE DE SEGURIDAD */
+
+/* =========================================
+   ZONA INFERIOR MÓVIL: MÁRGENES TIPO "ABOUT"
+   ========================================= */
+
+@media screen and (max-width: 768px) {
+
+    /* 1. EL CONTENEDOR PADRE */
+    body .project-body-container {
+        display: block !important;
+        width: 100% !important;
+        
+        padding-top: 0px !important; 
+        
+        /* AQUÍ EL CAMBIO: Aumentamos de 20px a 30px para igualar el "About" */
+        padding-left: 30px !important;
+        padding-right: 30px !important;
+        
+        padding-bottom: 20px !important;
+        box-sizing: border-box !important;
+        margin: 0 !important;
+        text-align: center !important;
+    }
+
+    /* 2. LA COLUMNA DE DATOS */
+    body .project-stats {
+        display: block !important;
+        width: 100% !important;
+        margin-bottom: 25px !important; 
+        border-bottom: 1px solid rgba(0,0,0,0.1) !important;
+        border-right: none !important;
+        padding-bottom: 20px !important;
+        text-align: center !important;
+    }
+
+    /* Items individuales */
+    body .project-stats .stat-item {
+        width: 100% !important;
+        margin-bottom: 20px !important; 
+        text-align: center !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+    }
+    
+    body .project-stats .stat-item h3 {
+        margin-bottom: 5px !important;
+    }
+
+    /* 3. LA COLUMNA DE TEXTO */
+    body .project-narrative {
+        display: block !important;
+        width: 100% !important;
+        margin-top: 0 !important; 
+        text-align: center !important;
+    }
+    
+    body .project-narrative .text-block {
+        width: 100% !important;
+        margin-bottom: 30px !important;
+    }
+
+    /* === AJUSTE DE TIPOGRAFÍA === */
+
+    body .project-narrative h2 {
+        text-align: center !important;
+        width: 100% !important;
+        margin-top: 0 !important;
+        font-size: 22px !important; 
+        line-height: 1.2 !important;
+        margin-bottom: 15px !important;
+    }
+
+    body .project-narrative p {
+        text-align: center !important;
+        width: 100% !important; 
+        font-size: 16px !important; 
+        line-height: 1.6 !important; 
+        margin-bottom: 15px !important;
+        color: #333 !important;
+    }
+}
