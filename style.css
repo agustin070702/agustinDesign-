@@ -3495,3 +3495,62 @@ body {
         padding-top: 0 !important;
     }
 }
+
+
+/* =========================================
+   LIGHTBOX MÓVIL: CORRECCIÓN FINAL
+   Fondo Gris Claro Sólido y Flechas Ocultas
+   ========================================= */
+
+@media screen and (max-width: 768px) {
+
+    /* 1. EL FONDO (Gris clarito #f0f0f0 casi opaco) */
+    /* Usamos '0.95' de opacidad para que tape el negro de fondo y se vea el color real */
+    html body .lightbox-modal {
+        background: rgba(240, 240, 240, 0.95) !important; 
+        backdrop-filter: blur(4px) !important;
+        padding: 0 !important;
+    }
+
+    /* 2. EXTERMINAR FLECHAS (Brute Force) */
+    /* Ocultamos el contenedor de navegación Y los botones individuales */
+    html body .lightbox-nav,
+    html body #prevBtn,
+    html body #nextBtn {
+        display: none !important;
+        width: 0 !important;
+        height: 0 !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+        visibility: hidden !important;
+    }
+
+    /* 3. LA FOTO (Centrada y limpia) */
+    html body .lightbox-content {
+        /* Sombra fuerte para que la foto no se pierda en el gris */
+        box-shadow: 0 10px 40px rgba(0,0,0,0.3) !important; 
+        border-radius: 6px !important;
+        max-width: 90% !important;
+        max-height: 70vh !important;
+        
+        position: relative !important; /* Para que el z-index funcione */
+        z-index: 2000 !important;
+    }
+
+    /* 4. BOTÓN CERRAR (X) - NEGRO */
+    /* Lo forzamos a negro oscuro (#333) para que contraste con el fondo gris */
+    html body .close-btn {
+        color: #333333 !important;
+        top: 25px !important;
+        right: 25px !important;
+        font-size: 40px !important;
+        opacity: 1 !important;
+        z-index: 2005 !important;
+        display: block !important;
+    }
+
+    /* Ocultar cualquier texto o caption que pueda haber */
+    html body #caption {
+        display: none !important;
+    }
+}
