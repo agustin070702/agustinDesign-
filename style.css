@@ -3496,61 +3496,69 @@ body {
     }
 }
 
-
 /* =========================================
-   LIGHTBOX MÓVIL: FONDO CLARO + FLECHAS FINAS
+   LIGHTBOX MÓVIL: FONDO CLARO + FLECHAS FINAS + ANIMACIÓN CIERRE
    ========================================= */
 
 @media screen and (max-width: 768px) {
 
-    /* 1. EL FONDO (Gris clarito sólido) - IGUAL QUE ANTES */
+    /* 1. EL FONDO (Gris clarito sólido) */
     html body .lightbox-modal {
         background: rgba(240, 240, 240, 0.95) !important; 
         backdrop-filter: blur(4px) !important;
         padding: 0 !important;
+
+        /* --- NUEVO: ESTO ACTIVA LA ANIMACIÓN AL CERRAR --- */
+        /* 'allow-discrete' es el truco para animar aunque se aplique display:none */
+        transition: opacity 0.4s ease, display 0.4s allow-discrete !important;
+        opacity: 1 !important;
     }
 
-    /* 2. FLECHAS (Visibles y súper finas) */
-    /* Contenedor para posicionarlas a los lados */
+    /* Definimos el estado "invisible" para que el navegador sepa interpolar */
+    @starting-style {
+        html body .lightbox-modal {
+            opacity: 0 !important;
+        }
+    }
+
+    /* 2. FLECHAS (Visibles y súper finas) - TU DISEÑO ORIGINAL */
     html body .lightbox-nav {
         display: flex !important;
         position: absolute !important;
         top: 50% !important;
         transform: translateY(-50%) !important;
         width: 100% !important;
-        justify-content: space-between !important; /* Una a cada extremo */
+        justify-content: space-between !important; 
         z-index: 2001 !important;
-        pointer-events: none !important; /* Permite tocar la foto en el centro */
-        padding: 0 5px !important; /* Un pequeño margen de los bordes */
+        pointer-events: none !important; 
+        padding: 0 5px !important; 
     }
 
-    /* Estilo de los botones individuales */
     html body #prevBtn,
     html body #nextBtn {
         display: flex !important;
         visibility: visible !important;
         opacity: 1 !important;
-        pointer-events: auto !important; /* Activa el clic en las flechas */
+        pointer-events: auto !important;
 
-        /* --- AQUÍ ESTÁ EL CAMBIO DE GROSOR --- */
-        font-weight: 100 !important; /* El grosor más fino posible */
-        font-family: "Helvetica Neue", Arial, sans-serif !important; /* Fuentes que suelen tener pesos finos */
-        color: #333333 !important; /* Color gris oscuro elegante */
-        font-size: 50px !important; /* Grandes en altura, pero delgadas */
+        /* TU DISEÑO DE FLECHAS */
+        font-weight: 100 !important; 
+        font-family: "Helvetica Neue", Arial, sans-serif !important; 
+        color: #333333 !important; 
+        font-size: 50px !important; 
         
         background: none !important;
         border: none !important;
         align-items: center !important;
-        padding: 10px !important; /* Zona de toque cómoda */
+        padding: 10px !important; 
         cursor: pointer !important;
-        text-shadow: none !important; /* Quita sombras si tuvieran */
+        text-shadow: none !important; 
     }
 
     /* 3. LA FOTO (Centrada) */
     html body .lightbox-content {
         box-shadow: 0 10px 40px rgba(0,0,0,0.2) !important; 
         border-radius: 6px !important;
-        /* Reducimos un pelín el ancho máximo para dar espacio a las flechas */
         max-width: 88% !important; 
         max-height: 70vh !important;
         position: relative !important;
@@ -3559,11 +3567,11 @@ body {
 
     /* 4. BOTÓN CERRAR (X) - Fino y oscuro */
     html body .close-btn {
-        color: #333333 !important;
+        color: #FFFF !important;
         top: 25px !important;
         right: 25px !important;
         font-size: 45px !important;
-        font-weight: 100 !important; /* También fino */
+        font-weight: 100 !important; 
         opacity: 1 !important;
         z-index: 2005 !important;
         display: block !important;
