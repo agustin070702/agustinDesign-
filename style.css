@@ -3679,3 +3679,79 @@ body {
         pointer-events: none; /* Para que el toque vaya al scroll y no a la foto */
     }
 }
+
+
+
+/* =========================================
+   CARRUSEL INFERIOR (VERTICAL 9:16) - "#trackPG"
+   ========================================= */
+
+@media screen and (max-width: 768px) {
+
+    /* 1. EL CONTENEDOR (TRACK) */
+    #trackPG {
+        display: flex !important;
+        flex-wrap: nowrap !important;
+        gap: 20px !important; /* Espacio entre fotos */
+        
+        /* BLINDAJE DE SCROLL (Solo horizontal) */
+        overflow-x: auto !important;
+        overflow-y: hidden !important; 
+        touch-action: pan-x !important; 
+        
+        /* EFECTO IMÁN */
+        scroll-snap-type: x mandatory !important;
+        scroll-behavior: smooth !important;
+        
+        width: 100% !important;
+        
+        /* CENTRADO PERFECTO:
+           Como las fotos son estrechas, usamos padding grande a los lados
+           para que la primera y la última queden al medio. */
+        padding: 0 25vw !important; 
+        padding-bottom: 30px !important;
+        
+        /* Alinear todo verticalmente al centro */
+        align-items: center !important;
+        
+        /* Ocultar scrollbar */
+        scrollbar-width: none !important;
+    }
+    
+    #trackPG::-webkit-scrollbar { display: none !important; }
+
+    /* 2. LA TARJETA (SLIDE) */
+    #trackPG .pg-slide {
+        /* AQUÍ ESTÁ LA MAGIA PARA FOTOS VERTICALES: */
+        /* Definimos ALTURA, no ancho. 
+           65vh = 65% de la altura de tu pantalla. */
+        height: 65vh !important; 
+        
+        /* El ancho se pone en automático para no deformar la foto */
+        flex: 0 0 auto !important; 
+        width: auto !important;
+
+        /* Alineación */
+        scroll-snap-align: center !important;
+        scroll-snap-stop: always !important;
+        
+        margin: 0 !important;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+    }
+
+    /* 3. LA IMAGEN DENTRO */
+    #trackPG .pg-slide img {
+        height: 100% !important; /* Llena la altura de la tarjeta (65vh) */
+        width: auto !important;  /* Respeta su proporción original */
+        
+        border-radius: 6px !important;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
+        
+        /* Evita que la imagen se seleccione al arrastrar */
+        -webkit-user-drag: none;
+        user-select: none;
+        pointer-events: none;
+    }
+}
