@@ -3681,77 +3681,67 @@ body {
 }
 
 
-
 /* =========================================
-   CARRUSEL INFERIOR (VERTICAL 9:16) - "#trackPG"
+   CARRUSEL VERTICAL (SOLUCIÓN DEFINITIVA)
+   Objetivo: Foto GRANDE y ANCHA (85% pantalla)
    ========================================= */
 
 @media screen and (max-width: 768px) {
 
-    /* 1. EL CONTENEDOR (TRACK) */
+    /* 1. EL CARRUSEL (RAÍL) */
     #trackPG {
         display: flex !important;
         flex-wrap: nowrap !important;
-        gap: 20px !important; /* Espacio entre fotos */
+        gap: 15px !important; /* Un poco de aire entre fotos */
         
-        /* BLINDAJE DE SCROLL (Solo horizontal) */
+        /* Configuración de Scroll Horizontal */
         overflow-x: auto !important;
         overflow-y: hidden !important; 
-        touch-action: pan-x !important; 
+        touch-action: pan-x !important; /* Bloquea que se mueva arriba/abajo */
         
-        /* EFECTO IMÁN */
-        scroll-snap-type: x mandatory !important;
+        scroll-snap-type: x mandatory !important; /* Efecto Imán */
         scroll-behavior: smooth !important;
         
         width: 100% !important;
+        padding: 0 20px !important; /* Márgenes laterales */
+        padding-bottom: 40px !important;
         
-        /* CENTRADO PERFECTO:
-           Como las fotos son estrechas, usamos padding grande a los lados
-           para que la primera y la última queden al medio. */
-        padding: 0 25vw !important; 
-        padding-bottom: 30px !important;
+        /* Alineación arriba para que no floten raro */
+        align-items: flex-start !important;
         
-        /* Alinear todo verticalmente al centro */
-        align-items: center !important;
-        
-        /* Ocultar scrollbar */
+        /* Sin barra de scroll */
         scrollbar-width: none !important;
     }
     
     #trackPG::-webkit-scrollbar { display: none !important; }
 
-    /* 2. LA TARJETA (SLIDE) */
+    /* 2. LA TARJETA (SLIDE) -> ¡AQUÍ ESTÁ LA CLAVE! */
     #trackPG .pg-slide {
-        /* AQUÍ ESTÁ LA MAGIA PARA FOTOS VERTICALES: */
-        /* Definimos ALTURA, no ancho. 
-           65vh = 65% de la altura de tu pantalla. */
-        height: 65vh !important; 
+        /* FUERZA EL ANCHO: 85% de la pantalla.
+           Al ser tan ancha, IMPOSIBLE que quepan 3. Solo cabe 1. */
+        flex: 0 0 85vw !important; 
+        width: 85vw !important;
         
-        /* El ancho se pone en automático para no deformar la foto */
-        flex: 0 0 auto !important; 
-        width: auto !important;
-
-        /* Alineación */
+        /* La altura se calcula sola para no deformar la foto */
+        height: auto !important; 
+        
+        /* Alineación magnética */
         scroll-snap-align: center !important;
         scroll-snap-stop: always !important;
         
         margin: 0 !important;
-        display: flex !important;
-        justify-content: center !important;
-        align-items: center !important;
+        display: block !important;
     }
 
-    /* 3. LA IMAGEN DENTRO */
+    /* 3. LA IMAGEN */
     #trackPG .pg-slide img {
-        height: 100% !important; /* Llena la altura de la tarjeta (65vh) */
-        width: auto !important;  /* Respeta su proporción original */
+        width: 100% !important;  /* Ocupa todo el ancho de la tarjeta */
+        height: auto !important; /* Crece hacia abajo lo que necesite */
         
         border-radius: 6px !important;
         box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
         
-        /* Evita que la imagen se seleccione al arrastrar */
-        -webkit-user-drag: none;
-        user-select: none;
-        pointer-events: none;
+        display: block !important;
+        pointer-events: none; /* Mejor experiencia al deslizar */
     }
 }
