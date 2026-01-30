@@ -3587,3 +3587,61 @@ body {
 
     body #caption { display: none !important; }
 }
+
+
+
+/* =========================================
+   CARRUSEL "CLEAN" (LA COLUMNA) - MÓVIL TIPO WORKS
+   ========================================= */
+@media screen and (max-width: 768px) {
+
+    /* 1. Ocultamos la cabecera con los botones y el título "Galería de Piezas" 
+       (En móvil se usa el dedo, no botones) */
+    .carousel-wrapper-clean .process-header {
+        display: none !important;
+    }
+
+    /* 2. Convertimos el track en un contenedor con scroll horizontal */
+    #trackClean {
+        display: flex !important;
+        flex-wrap: nowrap !important; /* Las fotos van en fila india */
+        gap: 20px !important;         /* Espacio entre fotos */
+        
+        overflow-x: auto !important;  /* Permite scrollear */
+        scroll-snap-type: x mandatory !important; /* Efecto imán */
+        
+        /* Anulamos cualquier transformación que el JS intente poner */
+        transform: none !important; 
+        width: 100% !important;
+        padding-bottom: 20px !important; /* Espacio para que no se pegue abajo */
+        
+        /* Ocultar barra de scroll fea */
+        scrollbar-width: none !important; /* Firefox */
+    }
+    
+    #trackClean::-webkit-scrollbar {
+        display: none !important; /* Chrome/Safari */
+    }
+
+    /* 3. Las diapositivas (Slides) */
+    .slide-clean {
+        /* IMPORTANTE: 
+           85vw significa el 85% del ancho de la pantalla.
+           Esto deja un hueco del 15% a la derecha para ver que viene otra foto. */
+        flex: 0 0 70vw !important; 
+        
+        scroll-snap-align: center !important; /* Se centra al soltar */
+        margin: 0 !important;
+        border: none !important;
+    }
+
+    /* 4. Las Imágenes (Respetando dimensiones) */
+    .slide-clean img {
+        width: 100% !important;
+        height: auto !important;  /* <--- ESTO RESPETA LA PROPORCIÓN */
+        
+        display: block !important;
+        border-radius: 4px !important;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1) !important;
+    }
+}
