@@ -3652,7 +3652,7 @@ body {
            85vw = 85% del ancho de pantalla.
            Esto hace que la foto sea protagonista pero 
            deja ver un trozo de la siguiente (efecto 'hay más'). */
-        flex: 0 0 85vw !important; 
+        flex: 0 0 75vw !important; 
         
         /* ALINEACIÓN MAGNÉTICA */
         scroll-snap-align: center !important; 
