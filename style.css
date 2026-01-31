@@ -3683,77 +3683,83 @@ body {
 
 
 /* =========================================
-   CARRUSEL FINAL (POSTERS) - ESTILO LIMPIO
+   CARRUSEL FINAL (VERTICAL) - REPLICA DEL SUPERIOR
    ========================================= */
 
 @media screen and (max-width: 768px) {
 
-    /* 1. OCULTAR CABECERA */
+    /* 1. OCULTAR TEXTOS SI QUIERES (Igual que arriba) */
     .pg-wrapper .process-header {
         display: none !important;
     }
 
-    /* 2. EL RAÍL (TRACK) */
+    /* 2. EL RAÍL (Exactamente igual que #trackClean) */
     #trackPosters {
         display: flex !important;
         flex-wrap: nowrap !important;
-        gap: 0 !important; /* Sin espacio, cada slide ocupa todo */
+        
+        /* AQUÍ EL CAMBIO: Gap 0 porque queremos centrado perfecto */
+        gap: 0 !important; 
+        
+        /* FÍSICA Y SCROLL (La clave del funcionamiento) */
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        touch-action: pan-x !important;
+        scroll-snap-type: x mandatory !important;
+        scroll-behavior: smooth !important;
+        -webkit-overflow-scrolling: touch !important;
         
         width: 100% !important;
-        height: auto !important;
-        padding-bottom: 40px !important;
-
-        /* Scroll horizontal nativo (igual que tus otros carruseles) */
-        overflow-x: auto !important;
-        overflow-y: hidden !important; 
-        scroll-snap-type: x mandatory !important; 
-        scroll-behavior: smooth !important;
+        height: 100vh !important; /* Altura completa */
         
-        -webkit-overflow-scrolling: touch !important; /* Suavidad en iOS */
+        /* Alineación */
+        align-items: center !important; 
+        
+        /* Sin scrollbar */
         scrollbar-width: none !important;
+        -ms-overflow-style: none !important;
     }
     
     #trackPosters::-webkit-scrollbar { display: none !important; }
 
-    /* 3. LA TARJETA (CONTENEDOR) */
+    /* 3. LA TARJETA (Adaptada a pantalla completa) */
     .poster-slide {
-        /* CLAVE: Ocupa toda la pantalla para aislar la foto */
-        min-width: 100vw !important;
-        width: 100vw !important;
+        /* DIFERENCIA CON EL DE ARRIBA: 
+           En vez de 75vw, usamos 100vw para que ocupe todo */
         flex: 0 0 100vw !important;
+        width: 100vw !important;
+        min-width: 100vw !important;
         
-        /* Centramos la imagen en el medio de la pantalla */
+        height: 100% !important;
+        
+        /* Centrado del contenido */
         display: flex !important;
         justify-content: center !important;
         align-items: center !important;
         
+        /* IMÁN (Igual que arriba) */
         scroll-snap-align: center !important;
         scroll-snap-stop: always !important;
         
-        position: relative !important;
+        margin: 0 !important;
     }
 
-    /* 4. LA IMAGEN (VISUAL) */
+    /* 4. LA FOTO */
     .poster-slide img {
-        /* Define aquí el tamaño visual de la foto */
-        height: 65vh !important; /* 65% de la altura de la pantalla */
-        width: auto !important;  /* El ancho se ajusta solo */
+        /* Control de tamaño vertical */
+        max-height: 80vh !important;
+        width: auto !important;
+        max-width: 90vw !important; /* Margen de seguridad */
         
         border-radius: 6px !important;
-        box-shadow: 0 10px 25px rgba(0,0,0,0.2) !important;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2) !important;
         
-        /* ESTADO INICIAL (SIN ANIMACIÓN JS COMPLEJA) */
-        /* Usamos opacidad base para dar efecto de foco */
-        opacity: 0.4 !important;
-        transform: scale(0.95) !important;
-        transition: all 0.5s ease !important;
-        
-        pointer-events: none; /* Mejor experiencia de deslizar */
-    }
-
-    /* 5. ESTADO ACTIVO (Cuando el JS lo active) */
-    .poster-slide.active img {
+        /* VISIBILIDAD TOTAL (Sin experimentos) */
         opacity: 1 !important;
-        transform: scale(1) !important;
+        transform: none !important;
+        
+        /* Evitar arrastre fantasma */
+        user-select: none;
+        pointer-events: none;
     }
 }

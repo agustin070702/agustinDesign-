@@ -585,39 +585,3 @@ toggleBtn.addEventListener('click', () => {
 
 
 
-
-/* =========================================
-   SCRIPT CARRUSEL POSTERS (OBSERVER NATIVO)
-   ========================================= */
-
-document.addEventListener("DOMContentLoaded", () => {
-    const track = document.getElementById("trackPosters");
-    
-    // Validación de seguridad
-    if (!track) return;
-
-    const slides = track.querySelectorAll(".poster-slide");
-
-    // Configuración del Observador
-    const options = {
-        root: track,        // El contenedor que se mueve
-        threshold: 0.6      // Activar cuando el 60% del slide esté visible
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                // Entró en pantalla -> Clase active
-                entry.target.classList.add("active");
-            } else {
-                // Salió de pantalla -> Quitar clase
-                entry.target.classList.remove("active");
-            }
-        });
-    }, options);
-
-    // Conectar cada slide al observador
-    slides.forEach(slide => {
-        observer.observe(slide);
-    });
-});
