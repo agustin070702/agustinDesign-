@@ -3683,74 +3683,76 @@ body {
 
 
 /* =========================================
-   CARRUSEL FINAL (SIMPLIFICADO Y CENTRADO)
+   CARRUSEL FINAL (VISUALMENTE EQUILIBRADO)
    ========================================= */
 
 @media screen and (max-width: 768px) {
 
-    /* 1. Ocultar el título en móvil (Opcional, si quieres ganar espacio) */
-    .pg-wrapper .process-header {
-        display: none !important;
-    }
+    /* 1. Ocultar título (opcional) */
+    .pg-wrapper .process-header { display: none !important; }
 
-    /* 2. EL CONTENEDOR (TRACK) */
+    /* 2. EL TRACK DEL CARRUSEL */
     #trackPosters {
         display: flex !important;
         
-        /* Espacio entre fotos */
-        gap: 20px !important; 
+        /* --- SOLUCIÓN DE MÁRGENES --- */
+        /* Ponemos el mismo aire arriba y abajo (40px) */
+        margin-top: 50px !important;    
+        margin-bottom: 50px !important; 
         
-        /* CÁLCULO PARA CENTRAR:
-           Si la foto mide 70vw, sobran 30vw.
-           Ponemos 15vw a cada lado para centrar la primera y la última. */
+        /* Gap limpio entre fotos */
+        gap: 10vw !important; 
+        
+        /* Padding lateral para centrar (15 + 70 + 15 = 100) */
         padding: 0 15vw !important;
-        padding-bottom: 30px !important; /* Espacio para la sombra */
-
-        /* Movimiento Nativo */
-        overflow-x: auto !important;
-        scroll-snap-type: x mandatory !important; /* Efecto Imán */
-        scroll-behavior: smooth !important;
         
-        /* Ocultar barra de scroll */
+        /* Espacio interno para que la sombra no se corte, 
+           pero no tan grande para no desequilibrar */
+        padding-bottom: 25px !important; 
+
+        /* Scroll Nativo */
+        overflow-x: auto !important;
+        scroll-snap-type: x mandatory !important;
+        scroll-behavior: smooth !important;
         scrollbar-width: none !important;
         -ms-overflow-style: none !important;
     }
     
     #trackPosters::-webkit-scrollbar { display: none !important; }
 
-    /* 3. LA CAJA INDIVIDUAL (.poster-slide) */
+    /* --- TRUCO CLAVE: EL VECINO DE ABAJO --- */
+    /* Quitamos el margen superior de "Siguiente Proyecto" para que 
+       no se sume y cree un espacio gigante abajo */
+    .next-project-nav {
+        margin-top: 0 !important;
+        padding-top: 0 !important;
+    }
+
+    /* 3. CAJA INDIVIDUAL */
     .poster-slide {
-        /* Tamaño solicitado: 70% del ancho */
         flex: 0 0 70vw !important;
         width: 70vw !important;
-        
-        /* Alineación del imán: SIEMPRE AL CENTRO */
         scroll-snap-align: center !important;
         scroll-snap-stop: always !important;
-        
         display: flex !important;
         justify-content: center !important;
         align-items: center !important;
     }
 
-    /* 4. LA IMAGEN */
+    /* 4. IMAGEN */
     .poster-slide img {
-        width: 100% !important; /* Llena el contenedor del 70vw */
+        width: 100% !important;
         height: auto !important;
-        
-        /* Altura máxima controlada (para que no sea enorme) */
         max-height: 60vh !important;
         object-fit: cover !important;
         
         border-radius: 8px !important;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.2) !important;
         
-        /* VISIBILIDAD TOTAL: Sin animaciones de entrada/salida */
+        /* Sombra ajustada */
+        box-shadow: 0 5px 20px rgba(0,0,0,0.15) !important;
+        
         opacity: 1 !important;
         transform: none !important;
-        
-        /* Evita que se seleccione la imagen al arrastrar */
         pointer-events: none; 
-        user-select: none;
     }
 }
