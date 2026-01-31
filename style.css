@@ -3681,68 +3681,79 @@ body {
 }
 
 
+
 /* =========================================
-   CARRUSEL VERTICAL - "PIZARRA LIMPIA"
-   ID: #carruselVertical
+   CARRUSEL FINAL (POSTERS) - ESTILO LIMPIO
    ========================================= */
 
 @media screen and (max-width: 768px) {
 
-    /* 1. EL CONTENEDOR (RAÍL) */
-    #carruselVertical {
+    /* 1. OCULTAR CABECERA */
+    .pg-wrapper .process-header {
+        display: none !important;
+    }
+
+    /* 2. EL RAÍL (TRACK) */
+    #trackPosters {
         display: flex !important;
-        flex-wrap: nowrap !important; /* Obliga a estar en una sola línea */
-        gap: 20px !important;         /* Espacio entre fotos */
-        
-        /* Comportamiento de Scroll */
-        overflow-x: auto !important;
-        overflow-y: hidden !important; 
-        touch-action: pan-x !important; /* Solo desliza izquierda/derecha */
-        
-        scroll-snap-type: x mandatory !important; /* Efecto Imán */
-        scroll-behavior: smooth !important;
+        flex-wrap: nowrap !important;
+        gap: 0 !important; /* Sin espacio, cada slide ocupa todo */
         
         width: 100% !important;
-        padding: 0 20px !important; /* Margen a los costados */
+        height: auto !important;
         padding-bottom: 40px !important;
+
+        /* Scroll horizontal nativo (igual que tus otros carruseles) */
+        overflow-x: auto !important;
+        overflow-y: hidden !important; 
+        scroll-snap-type: x mandatory !important; 
+        scroll-behavior: smooth !important;
         
-        /* Alineación */
-        align-items: flex-start !important;
-        
-        /* Quitar scrollbar */
+        -webkit-overflow-scrolling: touch !important; /* Suavidad en iOS */
         scrollbar-width: none !important;
     }
     
-    #carruselVertical::-webkit-scrollbar { display: none !important; }
+    #trackPosters::-webkit-scrollbar { display: none !important; }
 
-    /* 2. LA TARJETA (NUEVA CLASE) */
-    .card-vertical {
-        /* AQUÍ ESTÁ EL SECRETO PARA QUE SE VEA DE A UNA: */
-        /* Forzamos que el ancho sea el 85% de tu pantalla */
-        min-width: 85vw !important; 
-        width: 70vw !important;
-        flex: 0 0 85vw !important; /* Esto evita que se aplasten */
+    /* 3. LA TARJETA (CONTENEDOR) */
+    .poster-slide {
+        /* CLAVE: Ocupa toda la pantalla para aislar la foto */
+        min-width: 100vw !important;
+        width: 100vw !important;
+        flex: 0 0 100vw !important;
         
-        height: auto !important; 
+        /* Centramos la imagen en el medio de la pantalla */
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
         
-        /* Alineación magnética al centro */
         scroll-snap-align: center !important;
         scroll-snap-stop: always !important;
         
-        margin: 0 !important;
-        display: block !important;
         position: relative !important;
     }
 
-    /* 3. LA IMAGEN DENTRO */
-    .card-vertical img {
-        width: 100% !important;  /* Ocupa todo el ancho de la tarjeta (85vw) */
-        height: auto !important; /* Mantiene la proporción natural */
+    /* 4. LA IMAGEN (VISUAL) */
+    .poster-slide img {
+        /* Define aquí el tamaño visual de la foto */
+        height: 65vh !important; /* 65% de la altura de la pantalla */
+        width: auto !important;  /* El ancho se ajusta solo */
         
         border-radius: 6px !important;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.2) !important;
         
-        display: block !important;
-        pointer-events: none; 
+        /* ESTADO INICIAL (SIN ANIMACIÓN JS COMPLEJA) */
+        /* Usamos opacidad base para dar efecto de foco */
+        opacity: 0.4 !important;
+        transform: scale(0.95) !important;
+        transition: all 0.5s ease !important;
+        
+        pointer-events: none; /* Mejor experiencia de deslizar */
+    }
+
+    /* 5. ESTADO ACTIVO (Cuando el JS lo active) */
+    .poster-slide.active img {
+        opacity: 1 !important;
+        transform: scale(1) !important;
     }
 }
