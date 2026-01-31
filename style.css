@@ -3683,83 +3683,74 @@ body {
 
 
 /* =========================================
-   CARRUSEL FINAL (VERTICAL) - REPLICA DEL SUPERIOR
+   CARRUSEL FINAL (SIMPLIFICADO Y CENTRADO)
    ========================================= */
 
 @media screen and (max-width: 768px) {
 
-    /* 1. OCULTAR TEXTOS SI QUIERES (Igual que arriba) */
+    /* 1. Ocultar el título en móvil (Opcional, si quieres ganar espacio) */
     .pg-wrapper .process-header {
         display: none !important;
     }
 
-    /* 2. EL RAÍL (Exactamente igual que #trackClean) */
+    /* 2. EL CONTENEDOR (TRACK) */
     #trackPosters {
         display: flex !important;
-        flex-wrap: nowrap !important;
         
-        /* AQUÍ EL CAMBIO: Gap 0 porque queremos centrado perfecto */
-        gap: 0 !important; 
+        /* Espacio entre fotos */
+        gap: 20px !important; 
         
-        /* FÍSICA Y SCROLL (La clave del funcionamiento) */
+        /* CÁLCULO PARA CENTRAR:
+           Si la foto mide 70vw, sobran 30vw.
+           Ponemos 15vw a cada lado para centrar la primera y la última. */
+        padding: 0 15vw !important;
+        padding-bottom: 30px !important; /* Espacio para la sombra */
+
+        /* Movimiento Nativo */
         overflow-x: auto !important;
-        overflow-y: hidden !important;
-        touch-action: pan-x !important;
-        scroll-snap-type: x mandatory !important;
+        scroll-snap-type: x mandatory !important; /* Efecto Imán */
         scroll-behavior: smooth !important;
-        -webkit-overflow-scrolling: touch !important;
         
-        width: 100% !important;
-        height: 100vh !important; /* Altura completa */
-        
-        /* Alineación */
-        align-items: center !important; 
-        
-        /* Sin scrollbar */
+        /* Ocultar barra de scroll */
         scrollbar-width: none !important;
         -ms-overflow-style: none !important;
     }
     
     #trackPosters::-webkit-scrollbar { display: none !important; }
 
-    /* 3. LA TARJETA (Adaptada a pantalla completa) */
+    /* 3. LA CAJA INDIVIDUAL (.poster-slide) */
     .poster-slide {
-        /* DIFERENCIA CON EL DE ARRIBA: 
-           En vez de 75vw, usamos 100vw para que ocupe todo */
-        flex: 0 0 100vw !important;
-        width: 100vw !important;
-        min-width: 100vw !important;
+        /* Tamaño solicitado: 70% del ancho */
+        flex: 0 0 70vw !important;
+        width: 70vw !important;
         
-        height: 100% !important;
-        
-        /* Centrado del contenido */
-        display: flex !important;
-        justify-content: center !important;
-        align-items: center !important;
-        
-        /* IMÁN (Igual que arriba) */
+        /* Alineación del imán: SIEMPRE AL CENTRO */
         scroll-snap-align: center !important;
         scroll-snap-stop: always !important;
         
-        margin: 0 !important;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
     }
 
-    /* 4. LA FOTO */
+    /* 4. LA IMAGEN */
     .poster-slide img {
-        /* Control de tamaño vertical */
-        max-height: 80vh !important;
-        width: auto !important;
-        max-width: 90vw !important; /* Margen de seguridad */
+        width: 100% !important; /* Llena el contenedor del 70vw */
+        height: auto !important;
         
-        border-radius: 6px !important;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.2) !important;
+        /* Altura máxima controlada (para que no sea enorme) */
+        max-height: 60vh !important;
+        object-fit: cover !important;
         
-        /* VISIBILIDAD TOTAL (Sin experimentos) */
+        border-radius: 8px !important;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2) !important;
+        
+        /* VISIBILIDAD TOTAL: Sin animaciones de entrada/salida */
         opacity: 1 !important;
         transform: none !important;
         
-        /* Evitar arrastre fantasma */
+        /* Evita que se seleccione la imagen al arrastrar */
+        pointer-events: none; 
         user-select: none;
-        pointer-events: none;
     }
 }
