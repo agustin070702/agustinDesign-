@@ -458,89 +458,128 @@ if (modal) {
 
 
 
-// --- LÓGICA SIEMPRE LAB ---
-const jotitaTrigger = document.getElementById('jotita-trigger');
-const labOverlay = document.getElementById('siempre-lab-overlay');
-const closeLab = document.getElementById('close-lab');
-const labList = document.getElementById('lab-list');
+/* =========================================
+   LÓGICA MISIÓN 14 FEBRERO (FINAL)
+   ========================================= */
 
+// 1. ABRIR EL OVERLAY (Al hacer click en "jotita")
+const btnJotita = document.getElementById('btnJotita');
+const overlayMision = document.getElementById('misionOverlay');
 
-jotitaTrigger.addEventListener('click', () => {
-    // En vez de style.display, agregamos la clase
-    labOverlay.classList.add('active'); 
-    
-    document.body.style.overflow = 'hidden'; // Bloquea scroll
-    actualizarContador();
-});
-
-closeLab.addEventListener('click', () => {
-    // Quitamos la clase para que se desvanezca suavemente
-    labOverlay.classList.remove('active');
-    
-    document.body.style.overflow = 'auto'; // Reactiva scroll
-});
-
-
-
-// --- LÓGICA DEL BOTÓN DESPLEGABLE (CON TRANSICIÓN) ---
-const toggleBtn = document.getElementById('toggle-list-btn');
-
-toggleBtn.addEventListener('click', () => {
-    // Alternamos la clase 'open' en la lista
-    labList.classList.toggle('open');
-    
-    // Verificamos si la clase está puesta para cambiar el texto
-    if (labList.classList.contains('open')) {
-        toggleBtn.textContent = "Ocultar listado";
-        
-        // Pequeña espera para hacer el scroll suave y que no sea brusco
+if (btnJotita && overlayMision) {
+    btnJotita.addEventListener('click', function() {
+        overlayMision.style.display = 'flex';
+        // Pequeño delay para permitir la transición de opacidad
         setTimeout(() => {
-            labList.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        }, 300);
-        
-    } else {
-        toggleBtn.textContent = "Ver el listado de compras :)";
-    }
-});
-
-
-/* --- SMART SCROLL BLINDADO --- */
-/* (Pega esto al final de script.js) */
-
-(function() { // "Caja" de seguridad para no chocar con nada
-    let ultimoScroll = 0;
-
-    window.addEventListener('scroll', () => {
-        // 1. RE-IDENTIFICAMOS LOS ELEMENTOS (Para evitar errores de "undefined")
-        const btn = document.getElementById('menuToggle');
-        const menu = document.getElementById('sideMenu');
-        
-        // Si no existen por alguna razón, no hacemos nada
-        if (!btn || !menu) return;
-
-        // 2. Si pantalla es grande, salir
-        if (window.innerWidth > 1024) return;
-
-        // 3. Si el menú está abierto, ¡el botón SE QUEDA!
-        if (menu.classList.contains('active')) {
-            btn.classList.remove('oculto'); 
-            return; 
-        }
-
-        // 4. Detectar dirección
-        const scrollActual = window.pageYOffset || document.documentElement.scrollTop;
-
-        if (scrollActual > ultimoScroll && scrollActual > 50) {
-            // BAJANDO -> Ocultar
-            btn.classList.add('oculto');
-        } else {
-            // SUBIENDO -> Mostrar
-            btn.classList.remove('oculto');
-        }
-
-        ultimoScroll = Math.max(0, scrollActual);
+            overlayMision.classList.add('open');
+        }, 10);
     });
-})();
+}
 
+// 2. SELECCIONAR FOTOS (CAPTCHA)
+function toggleFoto(elemento) {
+    elemento.classList.toggle('selected');
+}
 
+// 3. VERIFICAR SI GANÓ
+function verificarCaptcha() {
+    const todasLasFotos = document.querySelectorAll('.captcha-item');
+    let error = false;
 
+    // A) Validar selección
+    todasLasFotos.forEach(foto => {
+        const esCorrecta = foto.getAttribute('data-correcta') === 'true';
+        const estaSeleccionada = foto.classList.contains('selected');
+
+        // Error si: Correcta NO seleccionada O Incorrecta SÍ seleccionada
+        if ((esCorrecta && !estaSeleccionada) || (!esCorrecta && estaSeleccionada)) {
+            error = true;
+        }
+    });
+
+    // B) Si hay error
+    if (error) {
+        const msg = document.getElementById('mensajeError');
+        if(msg) msg.style.display = 'block';
+        
+        // Animación de "temblor" en la tarjeta
+        const card = document.querySelector('.mision-card');
+        card.style.transform = 'translateX(10px)';
+        setTimeout(() => card.style.transform = 'translateX(-10px)', 100);
+        setTimeout(() => card.style.transform = 'translateX(0)', 200);
+    } 
+    // C) SI ESTÁ CORRECTO (Paso a la siguiente fase)
+    else {
+        // Ocultamos Fase 1 INMEDIATAMENTE (Método Nuclear)
+        document.getElementById('faseCaptcha').style.display = 'none';
+
+        // Mostramos Fase 2
+        const fase2 = document.getElementById('fasePregunta');
+        fase2.style.display = 'block';
+        
+        // Agregamos la animación que definimos en el CSS
+        fase2.classList.add('animacion-entrada');
+    }
+}
+
+// 4. EL BOTÓN "NO" QUE SE ESCAPA
+function esquivarBoton() {
+    const btnNo = document.getElementById('btnNo');
+    
+    // 1. TRUCO DE MAGIA: Si el botón sigue dentro de la tarjeta, lo sacamos.
+    // Al moverlo al <body>, deja de estar limitado por el pop-up.
+    if (btnNo.parentNode !== document.body) {
+        document.body.appendChild(btnNo);
+    }
+
+    // 2. Lo configuramos para que flote libremente
+    btnNo.style.position = 'fixed';
+    btnNo.style.zIndex = '100000'; // ¡Por encima de todo! (incluso del overlay negro)
+    
+    // 3. Calculamos posición aleatoria (Toda la pantalla)
+    // Restamos el ancho del botón (aprox 100px) para que no se salga por la derecha
+    const x = Math.random() * (window.innerWidth - 120);
+    const y = Math.random() * (window.innerHeight - 60);
+    
+    btnNo.style.left = x + 'px';
+    btnNo.style.top = y + 'px';
+}
+
+// 5. ACEPTAR PROPUESTA (Mostrar Carta)
+// (Nota: En el HTML le pusimos onclick="aceptarPropuesta()")
+function aceptarPropuesta() {
+    // 1. Ocultamos la pregunta y el botón NO
+    document.getElementById('fasePregunta').style.display = 'none';
+    const btnNo = document.getElementById('btnNo');
+    if (btnNo) btnNo.style.display = 'none';
+
+    // 2. BUSCAMOS LA TARJETA Y LE DAMOS EL NUEVO ANCHO
+    const tarjeta = document.querySelector('.mision-card');
+    tarjeta.classList.add('modo-carta');
+
+    // 3. Mostramos la carta
+    const fase3 = document.getElementById('faseCarta');
+    fase3.style.display = 'block';
+    fase3.classList.add('animacion-entrada');
+}
+
+// 6. CERRAR TODO Y RESETEAR
+function cerrarMision() {
+    const overlay = document.getElementById('misionOverlay');
+    overlay.classList.remove('open');
+    
+    setTimeout(() => {
+        overlay.style.display = 'none';
+        
+        // --- RESETEO DE ANCHO ---
+        const tarjeta = document.querySelector('.mision-card');
+        tarjeta.classList.remove('modo-carta'); // Vuelve a los 450px originales
+
+        // ... el resto de tu código de reseteo que ya tienes ...
+        document.getElementById('fasePregunta').style.display = 'none';
+        document.getElementById('faseCarta').style.display = 'none';
+        document.getElementById('faseCaptcha').style.display = 'block';
+        
+        // (Asegúrate de mantener aquí la lógica de devolver el botón NO que ya pusimos)
+    }, 400);
+}

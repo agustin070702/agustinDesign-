@@ -370,7 +370,7 @@
 
             <footer class="contact-footer scroll-animate">
                 <div class="footer-left">
-                    <p>© 2025 Agustín Avendaño :) <span id="jotita-trigger">jotita</span></p>
+                    <p>© 2025 Agustín Avendaño :) <span id="btnJotita" style="cursor: pointer; text-decoration: underline;">jotita</span></p>
                     <p class="credits">Designed & Coded by me</p>
                 </div>
                 <div class="footer-right">
@@ -385,101 +385,72 @@
     <script src="script.js" defer></script>
 
 
-    <div id="siempre-lab-overlay" class="lab-hidden">
-    <div class="lab-content">
-        <button id="close-lab">×</button>
-        <img src="img/siemprelablogo.webp" alt="Siempre Lab Online" class="lab-logo">
-        <div class="lab-buttons-group">
-    <button id="toggle-list-btn" class="lab-btn-reveal">Ver el listado de ingredientes :)</button>
-    <button id="open-menu-btn" class="lab-btn-reveal lab-btn-menu">Ver Menú de la Noche</button>
-</div>
+<div id="misionOverlay" class="mision-overlay" style="display: none;">
+    <div class="mision-card">
         
+        <div id="faseCaptcha">
+            <div class="mision-header">
+                <h2>Verificación de Identidad</h2>
+                <p>Selecciona las fotos que creas que <b>representan nuestra relación</b> para continuar:</p>
+            </div>
+            
+            <div class="captcha-grid">
+                <div class="captcha-item" onclick="toggleFoto(this)" data-correcta="true"><img src="img/jo1.jpeg"></div>
+                <div class="captcha-item" onclick="toggleFoto(this)" data-correcta="true"><img src="img/jo2.jpeg"></div>
+                <div class="captcha-item" onclick="toggleFoto(this)" data-correcta="true"><img src="img/jo3.jpeg"></div>
+                <div class="captcha-item" onclick="toggleFoto(this)" data-correcta="true"><img src="img/jo4.jpeg"></div>
+                <div class="captcha-item" onclick="toggleFoto(this)" data-correcta="true"><img src="img/jo5.jpeg"></div>
+                <div class="captcha-item" onclick="toggleFoto(this)" data-correcta="true"><img src="img/jo6.jpeg"></div>
+                <div class="captcha-item" onclick="toggleFoto(this)" data-correcta="true"><img src="img/jo7.jpeg"></div>
+                <div class="captcha-item" onclick="toggleFoto(this)" data-correcta="true"><img src="img/jo8.jpeg"></div>
+                <div class="captcha-item" onclick="toggleFoto(this)" data-correcta="true"><img src="img/jo9.jpeg"></div>
+            </div>
 
-        <div id="lab-list" class="lab-hidden-content">
-            <h3>SUMINISTROS A TENER</h3>
-            <ul>
-                <li><strong>Proteína del Mar I:</strong> 200g de Salmón (fresco o ahumado).</li>
-                <li><strong>Proteína del Mar II:</strong> 250g de Camarones pelados.</li>
-                <li><strong>La Base Estructural:</strong> 250g de Pasta larga (Linguine o Spaguetti).</li>
-                <li><strong>Cítricos:</strong> 3 Limones amarillos grandes.</li>
-                <li><strong>El Toque de Color:</strong> 1 cajita de Frutos Rojos.</li>
-                <li><strong>Lácteos:</strong> Mantequilla, Queso en bloque y Crema de leche.</li>
-                <li><strong>El Toque Crujiente:</strong> Galletas de mantequilla.</li>
-                <li><strong>Esenciales:</strong> Ajo, Hierbas Frescas (ciboulette?), Oliva, Sal y Pimienta.</li>
-            </ul>
-            <p class="lab-footer" style="color: #343a40;">Prepárate para la competencia de emplatado</p>
-            <p class="lab-footer" style="margin-top: 10px;">
-        <strong>Nota Logística:</strong> No incluir alcohol/bebestibles en la compra de suministros.
-    </p>
+            <p id="mensajeError" class="error-msg" style="display:none; color: #ff4d4d; margin-top: 10px; font-weight: bold;">
+                ⚠️ Error: Dale locoooo! Intenta de nuevo
+            </p>
+            
+            <button class="btn-verificar" onclick="verificarCaptcha()">VERIFICAR</button>
         </div>
+
+        <div id="fasePregunta" style="display: none;">
+            <h2>¡Identidad Confirmada! :)</h2>
+            <p>Ahora que sé que eres tú...
+            te tengo una pregunta:</p>
+            
+            <p ><b>
+                ¿Aceptarías ser mi San Valentín este año? </b> 
+            </p>
+            
+            <div class="botones-amor">
+                <button id="btnSi" class="btn-si" onclick="aceptarPropuesta()">¡SÍ, OBVIO!</button>
+                <button id="btnNo" class="btn-no" onmouseover="esquivarBoton()">NO</button>
+            </div>
+        </div>
+
+        <div id="faseCarta" style="display: none;">
+            <h2>Para mi Jotita</h2>
+            <div class="texto-carta" style="text-align: left; margin-bottom: 20px; line-height: 0.3;">
+                    
+    <p>Tenerte en mi vida es, lejos, de las mejores cosas que me han pasado. Me das una paz y una felicidad que no encuentro en ningún otro lado.</p>
+
+    <p>Sé que a veces sientes que no estás al 100%, pero honestamente... nadie nunca lo está. Y puta, yo también he tenido mi mala racha últimamente jeje y si algo he aprendido es que eso da lo mismo. Lo único que importa es que nos acompañemos en todas: en las buenas, en las mejores, en las malas y en las peores. No necesito que seas perfecta (de hecho que paja sería), solo te necesito a ti, a nosotros, remándola juntos.</p>
+
+    <p>A veces me quedo pegado mirándote y me cuesta creer que seas real. Me encanta tu forma de ser, me encanta que me cuides (incluso cuando me retas, porque sé que lo haces desde el zoncora jajaja) y me encanta la seguridad que siento cuando estoy contigo. Es esa sensación de que, pase lo que pase afuera, contigo siempre estoy como en casa.</p>
+
+    <p>Tú me haces querer ser mejor, es brígido. Todo este camino, mi carrera y mis proyectos tienen otro color (q cringe pero es vdd) pq estás tú para poder contarte o compartirlo. De vdd que no me imagino celebrando nada si no es contigo y familia. Eres mi motivación para darle con todo, porque sé que al final del día, tengo a la mejor compañera para compartir el éxito o para levantarme si me caigo.</p>
+
+    <p>Valoro caleta que estés ahí, que me escuches y que seas mi cable a tierra cuando me empiezo a pasar rollos. No cualquiera se la banca como lo haces tú y eso para mí lo es todo.</p>
+
+    <p>Por eso programé todo esto y escondí el botón de NO: porque mi única opción eres tú. Te advertí en el momento que te pedí pololeo, estay condenada mamita... preparate pq de esta no te vay a escapar</p>
+
+    <p>taxss</p>
+</div>
+            <button class="btn-cerrar" onclick="cerrarMision()">Guardar en el corazón <3</button>
+        </div>
+
     </div>
 </div>
-
-<div id="menuModal" class="menu-modal-overlay">
-    <span class="close-menu-modal">&times;</span>
-    <div class="menu-modal-content">
-        <img src="img/menu-noche.webp" alt="Menú Cena Siempre Lab" class="menu-img-full">
-    </div>
-</div>
-
-<script>
-    /* =========================================
-       1. LÓGICA DEL MENÚ DE LA NOCHE (FOTO)
-       ========================================= */
-    const menuModal = document.getElementById("menuModal");
-    const openMenuBtn = document.getElementById("open-menu-btn");
-    const closeMenuSpan = document.querySelector(".close-menu-modal");
-
-    function openModal() {
-        menuModal.style.display = "flex";
-        // Pequeña espera para que el navegador detecte el cambio a flex
-        setTimeout(() => {
-            menuModal.classList.add("open");
-        }, 10);
-    }
-
-    function closeModal() {
-        menuModal.classList.remove("open");
-        // CAMBIO: Esperamos 800ms (0.8s) igual que en el CSS
-        setTimeout(() => {
-            menuModal.style.display = "none";
-        }, 800);
-    }
-
-    openMenuBtn.addEventListener('click', openModal);
-    closeMenuSpan.addEventListener('click', closeModal);
-    
-    // Cerrar al tocar el fondo negro
-    menuModal.addEventListener('click', function(e) {
-        if (e.target === menuModal) {
-            closeModal();
-        }
-    });
-
-    /* =========================================
-       2. LÓGICA DE LA LISTA DE INGREDIENTES (CORREGIDA)
-       ========================================= */
-    const ingredientsBtn = document.getElementById("toggle-list-btn");
-    const ingredientsList = document.getElementById("lab-list");
-
-    // Nos aseguramos de borrar cualquier evento anterior clonando el botón (truco limpio)
-    const newIngredientsBtn = ingredientsBtn.cloneNode(true);
-    ingredientsBtn.parentNode.replaceChild(newIngredientsBtn, ingredientsBtn);
-
-    newIngredientsBtn.addEventListener("click", function() {
-        // Alternamos una clase 'active' para estilos si los tienes
-        this.classList.toggle("active");
-        
-        // Lógica de acordeón (detectamos altura automáticamente)
-        if (ingredientsList.style.maxHeight) {
-            ingredientsList.style.maxHeight = null; // Cerrar
-        } else {
-            ingredientsList.style.maxHeight = ingredientsList.scrollHeight + "px"; // Abrir
-        }
-    });
-</script>
-
-
 
 
 </body>

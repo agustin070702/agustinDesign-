@@ -2578,392 +2578,249 @@ body {
 
 
 
-
-/* --- SIEMPRE LAB STYLES --- */
-#jotita-trigger {
-    cursor: pointer;
-    opacity: 1; /* Casi invisible para que sea un secreto */
-    font-size: 10px;
-    margin-left: 5px;
-    transition: opacity 0.3s;
-}
-
-#jotita-trigger:hover {
-    opacity: 1;
-    color: #ff4d4d; /* Un toque de color al pasar el mouse */
-}
-
-#siempre-lab-overlay {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    
-    /* Fondo con transparencia */
-    background: rgba(221, 221, 221, 0.98); 
-    z-index: 100000;
-    
-    /* AJUSTES PARA ANIMACIÓN SUAVE */
-    display: flex;           /* Siempre es flex para centrar */
-    justify-content: center;
-    align-items: center;
-    
-    /* Estado inicial: Invisible */
-    opacity: 0;
-    visibility: hidden;      /* Para que no intercepte clics cuando no se ve */
-    pointer-events: none;    /* Doble seguridad para no bloquear tu web */
-    
-    /* Transición suave de 0.5 segundos */
-    transition: opacity 0.5s ease, visibility 0.5s ease;
-    
-    font-family: 'Inter', sans-serif;
-}
-
-/* Clase que agregaremos con JS para mostrarlo */
-#siempre-lab-overlay.active {
-    opacity: 1;
-    visibility: visible;
-    pointer-events: all; /* Reactivamos los clics */
-}
-
-.lab-content {
-    background: #fff;
-    padding: 40px;
-    border-radius: 15px;
-    max-width: 500px;
-    width: 90%;
-    text-align: center;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-    position: relative;
-    border: 1px solid #eee;
-}
-
-#close-lab {
-    position: absolute;
-    top: 15px; right: 20px;
-    border: none; background: none;
-    font-size: 24px; cursor: pointer; color: #888;
-}
-
-.lab-title { letter-spacing: 2px; font-weight: 600; margin-bottom: 5px; }
-.lab-subtitle { color: #666; font-size: 14px; margin-bottom: 30px; text-transform: uppercase; }
-
-#lab-timer { display: flex; justify-content: center; gap: 15px; margin-bottom: 20px; }
-.timer-block { display: flex; flex-direction: column; background: #202020; color: #fff; padding: 10px; border-radius: 8px; min-width: 60px; }
-.timer-block span { font-size: 20px; font-weight: 600; }
-.timer-block small { font-size: 10px; text-transform: uppercase; opacity: 0.7; }
-
-/* --- ESTILO DE LA LISTA CON TRANSICIÓN SUAVE --- */
-.lab-hidden-content {
-    /* Estado inicial: Oculto */
-    display: block; 
-    max-height: 0;
-    opacity: 0;
-    overflow: hidden;
-    
-    /* CORRECCIÓN: 
-       1. Quitamos la opacidad duplicada.
-       2. Usamos 'cubic-bezier' para que el inicio y fin sean más naturales.
-    */
-    transition: max-height 1.5s cubic-bezier(0.4, 0, 0.2, 1), 
-                opacity 1.5s ease, 
-                padding-top 1.5s ease, 
-                margin-top 1.5s ease;
-    
-    /* Estilos visuales */
-    text-align: left;
-    border-top: 1px solid transparent;
-    padding-top: 0;
-    margin-top: 0;
-}
-
-/* Clase cuando se abre */
-.lab-hidden-content.open {
-    /* CORRECCIÓN: Bajamos de 800px a 500px. 
-       Esto reduce el "tiempo muerto" al cerrar */
-    max-height: 500px; 
-    opacity: 1;
-    margin-top: 20px;
-    padding-top: 20px;
-    border-top: 1px solid #eee;
-}
-
-/* El resto sigue igual... */
-.lab-hidden-content h3 { font-size: 14px; margin-bottom: 15px; color: #202020; }
-.lab-hidden-content ul { list-style: none; padding: 0; font-size: 13px; line-height: 1.2; }
-/* --- AGREGAR ESTO PARA LA LETRA MÁS FINA --- */
-
-/* 1. Texto general de la lista (Ingredientes) más fino */
-.lab-hidden-content li {
-    font-weight: 300; /* Peso "Light" de la fuente Inter */
-    color: #333;      /* Un gris muy oscuro en vez de negro puro ayuda a la suavidad */
-    margin-bottom: 6px; /* Un poco de aire entre cada ítem */
-}
-
-/* 2. Los títulos en negrita (Proteína del Mar, etc.) */
-.lab-hidden-content li strong {
-    font-weight: 450; /* "Semi-bold" en lugar de Bold tosco */
-    color: #000;      /* Los títulos un poco más oscuros para contraste */
-}
-.lab-footer { margin-top: 20px; font-style: italic; font-size: 12px; color: #888; text-align: center; }
-
-.lab-logo {
-    width: 180px; 
-    height: auto;
-    margin-bottom: 10px; 
-    display: block;
-    margin-left: auto;
-    margin-right: auto; 
-}
-
-/* Estilo del botón desplegable */
-.lab-btn-reveal {
-    background: transparent;
-    border: 1px solid #202020;
-    color: #202020;
-    padding: 10px 20px;
-    border-radius: 20px; /* Bordes redondeados */
-    font-family: 'Inter', sans-serif;
-    font-size: 13px;
-    cursor: pointer;
-    margin-top: 10px;
-    margin-bottom: 20px;
-    transition: all 0.3s ease;
-}
-
-.lab-btn-reveal:hover {
-    background: #202020;
-    color: #fff;
-    transform: translateY(-2px); /* Pequeño efecto de elevación */
-}
-
 /* =========================================
-   ARREGLO DEL POP-UP (SUMINISTROS) EN MÓVIL
-   Pegar al final de style.css
+   ESTILOS MISIÓN 14 FEBRERO (VERSIÓN FINAL LIMPIA)
    ========================================= */
 
-@media screen and (max-width: 768px) {
-
-    /* 1. LA CAJA BLANCA PRINCIPAL */
-    .lab-content {
-        padding: 20px 15px !important; /* Mucho menos margen interno (Antes 40px) */
-        width: 90% !important;         /* Ancho seguro */
-        
-        /* ESTO ES LO IMPORTANTE PARA QUE NO SE CORTE: */
-        max-height: 85vh !important;   /* Altura máxima: 85% de la pantalla */
-        overflow-y: auto !important;   /* Si el contenido es largo, permite hacer scroll dentro de la caja */
-        
-        /* Aseguramos que el botón de cerrar no se tape */
-        margin-top: 0 !important; 
-    }
-
-    /* 2. LOGO Y TÍTULOS MÁS PEQUEÑOS */
-    .lab-logo {
-        width: 120px !important;       /* Logo más chico */
-        margin-bottom: 8px !important;
-    }
-
-    .lab-title {
-        font-size: 16px !important;    /* Título más compacto */
-    }
-
-    .lab-subtitle {
-        font-size: 12px !important;
-        margin-bottom: 15px !important;
-    }
-
-    /* 3. TIMER COMPACTO (Para ganar espacio vertical) */
-    #lab-timer {
-        gap: 8px !important;           /* Menos espacio entre cajitas */
-        margin-bottom: 15px !important;
-    }
-    
-    .timer-block {
-        min-width: 45px !important;    /* Cajitas más angostas */
-        padding: 5px !important;       /* Menos relleno */
-    }
-    
-    .timer-block span {
-        font-size: 16px !important;    /* Números más chicos */
-    }
-
-    /* 4. BOTÓN CERRAR (La 'X') */
-    #close-lab {
-        top: 10px !important;
-        right: 10px !important;
-        font-size: 20px !important;    /* Un poco más discreto */
-    }
-    
-    /* 5. LISTA DE INGREDIENTES (Ajuste final) */
-    .lab-hidden-content.open {
-        /* Si la lista es muy larga, scroll dentro de ella también */
-        max-height: none !important; 
-        overflow: visible !important;
-        line-height: 1.3 !important;
-    }
-}
-
-
-
-/* --- NUEVOS ESTILOS PARA EL MENÚ --- */
-
-/* 1. Agrupación de botones */
-.lab-buttons-group {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    
-    /* 1. Botones más pegaditos entre sí (antes era 15px) */
-    gap: 8px; 
-
-    /* 2. Más lejos del logo "Siempre Lab" (antes no tenía o era poco) */
-    margin-top: 35px; 
-
-    /* 3. Menos espacio abajo hacia el borde final (antes era 20px) */
-    margin-bottom: 5px; 
-}
-/* 2. Estilo específico para el botón del menú */
-/* Hereda de .lab-btn-reveal, pero le damos un toque propio */
-.lab-btn-menu {
-    background-color: transparent; /* Fondo transparente */
-    border: 1px solid #1D1D1F; /* Borde fino elegante */
-    color: #1D1D1F;
-    margin-top: 0 !important; /* Quitamos márgenes extra si heredan */
-}
-
-.lab-btn-menu:hover {
-    background-color: #1D1D1F;
-    color: #fff;
-}
-
-/* 3. La Pantalla Negra (Overlay) */
-.menu-modal-overlay {
-    display: none;
+/* 1. EL FONDO NEGRO (Overlay) */
+.mision-overlay {
     position: fixed;
-    z-index: 2147483647 !important;
-    left: 0;
     top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
+    background: rgba(0, 0, 0, 0.95);
+    z-index: 99999;
     
-    /* CAMBIO: Usamos tu gris #dddddd con 98% de opacidad */
-    background-color: rgba(221, 221, 221, 0.98); 
-    
+    display: flex;
     justify-content: center;
     align-items: center;
-    backdrop-filter: blur(10px);
     
     opacity: 0;
-    transition: opacity 0.8s ease, backdrop-filter 0.8s ease;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
 }
 
-.menu-modal-overlay.open {
+.mision-overlay.open {
     opacity: 1;
+    pointer-events: all;
 }
 
-/* El resto de las reglas para celular (@media) déjalas tal cual estaban abajo */
-
-/* Regla para celulares (mantener igual que antes, solo asegúrate de no borrarla del final) */
-
-/* 4. Contenedor de la foto */
-.menu-modal-content {
-    position: relative;
-    width: 100%;
-    max-width: 450px; /* Ancho máximo similar a un celular */
-    padding: 20px;
-    box-sizing: border-box;
-}
-
-/* 5. La Imagen del Menú */
-.menu-img-full {
-    width: 100%;
-    height: auto;
+/* 2. LA TARJETA CENTRAL */
+.mision-card {
+    background: white;
+    width: 90%;
+    max-width: 450px;
+    padding: 30px;
     border-radius: 12px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+    text-align: center;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+    
+    /* Importante para evitar bugs visuales */
+    display: block !important; 
+    position: relative;
+    
+    /* Scroll interno si la carta es larga */
+    max-height: 90vh;
+    overflow-y: auto;
+    
+    /* Tipografía */
+    font-family: 'Inter', sans-serif;
+    color: #202020;
+}
+
+/* 3. TIPOGRAFÍA UNIFICADA (NUEVO) */
+
+/* Títulos (H2) - Iguales para Captcha, Pregunta y Carta */
+.mision-card h2 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600; /* Semi-Bold */
+    color: #202020;
+    font-size: 1.3rem;
+    margin-bottom: 20px;
+    line-height: 1.2;
+}
+
+/* Párrafos (P) - Texto fino para TODO (Fase 1, 2 y 3) */
+.mision-card p {
+    font-family: 'Inter', sans-serif;
+    font-weight: 300; /* Light (Aquí está la magia) */
+    font-size: 1rem;
+    color: #444;
+    line-height: 1.5;
+    margin-bottom: 15px;
+}
+
+/* Negritas (Strong/B) - Para resaltar partes importantes */
+.mision-card strong, .mision-card b {
+    font-weight: 600;
+    color: #000; /* Un poco más negro para resaltar */
+}
+
+/* 4. LA GRILLA DE FOTOS (CAPTCHA) */
+.captcha-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin: 20px 0;
+}
+
+.captcha-item {
+    position: relative;
+    cursor: pointer;
+    border-radius: 8px; /* Redondeado suave */
+    overflow: hidden;
+    aspect-ratio: 1 / 1;
+    border: 4px solid transparent;
+    transition: all 0.2s;
+}
+
+.captcha-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
     display: block;
 }
 
-/* 6. Botón Cerrar (X) */
-.close-menu-modal {
-        position: absolute; /* O fixed si prefieres que no se mueva nunca */
-        top: 25px;
-        right: 25px;
-        z-index: 100;
-        
-        /* Ajuste visual para que se vea bien sobre el fondo oscuro */
-        background: rgba(0,0,0,0.4); 
-        width: 44px; /* Zona de toque más grande (dedo) */
-        height: 44px;
-        border-radius: 50%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding-bottom: 4px;
-        font-size: 20px;
-        font-weight: 200; /* Esto hace las líneas finitas */
-    }
-
-.close-menu-modal:hover {
-    transform: rotate(90deg);
+/* Estado Seleccionado */
+.captcha-item.selected {
+    border-color: #4A90E2;
+    transform: scale(0.95);
 }
 
-/* Animación de entrada */
-@keyframes fadeInMenu {
-    from { opacity: 0; }
-    to { opacity: 1; }
+/* Icono de Check (opcional) */
+.captcha-item.selected::after {
+    content: '✓';
+    position: absolute;
+    top: 0; left: 0;
+    background: #4A90E2;
+    color: white;
+    padding: 2px 6px;
+    font-size: 12px;
+    border-bottom-right-radius: 4px;
+}
+
+/* 5. BOTONES (ESTILO PÍLDORA UNIFICADO) */
+
+/* Estilos Compartidos (La base del diseño "Verificar") */
+.btn-verificar, .btn-si, .btn-no, .btn-cerrar {
+    border: none;
+    border-radius: 50px;       /* Forma de píldora redondeada */
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;          /* Grosor medio */
+    font-size: 0.9rem;
+    letter-spacing: 1px;       /* Espaciado elegante entre letras */
+    text-transform: uppercase; /* Todo mayúsculas */
+    padding: 12px 35px;        /* Tamaño cómodo */
+    cursor: pointer;
+    transition: all 0.3s ease; /* Animación suave al pasar el mouse */
+    display: inline-block;
+}
+
+/* --- BOTÓN 1: VERIFICAR --- */
+.btn-verificar {
+    background-color: #4a4a4a;
+    color: white;
+    margin-top: 25px;
+}
+.btn-verificar:hover {
+    background-color: #73a942;
+    transform: scale(1.02);
+}
+
+/* --- CONTENEDOR SI / NO --- */
+.botones-amor {
+    display: flex;
+    justify-content: center;
+    gap: 15px; /* Espacio entre los botones */
+    margin-top: 30px;
+    align-items: center;
+    position: relative;
+    min-height: 60px; 
+}
+
+/* --- BOTÓN 2: SÍ, QUIERO --- */
+.btn-si {
+    /* Usamos el rosa para destacar, pero con la forma del verificar */
+    background-color: #202020; 
+    color: white;
+    box-shadow: 0 4px 15px rgba(224, 36, 94, 0.3); /* Brillo suave */
+}
+
+.btn-si:hover {
+    background-color: #73a942;
+    transform: scale(1.05); /* Crece un poquito más */
+}
+
+/* --- BOTÓN 3: NO --- */
+.btn-no {
+    background-color: #d6d6d6; /* Gris más oscurito y visible */
+    color: #444;               /* Texto gris oscuro para que se lea bien */
+    position: relative;        /* Necesario para que JS lo mueva */
+    z-index: 10;
+}
+
+/* El botón NO no tiene hover de color porque se escapa antes */
+
+/* --- BOTÓN 4: CERRAR (Fase Carta) --- */
+.btn-cerrar {
+    background: #333;
+    color: white;
+    margin-top: 20px;
+}
+.btn-cerrar:hover {
+    background: #000;
+}
+
+/* 6. LA CARTA FINAL (SIMPLIFICADO) */
+.carta-content h2 { 
+    color: #E0245E; /* Solo cambiamos el color del título a rosa */
+}
+
+.texto-carta {
+    /* Ya hereda la fuente y el grosor de la sección 3 */
+    text-align: left; /* Solo forzamos que se lea a la izquierda */
+    white-space: pre-wrap; /* Respeta los saltos de línea */
+    max-height: 300px; /* Scroll si es muy larga */
+    overflow-y: auto;
+}
+
+.btn-cerrar {
+    background: #333;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    margin-top: 20px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+}
+
+/* 7. ANIMACIONES (La clave del éxito) */
+@keyframes subirYAparecer {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Esta clase se agrega con JS al cambiar de fase */
+.animacion-entrada {
+    animation: subirYAparecer 0.6s ease-out forwards;
 }
 
 
 
-/* =========================================
-   REGLA SUPREMA PARA CELULARES (FULL SCREEN) SiempreLab
-   ========================================= */
-
-@media (max-width: 768px) {
-    
-    /* 1. El contenedor se centra y usa la altura dinámica real (dvh) */
-    .menu-modal-content {
-        display: flex !important;       /* Activa el centrado perfecto */
-        align-items: center !important; /* Centrado vertical */
-        justify-content: center !important; /* Centrado horizontal */
-        
-        width: 100% !important;
-        height: 100dvh !important; /* CLAVE: dvh se adapta a las barras de Safari/Chrome */
-        
-        padding: 20px !important; /* Dejamos un marquito de aire para que no se pegue a los bordes */
-        box-sizing: border-box !important;
-        margin: 0 !important;
-        overflow: hidden !important; /* Prohibido el scroll */
-    }
-
-    /* 2. La imagen se encoge para caber ENTERA */
-    .menu-img-full {
-        width: auto !important;
-        height: auto !important;
-        max-width: 100% !important;
-        
-        /* CAMBIO: De 85dvh subimos a 92dvh. 
-           Ocupará casi toda la pantalla verticalmente */
-        max-height: 92dvh !important; 
-        
-        object-fit: contain !important;
-        border-radius: 12px !important;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.2) !important; /* Sombra un poco más suave */
-    }
-
-    /* 3. La X se queda fija en la esquina de la pantalla */
-    .close-menu-modal {
-        top: 15px;
-        right: 15px;
-        font-size: 32px;
-        color: #1D1D1F; /* Nos aseguramos que sea negra en móvil también */
-        background: rgba(255,255,255,0.5); /* Fondo blanquito suave */
-    }
+/* Clase especial para que la carta sea más ancha sin afectar lo anterior */
+.mision-card.modo-carta {
+    max-width: 600px; /* Ancho especial para la carta */
+    transition: max-width 0.5s ease; /* Transición suave al ensancharse */
 }
-
-
-
-
 
 
 
