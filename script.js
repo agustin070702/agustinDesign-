@@ -459,127 +459,472 @@ if (modal) {
 
 
 /* =========================================
-   LÓGICA MISIÓN 14 FEBRERO (FINAL)
+   KIT DE PRIMEROS AUXILIOS - LÓGICA MAESTRA
    ========================================= */
 
-// 1. ABRIR EL OVERLAY (Al hacer click en "jotita")
-const btnJotita = document.getElementById('btnJotita');
-const overlayMision = document.getElementById('misionOverlay');
+// --- 1. CONFIGURACIÓN ---
+const PHONE_NUMBER = "56956247539"; // Ej: 56912345678 (Sin el +)
 
-if (btnJotita && overlayMision) {
-    btnJotita.addEventListener('click', function() {
-        overlayMision.style.display = 'flex';
-        // Pequeño delay para permitir la transición de opacidad
+// --- 2. BASE DE DATOS DE PREGUNTAS ---
+const DB_PREGUNTAS = [
+    {
+        id: 1,
+        pregunta: "Pregunta Cheat Meal: Identifique la primera ingesta de comida consumida al interior del vehículo en nuestra historia.",
+        opciones: ["Un Streat Wrap", "Churros", "Pizza", "Hamburguesa"],
+        correcta: 2, 
+        evidenceTitle: "EVIDENCIA #001 DESBLOQUEADA",
+        evidenceText: "Correcto. Aún quedan restos de queso en el piso de la camioneta como prueba forense ¿Que mejor panorama que manejar contigo despúes de la playa comiendo algo rico?",
+        evidenceImg: "img/evidencia1.jpg"
+    },
+    {
+        id: 2,
+        pregunta: "Tradición Culinaria: ¿Qué menú inauguró oficialmente el concepto de 'Siemprelab'?",
+        opciones: ["Sushi", "Risotto", "Tapas Españolas", "Carne con crema"],
+        correcta: 1, 
+        evidenceTitle: "ARCHIVO CULINARIO: 'EL ORIGEN'",
+        evidenceText: "Afirmativo. El Risotto de champiñong con entraña. Yo creo que si cierras bien los ojos, todavía puedes sentir ese olorcito y el estrés real de que no se nos pegara el arroz en el intento",
+        evidenceImg: "img/evidencia2.jpg"
+    },
+    {
+        id: 3,
+        pregunta: "Verificación de Antecedentes: ¿Qué apariencia proyectaba Josefina al presentarse en la ida a la Notaría/Comisaría?",
+        opciones: ["Un vago / Indigente", "Un ladrón internacional", "Un puber de 15", "Todas las anteriores"],
+        correcta: 3, 
+        evidenceTitle: "FICHA POLICIAL: BERNARDITA LÓPEZ ",
+        evidenceText: "Cacha jajajaja No sé cómo no te llevaron detenida con tal facha de dudosa procedencia que te mandaste. Pero weno, entre el estilo y el olorsito con el que andabai, menos mal no encontraron pruebas ",
+        evidenceImg: "img/evidencia3.jpg"
+    },
+    {
+        id: 4,
+        pregunta: "Clave de Acceso Emocional: ¿Qué figura artística se utilizó como metáfora para la petición de pololeo?",
+        opciones: ["Leonardo Da Vinci", "Miguel Ángel", "Rafael Sanzio", "Donatello"],
+        correcta: 1, 
+        evidenceTitle: "ANÁLISIS ARTÍSTICO: LA CREACIÓN ",
+        evidenceText: "Exacto. Ni la Capilla Sixtina tiene tanta historia. Quién lo diría que después de esa metáfora, en un par de meses vamos a estar allá mismo viendo las obras de Miguel Ángel juntos",
+        evidenceImg: "img/evidencia4.jpg"
+    },
+    {
+        id: 5,
+        pregunta: "Test de Memoria Fotográfica: Indique el color de la vestimenta utilizada por la sujeto el día de la propuesta.",
+        opciones: ["Blanco Inocencia", "Rojo Pasión", "Negro Fancy", "Azul Potente"],
+        correcta: 2, 
+        evidenceTitle: "REGISTRO VISUAL DE LA DIOSA DE LA FACHA",
+        evidenceText: "De negro, pues claro. ¿Que mejor facha que de negro con tus pantalones grises fancy? Todavía no se si se veía más rica la burga o mi futura polola en ese momento...",
+        evidenceImg: "img/evidencia5.jpg"
+    },
+    {
+        id: 6,
+        pregunta: "Análisis Artístico: Durante nuestra sesión de pintura (absracta parece), ¿cuál fue la lógica detrás de los stichs pintados?",
+        opciones: ["Usted quería un perro azul / Yo pinté lo primero que encontré", " Usted por tener un Stitch tamaño real / Yo por representación mía", "Usted pintó al Stitch para regalármelo / Yo pinté un stich Elvis", "Fue un error de cálculo técnico / A mi me encantó la foto elegida"],
+        correcta: 1, 
+        evidenceTitle: "REGISTRO ARTÍSTICO #006",
+        evidenceText: "Confirmado. Tu Stitch de a escala 1:1 cumplía el deseo de una mascota que no fuera un gato, y a mi me representaba el sapo en la mano :)",
+        evidenceImg: "img/evidencia6.jpg" 
+    },
+    {
+        id: 7,
+        pregunta: "Incidente Gastronómico: ¿Cuál fue el primer suministro alimenticio dulce que la Dra. Josefina preparó para su marido?",
+        opciones: ["Rocas cafés", "Pedazos de caca de caballo", "Carbón vegetal dulce", "Los mejores brownies de su vida"],
+        correcta: 3, 
+        evidenceTitle: "REPORTE DE TOXICOLOGÍA #007",
+        evidenceText: "Weno, hay que decir las cosas como son: cuando los vi, pensé que me habíai traído un par de pedazos de pavimento. Pero cacha que al primer mordisco me di cuenta de que eran los mejores brownies del mundo",
+        evidenceImg: "img/evidencia7.jpg"
+    },
+    {
+        id: 8,
+        pregunta: "Registro de Conflictos: Identifique la causa de la queja y alegato durante el consumo de helados en la playa",
+        opciones: ["Supuesto joteo de la que atendía", "Mala elección del sabor de helado", "Colapso estructural (se chorreaba)", "Todas las anteriores"],
+        correcta: 3, 
+        evidenceTitle: "REGISTRO DE INCIDENCIAS: PLAYA",
+        evidenceText: "Correctoooo. Yo ahí todo un pobre inocente mientras la del helado me andaba tirando los cagados y tú con una cara de 'te mato' por el sabor re malo que elegí. Pero muy lindo momento :)",
+        evidenceImg: "img/evidencia8.jpg"
+    },
+    {
+        id: 9,
+        pregunta: "Evaluación Estética: Según el registro central de datos del pololo, ¿cómo se considera actualmente a la Dra. Josefina?",
+        opciones: ["La mujer más bella y fachera del planeta"],
+        correcta: 0, 
+        evidenceTitle: "ESTADO #009: IDENTIDAD CONFIRMADA",
+        evidenceText: "Es que no hay margen de error Josefinaaaa. Gemini me arroja un 100% de coincidencia con el estándar de 'Belleza Máxima'. Te juro que hasta zorreada con mi ropa me enamoras igual, es que con esa facha, bua",
+        evidenceImg: "img/evidencia9.jpg"
+    },
+    {
+        id: 10,
+        pregunta: "Operación Runner: ¿Qué anomalías se registraron durante la primera incursión de trote en pareja?",
+        opciones: ["Escolta perfumado a copete", "Falla sistémica de Josefina a los 300mts", "Tour posterior por clínicas locales", "Todas las anteriores"],
+        correcta: 3, 
+        evidenceTitle: "REPORTE DE RENDIMIENTO #010",
+        evidenceText: "El equipo runner resultó ser un desastre mal. Entre el olor a pisco y la fatiga trempanera, terminamos siendo clientes múltiples clínicas",
+        evidenceImg: "img/evidencia10.jpg"
+    },
+    {
+        id: 11,
+        pregunta: "Preferencia Animal: ¿Cuál de las mascotas de Agustín que posee el mayor rango de afecto por parte de la susodicha?",
+        opciones: ["Baloo", "Nala", "Bucky", "Miau Miau", "Todas :)"],
+        correcta: 4, 
+        evidenceTitle: "ANÁLISIS DE ESPECIES #011",
+        evidenceText: "Correcto: Cualquiera. Aunque ya va siendo hora de asumir que ahora entre la Miau Miau y el Bucky, tienes claro que: gatos > perros",
+        evidenceImg: "img/evidencia11.jpg"
+    },
+    {
+        id: 12,
+        pregunta: "Análisis de Estilo: ¿Cuál es el outfit favorito de la presente según el marido, Agustín?",
+        opciones: ["Corte Ejecutiva", "Deportista Rica", "Modo Pijama", "Ninguna de las anteriores"],
+        correcta: 3, 
+        evidenceTitle: "FICHA DE VESTUARIO #012",
+        evidenceText: "no hay comparación alguna...",
+        evidenceImg: "img/evidencia12.jpg"
+    },
+    {
+        id: 13,
+        pregunta: "Logística de Bikers: ¿Cuántos KM reales pedaleamos para el café y el muffin de Red Velvet?",
+        opciones: ["5 km", "7 km", "11 km", "13 km"],
+        correcta: 2, 
+        evidenceTitle: "DATOS GPS #013 (CORREGIDOS)",
+        evidenceText: "El registro oficial dice 11km, pero todos sabemos la verdad, fue pura bajada y pedaleamos con suerte 500 metros. El resto aplicamos vuelito",
+        evidenceImg: "img/evidencia13.jpg"
+    },
+    {
+        id: 14,
+        pregunta: "Protocolo de Cierre: Tras analizar los registros y desastres previos... ¿Cuál es la conclusión del sistema?",
+        opciones: ["Error de funcionamiento: Exceso de cringe", "El sistema confirma que no hay mejor equipo que este", "Reiniciar simulación para repetir nuestra historia", "Falla de Conectividad: El GPS no reconoce rutas de trote de menos de 500 metros"],
+        correcta: 1, 
+        evidenceTitle: "ESTADO FINAL #014: ACCESO TOTAL",
+        evidenceText: "Acceso Total Concedido. El sistema colapsó analizando tanta historia juntos. Al final, aunque andemos zorreados o pedaleemos 500 metros de pura bajada, weno, no hay nadie más con quien quiera vivir estas cosas más que contigo. Eres mi partner, mi número uno y taxss",
+        evidenceImg: "img/evidencia14.jpg"
+    }
+
+];
+
+// --- 3. BASE DE DATOS DE CUPONES ---
+const DB_CUPONES = [
+   { 
+        id: "01", 
+        title: "Kit Anti-Colapso", 
+        desc: "Canjea esto para recibir tu regalo. Ideal para no volverte loca con el estrés de la semana.", 
+        msg: "*[TICKET CANJEADO]* Alerta de colapso inminente. Solicito formalmente la entrega de mi regalo sorpresa para salvar la semana.",
+        img: "img/cupon1.jpg"
+    },
+    { 
+        id: "02", 
+        title: "El Bajón Auspiciado", 
+        desc: "Te mando la comida que quieras cuando no haya nada decente en el refri.", 
+        msg: "[TICKET CANJEADO] Vengo a cobrar mi Bajón Auspiciado. El refri no se la banca y mi guata exige la inyección de comida prometida.",
+        img: "img/cupon2.jpg"
+    },
+    { 
+        id: "03", 
+        title: "Bypass de Trámites", 
+        desc: "Pásame ese cacho administrativo. Yo redacto el mail con tono formal para que tú no te estreses, o te traduzco y resumo los papers que quieras.", 
+        msg: "[TICKET CANJEADO] Hola, señor secretario. Vengo a canjear mi cupón para que te hagas cargo de este trámite o paper que me da demasiada lata.",
+        img: "img/cupon3.jpg"
+    },
+    { 
+        id: "04", 
+        title: "Date de Película Premium", 
+        desc: "Cita a distancia donde prometo no quedarme dormido (o al menos intentarlo) a la mitad de la pelicula. Incluye el envío de algo rico para acompañar.", 
+        msg: "[TICKET CANJEADO] Ola amdv. Exijo película contigo, comida y un análisis profundo post-créditos.",
+        img: "img/cupon4.jpg"
+    },
+    { 
+        id: "05", 
+        title: "Pase Libre para el Demogorgon", 
+        desc: "Válido para putear al universo entero por 60 minutos mientras te doy la razón en absolutamente todo.", 
+        msg: "[TICKET CANJEADO] Alerta roja. Necesito putear al universo un rato. Canjeando mi pase libre, responde cuando estés listo.",
+        img: "img/cupon52.jpg"
+    },
+    { 
+        id: "06", 
+        title: "Inyección de Azúcar Express", 
+        desc: "Sobredosis de glucosa auspiciada por tu pololo para salvar la tarde.", 
+        msg: "[TICKET CANJEADO] Mi cuerpo pide azúcar urgente. Vengo a cobrar el dulcecito auspiciado.",
+        img: "img/cupon63.jpg"
+    },
+    { 
+        id: "07", 
+        title: "Despacho en Vivo: BCN", 
+        desc: "Me conecto desde un spot bonito de Barcelona para mostrártelo en tiempo real.", 
+        msg: "[TICKET CANJEADO] Vengo a cobrar mi paseo virtual. Ponte en modo guía turístico que quiero conocer ...",
+        img: "img/cupon7.jpg"
+    },
+    { 
+        id: "08", 
+        title: "Despertador VIP", 
+        desc: "Servicio de alarma humana. No me rindo hasta que escuche por el micrófono que te estás sentando a estudiar o yendo al gym.", 
+        msg: "[TICKET CANJEADO] Programando mi Despertador VIP. Necesito que me llames a las ... y no me dejes dormir, asegúrate que me levanté.",
+        img: "img/cupon8.jpg"
+    },
+    { 
+        id: "09", 
+        title: "Hype Letter", 
+        desc: "Inyección de ego directa a la vena. Para esas veces que se te parece olvidar lo tremenda que eres.", 
+        msg: "[TICKET CANJEADO] Alerta de día gris, necesito una ayudita :/",
+        img: "img/cupon9.jpg"
+    },
+    { 
+        id: "10", 
+        title: "Vitrineo por FaceTime", 
+        desc: "Mándame a la tienda que elijas, te llamo por videollamada y vitrineamos juntos para comprarte lo que quieras.", 
+        msg: "[TICKET CANJEADO] Prepara la billetera. Te voy a mandar a una tienda y me llamas para vitrinear juntos.",
+        img: "img/cupon10.jpg"
+    },
+    { 
+        id: "11", 
+        title: "Co-Working Mudo", 
+        desc: "Prendemos la cámara y nos hacemos compañía en silencio mientras cada uno hace lo suyo.", 
+        msg: "[TICKET CANJEADO] Canjeando Co-Working Mudo. Prendamos la cámara que no quiero estar sola haciendo esto.",
+        img: "img/cupon113.jpg"
+    },
+    { 
+        id: "12", 
+        title: "Lo Que Quiera la Jefa", 
+        desc: "Válido por un milagro, un capricho o una locura. Prometo no hacer muchas preguntas.", 
+        msg: "[TICKET CANJEADO] Comodín supremo activado. Voy a pedir lo siguiente ... (prometiste no hacer preguntas)",
+        img: "img/cupon12.jpg"
+    }
+];
+
+// --- 4. VARIABLES DE ESTADO ---
+let preguntaActual = 0;
+const kitOverlay = document.getElementById('kitOverlay');
+const introScreen = document.getElementById('introScreen'); // La nueva pantalla
+const securityScreen = document.getElementById('securityScreen');
+const evidenceScreen = document.getElementById('evidenceScreen');
+const moodScreen = document.getElementById('moodScreen');
+const couponsScreen = document.getElementById('couponsScreen');
+
+// --- 5. FUNCIONES DE CONTROL ---
+function abrirKit() {
+    kitOverlay.classList.add('active');
+    // Reseteamos todo al abrir
+    preguntaActual = 0;
+    
+    // MOSTRAR SOLO LA INTRO
+    if(introScreen) introScreen.style.display = 'block';
+    securityScreen.style.display = 'none';
+    evidenceScreen.style.display = 'none';
+    moodScreen.style.display = 'none';
+    couponsScreen.style.display = 'none';
+}
+
+function comenzarProtocolo() {
+    // Del Intro a la Trivia
+    if(introScreen) introScreen.style.display = 'none';
+    securityScreen.style.display = 'block';
+    renderizarPregunta();
+}
+
+function cerrarKit() {
+    kitOverlay.classList.remove('active');
+}
+
+// --- 6. LÓGICA DE LA TRIVIA ---
+function renderizarPregunta() {
+    const data = DB_PREGUNTAS[preguntaActual];
+    let html = `
+        <div class="security-card">
+            <div class="security-header">
+                <h3>Protocolo de Seguridad // Paso ${preguntaActual + 1} de ${DB_PREGUNTAS.length}</h3>
+            </div>
+            <p class="security-question">${data.pregunta}</p>
+            <div class="options-grid">
+    `;
+    data.opciones.forEach((opcion, index) => {
+        html += `<button class="btn-option" onclick="verificarRespuesta(${index}, this)">[ ] ${opcion}</button>`;
+    });
+    html += `</div></div>`;
+    securityScreen.innerHTML = html;
+}
+
+function verificarRespuesta(indiceSeleccionado, btnElement) {
+    const data = DB_PREGUNTAS[preguntaActual];
+    
+    if (indiceSeleccionado === data.correcta) {
+        // --- CORRECTO (FIESTA VISUAL) ---
+        
+        // 1. Agregamos la clase que lo pone VERDE
+        btnElement.classList.add('correct');
+        
+        // 2. Cambiamos el texto para mostrar un check
+        btnElement.innerText = "[ ✔ ] " + data.opciones[indiceSeleccionado];
+        
+        // 3. Esperamos 1 segundo (1000ms) para que disfrute su victoria antes de cambiar
         setTimeout(() => {
-            overlayMision.classList.add('open');
-        }, 10);
-    });
-}
-
-// 2. SELECCIONAR FOTOS (CAPTCHA)
-function toggleFoto(elemento) {
-    elemento.classList.toggle('selected');
-}
-
-// 3. VERIFICAR SI GANÓ
-function verificarCaptcha() {
-    const todasLasFotos = document.querySelectorAll('.captcha-item');
-    let error = false;
-
-    // A) Validar selección
-    todasLasFotos.forEach(foto => {
-        const esCorrecta = foto.getAttribute('data-correcta') === 'true';
-        const estaSeleccionada = foto.classList.contains('selected');
-
-        // Error si: Correcta NO seleccionada O Incorrecta SÍ seleccionada
-        if ((esCorrecta && !estaSeleccionada) || (!esCorrecta && estaSeleccionada)) {
-            error = true;
-        }
-    });
-
-    // B) Si hay error
-    if (error) {
-        const msg = document.getElementById('mensajeError');
-        if(msg) msg.style.display = 'block';
+            mostrarEvidencia(data);
+        }, 1000);
         
-        // Animación de "temblor" en la tarjeta
-        const card = document.querySelector('.mision-card');
-        card.style.transform = 'translateX(10px)';
-        setTimeout(() => card.style.transform = 'translateX(-10px)', 100);
-        setTimeout(() => card.style.transform = 'translateX(0)', 200);
-    } 
-    // C) SI ESTÁ CORRECTO (Paso a la siguiente fase)
-    else {
-        // Ocultamos Fase 1 INMEDIATAMENTE (Método Nuclear)
-        document.getElementById('faseCaptcha').style.display = 'none';
-
-        // Mostramos Fase 2
-        const fase2 = document.getElementById('fasePregunta');
-        fase2.style.display = 'block';
+    } else {
+        // --- INCORRECTO (ERROR) ---
         
-        // Agregamos la animación que definimos en el CSS
-        fase2.classList.add('animacion-entrada');
+        // Efecto de temblor y color rojo momentáneo
+        btnElement.style.borderColor = "#FF3300";
+        btnElement.style.color = "#FF3300";
+        btnElement.classList.add('shake-anim'); // (Si tienes la animación definida)
+        
+        // Reset visual rápido (para que pueda intentar de nuevo)
+        setTimeout(() => {
+            btnElement.style.borderColor = "#ddd"; // O el color original del borde
+            btnElement.style.color = "#555";
+            // Si quieres que vuelva al estilo base, podrías limpiar el style inline:
+            btnElement.style = ""; 
+        }, 1000);
     }
 }
 
-// 4. EL BOTÓN "NO" QUE SE ESCAPA
-function esquivarBoton() {
-    const btnNo = document.getElementById('btnNo');
+// --- 7. LÓGICA DE EVIDENCIA ---
+function mostrarEvidencia(data) {
+    securityScreen.style.display = 'none';
+    evidenceScreen.style.display = 'block';
     
-    // 1. TRUCO DE MAGIA: Si el botón sigue dentro de la tarjeta, lo sacamos.
-    // Al moverlo al <body>, deja de estar limitado por el pop-up.
-    if (btnNo.parentNode !== document.body) {
-        document.body.appendChild(btnNo);
+    // Inyectamos el HTML limpio
+    evidenceScreen.innerHTML = `
+        <div class="evidence-card">
+            <div class="tape-fix"></div>
+            <div class="evidence-img-container">
+                <img src="${data.evidenceImg}" alt="Evidencia">
+            </div>
+            <div class="verified-stamp">VERIFICADO</div>
+            
+            <div class="evidence-text">
+                <h4>${data.evidenceTitle}</h4>
+                <p>${data.evidenceText}</p>
+            </div>
+            <button class="btn-next-evidence" onclick="siguientePaso()">SIGUIENTE ARCHIVO →</button>
+        </div>
+    `;
+}
+
+function siguientePaso() {
+    preguntaActual++;
+    if (preguntaActual < DB_PREGUNTAS.length) {
+        evidenceScreen.style.display = 'none';
+        securityScreen.style.display = 'block';
+        renderizarPregunta();
+    } else {
+        // FIN TRIVIA -> MOOD
+        evidenceScreen.style.display = 'none';
+        moodScreen.style.display = 'flex'; // Flex para centrar
     }
-
-    // 2. Lo configuramos para que flote libremente
-    btnNo.style.position = 'fixed';
-    btnNo.style.zIndex = '100000'; // ¡Por encima de todo! (incluso del overlay negro)
-    
-    // 3. Calculamos posición aleatoria (Toda la pantalla)
-    // Restamos el ancho del botón (aprox 100px) para que no se salga por la derecha
-    const x = Math.random() * (window.innerWidth - 120);
-    const y = Math.random() * (window.innerHeight - 60);
-    
-    btnNo.style.left = x + 'px';
-    btnNo.style.top = y + 'px';
 }
 
-// 5. ACEPTAR PROPUESTA (Mostrar Carta)
-// (Nota: En el HTML le pusimos onclick="aceptarPropuesta()")
-function aceptarPropuesta() {
-    // 1. Ocultamos la pregunta y el botón NO
-    document.getElementById('fasePregunta').style.display = 'none';
-    const btnNo = document.getElementById('btnNo');
-    if (btnNo) btnNo.style.display = 'none';
+// --- 8. LÓGICA DEL CARRUSEL ---
+function iniciarCarrusel() {
+    const moodScreen = document.getElementById('moodScreen');
+    const couponsScreen = document.getElementById('couponsScreen');
 
-    // 2. BUSCAMOS LA TARJETA Y LE DAMOS EL NUEVO ANCHO
-    const tarjeta = document.querySelector('.mision-card');
-    tarjeta.classList.add('modo-carta');
+    // 1. Iniciamos el desvanecimiento de la pantalla de Mood
+    moodScreen.style.transition = "opacity 0.5s ease";
+    moodScreen.style.opacity = "0";
 
-    // 3. Mostramos la carta
-    const fase3 = document.getElementById('faseCarta');
-    fase3.style.display = 'block';
-    fase3.classList.add('animacion-entrada');
-}
-
-// 6. CERRAR TODO Y RESETEAR
-function cerrarMision() {
-    const overlay = document.getElementById('misionOverlay');
-    overlay.classList.remove('open');
-    
+    // 2. Esperamos a que termine el desvanecimiento (500ms)
     setTimeout(() => {
-        overlay.style.display = 'none';
+        moodScreen.style.display = 'none';
         
-        // --- RESETEO DE ANCHO ---
-        const tarjeta = document.querySelector('.mision-card');
-        tarjeta.classList.remove('modo-carta'); // Vuelve a los 450px originales
-
-        // ... el resto de tu código de reseteo que ya tienes ...
-        document.getElementById('fasePregunta').style.display = 'none';
-        document.getElementById('faseCarta').style.display = 'none';
-        document.getElementById('faseCaptcha').style.display = 'block';
+        // 3. Preparamos la pantalla de cupones (invisible al principio)
+        couponsScreen.style.display = 'block';
+        couponsScreen.style.opacity = "0";
+        couponsScreen.style.transition = "opacity 0.5s ease";
         
-        // (Asegúrate de mantener aquí la lógica de devolver el botón NO que ya pusimos)
-    }, 400);
+        renderizarCupones();
+        
+        // 4. Forzamos un pequeño "refresco" y hacemos el Fade In
+        setTimeout(() => {
+            couponsScreen.style.opacity = "1";
+            setupCpCarousel();
+        }, 50); // mini delay para que el navegador capte el cambio de opacidad
+        
+    }, 500);
 }
+
+function renderizarCupones() {
+    const track = document.getElementById('cpCarouselTrack');
+    if (!track) return;
+    
+    track.innerHTML = ''; 
+
+    DB_CUPONES.forEach((ticket) => {
+        // Estructura CLONADA de tu project-card original, sin estilos intrusivos
+        const html = `
+            <div class="card-wrapper">
+                <div class="project-card" style="cursor: pointer; display: block;" onclick="canjearCupón('${ticket.msg}')">
+                    <div class="card-image">
+                        <img src="${ticket.img}" alt="${ticket.title}" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div class="card-content">
+                        <span class="card-category">CUPÓN Nº ${ticket.id}</span>
+                        <h3 class="card-title">${ticket.title}</h3>
+                        <p class="card-desc" style="margin-bottom: 20px;">${ticket.desc}</p>
+                        
+                        <button style="width: 100%; padding: 12px; background: #202020; color: #fff; border: none; font-family: 'Space Mono', monospace; font-weight: bold; text-transform: uppercase; cursor: pointer; transition: background 0.3s;" onmouseover="this.style.background='#00ff00'; this.style.color='#202020'" onmouseout="this.style.background='#202020'; this.style.color='#fff'">
+                            CANJEAR RECURSO
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+        track.insertAdjacentHTML('beforeend', html);
+    });
+}
+
+function setupCpCarousel() {
+    const track = document.getElementById('cpCarouselTrack');
+    const prevBtn = document.getElementById('cpPrevBtn');
+    const nextBtn = document.getElementById('cpNextBtn');
+
+    if (track && prevBtn && nextBtn) {
+        const getScrollAmount = () => {
+            const firstCard = track.querySelector('.card-wrapper'); 
+            return firstCard ? firstCard.offsetWidth : 300; 
+        };
+
+        nextBtn.addEventListener('click', () => {
+            track.scrollBy({ left: getScrollAmount(), behavior: 'smooth' });
+        });
+
+        prevBtn.addEventListener('click', () => {
+            track.scrollBy({ left: -getScrollAmount(), behavior: 'smooth' });
+        });
+    }
+}
+
+function canjearCupón(mensaje) {
+    const url = `https://wa.me/${PHONE_NUMBER}?text=${encodeURIComponent(mensaje)}`;
+    window.open(url, '_blank');
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* // =========================================================
+// 🚧 PARCHE TEMPORAL: SALTO DIRECTO A CUPONES 🚧
+// (DESACTIVADO)
+// =========================================================
+function abrirKit() {
+    // 1. Abre el fondo oscuro del kit
+    kitOverlay.classList.add('active');
+    
+    // 2. Oculta la intro, la trivia y los estados de ánimo
+    if(introScreen) introScreen.style.display = 'none';
+    securityScreen.style.display = 'none';
+    evidenceScreen.style.display = 'none';
+    moodScreen.style.display = 'none';
+
+    // 3. Ejecuta directamente la fase final (los cupones)
+    iniciarCarrusel();
+    
+    console.log("Parche activado: Trivia omitida.");
+}
+// =========================================================
+*/

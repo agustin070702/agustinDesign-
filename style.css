@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Libre+Barcode+39+Text&display=swap');
+
 * {
     margin: 0;
     padding: 0;
@@ -438,6 +440,7 @@ body {
     line-height: 0.9;
     margin-bottom: 30px;
     color: #202020;
+    
     
     /* Animación de entrada */
     opacity: 0;
@@ -2578,251 +2581,6 @@ body {
 
 
 
-/* =========================================
-   ESTILOS MISIÓN 14 FEBRERO (VERSIÓN FINAL LIMPIA)
-   ========================================= */
-
-/* 1. EL FONDO NEGRO (Overlay) */
-.mision-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.95);
-    z-index: 99999;
-    
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.4s ease;
-}
-
-.mision-overlay.open {
-    opacity: 1;
-    pointer-events: all;
-}
-
-/* 2. LA TARJETA CENTRAL */
-.mision-card {
-    background: white;
-    width: 90%;
-    max-width: 450px;
-    padding: 30px;
-    border-radius: 12px;
-    text-align: center;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-    
-    /* Importante para evitar bugs visuales */
-    display: block !important; 
-    position: relative;
-    
-    /* Scroll interno si la carta es larga */
-    max-height: 90vh;
-    overflow-y: auto;
-    
-    /* Tipografía */
-    font-family: 'Inter', sans-serif;
-    color: #202020;
-}
-
-/* 3. TIPOGRAFÍA UNIFICADA (NUEVO) */
-
-/* Títulos (H2) - Iguales para Captcha, Pregunta y Carta */
-.mision-card h2 {
-    font-family: 'Inter', sans-serif;
-    font-weight: 600; /* Semi-Bold */
-    color: #202020;
-    font-size: 1.3rem;
-    margin-bottom: 20px;
-    line-height: 1.2;
-}
-
-/* Párrafos (P) - Texto fino para TODO (Fase 1, 2 y 3) */
-.mision-card p {
-    font-family: 'Inter', sans-serif;
-    font-weight: 300; /* Light (Aquí está la magia) */
-    font-size: 1rem;
-    color: #444;
-    line-height: 1.5;
-    margin-bottom: 15px;
-}
-
-/* Negritas (Strong/B) - Para resaltar partes importantes */
-.mision-card strong, .mision-card b {
-    font-weight: 600;
-    color: #000; /* Un poco más negro para resaltar */
-}
-
-/* 4. LA GRILLA DE FOTOS (CAPTCHA) */
-.captcha-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
-    margin: 20px 0;
-}
-
-.captcha-item {
-    position: relative;
-    cursor: pointer;
-    border-radius: 8px; /* Redondeado suave */
-    overflow: hidden;
-    aspect-ratio: 1 / 1;
-    border: 4px solid transparent;
-    transition: all 0.2s;
-}
-
-.captcha-item img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-}
-
-/* Estado Seleccionado */
-.captcha-item.selected {
-    border-color: #4A90E2;
-    transform: scale(0.95);
-}
-
-/* Icono de Check (opcional) */
-.captcha-item.selected::after {
-    content: '✓';
-    position: absolute;
-    top: 0; left: 0;
-    background: #4A90E2;
-    color: white;
-    padding: 2px 6px;
-    font-size: 12px;
-    border-bottom-right-radius: 4px;
-}
-
-/* 5. BOTONES (ESTILO PÍLDORA UNIFICADO) */
-
-/* Estilos Compartidos (La base del diseño "Verificar") */
-.btn-verificar, .btn-si, .btn-no, .btn-cerrar {
-    border: none;
-    border-radius: 50px;       /* Forma de píldora redondeada */
-    font-family: 'Inter', sans-serif;
-    font-weight: 500;          /* Grosor medio */
-    font-size: 0.9rem;
-    letter-spacing: 1px;       /* Espaciado elegante entre letras */
-    text-transform: uppercase; /* Todo mayúsculas */
-    padding: 12px 35px;        /* Tamaño cómodo */
-    cursor: pointer;
-    transition: all 0.3s ease; /* Animación suave al pasar el mouse */
-    display: inline-block;
-}
-
-/* --- BOTÓN 1: VERIFICAR --- */
-.btn-verificar {
-    background-color: #4a4a4a;
-    color: white;
-    margin-top: 25px;
-}
-.btn-verificar:hover {
-    background-color: #73a942;
-    transform: scale(1.02);
-}
-
-/* --- CONTENEDOR SI / NO --- */
-.botones-amor {
-    display: flex;
-    justify-content: center;
-    gap: 15px; /* Espacio entre los botones */
-    margin-top: 30px;
-    align-items: center;
-    position: relative;
-    min-height: 60px; 
-}
-
-/* --- BOTÓN 2: SÍ, QUIERO --- */
-.btn-si {
-    /* Usamos el rosa para destacar, pero con la forma del verificar */
-    background-color: #202020; 
-    color: white;
-    box-shadow: 0 4px 15px rgba(224, 36, 94, 0.3); /* Brillo suave */
-}
-
-.btn-si:hover {
-    background-color: #73a942;
-    transform: scale(1.05); /* Crece un poquito más */
-}
-
-/* --- BOTÓN 3: NO --- */
-.btn-no {
-    background-color: #d6d6d6; /* Gris más oscurito y visible */
-    color: #444;               /* Texto gris oscuro para que se lea bien */
-    position: relative;        /* Necesario para que JS lo mueva */
-    z-index: 10;
-}
-
-/* El botón NO no tiene hover de color porque se escapa antes */
-
-/* --- BOTÓN 4: CERRAR (Fase Carta) --- */
-.btn-cerrar {
-    background: #333;
-    color: white;
-    margin-top: 20px;
-}
-.btn-cerrar:hover {
-    background: #000;
-}
-
-/* 6. LA CARTA FINAL (SIMPLIFICADO) */
-.carta-content h2 { 
-    color: #E0245E; /* Solo cambiamos el color del título a rosa */
-}
-
-.texto-carta {
-    /* Ya hereda la fuente y el grosor de la sección 3 */
-    text-align: left; /* Solo forzamos que se lea a la izquierda */
-    white-space: pre-wrap; /* Respeta los saltos de línea */
-    max-height: 300px; /* Scroll si es muy larga */
-    overflow-y: auto;
-}
-
-.btn-cerrar {
-    background: #333;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 50px;
-    cursor: pointer;
-    margin-top: 20px;
-    font-family: 'Inter', sans-serif;
-    font-weight: 500;
-}
-
-/* 7. ANIMACIONES (La clave del éxito) */
-@keyframes subirYAparecer {
-    0% {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* Esta clase se agrega con JS al cambiar de fase */
-.animacion-entrada {
-    animation: subirYAparecer 0.6s ease-out forwards;
-}
-
-
-
-/* Clase especial para que la carta sea más ancha sin afectar lo anterior */
-.mision-card.modo-carta {
-    max-width: 600px; /* Ancho especial para la carta */
-    transition: max-width 0.5s ease; /* Transición suave al ensancharse */
-}
-
-
 
 /* =========================================
    SOLUCIÓN FINAL MÓVIL (WORKS "FULL WIDTH")
@@ -3611,5 +3369,611 @@ body {
         opacity: 1 !important;
         transform: none !important;
         pointer-events: none; 
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* =========================================
+   KIT DE PRIMEROS AUXILIOS (ESTÉTICA FINAL)
+   ========================================= */
+
+/* 1. EL OVERLAY (FONDO) */
+.kit-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: #dddddd; /* Mismo gris de tu body */
+    z-index: 9999;
+    
+    /* Efecto de aparición */
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.5s cubic-bezier(0.77, 0, 0.175, 1);
+    
+    /* Centrado absoluto */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.kit-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Botón Cerrar (X) */
+.btn-cerrar-kit {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    background: transparent;
+    border: none;
+    font-family: 'Inter', sans-serif;
+    font-size: 2rem;
+    color: #202020;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    z-index: 1000;
+}
+.btn-cerrar-kit:hover { transform: rotate(90deg); }
+
+/* CONTENEDORES DE PANTALLAS */
+.screen-container {
+    width: 90%;
+    max-width: 500px;
+    text-align: center;
+    position: relative;
+    animation: fadeIn 0.5s ease forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- BOTÓN DE INICIO DEL KIT (Estilo Hero Replica) --- */
+
+/* 1. EL BOTÓN BASE */
+.btn-kit-start {
+    position: relative; /* Necesario para el efecto de llenado */
+    overflow: hidden;   /* Para que el color no se salga de los bordes redondos */
+    z-index: 1;
+    display: inline-block;
+    padding: 15px 45px;
+    
+    /* ESTÉTICA IDÉNTICA AL HERO */
+    border: 2px solid #202020;
+    border-radius: 25px; /* Bordes redondos */
+    background-color: transparent; /* Fondo transparente inicial */
+    
+    /* Tipografía */
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 300; /* Fino (250-300) */
+    font-style: italic; /* El toque elegante */
+    color: #202020;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    text-decoration: none;
+
+    /* LA MAGIA (Transiciones Suaves) */
+    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), 
+                color 0.6s ease, 
+                box-shadow 0.6s ease;
+}
+
+/* 2. EL RELLENO NEGRO (Pseudo-elemento oculto) */
+.btn-kit-start::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%; /* Empieza escondido a la izquierda */
+    width: 100%;
+    height: 100%;
+    background-color: #202020; /* Color de relleno */
+    
+    /* La misma curva de velocidad que el original */
+    transition: left 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+    z-index: -1; /* Se pone detrás del texto */
+}
+
+/* 3. ESTADO HOVER (Al pasar el mouse) */
+.btn-kit-start:hover {
+    color: #dddddd; /* Texto cambia a claro */
+    transform: translateY(-5px); /* Flota hacia arriba */
+    box-shadow: 0 15px 25px rgba(32, 32, 32, 0.2); /* Sombra suave */
+}
+
+.btn-kit-start:hover::before {
+    left: 0; /* El color negro llena el botón */
+}
+
+/* --- FASE 1: TRIVIA (DISEÑO PREMIUM) --- */
+
+/* 1. LA TARJETA PRINCIPAL */
+.security-card {
+    background: #fff;
+    width: 100%;
+    
+    /* ESTÉTICA DE CARRUSEL */
+    border-radius: 30px; /* Curva suave (igual que botones grandes) */
+    border: 1px solid rgba(0,0,0,0.05); /* Borde casi invisible */
+    
+    /* Sombra de Levitación (Suave y difusa, no dura) */
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+    
+    padding: 45px; /* Mucho aire interno (antes era 30px) */
+    text-align: left; /* Alineación izquierda se ve más elegante */
+    
+    /* Animación de entrada sutil */
+    animation: fadeUpCard 0.5s ease-out forwards;
+}
+
+/* 2. EL ENCABEZADO (Step 1 of 5) */
+.security-header h3 {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #999; /* Gris suave para info secundaria */
+    margin-bottom: 25px;
+    border: none; /* Quitamos la línea divisoria antigua */
+}
+
+/* 3. LA PREGUNTA */
+.security-question {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.4rem; /* Texto más grande */
+    font-weight: 600;  /* Peso semi-bold para destacar */
+    line-height: 1.3;
+    color: #202020;
+    margin-bottom: 40px; /* Separación generosa con las opciones */
+}
+
+/* 4. LOS BOTONES DE RESPUESTA */
+.btn-option {
+    display: block;
+    width: 100%;
+    padding: 18px 25px; /* Botones más altos y cómodos */
+    margin-bottom: 15px; /* Separación entre opciones */
+    
+    /* Estilo Base: Gris muy clarito (Sutil) */
+    background: #f5f5f5; 
+    border: 1px solid transparent; 
+    border-radius: 18px; /* Bordes redondeados coherentes */
+    
+    /* Tipografía */
+    color: #555;
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    text-align: left;
+    cursor: pointer;
+    
+    /* Transición fluida */
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* HOVER (Al pasar el mouse) - Estilo Dark Original */
+.btn-option:hover {
+    background: #202020;   /* Fondo Negro Oscuro */
+    color: #ffffff;        /* Texto Blanco */
+    border-color: #202020; /* El borde también se oscurece */
+    
+    /* Mantenemos la levitación suave hacia arriba (se ve mejor en tarjetas) */
+    transform: translateY(-3px);
+    
+    /* Sombra un poco más marcada para que destaque sobre el fondo */
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+/* --- FEEDBACK DE RESPUESTA --- */
+
+/* Cuando la respuesta es CORRECTA */
+.btn-option.correct {
+    background-color: #00C853 !important; /* Verde Esmeralda Vibrante */
+    border-color: #00C853 !important;
+    color: #ffffff !important;
+    
+    /* Un pequeño efecto de "pop" para celebrar */
+    transform: scale(1.02) !important; 
+    box-shadow: 0 0 20px rgba(0, 200, 83, 0.4) !important; /* Resplandor verde */
+}
+
+@keyframes fadeUpCard {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- FASE 2: EVIDENCIA (EXPEDIENTE CLASIFICADO) --- */
+
+.evidence-card {
+    background: #fff;
+    width: 100%;
+    max-width: 450px; /* Un poco más ancha para que luzca */
+    margin: 0 auto;
+    
+    /* REPLICA DE TRIVIA */
+    border-radius: 30px; /* Misma redondez que la tarjeta de preguntas */
+    padding: 40px;      /* Margen interno generoso */
+    border: 1px solid rgba(0,0,0,0.05);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15); /* Misma sombra */
+    
+    position: relative;
+    text-align: left; /* Alineación limpia a la izquierda */
+    
+    /* Quitamos la rotación para que se vea más ordenado, 
+       o la dejamos muy sutil (0.5deg) si quieres el toque humano */
+    transform: rotate(0deg); 
+    animation: fadeUpCard 0.5s ease-out forwards;
+}
+
+/* 1. LA CINTA ADHESIVA (SCOTCH DIGITAL) */
+.tape-fix {
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%) rotate(2deg);
+    width: 120px;
+    height: 35px;
+    background-color: rgba(255, 255, 255, 0.6); /* Blanco semi-transparente */
+    border-left: 1px dashed rgba(0,0,0,0.1);
+    border-right: 1px dashed rgba(0,0,0,0.1);
+    box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+    backdrop-filter: blur(2px); /* Efecto borroso detrás de la cinta */
+    z-index: 10;
+}
+
+/* 2. LA FOTO */
+/* AJUSTE DE LA FOTO PARA QUE SEA REDONDA TAMBIÉN */
+.evidence-img-container {
+    width: 100%;
+    height: 300px; 
+    background: #f0f0f0;
+    margin-bottom: 30px;
+    overflow: hidden;
+    
+    /* Redondeamos la foto para que encaje con la tarjeta */
+    border-radius: 20px; 
+    border: none;
+}
+
+.evidence-img-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* 3. EL SELLO "VERIFICADO" */
+/* EL SELLO (Lo mantenemos pero ajustamos posición) */
+.verified-stamp {
+    position: absolute;
+    top: 40px; /* Ahora lo ponemos arriba a la derecha */
+    right: 30px;
+    
+    border: 3px solid #B30000;
+    color: #B30000;
+    padding: 4px 12px;
+    font-size: 0.9rem;
+    border-radius: 8px; /* Un poco más suave */
+    text-shadow: 1.5px 1.5px 0px rgba(0,0,0,0.30);
+    opacity: 0.9;
+    
+    animation: stampIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.6s forwards;
+}
+
+/* 4. TEXTO DE REPORTE */
+/* AJUSTE DEL TEXTO (Pesos tipográficos de la Trivia) */
+.evidence-text h4 {
+    font-family: 'Space Mono', monospace;
+    color: #999; /* Un toque de color técnico */
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 15px;
+    border: none; /* Limpiamos líneas innecesarias */
+}
+
+.evidence-text p {
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem; /* Un poco más grande para legibilidad */
+    font-weight: 350;  /* Peso limpio */
+    color: #202020;
+    line-height: 1.5;
+    margin-bottom: 0;
+}
+
+/* 5. BOTÓN SIGUIENTE (Estilo minimalista) */
+/* BOTÓN "SIGUIENTE" (Igual al de la Trivia) */
+.btn-next-evidence {
+    display: block;
+    width: 100%;
+    margin-top: 30px;
+    padding: 18px;
+    background: #202020;
+    color: #fff;
+    border: none;
+    border-radius: 18px; /* Redondez coherente con btn-option */
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-next-evidence:hover {
+    background: #333;
+    transform: translateY(-8px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.25);
+}
+
+/* ANIMACIONES */
+@keyframes slideInEvidence {
+    from { opacity: 0; transform: translateY(50px) rotate(5deg); }
+    to { opacity: 1; transform: translateY(0) rotate(-2deg); }
+}
+
+@keyframes stampIn {
+    0% { opacity: 0; transform: scale(3) rotate(-15deg); } /* Empieza gigante */
+    100% { opacity: 0.8; transform: scale(1) rotate(-15deg); } /* Golpea la mesa */
+}
+
+/* =========================================
+   FASE 3: SELECCIÓN DE MOOD (SIN BORDES)
+   ========================================= */
+
+/* Contenedor */
+.mood-content {
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 20px 0;
+}
+
+/* Grid */
+.mood-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-top: 40px;
+}
+
+/* 1. EL BOTÓN BASE (Estilo Tarjeta + Animación) */
+.btn-mood {
+    position: relative; 
+    overflow: hidden;   
+    z-index: 1;         
+    
+    display: block;     
+    width: 100%;
+    padding: 20px 20px;
+    
+    /* Estética Inicial (Tarjeta Blanca) */
+    background-color: #ffffff; 
+    
+    /* --- AQUÍ ESTÁ EL CAMBIO --- */
+    border: none; /* Elimina cualquier borde (negro o gris) */
+    /* --------------------------- */
+    
+    border-radius: 50px; 
+    
+    /* Tipografía */
+    color: #202020; 
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    
+    /* TRANSICIONES */
+    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), 
+                color 0.6s ease, 
+                box-shadow 0.6s ease; /* Quité la transición de border-color */
+}
+
+/* 2. EL RELLENO NEGRO (Pseudo-elemento oculto) */
+.btn-mood::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%; 
+    width: 100%;
+    height: 100%;
+    
+    background-color: #202020; /* Relleno NEGRO */
+    
+    transition: left 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+    z-index: -1; 
+}
+
+/* 3. ESTADO HOVER (Al pasar el mouse) */
+.btn-mood:hover {
+    color: #ffffff; /* Texto BLANCO */
+    
+    /* Eliminé border-color aquí también */
+    
+    transform: translateY(-5px); 
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.2); 
+}
+
+/* Activar el llenado */
+.btn-mood:hover::before {
+    left: 0; 
+}
+
+/* Ajuste Mobile */
+@media (max-width: 600px) {
+    .mood-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+
+/* =========================================
+   FASE 4: CARRUSEL CUPONES (FULL WIDTH REAL)
+   ========================================= */
+
+/* =========================================
+   ESTILOS EXCLUSIVOS PARA CARRUSEL CUPONES
+   ========================================= */
+
+/* --- 1. ESTRUCTURA BASE Y ALTURAS --- */
+/* Controlamos que la tarjeta no sea infinitamente larga y estructuramos su contenido en columna */
+#couponsScreen .project-card {
+    height: auto; 
+    max-height: 65vh; /* La tarjeta nunca ocupará más del 65% del alto de la pantalla */
+    display: flex;
+    flex-direction: column;
+}
+
+/* Fijamos la altura de la imagen superior para que todas las tarjetas se vean alineadas */
+#couponsScreen .card-image {
+    height: 200px;
+    flex-shrink: 0; /* Evita que la imagen se aplaste si hay mucho texto abajo */
+}
+
+/* --- 2. DISTRIBUCIÓN DEL CARRUSEL (2 TARJETAS VISIBLES) --- */
+/* Forzamos al contenedor principal a ocultar cualquier tarjeta que se salga de la pantalla */
+#couponsScreen .works-container {
+    overflow: hidden !important; 
+    width: 100%;
+}
+
+/* Configuramos cada tarjeta para que ocupe el 43% del espacio, dejando ver 2 y ocultando el resto */
+#couponsScreen .card-wrapper {
+    flex: 0 0 calc(43% - 13px) !important;
+    min-width: calc(43% - 13px) !important;
+    width: calc(43% - 13px) !important;
+    margin-right: 10px; /* Espacio de separación entre tarjeta y tarjeta */
+}
+
+/* --- 3. TEXTOS Y TIPOGRAFÍA --- */
+/* Etiqueta superior (TICKET Nº...) */
+#couponsScreen .project-card .card-category {
+    font-size: 0.65rem !important; /* Tamaño pequeño tipo etiqueta */
+    color: #adb5bd !important; /* Gris claro */
+    letter-spacing: 1px !important; /* Espaciado entre letras para mayor elegancia */
+    font-weight: 600 !important; 
+    display: block !important; 
+    margin-bottom: 5px !important; 
+}
+
+/* Título principal del cupón */
+#couponsScreen .project-card h4,
+#couponsScreen .project-card .card-title {
+    font-size: 1rem !important; 
+    margin-bottom: 5px !important;
+}
+
+/* Descripción del cupón (Con forzado de lectura completa) */
+#couponsScreen .project-card p,
+#couponsScreen .project-card .card-desc {
+    font-size: 0.75rem !important; 
+    line-height: 1.3 !important; /* Interlineado cómodo para lectura */
+    margin-bottom: 10px !important;
+    
+    /* Reglas para evitar que el texto se corte con "..." */
+    white-space: normal !important; 
+    overflow: visible !important; 
+    text-overflow: clip !important; 
+    display: block !important; 
+    -webkit-line-clamp: unset !important; /* Anula restricciones de líneas heredadas */
+}
+
+/* --- 4. BOTÓN DE CANJEAR --- */
+/* Diseño base del botón */
+#couponsScreen .project-card button,
+#couponsScreen .project-card .btn-action {
+    font-family: 'Inter', sans-serif !important; 
+    font-size: 0.7rem !important; 
+    font-weight: 600 !important; 
+    padding: 8px !important; 
+    border-radius: 8px !important; /* Bordes redondeados */
+    letter-spacing: 0.5px !important; 
+    background-color: #e5e5e5 !important; /* Fondo gris claro */
+    color: #202020 !important; /* Texto oscuro para buen contraste */
+    transition: all 0.3s ease !important; /* Transición suave para el hover */
+}
+
+/* Efecto al pasar el mouse sobre el botón */
+#couponsScreen .project-card button:hover,
+#couponsScreen .project-card .btn-action:hover {
+    background-color: #00ff00 !important; /* Se vuelve verde */
+    color: #202020 !important;
+}
+
+/* --- 5. EFECTO HOVER DE LA TARJETA (SUAVIZADO) --- */
+/* Cuando pasas el mouse por encima de la tarjeta completa */
+#couponsScreen .project-card:hover {
+    /* Sombra muy sutil (8% de opacidad) y pegada a la tarjeta para que no se corte a los lados */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08) !important; 
+    /* Movimiento vertical pequeño (-3px en vez del original) para no chocar arriba */
+    transform: translateY(-12px) !important; 
+}
+
+/* --- 6. DISEÑO RESPONSIVO (PANTALLAS PEQUEÑAS) --- */
+/* TABLETS: Las tarjetas crecen a un 50% de ancho */
+@media (max-width: 1100px) {
+    #couponsScreen .card-wrapper {
+        flex: 0 0 calc(50% - 15px) !important;
+        min-width: calc(50% - 15px) !important;
+        width: calc(50% - 15px) !important;
+    }
+}
+
+/* CELULARES: 1 sola tarjeta a la vez (100% de ancho) */
+@media (max-width: 768px) {
+    #couponsScreen .card-wrapper {
+        flex: 0 0 100% !important;
+        min-width: 100% !important;
+        width: 100% !important;
+        margin-right: 0;
+    }
+    
+    /* Achicamos la imagen en móviles para que quepa bien en la pantalla */
+    #couponsScreen .card-image {
+        height: 160px; 
     }
 }

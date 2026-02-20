@@ -370,9 +370,10 @@
                 </div>
             </div>
 
-            <footer class="contact-footer scroll-animate">
+
+<footer class="contact-footer scroll-animate">
                 <div class="footer-left">
-                    <p>© 2025 Agustín Avendaño :) <span id="btnJotita" style="cursor: pointer; text-decoration: underline;">jotita</span></p>
+                    <p>© 2025 Agustín Avendaño :) <span id="btnKit" onclick="abrirKit()" style="cursor: pointer; text-decoration: underline;">jotita</span></p>
                     <p class="credits">Designed & Coded by me</p>
                 </div>
                 <div class="footer-right">
@@ -386,74 +387,86 @@
 
     <script src="script.js" defer></script>
 
-
-<div id="misionOverlay" class="mision-overlay" style="display: none;">
-    <div class="mision-card">
+    <div id="kitOverlay" class="kit-overlay">
         
-        <div id="faseCaptcha">
-            <div class="mision-header">
-                <h2>Verificación de Identidad</h2>
-                <p>Selecciona las fotos que creas que <b>representan nuestra relación</b> para continuar:</p>
-            </div>
-            
-            <div class="captcha-grid">
-                <div class="captcha-item" onclick="toggleFoto(this)" data-correcta="true"><img src="img/jo1.jpeg"></div>
-                <div class="captcha-item" onclick="toggleFoto(this)" data-correcta="true"><img src="img/jo2.jpeg"></div>
-                <div class="captcha-item" onclick="toggleFoto(this)" data-correcta="true"><img src="img/jo3.jpeg"></div>
-                <div class="captcha-item" onclick="toggleFoto(this)" data-correcta="true"><img src="img/jo4.jpeg"></div>
-                <div class="captcha-item" onclick="toggleFoto(this)" data-correcta="true"><img src="img/jo5.jpeg"></div>
-                <div class="captcha-item" onclick="toggleFoto(this)" data-correcta="true"><img src="img/jo6.jpeg"></div>
-                <div class="captcha-item" onclick="toggleFoto(this)" data-correcta="true"><img src="img/jo7.jpeg"></div>
-                <div class="captcha-item" onclick="toggleFoto(this)" data-correcta="true"><img src="img/jo8.jpeg"></div>
-                <div class="captcha-item" onclick="toggleFoto(this)" data-correcta="true"><img src="img/jo9.jpeg"></div>
-            </div>
-
-            <p id="mensajeError" class="error-msg" style="display:none; color: #ff4d4d; margin-top: 10px; font-weight: bold;">
-                ⚠️ Error: Dale locoooo! Intenta de nuevo
-            </p>
-            
-            <button class="btn-verificar" onclick="verificarCaptcha()">VERIFICAR</button>
-        </div>
-
-        <div id="fasePregunta" style="display: none;">
-            <h2>¡Identidad Confirmada! :)</h2>
-            <p>Ahora que sé que eres tú...
-            te tengo una pregunta:</p>
-            
-            <p ><b>
-                ¿Aceptarías ser mi San Valentín este año? </b> 
-            </p>
-            
-            <div class="botones-amor">
-                <button id="btnSi" class="btn-si" onclick="aceptarPropuesta()">¡SÍ, OBVIO!</button>
-                <button id="btnNo" class="btn-no" onmouseover="esquivarBoton()">NO</button>
-            </div>
-        </div>
-
-        <div id="faseCarta" style="display: none;">
-            <h2>Para mi Jotita</h2>
-            <div class="texto-carta" style="text-align: left; margin-bottom: 20px; line-height: 0.3;">
-                    
-    <p>Tenerte en mi vida es, lejos, de las mejores cosas que me han pasado. Me das una paz y una felicidad que no encuentro en ningún otro lado.</p>
-
-    <p>Sé que a veces sientes que no estás al 100%, pero honestamente... nadie nunca lo está. Y puta, yo también he tenido mi mala racha últimamente jeje y si algo he aprendido es que eso da lo mismo. Lo único que importa es que nos acompañemos en todas: en las buenas, en las mejores, en las malas y en las peores. No necesito que seas perfecta (de hecho que paja sería), solo te necesito a ti, a nosotros, remándola juntos.</p>
-
-    <p>A veces me quedo pegado mirándote y me cuesta creer que seas real. Me encanta tu forma de ser, me encanta que me cuides (incluso cuando me retas, porque sé que lo haces desde el zoncora jajaja) y me encanta la seguridad que siento cuando estoy contigo. Es esa sensación de que, pase lo que pase afuera, contigo siempre estoy como en casa.</p>
-
-    <p>Tú me haces querer ser mejor, es brígido. Todo este camino, mi carrera y mis proyectos tienen otro color (q cringe pero es vdd) pq estás tú para poder contarte o compartirlo. De vdd que no me imagino celebrando nada si no es contigo y familia. Eres mi motivación para darle con todo, porque sé que al final del día, tengo a la mejor compañera para compartir el éxito o para levantarme si me caigo.</p>
-
-    <p>Valoro caleta que estés ahí, que me escuches y que seas mi cable a tierra cuando me empiezo a pasar rollos. No cualquiera se la banca como lo haces tú y eso para mí lo es todo.</p>
-
-    <p>Por eso programé todo esto y escondí el botón de NO: porque mi única opción eres tú. Te advertí en el momento que te pedí pololeo, estay condenada mamita... preparate pq de esta no te vay a escapar</p>
-
-    <p>taxss</p>
+        <button class="btn-cerrar-kit" onclick="cerrarKit()">×</button>
+        
+        <div id="introScreen" class="screen-container">
+            <div class="intro-content" style="padding: 20px;">
+                <div style="font-family: 'Space Mono', monospace; font-size: 2.5rem; font-weight: 700; color: #202020; letter-spacing: 4px; margin-bottom: 70px;  solid #202020; display: inline-block; ">
+    [ CLASIFICADO ]
 </div>
-            <button class="btn-cerrar" onclick="cerrarMision()">Guardar en el corazón <3</button>
+                <h2 style="text-transform: uppercase; margin-bottom: 15px; letter-spacing: 6px;">Acceso Restringido</h2>
+                <p style="font-size: 1rem; font-weight: 300; line-height: 1.6; margin-bottom: 70px; color: #555;">
+                    Se ha detectado un intento de acceso al <b style="font-weight: 500; color: #202020;">Kit de Primeros Auxilios Interinos</b> 
+    <br><br>
+                    Por motivos de seguridad, el sistema requiere verificar que eres la  <b style="font-weight: 500; color: #202020;">Dra. Josefina</b> mediante un protocolo de datos históricos encriptados
+                </p>
+                <button class="btn-kit-start" onclick="comenzarProtocolo()">Iniciar Verificación</button>
+            </div>
         </div>
 
+        <div id="securityScreen" class="screen-container" style="display: none;">
+            </div>
+
+        <div id="evidenceScreen" class="screen-container" style="display: none;">
+            </div>
+
+        <div id="moodScreen" class="screen-container" style="display: none;">
+    <div class="mood-content">
+         <div style="
+    font-family: 'Space Mono', monospace; 
+    font-size: clamp(1.2rem, 5vw, 2.5rem); /* Se ajusta solo: mín 1.2rem, máx 2.5rem */
+    font-weight: 700; 
+    color: #202020; 
+    letter-spacing: 4px; 
+    margin-bottom: 70px; 
+    display: inline-block; 
+    white-space: nowrap; /* Esto prohíbe el salto de línea */
+">
+    [ IDENTIDAD CONFIRMADA ]
+</div>
+        
+        <h2 style="text-transform: uppercase; margin-bottom: 15px; letter-spacing: 6px;">Acceso Restringido</h2>
+                <p style="font-size: 1rem; font-weight: 300; line-height: 1.6; margin-bottom: 50px; color: #555;">
+                    Para <b style="font-weight: 500; color: #202020;">calibrar</b> la entrega de tus <b style="font-weight: 500; color: #202020;">cupones</b>, selecciona tu estado actual:   
+                </p>
+                
+        <div class="mood-grid">
+            <button class="btn-mood" onclick="iniciarCarrusel()">Modo Ahorro (Cansada)</button>
+            <button class="btn-mood" onclick="iniciarCarrusel()">Colapso Mental (Locura)</button>
+            <button class="btn-mood" onclick="iniciarCarrusel()">Estrés a Full (Pelada)</button>
+            <button class="btn-mood" onclick="iniciarCarrusel()">Lista pa todo (Eufórica)</button>
+        </div>
+        </div>
     </div>
+
+    <div id="couponsScreen" style="display: none; background-color: #dddddd; min-height: 100vh;">
+    
+    <section class="works-section" style="padding-top: 80px;">
+        <div class="works-container">
+            
+            <div class="works-header">
+                <div>
+                     <div style="font-family: 'Space Mono', monospace; font-size: 0.8rem; ; color: #999; padding: 4px 10px; display: inline-block; margin-bottom: 10px; letter-spacing: 2px;">
+                         [ ACCESO CONCEDIDO ]
+                     </div>
+                     <h2 class="section-title">CUPONES A CANJEAR</h2>
+                </div>
+                
+                <div class="carousel-controls">
+                    <button id="cpPrevBtn" class="carousel-btn">←</button>
+                    <button id="cpNextBtn" class="carousel-btn">→</button>
+                </div>
+            </div>
+
+            <div class="carousel-track" id="cpCarouselTrack">
+                </div>
+
+        </div>
+    </section>
+
 </div>
 
-
-</body>
+</div> </body>
 </html>
