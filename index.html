@@ -369,101 +369,110 @@
 
 
 <footer class="contact-footer scroll-animate">
-                <div class="footer-row-top">
-                    <p>© 2025 Agustín Avendaño :)</p>
-                    <p class="credits">Designed & Coded by me</p>
-                </div>
-                <div class="footer-row-bottom">
-                    <span id="btnKit" onclick="abrirKit()" class="btn-jotita">jotita <img src="img/jugo.png" class="jugo-emoji" alt="🧃"></span>
-                    <a href="#home" class="back-to-top">Back to top ↑</a>
-                </div>
-            </footer>
-
+    <div class="footer-row-top">
+        <p>© 2025 Agustín Avendaño :)</p>
+        <p class="credits">Designed & Coded by me</p>
+    </div>
+    <div class="footer-row-bottom">
+        <div class="easter-egg-group">
+            <span id="btnKit" class="btn-jotita">jotita <img src="img/jugo.png" class="jugo-emoji" alt="🧃"></span>
+            <span class="btn-secreto" onclick="parcheCupones()">*</span>
         </div>
-    </section>
+        <a href="#home" class="back-to-top">Back to top ↑</a>
+    </div>
+</footer>
 
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="script.js" defer></script>
-
-    <div id="kitOverlay" class="kit-overlay">
-        
-        <button class="btn-cerrar-kit" onclick="cerrarKit()">×</button>
-        
-        <div id="introScreen" class="screen-container">
-            <div class="intro-content" style="padding: 20px;">
-                <div style="font-family: 'Space Mono', monospace; font-size: 2.5rem; font-weight: 700; color: #202020; letter-spacing: 4px; margin-bottom: 70px;  solid #202020; display: inline-block; ">
-    [ CLASIFICADO ]
 </div>
-                <h2 style="text-transform: uppercase; margin-bottom: 15px; letter-spacing: 6px;">Acceso Restringido</h2>
-                <p style="font-size: 1rem; font-weight: 300; line-height: 1.6; margin-bottom: 70px; color: #555;">
-                    Se ha detectado un intento de acceso al <b style="font-weight: 500; color: #202020;">Kit de Primeros Auxilios Interinos</b> 
-    <br><br>
-                    Por motivos de seguridad, el sistema requiere verificar que eres la  <b style="font-weight: 500; color: #202020;">Dra. Josefina</b> mediante un protocolo de datos históricos encriptados
-                </p>
-                <button class="btn-kit-start" onclick="comenzarProtocolo()">Iniciar Verificación</button>
+</section>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+<script src="script.js" defer></script>
+
+<div id="kitOverlay" class="kit-overlay">
+    
+    <button class="btn-cerrar-kit" onclick="cerrarKit()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+    </svg>
+</button>
+    
+    <div id="introScreen" class="screen-container">
+        <div class="intro-content" style="padding: 20px;">
+            <div style="font-family: 'Space Mono', monospace; font-size: 2.5rem; font-weight: 700; color: #202020; letter-spacing: 4px; margin-bottom: 70px; display: inline-block;">
+                [ CLASIFICADO ]
             </div>
+            <h2 style="text-transform: uppercase; margin-bottom: 15px; letter-spacing: 6px;">Acceso Restringido</h2>
+            <p style="font-size: 1rem; font-weight: 300; line-height: 1.6; margin-bottom: 70px; color: #555;">
+                Se ha detectado un intento de acceso al <b style="font-weight: 500; color: #202020;">Kit de Primeros Auxilios Interinos</b> 
+                <br><br>
+                Por motivos de seguridad, el sistema requiere verificar que eres la <b style="font-weight: 500; color: #202020;">Dra. Josefina</b> mediante un protocolo de datos históricos encriptados
+            </p>
+            <button class="btn-kit-start" onclick="comenzarProtocolo()">Iniciar Verificación</button>
         </div>
+    </div>
 
-        <div id="securityScreen" class="screen-container" style="display: none;">
+    <div id="securityScreen" class="screen-container" style="display: none;">
+    </div>
+
+    <div id="evidenceScreen" class="screen-container" style="display: none;">
+    </div>
+
+    <div id="moodScreen" class="screen-container" style="display: none;">
+        <div class="mood-content">
+            <div style="font-family: 'Space Mono', monospace; font-size: clamp(1.2rem, 5vw, 2.5rem); font-weight: 700; color: #202020; letter-spacing: 4px; margin-bottom: 70px; display: inline-block; white-space: nowrap;">
+                [ IDENTIDAD CONFIRMADA ]
             </div>
-
-        <div id="evidenceScreen" class="screen-container" style="display: none;">
+            <h2 style="text-transform: uppercase; margin-bottom: 15px; letter-spacing: 6px;">Acceso Restringido</h2>
+            <p style="font-size: 1rem; font-weight: 300; line-height: 1.6; margin-bottom: 50px; color: #555;">
+                Para <b style="font-weight: 500; color: #202020;">calibrar</b> la entrega de tus <b style="font-weight: 500; color: #202020;">cupones</b>, selecciona tu estado actual:   
+            </p>
+            
+            <div class="mood-grid">
+                <button class="btn-mood" onclick="iniciarCarrusel()">Modo Ahorro (Cansada)</button>
+                <button class="btn-mood" onclick="iniciarCarrusel()">Colapso Mental (Locura)</button>
+                <button class="btn-mood" onclick="iniciarCarrusel()">Estrés a Full (Pelada)</button>
+                <button class="btn-mood" onclick="iniciarCarrusel()">Lista pa todo (Eufórica)</button>
             </div>
-
-        <div id="moodScreen" class="screen-container" style="display: none;">
-    <div class="mood-content">
-         <div style="
-    font-family: 'Space Mono', monospace; 
-    font-size: clamp(1.2rem, 5vw, 2.5rem); /* Se ajusta solo: mín 1.2rem, máx 2.5rem */
-    font-weight: 700; 
-    color: #202020; 
-    letter-spacing: 4px; 
-    margin-bottom: 70px; 
-    display: inline-block; 
-    white-space: nowrap; /* Esto prohíbe el salto de línea */
-">
-    [ IDENTIDAD CONFIRMADA ]
-</div>
-        
-        <h2 style="text-transform: uppercase; margin-bottom: 15px; letter-spacing: 6px;">Acceso Restringido</h2>
-                <p style="font-size: 1rem; font-weight: 300; line-height: 1.6; margin-bottom: 50px; color: #555;">
-                    Para <b style="font-weight: 500; color: #202020;">calibrar</b> la entrega de tus <b style="font-weight: 500; color: #202020;">cupones</b>, selecciona tu estado actual:   
-                </p>
-                
-        <div class="mood-grid">
-            <button class="btn-mood" onclick="iniciarCarrusel()">Modo Ahorro (Cansada)</button>
-            <button class="btn-mood" onclick="iniciarCarrusel()">Colapso Mental (Locura)</button>
-            <button class="btn-mood" onclick="iniciarCarrusel()">Estrés a Full (Pelada)</button>
-            <button class="btn-mood" onclick="iniciarCarrusel()">Lista pa todo (Eufórica)</button>
-        </div>
         </div>
     </div>
 
     <div id="couponsScreen" style="display: none; background-color: #dddddd; min-height: 100vh;">
-    
-    <section class="works-section" style="padding-top: 80px;">
-        <div class="works-container">
-            
-            <div class="works-header">
-                <div>
-                     <div style="font-family: 'Space Mono', monospace; font-size: 0.8rem; ; color: #999; padding: 4px 10px; display: inline-block; margin-bottom: 10px; letter-spacing: 2px;">
-                         [ ACCESO CONCEDIDO ]
-                     </div>
-                     <h2 class="section-title">CUPONES A CANJEAR</h2>
-                </div>
+        <section class="coupons-section" style="padding-top: 80px;">
+            <div class="coupons-container">
                 
-                <div class="carousel-controls">
-                    <button id="cpPrevBtn" class="carousel-btn">←</button>
-                    <button id="cpNextBtn" class="carousel-btn">→</button>
+                <div class="coupons-header">
+                    <div>
+                        <div class="coupon-label-anim" style="font-family: 'Space Mono', monospace; font-size: 1rem; color: #999; padding: 4px 10px; display: inline-block; margin-bottom: 0px; letter-spacing: 4px;">
+                            [ ACCESO CONCEDIDO ]
+                        </div>
+                        
+                    </div>
+                    
+                    <div class="coupons-controls coupon-controls-anim">
+                        <button id="cpPrevBtn" class="coupons-btn">←</button>
+                        <button id="cpNextBtn" class="coupons-btn">→</button>
+                    </div>
                 </div>
+
+                <div class="coupons-track-wrapper coupon-track-anim">
+                    <div class="coupons-track" id="cpCarouselTrack">
+                        </div>
+                </div>
+
+                <div class="coupons-track-wrapper">
+                    <div class="coupons-track" id="cpCarouselTrack">
+                        </div>
+                </div>
+
             </div>
+        </section>
+    </div>
+    
+</div> 
 
-            <div class="carousel-track" id="cpCarouselTrack">
-                </div>
-
-        </div>
-    </section>
-
-</div>
 
 
 

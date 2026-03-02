@@ -579,6 +579,38 @@ if (contactRight) {
 }
 
 
+// ==========================================
+// TRANSICIÓN HERO → ABOUT
+// ==========================================
+const heroContent = document.querySelector('.hero-content');
+const heroSection = document.querySelector('.hero');
+const heroImage = document.querySelector('.hero-image img');
+if (heroImage) heroImage.style.transform = 'scale(1.15)';
+
+window.addEventListener('scroll', () => {
+    const scrollTop = window.pageYOffset;
+    const heroHeight = heroSection ? heroSection.offsetHeight : window.innerHeight;
+    const progress = Math.min(scrollTop / (heroHeight * 0.5), 1);
+
+    // Fade out + movimiento suave del contenido del hero
+    if (heroContent) {
+        heroContent.style.cssText += `opacity: ${1 - progress} !important; transform: translateY(-${progress * 20}px) !important;`;
+    }
+
+    // Zoom out suave en la imagen
+if (heroImage && scrollTop < heroHeight) {
+    const imgProgress = Math.min(scrollTop / heroHeight, 1);
+heroImage.style.transform = `scale(${1.15 - imgProgress * 0.15})`;
+}
+}, { passive: true });
+
+
+
+
+
+
+
+
 
 
 
@@ -862,7 +894,17 @@ function comenzarProtocolo() {
 }
 
 function cerrarKit() {
-    kitOverlay.classList.remove('active');
+    const kitOverlay = document.getElementById('kitOverlay');
+    if (kitOverlay) kitOverlay.classList.remove('active');
+    
+    // Devolvemos los elementos a su estado oculto para la próxima vez
+    setTimeout(() => {
+        const animElements = document.querySelectorAll('.coupon-label-anim, .coupon-title-anim, .coupon-controls-anim, .coupon-track-anim');
+        animElements.forEach(el => el.classList.remove('visible'));
+        
+        const track = document.getElementById('cpCarouselTrack');
+        if (track) track.innerHTML = '';
+    }, 500);
 }
 
 // --- 6. LÓGICA DE LA TRIVIA ---
@@ -959,28 +1001,36 @@ function iniciarCarrusel() {
     const moodScreen = document.getElementById('moodScreen');
     const couponsScreen = document.getElementById('couponsScreen');
 
-    // 1. Iniciamos el desvanecimiento de la pantalla de Mood
-    moodScreen.style.transition = "opacity 0.5s ease";
-    moodScreen.style.opacity = "0";
+    // Si venimos del flujo normal (Pantalla de Mood)
+    if (moodScreen && moodScreen.style.display !== 'none') {
+        moodScreen.style.transition = "opacity 0.5s ease";
+        moodScreen.style.opacity = "0";
 
-    // 2. Esperamos a que termine el desvanecimiento (500ms)
-    setTimeout(() => {
-        moodScreen.style.display = 'none';
-        
-        // 3. Preparamos la pantalla de cupones (invisible al principio)
-        couponsScreen.style.display = 'block';
-        couponsScreen.style.opacity = "0";
-        couponsScreen.style.transition = "opacity 0.5s ease";
-        
-        renderizarCupones();
-        
-        // 4. Forzamos un pequeño "refresco" y hacemos el Fade In
         setTimeout(() => {
-            couponsScreen.style.opacity = "1";
-            setupCpCarousel();
-        }, 50); // mini delay para que el navegador capte el cambio de opacidad
+            moodScreen.style.display = 'none';
+            mostrarPantallaCupones(couponsScreen);
+        }, 500);
+    } else {
+        // Si venimos directo del parche temporal del asterisco
+        mostrarPantallaCupones(couponsScreen);
+    }
+}
+
+function mostrarPantallaCupones(couponsScreen) {
+    if (!couponsScreen) return;
+    
+    // Encendemos la caja (ya no usamos opacity:0 aquí para evitar pestañeos)
+    couponsScreen.style.display = 'block';
+    renderizarCupones();
+    
+    // Esperamos 50ms para que el navegador procese el bloque antes de animar
+    setTimeout(() => {
+        setupCpCarousel();
         
-    }, 500);
+        // Disparamos la entrada estilo "Selected Works"
+        const animElements = document.querySelectorAll('.coupon-label-anim, .coupon-title-anim, .coupon-controls-anim, .coupon-track-anim');
+        animElements.forEach(el => el.classList.add('visible'));
+    }, 50);
 }
 
 function renderizarCupones() {
@@ -990,21 +1040,19 @@ function renderizarCupones() {
     track.innerHTML = ''; 
 
     DB_CUPONES.forEach((ticket) => {
-        // Estructura CLONADA de tu project-card original, sin estilos intrusivos
+        // Estructura semántica, limpia y con clases 100% independientes
         const html = `
-            <div class="card-wrapper">
-                <div class="project-card" style="cursor: pointer; display: block;" onclick="canjearCupón('${ticket.msg}')">
-                    <div class="card-image">
-                        <img src="${ticket.img}" alt="${ticket.title}" style="width: 100%; height: 100%; object-fit: cover;">
+            <div class="coupon-wrapper">
+                <div class="coupon-card" onclick="canjearCupón('${ticket.msg}')">
+                    <div class="coupon-image">
+                        <img src="${ticket.img}" alt="${ticket.title}">
                     </div>
-                    <div class="card-content">
-                        <span class="card-category">CUPÓN Nº ${ticket.id}</span>
-                        <h3 class="card-title">${ticket.title}</h3>
-                        <p class="card-desc" style="margin-bottom: 20px;">${ticket.desc}</p>
+                    <div class="coupon-content">
+                        <span class="coupon-category">CUPÓN Nº ${ticket.id}</span>
+                        <h3 class="coupon-title">${ticket.title}</h3>
+                        <p class="coupon-desc">${ticket.desc}</p>
                         
-                        <button style="width: 100%; padding: 12px; background: #202020; color: #fff; border: none; font-family: 'Space Mono', monospace; font-weight: bold; text-transform: uppercase; cursor: pointer; transition: background 0.3s;" onmouseover="this.style.background='#00ff00'; this.style.color='#202020'" onmouseout="this.style.background='#202020'; this.style.color='#fff'">
-                            CANJEAR RECURSO
-                        </button>
+                        <button class="coupon-btn">CANJEAR RECURSO</button>
                     </div>
                 </div>
             </div>
@@ -1014,23 +1062,112 @@ function renderizarCupones() {
 }
 
 function setupCpCarousel() {
-    const track = document.getElementById('cpCarouselTrack');
-    const prevBtn = document.getElementById('cpPrevBtn');
-    const nextBtn = document.getElementById('cpNextBtn');
+    const cpTrack = document.getElementById('cpCarouselTrack');
+    const cpPrev = document.getElementById('cpPrevBtn');
+    const cpNext = document.getElementById('cpNextBtn');
 
-    if (track && prevBtn && nextBtn) {
-        const getScrollAmount = () => {
-            const firstCard = track.querySelector('.card-wrapper'); 
-            return firstCard ? firstCard.offsetWidth : 300; 
+    if (cpTrack && cpPrev && cpNext) {
+        // Triplicamos las tarjetas: [clon] [original] [clon]
+        const originalCards = Array.from(cpTrack.children);
+        const total = originalCards.length;
+
+        // Clonar antes
+        const clonesBefore = originalCards.map(card => {
+            const clone = card.cloneNode(true);
+            clone.setAttribute('aria-hidden', 'true');
+            return clone;
+        });
+        clonesBefore.reverse().forEach(clone => cpTrack.prepend(clone));
+
+        // Clonar después
+        originalCards.forEach(card => {
+            const clone = card.cloneNode(true);
+            clone.setAttribute('aria-hidden', 'true');
+            cpTrack.appendChild(clone);
+        });
+
+        let currentIndex = total;
+        let isAnimating = false;
+
+        const getCardWidth = () => {
+            const card = cpTrack.querySelector('.coupon-wrapper');
+            // Ancho + 24px del gap
+            return card ? card.offsetWidth + 24 : 0;
         };
 
-        nextBtn.addEventListener('click', () => {
-            track.scrollBy({ left: getScrollAmount(), behavior: 'smooth' });
+        const MAX_ANIMATIONS = 2;
+
+        const animateCards = () => {
+            const wrapperRect = cpTrack.parentElement.getBoundingClientRect();
+            const cards = cpTrack.querySelectorAll('.coupon-wrapper');
+            let delay = 0;
+            cards.forEach((card) => {
+                const cardRect = card.getBoundingClientRect();
+                const isVisible = cardRect.left < wrapperRect.right - 50 && cardRect.right > wrapperRect.left + 50;
+                const timesShown = parseInt(card.dataset.shown || '0');
+
+                if (!isVisible) {
+                    if (timesShown < MAX_ANIMATIONS) {
+                        card.classList.remove('visible');
+                    }
+                } else if (!card.classList.contains('visible')) {
+                    card.dataset.shown = timesShown + 1;
+                    setTimeout(() => card.classList.add('visible'), delay);
+                    delay += 80;
+                }
+            });
+        };
+
+        const goTo = (index, animated = true) => {
+            cpTrack.style.transition = animated
+                ? 'transform 0.5s cubic-bezier(0.25, 1, 0.5, 1)'
+                : 'none';
+            cpTrack.style.transform = `translateX(-${index * getCardWidth()}px)`;
+            currentIndex = index;
+        };
+
+        // Posición inicial
+        goTo(currentIndex, false);
+        setTimeout(animateCards, 100);
+
+        // Controles de flecha
+        cpNext.addEventListener('click', () => {
+            if (isAnimating) return;
+            isAnimating = true;
+            goTo(currentIndex + 1);
+
+            setTimeout(() => {
+                if (currentIndex >= total * 2) {
+                    goTo(currentIndex - total, false);
+                }
+                animateCards();
+                isAnimating = false;
+            }, 520);
         });
 
-        prevBtn.addEventListener('click', () => {
-            track.scrollBy({ left: -getScrollAmount(), behavior: 'smooth' });
+        cpPrev.addEventListener('click', () => {
+            if (isAnimating) return;
+            isAnimating = true;
+            goTo(currentIndex - 1);
+
+            setTimeout(() => {
+                if (currentIndex < total) {
+                    goTo(currentIndex + total, false);
+                }
+                animateCards();
+                isAnimating = false;
+            }, 520);
         });
+
+        // Scroll horizontal con trackpad
+        cpTrack.parentElement.addEventListener('wheel', (e) => {
+            const isHorizontal = Math.abs(e.deltaX) > Math.abs(e.deltaY);
+            if (!isHorizontal) return;
+            e.preventDefault();
+            // Reducimos la sensibilidad un poco (de 15 a 20) para evitar saltos locos al deslizar rápido
+            if (e.deltaX > 20) cpNext.click();
+            if (e.deltaX < -20) cpPrev.click();
+        }, { passive: false });
     }
 }
 
@@ -1046,30 +1183,30 @@ function canjearCupón(mensaje) {
 
 
 
-// ==========================================
-// TRANSICIÓN HERO → ABOUT
-// ==========================================
-const heroContent = document.querySelector('.hero-content');
-const heroSection = document.querySelector('.hero');
-const heroImage = document.querySelector('.hero-image img');
-if (heroImage) heroImage.style.transform = 'scale(1.15)';
 
-window.addEventListener('scroll', () => {
-    const scrollTop = window.pageYOffset;
-    const heroHeight = heroSection ? heroSection.offsetHeight : window.innerHeight;
-    const progress = Math.min(scrollTop / (heroHeight * 0.5), 1);
 
-    // Fade out + movimiento suave del contenido del hero
-    if (heroContent) {
-        heroContent.style.cssText += `opacity: ${1 - progress} !important; transform: translateY(-${progress * 20}px) !important;`;
+
+/* =======================================================
+   PARCHE TEMPORAL DEV MODE (BORRAR ANTES DE PUBLICAR)
+   ======================================================= */
+function parcheCupones() {
+    const overlay = document.getElementById('kitOverlay');
+    if(overlay) {
+        overlay.classList.add('active'); 
+        overlay.style.display = 'block'; 
     }
 
-    // Zoom out suave en la imagen
-if (heroImage && scrollTop < heroHeight) {
-    const imgProgress = Math.min(scrollTop / heroHeight, 1);
-heroImage.style.transform = `scale(${1.15 - imgProgress * 0.15})`;
+    // Apagamos todas las demás pantallas primero
+    const pantallasOcultas = ['introScreen', 'securityScreen', 'evidenceScreen', 'moodScreen'];
+    pantallasOcultas.forEach(id => {
+        const pantalla = document.getElementById(id);
+        if(pantalla) pantalla.style.display = 'none';
+    });
+
+    if(typeof iniciarCarrusel === 'function') {
+        iniciarCarrusel(); 
+    }
 }
-}, { passive: true });
 
 
 
@@ -1085,27 +1222,7 @@ heroImage.style.transform = `scale(${1.15 - imgProgress * 0.15})`;
 
 
 
-/* // =========================================================
-// 🚧 PARCHE TEMPORAL: SALTO DIRECTO A CUPONES 🚧
-// (DESACTIVADO)
-// =========================================================
-function abrirKit() {
-    // 1. Abre el fondo oscuro del kit
-    kitOverlay.classList.add('active');
-    
-    // 2. Oculta la intro, la trivia y los estados de ánimo
-    if(introScreen) introScreen.style.display = 'none';
-    securityScreen.style.display = 'none';
-    evidenceScreen.style.display = 'none';
-    moodScreen.style.display = 'none';
 
-    // 3. Ejecuta directamente la fase final (los cupones)
-    iniciarCarrusel();
-    
-    console.log("Parche activado: Trivia omitida.");
-}
-// =========================================================
-*/
 
 
 

@@ -3551,6 +3551,72 @@ body {
 }
 
 
+/* =========================================
+   EASTER EGGS (BOTONES SECRETOS FOOTER)
+   ========================================= */
+.easter-egg-group {
+    display: flex;
+    align-items: center;
+    gap: 12px; /* Espacio perfecto entre "jotita" y el asterisco */
+}
+
+.btn-secreto {
+    font-size: 1.2rem;
+    font-weight: 300;
+    color: #aaaaaa; /* Gris muy claro para camuflarse con el texto secundario */
+    cursor: pointer;
+    line-height: 1;
+    transition: color 0.3s ease, transform 0.3s ease;
+    -webkit-tap-highlight-color: transparent; /* Evita el destello feo azul en celulares al tocarlo */
+}
+
+/* Pequeño feedback visual para indicar que es clickeable */
+.btn-secreto:hover {
+    color: #202020; 
+    transform: scale(1.3) rotate(15deg); 
+}
+
+/* =======================================================
+   VISTA CUPONES: AISLAMIENTO DE CARRUSEL SECRETO
+   ======================================================= */
+
+/* Protegemos el contenedor principal de los cupones */
+#couponsScreen .works-container {
+    overflow: hidden !important;
+    width: 100% !important;
+}
+
+/* Forzamos el comportamiento horizontal original del track */
+#couponsScreen .carousel-track {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important; /* Esto evita que los elementos 02 y 03 caigan abajo */
+    width: max-content !important;
+    gap: 20px !important; /* Ajusta este valor si necesitas más espacio entre los cupones */
+    align-items: stretch !important;
+}
+
+/* Aseguramos que los hijos directos (los cupones) no se encojan ni se deformen */
+#couponsScreen .carousel-track > * {
+    flex: 0 0 auto !important;
+    max-width: 80vw !important; /* Evita que un cupón sea más ancho que la pantalla móvil */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -3618,17 +3684,31 @@ body {
 .btn-cerrar-kit {
     position: absolute;
     top: 30px;
-    right: 30px;
+    right: 40px;
     background: transparent;
     border: none;
-    font-family: 'Inter', sans-serif;
-    font-size: 2rem;
-    color: #202020;
+    color: #202020; /* Tu negro principal */
     cursor: pointer;
-    transition: transform 0.3s ease;
-    z-index: 1000;
+    z-index: 10005; 
+    
+    /* Centramos el vector y ampliamos el área de clic */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
 }
-.btn-cerrar-kit:hover { transform: rotate(90deg); }
+
+/* Control del tamaño de la X de la carpeta */
+.btn-cerrar-kit svg {
+    width: 35px; 
+    height: 35px;
+    transition: transform 0.3s ease;
+}
+
+/* Efecto Hover: Le damos el giro directamente al vector */
+.btn-cerrar-kit:hover svg {
+    transform: rotate(90deg);
+}
 
 /* CONTENEDORES DE PANTALLAS */
 .screen-container {
@@ -4026,132 +4106,258 @@ body {
 
 
 
-/* =========================================
-   FASE 4: CARRUSEL CUPONES (FULL WIDTH REAL)
-   ========================================= */
 
-/* =========================================
-   ESTILOS EXCLUSIVOS PARA CARRUSEL CUPONES
-   ========================================= */
 
-/* --- 1. ESTRUCTURA BASE Y ALTURAS --- */
-/* Controlamos que la tarjeta no sea infinitamente larga y estructuramos su contenido en columna */
-#couponsScreen .project-card {
-    height: auto; 
-    max-height: 65vh; /* La tarjeta nunca ocupará más del 65% del alto de la pantalla */
+/* =======================================================
+   VISTA CUPONES: ESTRUCTURA DEL CARRUSEL (Estilo Selected Works)
+   ======================================================= */
+.coupons-section {
+    width: 100%;
+    min-height: 100vh; /* Ocupa el 100% del alto de la pantalla */
     display: flex;
     flex-direction: column;
+    justify-content: center; /* Magia: empuja todo el contenido exactamente al centro vertical */
 }
 
-/* Fijamos la altura de la imagen superior para que todas las tarjetas se vean alineadas */
-#couponsScreen .card-image {
-    height: 200px;
-    flex-shrink: 0; /* Evita que la imagen se aplaste si hay mucho texto abajo */
-}
-
-/* --- 2. DISTRIBUCIÓN DEL CARRUSEL (2 TARJETAS VISIBLES) --- */
-/* Forzamos al contenedor principal a ocultar cualquier tarjeta que se salga de la pantalla */
-#couponsScreen .works-container {
-    overflow: hidden !important; 
+.coupons-container {
     width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 60px; /* Igualamos padding lateral */
+    overflow: visible; /* Clave para el carrusel infinito */
 }
 
-/* Configuramos cada tarjeta para que ocupe el 43% del espacio, dejando ver 2 y ocultando el resto */
-#couponsScreen .card-wrapper {
-    flex: 0 0 calc(43% - 13px) !important;
-    min-width: calc(43% - 13px) !important;
-    width: calc(43% - 13px) !important;
-    margin-right: 10px; /* Espacio de separación entre tarjeta y tarjeta */
+.coupons-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 5px; /* Antes era 40px. Lo reducimos drásticamente */
 }
 
-/* --- 3. TEXTOS Y TIPOGRAFÍA --- */
-/* Etiqueta superior (TICKET Nº...) */
-#couponsScreen .project-card .card-category {
-    font-size: 0.65rem !important; /* Tamaño pequeño tipo etiqueta */
-    color: #adb5bd !important; /* Gris claro */
-    letter-spacing: 1px !important; /* Espaciado entre letras para mayor elegancia */
-    font-weight: 600 !important; 
-    display: block !important; 
-    margin-bottom: 5px !important; 
+.coupons-controls {
+    display: flex;
+    gap: 15px;
+    margin-top: -12px; /* Ajuste óptico: sube levemente las flechas de 50px para centrarse con el texto pequeño */
 }
 
-/* Título principal del cupón */
-#couponsScreen .project-card h4,
-#couponsScreen .project-card .card-title {
-    font-size: 1rem !important; 
-    margin-bottom: 5px !important;
+.coupons-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 1px solid #202020;
+    background: transparent;
+    color: #202020;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-/* Descripción del cupón (Con forzado de lectura completa) */
-#couponsScreen .project-card p,
-#couponsScreen .project-card .card-desc {
-    font-size: 0.75rem !important; 
-    line-height: 1.3 !important; /* Interlineado cómodo para lectura */
-    margin-bottom: 10px !important;
-    
-    /* Reglas para evitar que el texto se corte con "..." */
-    white-space: normal !important; 
-    overflow: visible !important; 
-    text-overflow: clip !important; 
-    display: block !important; 
-    -webkit-line-clamp: unset !important; /* Anula restricciones de líneas heredadas */
+.coupons-btn:hover {
+    background: #202020;
+    color: #dddddd;
+    transform: scale(1.1);
 }
 
-/* --- 4. BOTÓN DE CANJEAR --- */
-/* Diseño base del botón */
-#couponsScreen .project-card button,
-#couponsScreen .project-card .btn-action {
-    font-family: 'Inter', sans-serif !important; 
-    font-size: 0.7rem !important; 
-    font-weight: 600 !important; 
-    padding: 8px !important; 
-    border-radius: 8px !important; /* Bordes redondeados */
-    letter-spacing: 0.5px !important; 
-    background-color: #e5e5e5 !important; /* Fondo gris claro */
-    color: #202020 !important; /* Texto oscuro para buen contraste */
-    transition: all 0.3s ease !important; /* Transición suave para el hover */
+/* El escenario del carrusel */
+.coupons-track-wrapper {
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    overflow: hidden;
+    padding: 60px 0 50px 0;
 }
 
-/* Efecto al pasar el mouse sobre el botón */
-#couponsScreen .project-card button:hover,
-#couponsScreen .project-card .btn-action:hover {
-    background-color: #00ff00 !important; /* Se vuelve verde */
-    color: #202020 !important;
+.coupons-track {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 24px;
+    padding: 10px 60px 10px 60px;
+    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1); /* Movimiento por JS */
+    will-change: transform;
 }
 
-/* --- 5. EFECTO HOVER DE LA TARJETA (SUAVIZADO) --- */
-/* Cuando pasas el mouse por encima de la tarjeta completa */
-#couponsScreen .project-card:hover {
-    /* Sombra muy sutil (8% de opacidad) y pegada a la tarjeta para que no se corte a los lados */
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08) !important; 
-    /* Movimiento vertical pequeño (-3px en vez del original) para no chocar arriba */
-    transform: translateY(-12px) !important; 
+/* =======================================================
+   VISTA CUPONES: DISEÑO DE TARJETAS (Estilo Selected Works)
+   ======================================================= */
+.coupon-wrapper {
+    width: calc(33% - 16px);
+    min-width: calc(33% - 16px);
+    flex-shrink: 0;
+    opacity: 0; 
+    transform: translateY(12px);
+    transition: opacity 1.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* --- 6. DISEÑO RESPONSIVO (PANTALLAS PEQUEÑAS) --- */
-/* TABLETS: Las tarjetas crecen a un 50% de ancho */
-@media (max-width: 1100px) {
-    #couponsScreen .card-wrapper {
-        flex: 0 0 calc(50% - 15px) !important;
-        min-width: calc(50% - 15px) !important;
-        width: calc(50% - 15px) !important;
-    }
+.coupon-wrapper.visible {
+    opacity: 1;
+    transform: translateY(0);
 }
 
-/* CELULARES: 1 sola tarjeta a la vez (100% de ancho) */
-@media (max-width: 768px) {
-    #couponsScreen .card-wrapper {
-        flex: 0 0 100% !important;
-        min-width: 100% !important;
-        width: 100% !important;
-        margin-right: 0;
-    }
-    
-    /* Achicamos la imagen en móviles para que quepa bien en la pantalla */
-    #couponsScreen .card-image {
-        height: 160px; 
-    }
+.coupon-card {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background-color: #f0f0f0; /* Igual que Selected Works */
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
+
+.coupon-card:hover {
+    transform: translateY(-15px);
+    box-shadow: 0 30px 50px rgba(0, 0, 0, 0.3);
+    border-color: #ccc;
+    background-color: #ffffff;
+}
+
+.coupon-image {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+}
+
+.coupon-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.coupon-card:hover .coupon-image img {
+    transform: scale(1.05);
+}
+
+.coupon-content {
+    padding: 25px 35px 20px 30px; /* Arriba 20px, Lados 25px, Abajo 25px */
+    display: flex;
+    flex-direction: column;
+    gap: 6px; 
+    flex-grow: 1;
+}
+
+.coupon-category {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.6rem; /* Más pequeño */
+    color: #999999;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-weight: 400;
+}
+
+.coupon-title {
+    font-size: 1.25rem; /* Antes era 1.8rem, gran reducción */
+    font-weight: 400;
+    margin: 0; /* Quitamos el margen extra */
+    letter-spacing: -0.03em;
+    color: #202020;
+    line-height: 1.1;
+}
+
+.coupon-desc {
+    font-size: 0.8rem; /* Letra más chica para la descripción */
+    color: #555;
+    line-height: 1.3; /* Texto más pegadito */
+    font-weight: 300;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    flex-grow: 1;
+    margin-bottom: 0;
+}
+
+/* El Botón extra de canjear (manteniendo la estética) */
+.coupon-btn {
+    width: 100%;
+    margin-top: 10px; /* Menos espacio antes del botón */
+    padding: 10px; /* Botón menos alto */
+    background-color: #e5e5e5;
+    color: #202020;
+    border: none;
+    border-radius: 6px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.75rem; /* Texto del botón más sutil */
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.coupon-card:hover .coupon-btn {
+    background-color: #202020; /* Cambia al negro que usas en la web */
+    color: #ffffff; /* El texto pasa a ser blanco puro para resaltar */
+}
+
+/* =======================================================
+   VISTA CUPONES: ANIMACIONES DE ENTRADA AL ABRIR
+   ======================================================= */
+.coupon-label-anim {
+    opacity: 0;
+    transform: translateX(-15px);
+    transition: opacity 2.6s cubic-bezier(0.16, 1, 0.3, 1), transform 2.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.coupon-label-anim.visible { 
+    opacity: 1; 
+    transform: translateX(0); 
+}
+
+.coupon-title-anim {
+    font-size: 2.5rem;
+    font-weight: 600;
+    letter-spacing: -0.05em;
+    color: #202020;
+    opacity: 0;
+    transform: translateX(-15px);
+    transition: opacity 2.6s cubic-bezier(0.16, 1, 0.3, 1), transform 2.6s cubic-bezier(0.16, 1, 0.3, 1) 0.2s;
+}
+.coupon-title-anim.visible { 
+    opacity: 1; 
+    transform: translateX(0); 
+}
+
+.coupon-controls-anim {
+    opacity: 0;
+    transform: translateX(15px);
+    transition: opacity 3s cubic-bezier(0.16, 1, 0.3, 1) 0.9s, transform 3s cubic-bezier(0.16, 1, 0.3, 1) 0.3s;
+}
+.coupon-controls-anim.visible { 
+    opacity: 1; 
+    transform: translateX(0); 
+}
+
+.coupon-track-anim {
+    opacity: 0;
+    filter: blur(8px);
+    margin-left: -40px;
+    transition: opacity 3s cubic-bezier(0.16, 1, 0.3, 1) 0.3s,
+                filter 2s cubic-bezier(0.16, 1, 0.3, 1) 0.3s,
+                margin-left 3s cubic-bezier(0.16, 1, 0.3, 1) 0.3s;
+}
+.coupon-track-anim.visible { 
+    opacity: 1; 
+    filter: blur(0px); 
+    margin-left: 0px; 
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
