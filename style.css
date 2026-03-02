@@ -59,6 +59,8 @@ body {
     /* CAPA SUPREMA: 99999 asegura que NADA (ni el menú abierto) lo tape */
     z-index: 99999; 
     transition: opacity 0.4s ease, transform 0.4s ease;
+    opacity: 0;
+    animation: blurFadeUp 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.3s;
 }
 
 /* =========================================
@@ -385,6 +387,8 @@ body {
     text-decoration: none;
     position: relative;
     transition: all 0.3s ease;
+    opacity: 0;
+    animation: blurFadeUp 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 .nav-link::after {
@@ -406,13 +410,16 @@ body {
     transform: translateY(-2px);
 }
 
+
+
 .hero-content {
     position: relative;
     z-index: 10;
     margin-left: auto;   
     margin-right: 5%;   
     text-align: right;   
-    animation: fadeInUp 1s ease forwards;
+    animation: blurFadeUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    will-change: opacity, transform;
     opacity: 0;
     /* Al darle margen abajo, "empujamos" el texto hacia arriba */
     margin-bottom: 35vh; /* Prueba con 10vh, 15vh o 20vh hasta que te guste */
@@ -444,7 +451,7 @@ body {
     
     /* Animación de entrada */
     opacity: 0;
-    animation: fadeUp 1s forwards 0.5s;
+    animation: blurFadeUp 2s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.8s;
 }
 
 .name-first {
@@ -467,7 +474,7 @@ body {
     opacity: 0;
     
     /* Aquí va el 'fadeUp' para que aparezca desde abajo al cargar la página */
-    animation: fadeUp 1s forwards 0.9s;
+    animation: blurFadeUp 2s cubic-bezier(0.16, 1, 0.3, 1) forwards 1.2s;
 }
 
 /* 2. EL BOTÓN: Se encarga SOLO del diseño y el movimiento Hover */
@@ -540,6 +547,46 @@ body {
         transform: translateY(0);    /* Termina en su lugar original */
     }
 }
+
+@keyframes blurFadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+        filter: blur(12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0px);
+    }
+}
+
+@keyframes slideFromLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-50px);
+        filter: blur(8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+        filter: blur(0px);
+    }
+}
+
+@keyframes slideFromRight {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+        filter: blur(8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+        filter: blur(0px);
+    }
+}
+
 
 /* =========================================
    REGLAS DE ADAPTACIÓN (RESPONSIVE)
@@ -763,8 +810,7 @@ body {
     height: 100vh;   /* IMPORTANTE: Altura exacta de la pantalla (ya no 130vh) */
     
     overflow: hidden;
-    animation: fadeIn 1.2s ease forwards;
-    animation-delay: 0.3s;
+    animation: blurFadeUp 2s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.4s;
     opacity: 0;
     z-index: 1;
 }
@@ -954,30 +1000,34 @@ body {
    SECCIÓN ABOUT (Dark Mode Elegante - FINAL)
    ========================================= */
 
+/* 1. Estructura y Contenedor */
 .about-section {
     background-color: #202020;
     background-image: radial-gradient(circle at top right, #2a2a2a 0%, #202020 60%);
     color: #dddddd;
     min-height: 100vh;
-    padding: 120px 60px; /* PC: Padding generoso */
+    padding: 120px 60px;
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative; /* Preparado para el degradado futuro */
 }
 
 .about-container {
     max-width: 1200px;
     width: 100%;
     display: grid;
-    grid-template-columns: 40% 55%; /* PC: Columna izq más chica, der más ancha */
+    grid-template-columns: 40% 55%;
     gap: 5%;
 }
 
-/* --- Columna Izquierda: Perfil --- */
+/* 2. Columna Izquierda: Perfil */
 .about-profile {
     display: flex;
     flex-direction: column;
     gap: 30px;
+    opacity: 0;
+    animation: slideFromLeft 2.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 .about-photo-frame {
@@ -986,13 +1036,9 @@ body {
     aspect-ratio: 1/1; 
     overflow: hidden;
     border-radius: 4px;
-    
-    /* Estado Inicial */
     filter: grayscale(100%);
     transform: translateY(0);
     box-shadow: 0 0 0 rgba(0,0,0,0);
-    
-    /* Transición suave */
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -1012,7 +1058,7 @@ body {
     font-size: 2.5rem;
     font-weight: 600;
     line-height: 1.1;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
     color: #ffffff;
 }
 
@@ -1029,42 +1075,20 @@ body {
     line-height: 1.6;
     font-weight: 200;
     color: #cccccc;
-    text-align: left; /* CORREGIDO: "margin-left" no es un valor válido */
+    text-align: left;
     max-width: 350px;
     margin-bottom: 20px;
     display: block;
 }
 
-/* Regla EXCLUSIVA para celulares (pantallas menores a 768px) */
-@media screen and (max-width: 768px) {
-    
-    /* 1. Usamos la clase CORRECTA (.about-section) en vez de #about */
-    .about-section {
-        /* Ajustamos el relleno: 
-           80px arriba/abajo (para que no quede tan alto)
-           25px a los lados (para que no toque los bordes) */
-        padding-left: 40px !important;
-        padding-right: 40px !important;
-        padding-top: 40px;
-        
-        /* Opcional: aseguramos que la altura se ajuste al contenido */
-        min-height: auto;
-    }
-
-    /* 2. IMPORTANTE: Hacemos que la grid se ponga en 1 sola columna */
-    /* Si no pones esto, las columnas de 40% y 55% se verán aplastadas en el cel */
-    .about-container {
-        grid-template-columns: 1fr !important; /* 1 columna ocupa todo */
-        gap: 40px; /* Espacio entre la foto y el texto */
-    }
-}
-
-/* --- Columna Derecha: Resume --- */
+/* 3. Columna Derecha: Resume */
 .about-resume {
     display: flex;
     flex-direction: column;
     gap: 50px;
     padding-top: 20px;
+    opacity: 0;
+    animation: slideFromRight 3s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.3s;
 }
 
 .resume-block {
@@ -1082,10 +1106,9 @@ body {
     color: #ffffff;
 }
 
-/* Items de Experiencia y Estudios */
 .resume-item {
     display: grid;
-    grid-template-columns: 100px 1fr; /* Año fijo, info flexible */
+    grid-template-columns: 100px 1fr;
     gap: 20px;
 }
 
@@ -1110,7 +1133,7 @@ body {
     color: #aaaaaa;
 }
 
-/* Barras de Software */
+/* 4. Software Skills & Languages */
 .skill-bar { margin-bottom: 15px; }
 
 .skill-name {
@@ -1146,7 +1169,6 @@ body {
     box-shadow: 0 0 10px rgba(221, 221, 221, 0.3);
 }
 
-/* Idiomas */
 .languages-grid {
     display: flex;
     gap: 40px;
@@ -1165,71 +1187,66 @@ body {
 }
 
 /* =========================================
-   REGLAS MÓVILES (Aquí está la solución)
+   REGLAS MÓVILES (Márgenes Restaurados)
    ========================================= */
 @media screen and (max-width: 968px) {
     
-    /* 1. Ajuste del contenedor principal (Regla del Aire) */
     .about-section {
-        padding: 60px 20px; /* Reducimos padding drásticamente */
-        display: block; /* Quitamos el flex centrado para que fluya natural */
+        padding-left: 40px !important;
+        padding-right: 40px !important;
+        padding-top: 40px;
+        min-height: auto;
+        display: block;
     }
 
-    /* 2. Romper la Grilla (Regla de Estructura) */
     .about-container {
         display: flex;
-        flex-direction: column; /* Apilamos verticalmente */
-        gap: 60px; /* Espacio entre Perfil y Resume */
+        flex-direction: column;
+        gap: 40px; /* Restaurado a tu distancia original */
         width: 100%;
     }
 
-    /* 3. Ajustes de la Columna Perfil (Regla de Orden y Centro) */
     .about-profile {
         width: 100%;
-        align-items: center; /* Centramos foto y textos */
+        align-items: center;
         text-align: center;
     }
 
     .about-photo-frame {
-        margin: 0 auto; /* Centrar foto */
+        margin: 0 auto;
     }
     
     .about-bio {
-        text-align: center; /* Texto centrado se lee mejor en móvil aquí */
+        text-align: center;
         max-width: 100%;
     }
 
-    /* 4. Ajustes del Resume */
     .about-resume {
         width: 100%;
         padding-top: 0;
     }
 
-    /* Ajuste crítico para que los años no se aplasten */
     .resume-item {
-        grid-template-columns: 80px 1fr; /* Reducimos un poco la columna del año */
-        gap: 15px;
-    }
-    
-    /* Si la pantalla es MUY pequeña (celulares antiguos), apilamos años */
-    @media screen and (max-width: 480px) {
-        .resume-item {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-        }
-        .resume-item .year {
-            text-align: left; /* Año a la izquierda */
-            color: #dddddd; /* Destacarlo un poco más */
-        }
-        
-        .languages-grid {
-            flex-direction: column; /* Idiomas uno bajo otro */
-            gap: 20px;
-        }
+        grid-template-columns: 80px 1fr;
+        gap: 15px; /* Mantiene la info de los años compacta */
     }
 }
 
+@media screen and (max-width: 480px) {
+    .resume-item {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+    .resume-item .year {
+        text-align: left;
+        color: #dddddd;
+    }
+    .languages-grid {
+        flex-direction: column;
+        gap: 20px;
+    }
+}
 
 /* =========================================
    SECCIÓN WORKS (Carrusel Horizontal)
@@ -1237,26 +1254,62 @@ body {
 
 .works-section {
     background-color: #dddddd;
-    /*  min-height: 100vh;  */ /*Quitamos el min-height: 100vh; para que no fuerce altura extra */
-    padding: 120px 60px;
+    padding: 220px 0 120px 0;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.works-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 120px;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.15) 60%, transparent 100%);
+    pointer-events: none;
+    z-index: 1;
 }
 
 .works-container {
-    max-width: 1200px; /* Un poco más ancho para que quepan bien las 3 cards */
+    max-width: 1200px;
     margin: 0 auto;
     width: 100%;
+    padding: 0 60px;
+    overflow: visible;
 }
 
 /* Header con título y flechas */
 .works-header {
     display: flex;
     justify-content: space-between;
-    align-items: flex-end;
+    align-items: center;
     margin-bottom: 40px;
-    padding-right: 20px;
+}
+
+.section-header {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.section-label {
+    font-size: 0.85rem;
+    font-weight: 300;
+    font-style: italic;
+    letter-spacing: 0.05em;
+    color: #888888;
+    opacity: 0;
+    transform: translateX(-15px);
+    transition: opacity 2.6s cubic-bezier(0.16, 1, 0.3, 1), transform 2.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.section-label.visible {
+    opacity: 1;
+    transform: translateX(0);
 }
 
 .section-title {
@@ -1264,6 +1317,40 @@ body {
     font-weight: 600;
     letter-spacing: -0.05em;
     color: #202020;
+    opacity: 0;
+    transform: translateX(-15px);
+    transition: opacity 2.6s cubic-bezier(0.16, 1, 0.3, 1), transform 2.6s cubic-bezier(0.16, 1, 0.3, 1) 0.2s;
+}
+
+.section-title.visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.works-controls-anim {
+    opacity: 0;
+    transform: translateX(15px);
+    transition: opacity 3s cubic-bezier(0.16, 1, 0.3, 1) 0.9s, transform 3s cubic-bezier(0.16, 1, 0.3, 1) 0.3s;
+}
+
+.works-controls-anim.visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.works-track-wrapper {
+    opacity: 0;
+    filter: blur(8px);
+    margin-left: -40px;
+    transition: opacity 3s cubic-bezier(0.16, 1, 0.3, 1) 0.3s,
+                filter 2s cubic-bezier(0.16, 1, 0.3, 1) 0.3s,
+                margin-left 3s cubic-bezier(0.16, 1, 0.3, 1) 0.3s;
+}
+
+.works-track-wrapper.visible {
+    opacity: 1;
+    filter: blur(0px);
+    margin-left: 0px;
 }
 
 /* Botones de navegación */
@@ -1293,47 +1380,41 @@ body {
     transform: scale(1.1);
 }
 
-/* 3. EL CARRUSEL "FLOTANTE" (Ajustado para Centrado Perfecto) */
-    .carousel-track {
-        display: flex !important;
-        flex-wrap: nowrap !important;
-        overflow-x: auto !important;
-        scroll-snap-type: x mandatory;
-        
-        gap: 20px !important; 
-        
-        /* --- EL CAMBIO MATEMÁTICO --- */
-        /* Arriba: 10px */
-        /* Lados: 10vw (Esto es el 10% exacto de la pantalla) */
-        /* Abajo: 50px (Para proteger la sombra) */
-        padding: 10px 10vw 50px 10vw !important; 
-        
-        width: 100% !important;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none; 
-    }
-
-/* Ocultar barra scroll en Chrome/Safari */
-.carousel-track::-webkit-scrollbar {
-    display: none;
+/* Carrusel */
+/* ==========================================
+   CARRUSEL SELECTED WORKS
+   ========================================== */
+.works-track-wrapper {
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    overflow: hidden;
+    padding: 30px 0 70px 0;
 }
 
-/* EN style.css - Agrega esto antes de .project-card */
-
-/* --- NUEVA CLASE PARA EL PADRE --- */
-/* Se encarga del layout dentro del carrusel */
-.card-wrapper {
-    min-width: calc(33.333% - 20px);
-    
-    /* --- CAMBIA ESTA LÍNEA --- */
-    /* BORRA: scroll-snap-align: center; */
-    /* PON: */
-    scroll-snap-align: start; 
-    
-    display: flex; 
-    height: auto; 
+.works-track {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 24px;
+    padding: 10px 60px 10px 60px;
+    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+    will-change: transform;
 }
 
+.work-card-wrapper {
+    width: calc(22% - 18px);
+    min-width: calc(22% - 18px);
+    flex-shrink: 0;
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 1.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.work-card-wrapper.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
 
 /* --- CLASE ACTUALIZADA PARA EL HIJO --- */
 .project-card {
@@ -1364,7 +1445,7 @@ body {
 /* Imagen de la tarjeta */
 .card-image {
     width: 100%;
-    height: 250px; /* Altura fija para uniformidad */
+    height: 200px;
     overflow: hidden;
 }
 
@@ -1596,10 +1677,22 @@ body {
     border-top: 1px solid rgba(32, 32, 32, 0.2);
     padding-top: 30px;
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    gap: 12px;
     font-size: 0.95rem;
     color: #666;
     font-weight: 300;
+}
+
+.footer-row-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.footer-row-bottom {
+    display: flex;
+    justify-content: flex-end;
 }
 
 .footer-left .credits {
@@ -1702,9 +1795,15 @@ body {
 .marquee-content {
     display: flex;
     gap: 0;
-    /* La animación mágica */
-    animation: scrollText 20s linear infinite;
-    white-space: nowrap; /* Impide que el texto baje de línea */
+    white-space: nowrap;
+}
+
+.marquee-left {
+    animation: scrollLeft 20s linear infinite;
+}
+
+.marquee-right {
+    animation: scrollRight 25s linear infinite;
 }
 
 .marquee-content span {
@@ -1718,14 +1817,14 @@ body {
 }
 
 /* Animación: Mueve el texto de derecha a izquierda infinitamente */
-@keyframes scrollText {
-    from {
-        transform: translateX(0);
-    }
-    to {
-        /* Se mueve hacia la izquierda el 50% (porque duplicamos el texto) */
-        transform: translateX(-50%);
-    }
+@keyframes scrollLeft {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+}
+
+@keyframes scrollRight {
+    from { transform: translateX(-50%); }
+    to { transform: translateX(0); }
 }
 
 
@@ -3373,9 +3472,43 @@ body {
 }
 
 
+@keyframes slideFromLeftContact {
+    from {
+        opacity: 0;
+        transform: translateX(-50px);
+        filter: blur(8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+        filter: blur(0px);
+    }
+}
 
+@keyframes slideFromRightContact {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+        filter: blur(8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+        filter: blur(0px);
+    }
+}
 
+.contact-anim-left {
+    opacity: 0;
+    animation: slideFromLeftContact 2.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation-play-state: paused;
+}
 
+.contact-anim-right {
+    opacity: 0;
+    animation: slideFromRightContact 3s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.3s;
+    animation-play-state: paused;
+}
 
 
 
@@ -3976,4 +4109,412 @@ body {
     #couponsScreen .card-image {
         height: 160px; 
     }
+}
+
+
+
+
+
+
+
+
+
+
+/* =========================================================
+   🚧 PARCHE TEMPORAL: CAFELITO TIME 🚧
+   ========================================================= */
+
+/* --- Contenedor del Overlay --- */
+.cafelito-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: #f2f2f2; /* Gris neutro facha */
+    z-index: 10000; /* Por encima de todo */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.cafelito-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* --- Botón Cerrar --- */
+/* --- Botón Cerrar Carpeta (Versión Vectorial Pro) --- */
+.btn-cerrar-cafelito {
+    position: absolute;
+    top: 30px;
+    right: 40px;
+    background: transparent;
+    border: none;
+    color: #202020; /* Tu negro principal */
+    cursor: pointer;
+    z-index: 10005; 
+    
+    /* Centramos el vector y ampliamos el área de clic */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}
+
+/* Control del tamaño de la X de la carpeta */
+.btn-cerrar-cafelito svg {
+    width: 35px; /* Un poco más pequeña que la del pop-up, para jerarquía */
+    height: 35px;
+    transition: transform 0.3s ease;
+}
+
+/* Efecto Hover: Le damos el giro directamente al vector */
+.btn-cerrar-cafelito:hover svg {
+    transform: rotate(90deg);
+}
+
+/* --- Contenedor Central --- */
+.cafelito-container {
+    text-align: center;
+    transform: translateY(20px);
+    transition: transform 0.5s ease;
+}
+
+.cafelito-overlay.active .cafelito-container {
+    transform: translateY(0);
+}
+
+/* =========================================================
+   NUEVO LAYOUT DE CARPETA MANILA (MÁS GRANDE)
+   ========================================================= */
+
+/* --- Textos Superiores (Specs) --- */
+.cafelito-specs {
+    display: flex;
+    justify-content: space-between; /* Empuja los bloques hacia los extremos */
+    gap: 140px; /* Aumentamos la separación entre columnas */
+    max-width: 1200px; /* Más ancho para que lleguen mucho más a los bordes */
+    
+    /* MAGIA DE POSICIÓN: 
+       -40px arriba para subirlo.
+       auto a los lados para centrar el bloque.
+       70px abajo para separarlo más de la carpeta. */
+    margin: -80px auto 70px auto; 
+}
+
+.spec-block {
+    flex: 1; 
+    /* EL TEXTO JUSTIFICADO */
+    text-align: justify; 
+}
+
+.spec-label {
+    display: block;
+    font-family: 'Space Mono', 'Inter', monospace;
+    font-size: 0.65rem;
+    color: #999999; 
+    margin-bottom: 8px;
+    letter-spacing: 0.15em;
+    text-align: left; /* La etiqueta se ve mejor alineada a la izquierda aunque el párrafo esté justificado */
+}
+
+.spec-block p {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.7rem;
+    line-height: 1.6;
+    color: #999999; /* AHORA TIENE EL MISMO GRIS QUE LA ETIQUETA */
+    letter-spacing: 0.05em;
+    margin: 0;
+}
+
+/* Responsivo: Si lo abre desde el celular */
+@media (max-width: 768px) {
+    .cafelito-specs {
+        flex-direction: column;
+        gap: 25px;
+        margin: 0 auto 40px auto; /* Reseteamos márgenes en celular */
+        padding: 0 25px;
+        text-align: left; /* En celular suele leerse mejor alineado a la izquierda */
+    }
+    
+    .spec-block {
+        text-align: justify;
+    }
+}
+
+
+
+/* 1. Contenedor de la carpeta completa (Más ancha pero MÁS BAJA) */
+.folder-wrapper {
+    position: relative;
+    width: 420px;  
+    height: 260px; 
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    transform-origin: center bottom;
+    margin: 120px auto 0 auto; 
+    
+    /* 👇 ESTA ES LA PROPIEDAD MÁGICA 👇 */
+    perspective: 1000px; /* Crucial para los efectos 3D */
+}
+
+/* 2. Estilos comunes para las tapas Manila (Forma y Color) */
+.folder-back, .folder-front {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 8px 12px 12px 8px; 
+}
+
+/* 3. TAPA TRASERA (100% Opaca - Tu Negro Principal) */
+.folder-back {
+    background-color: #202020; 
+    z-index: 10001; 
+    
+    /* AQUI ESTÁ EL CAMBIO: Le sumamos 20px extra de alto */
+    height: calc(100% + 20px); 
+}
+
+/* Pestaña trasera (Ahora a la Izquierda) */
+.folder-back::after {
+    content: '';
+    position: absolute;
+    top: -15px; 
+    left: 15px; /* Cambiamos right por left */
+    width: 100px;
+    height: 15px;
+    background-color: #202020; /* Tu negro principal */
+    border-radius: 10px 10px 0 0;
+}
+
+/* 4. TAPA DELANTERA (Semi-transparente - Tu Negro al 70%) */
+.folder-front {
+    background-color: rgba(32, 32, 32, 0.7); 
+    z-index: 10003; 
+    backdrop-filter: blur(2px); 
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2); 
+    
+    /* 👇 AQUÍ APLICAMOS EL EFECTO DE ABERTURA 👇 */
+    transform-origin: left bottom; /* El "eje" o bisagra está abajo a la izquierda */
+    transform: rotateY(-10deg) rotateX(-5deg); /* La rotación que la abre un poco */
+}
+
+/* Pestaña delantera (Eliminada a pedido del diseñador) */
+.folder-front::after {
+    display: none;
+}
+
+/* 5. CONTENEDOR DE LA IMAGEN (Tilted & Out) */
+.folder-image-container {
+    position: absolute;
+    width: 360px; 
+    
+    /* CAMBIO 1: Quitamos los 200px y le ponemos auto para que respete tu diseño */
+    height: auto; 
+    
+    top: 10px;   
+    left: 120px; 
+    z-index: 10002; 
+    transform: rotate(-30deg) translateY(-30px); 
+    transition: transform 0.4s ease;
+}
+
+
+/* Interacción: La imagen se endereza un poco al hacer hover */
+.folder-wrapper:hover .folder-image-container {
+    transform: rotate(-18deg) translateY(-40px);
+}
+
+.cafelito-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    
+    /* MAGIA AQUÍ: Cambiamos a 0 para que las esquinas sean rectas */
+    border-radius: 0; 
+    
+    
+    
+    /* OJO: Aquí tienes un borde blanco. 
+       Si tu ticket negro ya se ve bien sin este marco, puedes borrar 
+       la línea de abajo o comentarla: */
+}
+
+/* --- Logo debajo de la carpeta --- */
+.folder-logo {
+    position: absolute;
+    bottom: -60px; /* Lo bajamos un poco más para que no choque con la carpeta grande */
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none; /* Para que no estorbe al hacer clic en la carpeta */
+}
+
+/* Controlando el color y tamaño del SVG desde CSS */
+.folder-logo svg {
+    height: 20px; /* <--- ESTE ES EL VALOR QUE DEBES CAMBIAR */
+    width: auto;
+    fill: #202020; 
+}
+
+.spec-block {
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: opacity 1.4s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.spec-block:nth-child(1) { transition-delay: 0.2s; }
+.spec-block:nth-child(2) { transition-delay: 0.35s; }
+.spec-block:nth-child(3) { transition-delay: 0.5s; }
+
+.cafelito-overlay.active .spec-block {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.folder-wrapper {
+    opacity: 0;
+    transform: translateY(60px) rotate(-3deg);
+    transition: opacity 2s cubic-bezier(0.16, 1, 0.3, 1) 0.4s,
+                transform 2s cubic-bezier(0.16, 1, 0.3, 1) 0.4s;
+}
+
+.cafelito-overlay.active .folder-wrapper {
+    opacity: 1;
+    transform: translateY(0) rotate(0deg);
+}
+
+.spec-block {
+    transition: transform 0.3s ease, filter 0.3s ease !important;
+}
+
+.spec-block:hover {
+    transform: translateY(-6px) !important;
+    filter: brightness(0.7);
+}
+
+/* =========================================================
+   ESTILOS DEL POP-UP (LIGHTBOX)
+   ========================================================= */
+.ticket-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(15, 15, 15, 0.9); /* Negro casi opaco */
+    
+    z-index: 99999; /* Por encima de TODO */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    /* Oculto por defecto */
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Clase que se activa con JS para mostrarlo */
+.ticket-modal.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* El ticket gigante (Ajustado para ser MÁS ELEGANTE) */
+.ticket-ampliado {
+    /* CAMBIO 1: Achicamos el ancho máximo (de 90% a 70%) */
+    max-width: 50%;
+
+    /* CAMBIO 2: Achicamos la altura máxima (de 85vh a 70vh) */
+    max-height: 70vh;
+
+    object-fit: contain; /* Mantiene la proporción sin cortar */
+    box-shadow: none;
+    
+    /* Mantenemos la animación tal cual */
+    transform: scale(0.8) translateY(30px);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.ticket-modal.active .ticket-ampliado {
+    transform: scale(1) translateY(0);
+}
+
+/* Botón de cerrar (Versión Vectorial Pro) */
+.btn-cerrar-modal {
+    position: absolute;
+    top: 30px;
+    right: 40px;
+    background: transparent;
+    border: none;
+    color: #ffffff; 
+    opacity: 0.5; /* Lo mantenemos sutil */
+    cursor: pointer;
+    
+    /* Centramos el icono dentro del botón */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px; /* Área de clic más grande sin agrandar el ícono */
+    
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* Controlamos el tamaño del SVG desde aquí */
+.btn-cerrar-modal svg {
+    width: 40px; 
+    height: 40px;
+    transition: transform 0.3s ease;
+}
+
+/* Efecto Hover */
+.btn-cerrar-modal:hover {
+    opacity: 1; 
+}
+
+.btn-cerrar-modal:hover svg {
+    transform: rotate(90deg); /* El giro se lo aplicamos directo al vector */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Textura granulada sutil sobre toda la página */
+body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 5000;
+    opacity: 0.12;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 180px 180px;
 }

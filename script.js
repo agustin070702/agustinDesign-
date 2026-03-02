@@ -1,3 +1,5 @@
+history.scrollRestoration = 'manual';
+window.scrollTo(0, 0);
 // Elementos del DOM
 const menuToggle = document.getElementById('menuToggle');
 const sideMenu = document.getElementById('sideMenu');
@@ -58,12 +60,15 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         const target = document.querySelector(targetId);
         
         if (target) {
-            const offsetTop = target.offsetTop;
-            window.scrollTo({
-                top: offsetTop,
-                behavior: 'smooth'
-            });
-        }
+    const targetRect = target.getBoundingClientRect();
+    const targetHeight = targetRect.height;
+    const windowHeight = window.innerHeight;
+    const offsetTop = target.offsetTop - (windowHeight / 2) + (targetHeight / 2);
+    window.scrollTo({
+        top: offsetTop,
+        behavior: 'smooth'
+    });
+}
     });
 });
 
@@ -94,7 +99,16 @@ const observer = new IntersectionObserver((entries) => {
 // Seleccionamos qué cosas vamos a animar:
 // 1. Los links del menú (.nav-link)
 // 2. Los elementos de la sección About (.scroll-animate)
-const elementsToAnimate = document.querySelectorAll('.nav-link, .scroll-animate');
+const elementsToAnimate = document.querySelectorAll('.nav-link, .scroll-animate:not(.contact-anim-left):not(.contact-anim-right)');
+
+// Scroll animate más lento para el contact
+const contactScrollElements = document.querySelectorAll('.contact-section .scroll-animate');
+contactScrollElements.forEach((el) => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(30px)';
+    el.style.transition = 'opacity 2.5s ease-out, transform 2.5s cubic-bezier(0.4, 0, 0.2, 1)';
+    observer.observe(el);
+});
 
 elementsToAnimate.forEach((el) => {
     // Configuración inicial
@@ -105,20 +119,27 @@ elementsToAnimate.forEach((el) => {
     // Empezar a observar
     observer.observe(el);
 });
-// Efecto parallax sutil en la imagen al hacer scroll
-let lastScrollTop = 0;
-const heroImage = document.querySelector('.hero-image img');
 
-window.addEventListener('scroll', () => {
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    
-    if (heroImage && scrollTop < window.innerHeight) {
-        const translateY = scrollTop * 0.3;
-        heroImage.style.transform = `translateY(${translateY}px)`;
-    }
-    
-    lastScrollTop = scrollTop;
-});
+// Animación de entrada columnas About
+const aboutProfile = document.querySelector('.about-profile');
+const aboutResume = document.querySelector('.about-resume');
+
+const aboutObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.style.animationPlayState = 'running';
+        }
+    });
+}, { threshold: 0.2 });
+
+if (aboutProfile) {
+    aboutProfile.style.animationPlayState = 'paused';
+    aboutObserver.observe(aboutProfile);
+}
+if (aboutResume) {
+    aboutResume.style.animationPlayState = 'paused';
+    aboutObserver.observe(aboutResume);
+}
 
 // Agregar clase al body cuando se hace scroll
 window.addEventListener('scroll', () => {
@@ -129,68 +150,123 @@ window.addEventListener('scroll', () => {
     }
 });
 
+
+
 // ... (Todo tu código anterior) ...
 
 // ==========================================
-// LÓGICA DEL CARRUSEL DE PROYECTOS (CIRCULAR)
+// CARRUSEL SELECTED WORKS (INFINITO)
 // ==========================================
+const worksTrack = document.getElementById('carouselTrack');
+const worksPrev = document.getElementById('prevBtn');
+const worksNext = document.getElementById('nextBtn');
 
-const track = document.getElementById('carouselTrack');
-const prevBtn = document.getElementById('prevBtn');
-const nextBtn = document.getElementById('nextBtn');
+if (worksTrack && worksPrev && worksNext) {
 
-if (track && prevBtn && nextBtn) {
-    
-    // Función para calcular el ancho de avance
-    const getScrollAmount = () => {
-        const firstCard = track.querySelector('.card-wrapper'); // Ojo: ahora buscamos el wrapper
-        if (!firstCard) return 0;
-        return firstCard.offsetWidth; // Ya incluye el gap visualmente al scrollear
+    // Triplicamos las tarjetas: [clon] [original] [clon]
+    // Así el reset siempre ocurre fuera de la vista
+    const originalCards = Array.from(worksTrack.children);
+    const total = originalCards.length;
+
+    // Clonar antes (prepend)
+    const clonesBefore = originalCards.map(card => {
+        const clone = card.cloneNode(true);
+        clone.setAttribute('aria-hidden', 'true');
+        return clone;
+    });
+    clonesBefore.reverse().forEach(clone => worksTrack.prepend(clone));
+
+    // Clonar después (append)
+    originalCards.forEach(card => {
+        const clone = card.cloneNode(true);
+        clone.setAttribute('aria-hidden', 'true');
+        worksTrack.appendChild(clone);
+    });
+
+    // Arrancamos en el set del medio (índice = total)
+    let currentIndex = total;
+    let isAnimating = false;
+
+    const getCardWidth = () => {
+        const card = worksTrack.querySelector('.work-card-wrapper');
+        return card ? card.offsetWidth + 24 : 0;
     };
 
-    // BOTÓN SIGUIENTE
-    nextBtn.addEventListener('click', () => {
-        const amount = getScrollAmount();
-        
-        // Calculamos si ya llegamos al final
-        // (Scroll actual + Ancho visible >= Ancho total del contenido)
-        const maxScroll = track.scrollWidth - track.clientWidth;
-        
-        // Usamos una pequeña tolerancia de 10px por si acaso
-        if (track.scrollLeft >= maxScroll - 10) {
-            // Si estamos al final, volvemos al principio suavemente
-            track.scrollTo({
-                left: 0,
-                behavior: 'smooth'
-            });
-        } else {
-            // Si no, avanzamos normal
-            track.scrollBy({
-                left: amount,
-                behavior: 'smooth'
-            });
-        }
+    const MAX_ANIMATIONS = 2; // veces que cada tarjeta puede animarse
+
+    const animateCards = () => {
+        const wrapperRect = worksTrack.parentElement.getBoundingClientRect();
+        const cards = worksTrack.querySelectorAll('.work-card-wrapper');
+        let delay = 0;
+        cards.forEach((card) => {
+            const cardRect = card.getBoundingClientRect();
+            const isVisible = cardRect.left < wrapperRect.right - 50 && cardRect.right > wrapperRect.left + 50;
+            const timesShown = parseInt(card.dataset.shown || '0');
+
+            if (!isVisible) {
+                // Sale de vista: si aún le quedan animaciones, la reseteamos
+                if (timesShown < MAX_ANIMATIONS) {
+                    card.classList.remove('visible');
+                }
+            } else if (!card.classList.contains('visible')) {
+                // Entra en vista: la animamos y sumamos una vez
+                card.dataset.shown = timesShown + 1;
+                setTimeout(() => card.classList.add('visible'), delay);
+                delay += 80;
+            }
+        });
+    };
+
+    const goTo = (index, animated = true) => {
+        worksTrack.style.transition = animated
+            ? 'transform 0.5s cubic-bezier(0.25, 1, 0.5, 1)'
+            : 'none';
+        worksTrack.style.transform = `translateX(-${index * getCardWidth()}px)`;
+        currentIndex = index;
+    };
+
+    // Posición inicial sin animación
+    goTo(currentIndex, false);
+    setTimeout(animateCards, 100);
+
+    worksNext.addEventListener('click', () => {
+        if (isAnimating) return;
+        isAnimating = true;
+        goTo(currentIndex + 1);
+
+        setTimeout(() => {
+            // Si llegamos al último set de clones, saltamos silenciosamente al medio
+            if (currentIndex >= total * 2) {
+                goTo(currentIndex - total, false);
+            }
+            animateCards();
+            isAnimating = false;
+        }, 520);
     });
 
-    // BOTÓN ANTERIOR
-    prevBtn.addEventListener('click', () => {
-        const amount = getScrollAmount();
+    worksPrev.addEventListener('click', () => {
+        if (isAnimating) return;
+        isAnimating = true;
+        goTo(currentIndex - 1);
 
-        // Calculamos si estamos al principio
-        if (track.scrollLeft <= 10) {
-            // Si estamos al inicio, vamos al final suavemente
-            track.scrollTo({
-                left: track.scrollWidth,
-                behavior: 'smooth'
-            });
-        } else {
-            // Si no, retrocedemos normal
-            track.scrollBy({
-                left: -amount,
-                behavior: 'smooth'
-            });
-        }
+        setTimeout(() => {
+            // Si llegamos al primer set de clones, saltamos silenciosamente al medio
+            if (currentIndex < total) {
+                goTo(currentIndex + total, false);
+            }
+            animateCards();
+            isAnimating = false;
+        }, 520);
     });
+
+    // Scroll horizontal con trackpad
+    worksTrack.parentElement.addEventListener('wheel', (e) => {
+        const isHorizontal = Math.abs(e.deltaX) > Math.abs(e.deltaY);
+        if (!isHorizontal) return;
+        e.preventDefault();
+        if (e.deltaX > 15) worksNext.click();
+        if (e.deltaX < -15) worksPrev.click();
+    }, { passive: false });
 }
 
 // ==========================================
@@ -449,6 +525,68 @@ if (modal) {
         if (e.target === modal) closeModal();
     });
 }
+
+// Animación entrada Selected Works
+const sectionLabel = document.querySelector('.section-label');
+const sectionTitle = document.querySelector('.section-title');
+const worksControls = document.querySelector('.works-controls-anim');
+const worksTrackWrapper = document.querySelector('.works-track-wrapper');
+
+const worksObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            sectionLabel.classList.add('visible');
+            sectionTitle.classList.add('visible');
+            if (worksControls) worksControls.classList.add('visible');
+            if (worksTrackWrapper) worksTrackWrapper.classList.add('visible');
+        }
+    });
+}, { threshold: 0.2 });
+
+if (sectionLabel) worksObserver.observe(sectionLabel);
+
+
+
+
+// Animación entrada Contact
+const contactLeft = document.querySelector('.contact-anim-left');
+const contactRight = document.querySelector('.contact-anim-right');
+
+const contactObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.style.animationPlayState = 'running';
+        }
+    });
+}, { threshold: 0.2 });
+
+if (contactLeft) {
+    contactLeft.style.animationPlayState = 'paused';
+    contactObserver.observe(contactLeft);
+}
+if (contactRight) {
+    contactRight.style.animationPlayState = 'paused';
+    contactObserver.observe(contactRight);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -899,6 +1037,37 @@ function canjearCupón(mensaje) {
 
 
 
+// ==========================================
+// TRANSICIÓN HERO → ABOUT
+// ==========================================
+const heroContent = document.querySelector('.hero-content');
+const heroSection = document.querySelector('.hero');
+const heroImage = document.querySelector('.hero-image img');
+if (heroImage) heroImage.style.transform = 'scale(1.15)';
+
+window.addEventListener('scroll', () => {
+    const scrollTop = window.pageYOffset;
+    const heroHeight = heroSection ? heroSection.offsetHeight : window.innerHeight;
+    const progress = Math.min(scrollTop / (heroHeight * 0.5), 1);
+
+    // Fade out + movimiento suave del contenido del hero
+    if (heroContent) {
+        heroContent.style.cssText += `opacity: ${1 - progress} !important; transform: translateY(-${progress * 20}px) !important;`;
+    }
+
+    // Zoom out suave en la imagen
+if (heroImage && scrollTop < heroHeight) {
+    const imgProgress = Math.min(scrollTop / heroHeight, 1);
+heroImage.style.transform = `scale(${1.15 - imgProgress * 0.15})`;
+}
+}, { passive: true });
+
+
+
+
+
+
+
 
 
 
@@ -928,3 +1097,78 @@ function abrirKit() {
 }
 // =========================================================
 */
+
+
+
+
+
+
+/* =========================================================
+   🚧 SISTEMA CAFELITO TIME (VERSIÓN DEFINITIVA Y ORDENADA) 🚧
+   ========================================================= */
+
+// --- 1. SELECCIÓN DE ELEMENTOS DEL HTML ---
+// Elementos de la carpeta
+const overlayCarpeta = document.getElementById('cafelitoOverlay');
+const btnAbrirKit = document.getElementById('btnKit'); // El botón original de tu web
+const btnCerrarCarpeta = document.getElementById('cerrarCafelito'); // La X de la carpeta
+
+// Elementos del Ticket Gigante (Pop-up)
+const ticketEnCarpeta = document.querySelector('.folder-image-container');
+const modalTicket = document.getElementById('ticketModal');
+const btnCerrarTicket = document.getElementById('cerrarModalTicket'); // La X del ticket gigante
+
+
+// --- 2. FUNCIONES PRINCIPALES ---
+function abrirCarpeta() {
+    if (overlayCarpeta) {
+        overlayCarpeta.classList.add('active');
+    }
+}
+
+function cerrarCarpeta() {
+    if (overlayCarpeta) {
+        overlayCarpeta.classList.remove('active');
+    }
+}
+
+
+// --- 3. EVENTOS (LOS "CABLES" QUE CONECTAN LOS CLICS) ---
+
+// A. El Secuestro Físico: Abrir la carpeta desde el botón original
+if (btnAbrirKit) {
+    btnAbrirKit.removeAttribute('onclick'); // Matamos el evento viejo
+    btnAbrirKit.addEventListener('click', function(e) {
+        e.preventDefault();
+        abrirCarpeta();
+    });
+}
+
+// B. Cerrar la carpeta al hacer clic en su "X" (¡Esto es lo que te faltaba!)
+if (btnCerrarCarpeta) {
+    btnCerrarCarpeta.addEventListener('click', cerrarCarpeta);
+}
+
+// C. Abrir el Ticket gigante al hacer clic en la foto de la carpeta
+if (ticketEnCarpeta && modalTicket) {
+    ticketEnCarpeta.addEventListener('click', function(e) {
+        e.stopPropagation(); // Evita que el clic traspase hacia atrás
+        modalTicket.classList.add('active');
+    });
+}
+
+// D. Cerrar el Ticket gigante al hacer clic en su "X"
+if (btnCerrarTicket && modalTicket) {
+    btnCerrarTicket.addEventListener('click', function() {
+        modalTicket.classList.remove('active');
+    });
+}
+
+// E. (Extra pro) Cerrar el Ticket gigante haciendo clic en el fondo oscuro exterior
+if (modalTicket) {
+    modalTicket.addEventListener('click', function(e) {
+        if (e.target === modalTicket) {
+            modalTicket.classList.remove('active');
+        }
+    });
+}
