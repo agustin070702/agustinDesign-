@@ -4346,6 +4346,7 @@ body {
     filter: blur(0px); 
     margin-left: 0px; 
 }
+
 /* =======================================================
    VISTA MÓVIL: CUPONES
    ======================================================= */
@@ -4369,6 +4370,10 @@ body {
     }
 
     /* --- 3. TEXTOS Y CONTROLES --- */
+    .coupons-header {
+        margin-top: 60px !important; /* Empuja el título y flechas hacia abajo para esquivar la X */
+    }
+
     .coupon-title-anim {
         font-size: 1.5rem !important;
     }
@@ -4383,6 +4388,14 @@ body {
         font-size: 1rem !important;
     }
 }
+
+
+
+
+
+
+
+
 
 
 
