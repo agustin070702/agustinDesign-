@@ -4358,8 +4358,8 @@ body {
     }
     
     .coupons-track {
-        padding: 10px 20px !important;
-        /* Mantenemos el gap original para que la matemática del JS sea exacta */
+        /* Magia matemática: 100vw (pantalla) - 85vw (tarjeta) = 15vw sobrante. La mitad es 7.5vw */
+        padding: 10px 7.5vw !important; 
     }
 
     /* --- 2. TARJETAS INDIVIDUALES --- */
