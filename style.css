@@ -1692,7 +1692,7 @@ body {
 
 .footer-row-bottom {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
 }
 
 .footer-left .credits {
@@ -3509,6 +3509,48 @@ body {
     animation: slideFromRightContact 3s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.3s;
     animation-play-state: paused;
 }
+
+
+.btn-jotita {
+    font-size: 0.95rem;
+    font-weight: 300;
+    color: #666;
+    cursor: pointer;
+    text-decoration: none;
+    position: relative;
+}
+
+.btn-jotita::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 0%;
+    height: 1px;
+    background-color: #666;
+    transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-jotita:hover::after {
+    width: 100%;
+}
+
+.btn-jotita:hover {
+    color: #202020;
+    transition: color 0.3s ease;
+}
+
+.jugo-emoji {
+    width: 15px;
+    height: 22px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 2px;
+    position: relative;
+    top: -4px;
+}
+
+
 
 
 

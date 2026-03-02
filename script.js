@@ -99,7 +99,7 @@ const observer = new IntersectionObserver((entries) => {
 // Seleccionamos qué cosas vamos a animar:
 // 1. Los links del menú (.nav-link)
 // 2. Los elementos de la sección About (.scroll-animate)
-const elementsToAnimate = document.querySelectorAll('.nav-link, .scroll-animate:not(.contact-anim-left):not(.contact-anim-right)');
+const elementsToAnimate = document.querySelectorAll('.nav-link, .scroll-animate:not(.contact-anim-left):not(.contact-anim-right):not(.works-carousel-scroll)');
 
 // Scroll animate más lento para el contact
 const contactScrollElements = document.querySelectorAll('.contact-section .scroll-animate');
@@ -119,6 +119,15 @@ elementsToAnimate.forEach((el) => {
     // Empezar a observar
     observer.observe(el);
 });
+
+// Scroll animate más lento para el carrusel
+const worksCarouselScroll = document.querySelector('.works-carousel-scroll');
+if (worksCarouselScroll) {
+    worksCarouselScroll.style.opacity = '0';
+    worksCarouselScroll.style.transform = 'translateY(30px)';
+    worksCarouselScroll.style.transition = 'opacity 2.2s ease-out, transform 2.2s cubic-bezier(0.4, 0, 0.2, 1)';
+    observer.observe(worksCarouselScroll);
+}
 
 // Animación de entrada columnas About
 const aboutProfile = document.querySelector('.about-profile');
