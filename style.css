@@ -4346,7 +4346,43 @@ body {
     filter: blur(0px); 
     margin-left: 0px; 
 }
+/* =======================================================
+   VISTA MÓVIL: CUPONES
+   ======================================================= */
 
+@media screen and (max-width: 968px) {
+
+    /* --- 1. CONTENEDORES GENERALES --- */
+    .coupons-container {
+        padding: 0 20px !important;
+    }
+    
+    .coupons-track {
+        padding: 10px 20px !important;
+        /* Mantenemos el gap original para que la matemática del JS sea exacta */
+    }
+
+    /* --- 2. TARJETAS INDIVIDUALES --- */
+    .coupon-wrapper {
+        width: 85vw !important; 
+        min-width: 85vw !important;
+    }
+
+    /* --- 3. TEXTOS Y CONTROLES --- */
+    .coupon-title-anim {
+        font-size: 1.5rem !important;
+    }
+
+    .coupons-controls {
+        gap: 10px !important;
+    }
+
+    .coupons-btn {
+        width: 40px !important;
+        height: 40px !important;
+        font-size: 1rem !important;
+    }
+}
 
 
 
