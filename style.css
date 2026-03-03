@@ -4389,26 +4389,37 @@ body {
     }
 
     /* --- 4. ANULAR HOVER EN PANTALLAS TÁCTILES --- */
+    
+    /* Anular hover de la tarjeta */
     .coupon-card:active,
     .coupon-card:hover {
-        transform: translateY(0) !important; /* Evita que la tarjeta salte */
-        box-shadow: 0 4px 20px rgba(0,0,0,0.05) !important; /* Mantiene la sombra original */
+        transform: translateY(0) !important; 
+        box-shadow: 0 4px 20px rgba(0,0,0,0.05) !important; 
         border-color: transparent !important;
-        background-color: #f0f0f0 !important; /* Mantiene el fondo gris original */
+        background-color: #f0f0f0 !important; 
     }
 
+    /* Anular hover de la foto */
     .coupon-card:active .coupon-image img,
     .coupon-card:hover .coupon-image img {
-        transform: scale(1) !important; /* Evita el zoom de la foto */
+        transform: scale(1) !important; 
     }
 
+    /* Anular hover del botón "CANJEAR RECURSO" */
     .coupon-card:active .coupon-btn,
     .coupon-card:hover .coupon-btn {
-        background-color: #e5e5e5 !important; /* Mantiene el botón gris claro */
-        color: #202020 !important; /* Mantiene el texto oscuro */
+        background-color: #e5e5e5 !important; 
+        color: #202020 !important; 
     }
-}
 
+    /* NUEVO: Anular hover de las flechas del carrusel para que no queden marcadas */
+    .coupons-btn:active,
+    .coupons-btn:hover {
+        background: transparent !important;
+        color: #202020 !important;
+        transform: scale(1) !important;
+    }
+} /* <--- Llave que cierra el @media query */
 
 
 
