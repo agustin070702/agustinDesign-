@@ -31,177 +31,116 @@ body {
     position: relative; /* Base segura */
 }
 
-/* =========================================
-   MENÚ HAMBURGUESA (ICONO)
-   ========================================= */
+/* =======================================================
+   MENÚ PRINCIPAL — BASE (PC / ESCRITORIO)
+   ======================================================= */
+
+/* --- 1. BOTÓN HAMBURGUESA --- */
+/* Quita el highlight táctil nativo de iOS/Android y define el look base */
 .menu-toggle {
     position: absolute;
     top: 30px;
     left: 30px;
     width: 60px;
     height: 60px;
-    
-    /* DISEÑO INICIAL (Cerrado) */
     background: transparent;
     border: 1.5px solid #202020;
     border-radius: 8px;
     cursor: pointer;
-    
-    /* ALINEACIÓN DE LAS RAYITAS */
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    
-    /* IMPORTANTE: Este gap de 6px define la matemática de la X */
-    gap: 6px; 
-    
-    /* CAPA SUPREMA: 99999 asegura que NADA (ni el menú abierto) lo tape */
-    z-index: 99999; 
-    transition: opacity 0.4s ease, transform 0.4s ease;
+    gap: 6px; /* Matemática de la X: gap(6) + height(2) = 8px de movimiento */
+    z-index: 99999;
+    -webkit-tap-highlight-color: transparent;
     opacity: 0;
     animation: blurFadeUp 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.3s;
+    transition: background 0.3s ease, border-color 0.3s ease;
 }
 
-/* =========================================
-   ESTILOS DEL HOVER (CORREGIDO PARA MÓVIL)
-   ========================================= */
-
-/* Estilos base de las líneas (Siempre presentes) */
+/* Líneas del ícono hamburguesa */
 .menu-toggle span {
     display: block;
     width: 24px;
     height: 2px;
     background-color: #202020;
-    transition: all 0.3s ease;
+    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* LA SOLUCIÓN: Solo activamos el fondo negro si el usuario tiene Mouse (PC) */
+/* Hover solo para dispositivos con mouse real */
 @media (hover: hover) {
     .menu-toggle:hover {
         background: #202020;
     }
-
     .menu-toggle:hover span {
         background-color: #dddddd;
     }
 }
 
-/* OPCIONAL: Quita el destello azul/gris por defecto al tocar en Android/iOS */
-.menu-toggle {
-    -webkit-tap-highlight-color: transparent;
-}
-
-/* Regla solo para móviles (pantallas menores a 768px) */
-@media (max-width: 768px) {
-    .menu-toggle {
-        /* Opción 1: Si quieres el borde MÁS FINO */
-        border-width: 1px; 
-
-        /* Opción 2: Si quieres el borde MÁS PEQUEÑO (menos redondeado) */
-        /* border-radius: 10px; */ 
-
-        /* Opción 3: Si quieres que el botón sea un poco más chico en general */
-        /* width: 50px; */
-        /* height: 50px; */
-    }
-}
-
-/* =========================================
-   ESTADO ACTIVO (CUANDO SE ABRE EL MENÚ)
-   ========================================= */
-
-/* 1. EL BOTÓN PIERDE EL BORDE */
+/* --- 2. ESTADO ACTIVO DEL BOTÓN (X) --- */
+/* Al abrirse el menú, el borde desaparece y las líneas forman una X */
 .menu-toggle.active {
     border-color: transparent;
     background-color: transparent;
 }
 
-/* Evitamos que el fondo cambie al pasar el mouse cuando ya es una X */
+/* Previene que el hover de PC sobreescriba el estado activo */
 .menu-toggle.active:hover {
     background-color: transparent;
 }
 
-/* 2. LA MATEMÁTICA DE LA "X" */
-/* Cálculo: Gap (6px) + Altura Línea (2px) = 8px de movimiento */
-
-/* Línea SUPERIOR: Baja 8px y rota 45° */
+/* Cálculo X: línea superior baja 8px y rota; línea media sale; inferior sube y rota */
 .menu-toggle.active span:nth-child(1) {
     transform: translateY(8px) rotate(45deg);
-    background-color: #ffffff !important;
+    background-color: #ffffff;
 }
-
-/* Línea MEDIO: Se desvanece hacia la izquierda */
 .menu-toggle.active span:nth-child(2) {
     opacity: 0;
     transform: translateX(-15px);
 }
-
-/* Línea INFERIOR: Sube 8px y rota -45° */
 .menu-toggle.active span:nth-child(3) {
     transform: translateY(-8px) rotate(-45deg);
-    background-color: #ffffff !important;
+    background-color: #ffffff;
 }
 
-/* =========================================
-   MENÚ LATERAL (ARREGLO FINAL: Centrado + Anti-Corte)
-   ========================================= */
+/* --- 3. PANEL LATERAL --- */
+/* Arranca fuera de pantalla a la izquierda (-30% de su propio ancho) */
 .side-menu {
     position: fixed;
     top: 0;
-    left: -30%; 
-    width: 30%;
-    
-    /* Usamos top y bottom para anclarlo físicamente a los bordes visuales */
     bottom: 0;
-    height: auto; 
-    
+    left: -30%;
+    width: 30%;
+    height: auto;
     background-color: #202020;
     z-index: 999;
-    transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    
     display: flex;
     flex-direction: column;
-    
-    padding-top: 100px;
-    padding-left: 40px;
-    padding-bottom: 40px; 
-    
-    overflow-y: auto; 
-    
-    /* Esto ayuda a que el scroll dentro del menú sea suave en iOS */
+    padding: 100px 0 40px 40px;
+    overflow-y: auto;
     -webkit-overflow-scrolling: touch;
+    transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-
-/* Estado activo (Abierto) */
 .side-menu.active {
     left: 0;
 }
 
-/* ---------------------------------------------------------
-   LA CLAVE DEL ÉXITO: CENTRADO SEGURO
-   --------------------------------------------------------- */
-/* Esto es lo que faltaba en tu código anterior: */
+/* --- 4. LISTA PRINCIPAL --- */
+/* margin: auto 0 centra verticalmente si hay espacio; si no, se queda arriba y scrollea */
 .side-menu .main-menu {
-    /* 'margin: auto 0' le dice al navegador: 
-       "Si hay espacio de sobra, ponme al centro vertical.
-        Si NO hay espacio (pantalla chica/horizontal), déjame arriba y activa el scroll". */
-    margin: auto 0; 
-    
+    margin: auto 0;
     list-style: none;
     padding: 0;
-    width: 100%; /* Asegura que ocupe el ancho disponible */
+    width: 100%;
 }
 
-/* ---------------------------------------------------------
-   ANIMACIONES Y ESTILOS DE LINKS
-   --------------------------------------------------------- */
 .side-menu .main-menu > li {
     margin: 30px 0;
     opacity: 0;
     transform: translateX(-30px);
-    transition: all 0.3s ease;
+    transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
 .side-menu.active .main-menu > li {
@@ -209,12 +148,11 @@ body {
     transform: translateX(0);
 }
 
-/* Retrasos en la aparición */
+/* Retrasos escalonados de aparición de los ítems */
 .side-menu.active .main-menu > li:nth-child(1) { transition-delay: 0.1s; }
 .side-menu.active .main-menu > li:nth-child(2) { transition-delay: 0.2s; }
-/* Si tienes más items, agrégalos aquí (3, 4, etc.) */
 
-/* Estilos del texto (Links) */
+/* --- 5. TIPOGRAFÍA DE LINKS --- */
 .side-menu .main-link {
     font-size: 3rem;
     font-weight: 200;
@@ -222,139 +160,124 @@ body {
     letter-spacing: -0.05em;
     color: #dddddd;
     text-decoration: none;
-    transition: all 0.3s ease;
     display: inline-block;
     cursor: pointer;
+    transition: color 0.3s ease, transform 0.3s ease;
 }
 
-.side-menu .main-link:hover {
-    color: #ffffff;
-    transform: translateX(20px);
+/* Hover solo en PC */
+@media (hover: hover) {
+    .side-menu .main-link:hover {
+        color: #ffffff;
+        transform: translateX(20px);
+    }
 }
 
-/* --- ESTILOS MEJORADOS PARA EL SUBMENÚ (WORKS) --- */
-
+/* --- 6. SUBMENÚ (WORKS) --- */
 .submenu-toggle {
     display: flex;
     align-items: center;
     gap: 15px;
-    cursor: pointer; /* Agregado para que se vea clickeable */
+    cursor: pointer;
 }
 
+/* Flecha + → × al expandirse */
 .arrow {
-    font-size: 1.2rem; /* Un poco más pequeño y elegante */
-    transition: transform 0.3s ease;
-    color: #888; /* Color gris suave por defecto */
+    font-size: 1.2rem;
+    color: #888;
+    transition: transform 0.3s ease, color 0.3s ease;
 }
 
-/* Nota: Tu JS agrega la clase 'open' al <li> padre (.has-submenu), no al toggle directamente a veces.
-   Asegúrate de que tu JS funcione, pero esta regla cubre el caso visual */
 .has-submenu.open .arrow,
 .submenu-toggle.open .arrow {
-    transform: rotate(45deg); /* Efecto de cruz cuando abre */
+    transform: rotate(45deg);
     color: #fff;
 }
 
+/* Estado colapsado */
 .submenu {
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1); /* Animación más fluida */
-    
-    /* MEJORA VISUAL: Jerarquía más limpia */
-    padding-left: 20px; 
-    border-left: 0px solid rgba(255, 255, 255, 0.1); /* Línea guía muy sutil */
-    margin-left: 10px; /* Ajuste fino */
+    opacity: 0;
     margin-top: 0;
-    opacity: 0; /* Oculto visualmente al inicio */
+    padding-left: 20px;
+    margin-left: 10px;
+    transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+                opacity 0.4s ease,
+                margin-top 0.4s ease;
 }
 
+/* Estado expandido */
 .submenu.open {
     max-height: 500px;
-    margin-top: 15px; /* Espacio solo cuando se abre */
     opacity: 1;
-    transition: all 0.5s ease;
+    margin-top: 15px;
 }
 
 .submenu li {
-    margin: 12px 0; /* Espaciado vertical equilibrado */
-    transform: translateX(0) !important;
-    opacity: 1 !important;
+    margin: 12px 0;
 }
 
 .submenu li a {
-    font-size: 1.1rem; /* Tamaño intermedio perfecto */
-    font-weight: 300;  /* Letra fina */
-    color: #888888;    /* Gris medio */
+    font-size: 1.1rem;
+    font-weight: 300;
+    color: #888888;
     text-decoration: none;
     display: block;
-    position: relative;
-    padding-left: 10px; /* Separación de la línea borde */
-    transition: all 0.3s ease;
+    padding-left: 10px;
+    transition: color 0.25s ease, padding-left 0.25s ease;
 }
 
-/* =======================================================
-   EFECTO HOVER INTELIGENTE (Solución al bug de celular)
-   ======================================================= */
-
-/* 1. ANIMACIÓN SOLO PARA COMPUTADORES (Donde hay mouse) */
+/* Hover de submenú solo para PC */
 @media (hover: hover) {
     .submenu li a:hover {
-        color: #ffffff;         /* Se vuelve blanco */
-        padding-left: 18px;     /* Se mueve a la derecha */
-        transform: translateX(10px);
-        font-weight: 500;       /* Se pone un poco más grueso */
-        border-radius: 4px;
+        color: #ffffff;
+        padding-left: 18px;
     }
 }
 
-/* 2. OPCIONAL: PEQUEÑO FEEDBACK PARA CELULAR (Al tocar) */
-/* Esto hace que cuando toques con el dedo, se mueva un poquito 
-   para que sientas que el botón funciona, pero vuelve a su lugar enseguida */
+/* Feedback táctil en submenú: reacción instantánea al tocar */
 .submenu li a:active {
-    transform: translateX(5px); /* Movimiento más corto */
     color: #ffffff;
-    transition: 0.1s; /* Reacción rápida */
+    padding-left: 16px;
+    transition: color 0.08s ease, padding-left 0.08s ease;
 }
 
-
-/* Indicador de página activa (Opcional, si usas la clase .active) */
+/* Ítem activo (página actual) */
 .submenu li a.active {
     color: #ffffff;
     font-weight: 400;
     padding-left: 18px;
-    border-left: 2px solid #fff; /* Pequeña marca visual */
+    border-left: 2px solid #fff;
 }
 
-/* =========================================
-   OVERLAY (CAPA OSCURA DE FONDO)
-   ========================================= */
+/* --- 7. OVERLAY --- */
+/* Capa semitransparente que oscurece el contenido detrás del menú abierto */
 #overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    
-    /* LA SOLUCIÓN AL CORTE: */
-    height: 100vh;   /* Fallback */
-    height: 100dvh;  /* Cubre detrás de las barras de Safari */
-    
-    background-color: rgba(0, 0, 0, 0.5); /* Color negro al 50% */
-    
+    height: 100vh;
+    height: 100dvh; /* Cubre detrás de la barra de Safari en iOS */
+    background-color: rgba(0, 0, 0, 0.5);
     opacity: 0;
     visibility: hidden;
-    transition: all 0.4s ease;
-    
-    /* Z-INDEX: Justo debajo del menú (999) pero encima del resto */
-    z-index: 998; 
-    
-    /* EVITA EL REBOTE DE FONDO TAMBIÉN AQUÍ */
+    z-index: 998;
     overscroll-behavior: contain;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
 }
 
-/* Estado Activo (Cuando se abre el menú) */
 #overlay.active {
     opacity: 1;
     visibility: visible;
+}
+
+/* --- 8. FEEDBACK TÁCTIL EN EL BOTÓN HAMBURGUESA --- */
+/* Respuesta visual al tap en iOS/Android: escala sutil en 80ms */
+.menu-toggle:active {
+    transform: scale(0.93);
+    transition: transform 0.08s ease;
 }
 
 /* Sección Hero */
@@ -588,211 +511,153 @@ body {
 }
 
 
-/* =========================================
-   REGLAS DE ADAPTACIÓN (RESPONSIVE)
-   ========================================= */
+/* =======================================================
+   MENÚ PRINCIPAL — VISTA iPAD (max-width: 1024px)
+   ======================================================= */
 
-/* A. PARA TABLETS Y LAPTOPS PEQUEÑAS (Max 1024px) */
 @media screen and (max-width: 1024px) {
-    .hero-title {
-        font-size: 5.5rem;      /* El nombre baja de 6rem a 4.5rem */
-    }
 
+    /* --- 1. HERO --- */
+    .hero-title {
+        font-size: 5.5rem;
+    }
     .hero-subtitle {
         font-size: 1rem;
-        max-width: 100%;        /* Aprovechamos más espacio */
+        max-width: 100%;
     }
 
-    /* 1. Texto Principal (Home, Works...) un poco más chico que en PC */
-    .main-link {
-        font-size: 3.5rem !important; /* Forzamos el cambio */
-        line-height: 1.2;
+    /* --- 2. TIPOGRAFÍA DEL MENÚ LATERAL --- */
+    /* Escala intermedia: entre PC (3rem) y móvil (2.4rem) */
+    .side-menu .main-link {
+        font-size: 3.2rem;
     }
 
-    /* 2. Submenú (Proyectos) */
     .submenu li a {
-        font-size: 1.4rem !important;
-    }
-    
-    /* 3. Flecha */
-    .arrow {
-        font-size: 2rem;
+        font-size: 1.3rem;
     }
 
+    .arrow {
+        font-size: 1.8rem;
+    }
 }
 
-/* B. PARA CELULARES (Max 768px) */
+/* =======================================================
+   MENÚ PRINCIPAL — VISTA MÓVIL (max-width: 768px)
+   ======================================================= */
+
 @media screen and (max-width: 768px) {
 
-    /* 1. QUITAMOS EL RELLENO GIGANTE DEL PADRE */
+    /* --- 1. HERO — LAYOUT --- */
+    /* Reducimos padding lateral y alineamos el bloque de contenido a la derecha */
     .hero {
-        padding: 0 20px; /* Bajamos de 60px a 20px (o 10px si quieres más al borde) */
-        
-        /* Opcional: Alinear todo el bloque flexible a la derecha si hace falta */
-        justify-content: flex-end; 
+        padding: 0 20px;
+        justify-content: flex-end;
     }
-    
+
     .hero-content {
         width: 100%;
-        /* 1. ALINEACIÓN A LA DERECHA */
-        text-align: right; 
         display: flex;
         flex-direction: column;
-        align-items: flex-end; /* Fuerza a los hijos flexibles a la derecha */
-        
-        /* 2. ESPACIO DE SEGURIDAD */
-        /* 5px era muy poco, aumentamos a 20px para que no se pegue al borde */
-        padding-right: 10px; 
-        box-sizing: border-box; /* Evita que el padding sume al ancho total */
+        align-items: flex-end;
+        text-align: right;
+        padding-right: 10px;
+        box-sizing: border-box;
         margin-bottom: 50px;
-
     }
 
     .hero-title {
-        /* 3. TAMAÑO SEGURO */
-        /* Bajamos de 4.5rem a 3.5rem. 
-           Esto es lo suficientemente grande para impactar, 
-           pero cabe "avendaño" sin salirse. */
-        font-size: 4rem; 
-        
-        line-height: 0.95; /* Un poco más pegadito verticalmente */
+        font-size: 4rem;
+        line-height: 0.95;
         margin-bottom: 20px;
-        word-break: normal; /* Evita que rompa la palabra mal */
+        word-break: normal;
     }
 
-    /* Ajuste fino para apellido largo si es necesario */
     .name-last {
-        display: inline-block; /* Ayuda a que respete los márgenes */
+        display: inline-block;
     }
 
     .hero-subtitle {
         font-size: 0.95rem;
         margin-bottom: 30px;
-        /* Aseguramos que el subtítulo también se vaya a la derecha */
-        margin-left: auto; 
+        margin-left: auto;
     }
 
     .btn-projects {
         padding: 12px 30px;
         font-size: 0.75rem;
         border: 1px solid #202020;
-
-        /* El botón ya se alineará a la derecha por el flex-end del padre */
     }
 
-    /* --- NUEVO: MENÚ VERTICAL ALINEADO A LA DERECHA --- */
+    /* --- 2. TOP-NAV — REPOSICIONAMIENTO --- */
+    /* En móvil pasa de centrado horizontal a columna alineada top-right */
     .top-nav {
-        /* 1. POSICIÓN ABSOLUTA */
         position: absolute;
-        
-        /* 2. LA ECUACIÓN DE ALINEACIÓN */
-        /* Coincide con el margen visual de tu nombre */
-        right: 30px; 
-        top: 40px; 
-
-        /* 3. MODO COLUMNA */
-        display: flex;
-        flex-direction: column;    /* Uno debajo del otro */
-        align-items: flex-end;     /* Pegados a la derecha */
-        gap: 15px;                 /* Espacio entre Works, About, Contact */
-        
-        /* 4. LIMPIEZA */
-        width: auto;
+        top: 40px;
+        right: 30px;
         left: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 15px;
+        width: auto;
+        transform: none;
     }
 
     .nav-link {
-        /* Opcional: Un tamaño cómodo para tocar con el dedo en tablet */
-        font-size: 1rem; 
+        font-size: 1rem;
         line-height: 1;
         margin: 0;
     }
 
+    /* --- 3. BOTÓN HAMBURGUESA — AJUSTE TÁCTIL --- */
+    /* Borde más fino y área de toque ya definida (44×44px) desde el bloque base */
+    .menu-toggle {
+        border-width: 1px;
+    }
 
-
-    /* =========================================
-       ARREGLO DEL MENÚ LATERAL (HAMBURGUESA)
-       ========================================= */
-
-    /* 1. ANCHO DEL MENÚ */
+    /* --- 4. PANEL LATERAL — ANCHO Y PADDING --- */
+    /* Ocupa 85% del viewport; el 15% restante queda como overlay clickeable */
     .side-menu {
-        /* ESTO ES LO QUE FALTABA: Forzamos que se esconda a la izquierda */
-        position: fixed; /* Asegura que flote */
-        left: -100% !important; /* ¡Vete fuera de la pantalla! */
-        top: 0;
-        
-        /* Tus ajustes de diseño */
-        width: 85%; 
-        height: 100%; /* Que ocupe todo el alto */
-        padding: 30px;
-        
-        /* Aseguramos que la transición sea suave al abrir */
-        transition: left 0.5s ease;
-        z-index: 999; /* Debajo del botón (que tiene 99999), encima del resto */
-        
-        /* Si tu fondo es negro, asegúrate de definirlo aquí también */
-        /* background-color: #dddddd; */ 
+        left: -85vw;
+        width: 85vw;
+        padding: 30px 0 40px 30px;
+        transition: left 0.45s cubic-bezier(0.4, 0, 0.2, 1);
     }
-    
-    /* IMPORTANTE: Cuando se abre (tiene clase .active), lo traemos a la vista */
+
     .side-menu.active {
-        left: 0 !important; /* ¡Vuelve a la pantalla! */
+        left: 0;
     }
 
-    /* 2. TIPOGRAFÍA MÁS CHICA (Para que no se rompa) */
-    .main-link {
-        font-size: 2.8rem !important;
-        line-height: 1.1;
+    /* --- 5. TIPOGRAFÍA DEL MENÚ LATERAL --- */
+    /* Escala reducida para que quepa en pantallas angostas */
+    .side-menu .main-link {
+        font-size: 2.4rem;
+        line-height: 1.15;
     }
 
-    /* 3. SUBMENÚS (Proyectos) */
+    /* --- 6. ÍTEMS DE LISTA --- */
+    .side-menu .main-menu > li {
+        margin: 18px 0;
+    }
+
+    /* --- 7. SUBMENÚ — ÁREA DE TOQUE TÁCTIL --- */
+    /* Padding vertical ampliado: área de toque mínima 44px por ítem */
+    .submenu li {
+        margin: 4px 0;
+    }
+
     .submenu li a {
-        font-size: 1.2rem !important;
-        padding: 2px 0; /* Más espacio para el dedo */
-    }
-    
-    
-/* Estado CERRADO */
-.submenu {
-    max-height: 0;
-    overflow: hidden;
-    opacity: 0; 
-    margin-top: 0;
-    
-    /* CAMBIO: Usamos 0.5s con 'ease' normal.
-       Esto hace que el cierre dure lo mismo que la apertura, 
-       eliminando el efecto de "golpe". */
-    transition: all 0.5s ease;
-
-    /* Estilos visuales (sin cambios) */
-    padding-left: 20px; 
-    border-left: 0px solid rgba(255, 255, 255, 0.1); 
-    margin-left: 10px; 
-}
-
-/* Estado ABIERTO */
-.submenu.open {
-    /* Mantenemos 200px o 250px para evitar la latencia de inicio,
-       pero con la transición suave se verá fluido. */
-    max-height: 250px; 
-    
-    margin-top: 15px; 
-    opacity: 1;
-    
-    /* Misma velocidad para abrir */
-    transition: all 0.5s ease;
-}
-
-    /* 4. Separación entre Home, Works... */
-    .main-menu > li {
-        margin-bottom: 15px;
+        font-size: 1.1rem;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        padding-left: 10px;
     }
 
-    /* 4. LA FLECHA */
+    /* --- 8. FLECHA WORKS --- */
     .arrow {
-        font-size: 2rem;
+        font-size: 1.6rem;
         position: relative;
-        top: -3px; /* Ajuste fino para alinearla con el texto */
+        top: -2px;
     }
 }
 
@@ -2572,21 +2437,7 @@ body {
     }
 
     /* --- 2. HOME (Alineación Derecha) --- */
-    .hero-content {
-        display: flex !important;
-        flex-direction: column !important;
-        align-items: flex-end !important; /* Alinea hijos a la derecha */
-        text-align: right !important;     /* Alinea texto a la derecha */
-        margin-top: -5vh !important;
-        width: 100% !important;
-    }
-    
-    .hero-image {
-        position: absolute !important;
-        height: 40vh !important;
-        right: -30% !important;
-        bottom: 5vh !important;
-    }
+    /* Nota: hero-content y hero-image están definidos en el bloque @media 768px del menú */
 
     /* --- 3. ABOUT (AQUÍ ESTÁ LA MAGIA ESPECÍFICA) --- */
     
@@ -2655,14 +2506,6 @@ body {
     
     .project-gallery-grid img, .full-width-img {
         width: 100% !important; height: auto !important;
-    }
-    
-    /* Menú Superior */
-    .top-nav {
-        display: flex !important;
-        flex-direction: row !important;
-        justify-content: flex-end !important;
-        top: 35px !important; right: 20px !important;
     }
     
     /* Footer */
