@@ -4359,8 +4359,14 @@ body {
     }
     
     .coupons-track {
-        /* Magia matemática: 100vw (pantalla) - 85vw (tarjeta) = 15vw sobrante. La mitad es 7.5vw */
+        /* Mantenemos el centrado lateral */
         padding: 10px 7.5vw !important; 
+    }
+
+    /* NUEVO: Aquí ajustamos la distancia para que el carrusel suba */
+    .coupons-track-wrapper {
+        padding-top: 10px !important; /* Bajamos de 60px a 10px para que suba */
+        padding-bottom: 40px !important;
     }
 
     /* --- 2. TARJETAS INDIVIDUALES --- */
@@ -4371,7 +4377,8 @@ body {
 
     /* --- 3. TEXTOS Y CONTROLES --- */
     .coupons-header {
-        margin-top: 60px !important; /* Empuja el título y flechas hacia abajo para esquivar la X */
+        margin-top: 60px !important; 
+        margin-bottom: 0px !important; /* Eliminamos el margen inferior para pegar el carrusel */
     }
 
     .coupon-title-anim {
@@ -4390,7 +4397,6 @@ body {
 
     /* --- 4. ANULAR HOVER EN PANTALLAS TÁCTILES --- */
     
-    /* Anular hover de la tarjeta */
     .coupon-card:active,
     .coupon-card:hover {
         transform: translateY(0) !important; 
@@ -4399,27 +4405,24 @@ body {
         background-color: #f0f0f0 !important; 
     }
 
-    /* Anular hover de la foto */
     .coupon-card:active .coupon-image img,
     .coupon-card:hover .coupon-image img {
         transform: scale(1) !important; 
     }
 
-    /* Anular hover del botón "CANJEAR RECURSO" */
     .coupon-card:active .coupon-btn,
     .coupon-card:hover .coupon-btn {
         background-color: #e5e5e5 !important; 
         color: #202020 !important; 
     }
 
-    /* NUEVO: Anular hover de las flechas del carrusel para que no queden marcadas */
     .coupons-btn:active,
     .coupons-btn:hover {
         background: transparent !important;
         color: #202020 !important;
         transform: scale(1) !important;
     }
-} /* <--- Llave que cierra el @media query */
+}
 
 
 
