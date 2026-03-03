@@ -4387,6 +4387,26 @@ body {
         height: 40px !important;
         font-size: 1rem !important;
     }
+
+    /* --- 4. ANULAR HOVER EN PANTALLAS TÁCTILES --- */
+    .coupon-card:active,
+    .coupon-card:hover {
+        transform: translateY(0) !important; /* Evita que la tarjeta salte */
+        box-shadow: 0 4px 20px rgba(0,0,0,0.05) !important; /* Mantiene la sombra original */
+        border-color: transparent !important;
+        background-color: #f0f0f0 !important; /* Mantiene el fondo gris original */
+    }
+
+    .coupon-card:active .coupon-image img,
+    .coupon-card:hover .coupon-image img {
+        transform: scale(1) !important; /* Evita el zoom de la foto */
+    }
+
+    .coupon-card:active .coupon-btn,
+    .coupon-card:hover .coupon-btn {
+        background-color: #e5e5e5 !important; /* Mantiene el botón gris claro */
+        color: #202020 !important; /* Mantiene el texto oscuro */
+    }
 }
 
 
