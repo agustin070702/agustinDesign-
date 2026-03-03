@@ -1362,6 +1362,99 @@ body {
     overflow: hidden;
 }
 
+/* =========================================
+   CORRECCIÓN CARRUSEL SELECTED WORKS MÓVIL
+   ========================================= */
+@media screen and (max-width: 768px) {
+    
+    /* 1. Habilitar el deslizamiento táctil (swipe) */
+    .works-track {
+        display: flex !important;
+        flex-wrap: nowrap !important;
+        
+        /* Esto activa el scroll con el dedo */
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        
+        /* Efecto imán: frena exactamente en la tarjeta */
+        scroll-snap-type: x mandatory !important;
+        scroll-behavior: smooth !important;
+        -webkit-overflow-scrolling: touch !important;
+        
+        gap: 20px !important;
+        padding: 10px 25px 50px 25px !important; /* Espacio para la sombra */
+        width: 100% !important;
+        
+        /* Clave: Desactivamos la animación del JS para que no pelee con tu dedo */
+        transform: none !important; 
+        
+        /* Ocultar barra de scroll antiestética */
+        scrollbar-width: none !important;
+        -ms-overflow-style: none !important;
+    }
+    
+    .works-track::-webkit-scrollbar {
+        display: none !important;
+    }
+
+    /* 2. Tamaño de las Tarjetas (1 a la vez) */
+    .work-card-wrapper {
+        flex: 0 0 80vw !important; /* Ocupa el 80% de la pantalla */
+        width: 80vw !important;
+        max-width: 320px !important; /* Límite para que no se vea gigante en tablets */
+        
+        /* Efecto Imán */
+        scroll-snap-align: center !important; /* Se centra en la pantalla */
+        scroll-snap-stop: always !important;  /* Frena tarjeta por tarjeta obligatoriamente */
+        
+        margin: 0 !important;
+        height: auto !important;
+        
+        /* Forzar visibilidad: Como desactivamos el JS, forzamos a que siempre se vean */
+        opacity: 1 !important; 
+        transform: none !important; 
+        visibility: visible !important;
+    }
+
+    /* 3. Ajuste de la foto para celular */
+    .work-card-wrapper .card-image {
+        height: 200px !important; /* Un buen alto para que la foto sea la protagonista */
+        width: 100% !important;
+    }
+
+    /* 4. Ocultar las flechas en móvil */
+    /* En el celular es mucho más intuitivo deslizar que intentar tocar botones pequeños */
+    .works-header .carousel-controls {
+        display: none !important;
+    }
+
+/* =========================================
+       AJUSTES DEL TÍTULO EN MÓVIL
+       ========================================= */
+    .works-header {
+        /* Lo bajamos a 0 para quitar TODO el margen sobrante del título */
+        margin-bottom: 0px !important; 
+        padding: 0 25px !important; 
+    }
+
+    /* ¡EL SECRETO ESTABA AQUÍ! 
+       Matamos los 30px de espacio invisible que venían de la versión de PC */
+    .works-track-wrapper {
+        padding-top: 0px !important;
+    }
+
+    .works-header h2 {
+        font-size: 28px !important; 
+    }
+/* =========================================
+   OCULTAR FLECHAS DEL CARRUSEL EN MÓVIL
+   ========================================= */
+@media screen and (max-width: 768px) {
+    .works-section .works-header .carousel-controls.works-controls-anim {
+        display: none !important;
+    }
+}
+
 
 
 /* =========================================
