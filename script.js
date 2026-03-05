@@ -65,8 +65,8 @@ document.addEventListener('keydown', (e) => {
    es bastante más moderada — sin el disparo agresivo del medio. */
 function easeInOutCubic(t) {
     return t < 0.5
-        ? 2 * t * t
-        : 1 - Math.pow(-2 * t + 1.7, 2) / 2;
+        ? 4 * t * t * t
+        : 1 - Math.pow(-2 * t + 2, 3) / 2;
 }
 
 /* --- Motor del scroll animado con requestAnimationFrame ---
@@ -126,13 +126,13 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         const windowHeight = window.innerHeight;
 
         // #about: snap al borde superior exacto de la sección negra
-        // #work:  centrar el contenido visible (compensando el padding-top de 220px)
+        // #work:  snap al borde superior (sección 100vh se centra sola)
         // Resto:  centrar la sección en viewport
         let offsetTop;
         if (targetId === '#about') {
             offsetTop = absoluteTop;
         } else if (targetId === '#work') {
-            offsetTop = absoluteTop - (windowHeight / 2) + (targetHeight / 2);
+            offsetTop = absoluteTop;
         } else {
             offsetTop = absoluteTop - (windowHeight / 2) + (targetHeight / 2);
         }
