@@ -50,25 +50,106 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
-// Smooth scroll con offset para las anclas
+// =======================================================
+// SMOOTH SCROLL PERSONALIZADO
+// Reemplaza el behavior:'smooth' nativo que en móvil se
+// siente brusco e inconsistente entre browsers.
+// Usa easeInOutCubic: arranca suave, acelera en el medio
+// y frena suavemente al llegar — igual que las animaciones
+// CSS del resto de la página.
+// =======================================================
+
+/* --- Función de easing: curva cuadrática simétrica ---
+   easeInOutQuad usa exponente 2 en vez de 3 (cúbica).
+   Resultado: arranca lento igual, pero la velocidad pico
+   es bastante más moderada — sin el disparo agresivo del medio. */
+function easeInOutCubic(t) {
+    return t < 0.5
+        ? 2 * t * t
+        : 1 - Math.pow(-2 * t + 1.7, 2) / 2;
+}
+
+/* --- Motor del scroll animado con requestAnimationFrame ---
+   to:       posición destino en px
+   duration: duración total en ms */
+function smoothScrollTo(to, duration) {
+    const from = window.scrollY;
+    const distance = to - from;
+    const startTime = performance.now();
+
+    function step(currentTime) {
+        const elapsed = currentTime - startTime;
+
+        // Progreso de 0 a 1, nunca supera 1
+        const progress = Math.min(elapsed / duration, 1);
+
+        // Aplicamos la curva de easing al progreso lineal
+        const easedProgress = easeInOutCubic(progress);
+
+        // Movemos la ventana a la posición interpolada
+        window.scrollTo(0, from + distance * easedProgress);
+
+        // Si no llegamos, pedimos el siguiente frame
+        if (progress < 1) {
+            requestAnimationFrame(step);
+        }
+    }
+
+    requestAnimationFrame(step);
+}
+
+/* --- Listener para todos los anchor links (#seccion) ---
+   En móvil agrega un delay de 120ms antes de arrancar el scroll.
+   Esto le da tiempo al efecto :active (scale+opacity) de ser
+   visible antes de que la página empiece a moverse, haciendo
+   la experiencia coherente y no brusca. */
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
         e.preventDefault();
         const targetId = this.getAttribute('href');
         if (targetId === '#') return;
-        
+
         const target = document.querySelector(targetId);
-        
-        if (target) {
-    const targetRect = target.getBoundingClientRect();
-    const targetHeight = targetRect.height;
-    const windowHeight = window.innerHeight;
-    const offsetTop = target.offsetTop - (windowHeight / 2) + (targetHeight / 2);
-    window.scrollTo({
-        top: offsetTop,
-        behavior: 'smooth'
-    });
-}
+        if (!target) return;
+
+        // Calculamos la posición absoluta del target en el documento
+        // (offsetTop puede ser relativo al padre, getAbsoluteTop lo resuelve)
+        function getAbsoluteTop(el) {
+            let top = 0;
+            while (el) { top += el.offsetTop; el = el.offsetParent; }
+            return top;
+        }
+
+        const absoluteTop = getAbsoluteTop(target);
+        const targetHeight = target.offsetHeight;
+        const windowHeight = window.innerHeight;
+
+        // #about: snap al borde superior exacto de la sección negra
+        // #work:  centrar el contenido visible (compensando el padding-top de 220px)
+        // Resto:  centrar la sección en viewport
+        let offsetTop;
+        if (targetId === '#about') {
+            offsetTop = absoluteTop;
+        } else if (targetId === '#work') {
+            offsetTop = absoluteTop - (windowHeight / 2) + (targetHeight / 2);
+        } else {
+            offsetTop = absoluteTop - (windowHeight / 2) + (targetHeight / 2);
+        }
+
+        // Nunca scrollear por encima del origen de la página
+        const clampedOffset = Math.max(0, offsetTop);
+
+        // Detectamos dispositivo táctil para aplicar el delay
+        const isTouchDevice = window.matchMedia('(hover: none)').matches;
+
+        // Touch: 120ms de delay para que el efecto :active sea visible
+        // Mouse: arranca de inmediato
+        const delay = isTouchDevice ? 120 : 0;
+
+        setTimeout(() => {
+            // 900ms: duración que se siente premium, ni rápida ni lenta
+            smoothScrollTo(clampedOffset, 1200);
+        }, delay);
     });
 });
 
