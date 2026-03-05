@@ -1745,8 +1745,38 @@ body {
         align-items: center !important;
     }
 
+    /* --- ROW SUPERIOR: apila copyright y credits en columna centrada --- */
+    .footer-row-top {
+        flex-direction: column !important;
+        align-items: center !important;
+        gap: 4px !important;
+        width: 100% !important;
+    }
+
     .footer-right {
         justify-content: center !important;
+    }
+
+    /* =======================================================
+       VISTA MÓVIL — FOOTER: TRES BOTONES EQUIDISTANTES
+       ======================================================= */
+
+    /* --- 1. ROW INFERIOR DEL FOOTER ---
+       Distribuye los tres botones con espacio igual entre ellos,
+       ocupando todo el ancho disponible */
+    .footer-row-bottom {
+        width: 100% !important;
+        justify-content: space-evenly !important;
+        align-items: center !important;
+    }
+
+    /* --- 2. GRUPO EASTER EGG (jotita + asterisco) ---
+       display: contents disuelve el div contenedor: sus hijos
+       (btn-jotita y btn-secreto) pasan a ser flex-items directos
+       del padre (.footer-row-bottom), logrando que los tres
+       botones queden al mismo nivel con espacio equidistante */
+    .easter-egg-group {
+        display: contents !important;
     }
 }
 
@@ -2275,7 +2305,184 @@ body {
     }
 }
 
+/* =======================================================
+   CARRUSEL GALERÍA FINAL LC2 — SISTEMA AISLADO
+   Prefijo lc2- para no interferir con otros carruseles
+   ======================================================= */
 
+/* --- 1. CONTENEDOR PRINCIPAL --- */
+.lc2-wrapper {
+    max-width: 900px;
+    margin: 0 auto 120px auto;
+    position: relative;
+}
+
+/* --- 2. CABECERA (título + flechas) --- */
+.lc2-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding: 0 5px;
+}
+
+/* --- 3. BOTONES MINI --- */
+/* Mismo look que .mini-btn del sistema */
+.lc2-btn {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 1px solid #ddd;
+    background: transparent;
+    cursor: pointer;
+    color: #202020;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 5px;
+}
+
+@media (hover: hover) {
+    .lc2-btn:hover {
+        background: #202020;
+        color: #fff;
+        border-color: #202020;
+    }
+}
+
+.lc2-btn:active {
+    transform: scale(0.88);
+    opacity: 0.6;
+    transition: transform 0.1s ease, opacity 0.1s ease;
+}
+
+/* --- 4. PISTA DEL CARRUSEL --- */
+#trackLC2 {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    padding: 30px 10px 60px 10px;
+    overflow-x: auto;
+    overflow-y: visible;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+#trackLC2::-webkit-scrollbar { display: none; }
+
+/* --- 5. SLIDE INDIVIDUAL (3 fotos por vista) --- */
+/* Fórmula: (100% - 2 gaps de 20px) / 3 */
+.lc2-slide {
+    flex: 0 0 calc((100% - 40px) / 3);
+    width: calc((100% - 40px) / 3);
+    min-width: calc((100% - 40px) / 3);
+    flex-shrink: 0;
+    height: auto;
+    scroll-snap-align: start;
+    border-radius: 12px;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* --- 6. IMAGEN --- */
+.lc2-slide img {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.07);
+
+    /* Efecto de entrada idéntico al carrusel de arriba */
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+                box-shadow 0.4s ease;
+}
+
+/* Estado activo: imagen sube a su posición */
+.lc2-slide.is-active img {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Hover — solo dispositivos con mouse real */
+@media (hover: hover) {
+    .lc2-slide:hover {
+        transform: translateY(-15px);
+        box-shadow: 0 25px 45px rgba(0,0,0,0.15);
+        z-index: 10;
+    }
+    .lc2-slide:hover img {
+        box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    }
+}
+
+/* Feedback táctil */
+.lc2-slide:active {
+    opacity: 0.7;
+    transition: opacity 0.1s ease;
+}
+
+/* =======================================================
+   CARRUSEL LC2 — VISTA iPAD (max-width: 1024px)
+   ======================================================= */
+@media screen and (max-width: 1024px) {
+    .lc2-wrapper {
+        max-width: 100%;
+        padding: 0 20px;
+    }
+}
+
+/* =======================================================
+   CARRUSEL LC2 — VISTA MÓVIL (max-width: 768px)
+   ======================================================= */
+@media screen and (max-width: 768px) {
+
+    /* Ocultar flechas: en móvil se usa el dedo */
+    .lc2-header .lc2-controls { display: none !important; }
+
+    /* Pista: scroll nativo táctil */
+    #trackLC2 {
+        gap: 15px !important;
+        padding: 0 20px 30px 20px !important;
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        touch-action: pan-x !important;
+        scroll-snap-type: x mandatory !important;
+        scrollbar-width: none !important;
+        -ms-overflow-style: none !important;
+    }
+
+    /* Cada foto ocupa 75vw (igual que .slide-clean en móvil) */
+    .lc2-slide {
+        flex: 0 0 75vw !important;
+        width: 75vw !important;
+        min-width: 75vw !important;
+        scroll-snap-align: center !important;
+        scroll-snap-stop: always !important;
+        margin: 0 !important;
+        height: auto !important;
+    }
+
+    /* Imagen: proporciones naturales, sin efecto de entrada en touch */
+    .lc2-slide img {
+        width: 100% !important;
+        height: auto !important;
+        border-radius: 8px !important;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.08) !important;
+        opacity: 1 !important;
+        transform: none !important;
+        pointer-events: none;
+        -webkit-user-drag: none;
+        user-select: none;
+    }
+}
 
 
 
@@ -4539,18 +4746,81 @@ body {
     margin: 0;
 }
 
-/* Responsivo: Si lo abre desde el celular */
+/* =======================================================
+   VISTA MÓVIL: CAFELITO TIME (BOTÓN JOTITA)
+   Corrección de escalas, carpeta, logo y ticket modal.
+   ======================================================= */
+
 @media (max-width: 768px) {
+
+    /* --- 1. OVERLAY Y CONTENEDOR PRINCIPAL --- */
+    /* Scroll vertical activado en caso de contenido alto */
+    .cafelito-overlay {
+        align-items: flex-start;
+        overflow-y: auto;
+        padding: 70px 0 40px 0;
+    }
+
+    .cafelito-container {
+        width: 100%;
+    }
+
+    /* --- 2. SPECS DE TEXTO --- */
+    /* Columna única, texto más compacto y legible */
     .cafelito-specs {
         flex-direction: column;
-        gap: 25px;
-        margin: 0 auto 40px auto; /* Reseteamos márgenes en celular */
-        padding: 0 25px;
-        text-align: left; /* En celular suele leerse mejor alineado a la izquierda */
+        gap: 18px;
+        margin: 0 auto 28px auto;
+        padding: 0 24px;
+        max-width: 100%;
     }
-    
-    .spec-block {
-        text-align: justify;
+
+    .spec-label {
+        font-size: 0.6rem;
+        letter-spacing: 0.1em;
+        margin-bottom: 4px;
+    }
+
+    .spec-block p {
+        font-size: 0.62rem;
+        line-height: 1.5;
+    }
+
+    /* --- 3. CARPETA MANILA --- */
+    /* margin-top: 50px separa la carpeta del bloque de specs.
+       Las propiedades de width/height necesitan !important porque
+       las declaraciones globales de .folder-wrapper vienen después
+       en el archivo y ganan por orden de cascada. */
+    .folder-wrapper {
+        width: 260px !important;
+        height: 160px !important;
+        margin: 90px auto 0 auto !important;
+    }
+
+    /* --- 4. IMAGEN DEL TICKET DENTRO DE LA CARPETA --- */
+    /* Reposicionamos para que encaje en la carpeta pequeña */
+    .folder-image-container {
+        width: 200px !important;
+        top: 6px !important;
+        left: 70px !important;
+        transform: rotate(-28deg) translateY(-18px) !important;
+    }
+
+    /* --- 5. LOGO CAFELITO TIME --- */
+    /* Subimos el logo para que sea visible dentro del viewport */
+    .folder-logo {
+        bottom: -32px;
+    }
+
+    .folder-logo svg {
+        height: 14px;
+    }
+
+    /* --- 6. TICKET MODAL AMPLIADO --- */
+    /* En PC era max-width: 50%. En celular lo expandimos al 90% */
+    .ticket-ampliado {
+        max-width: 90% !important;
+        max-height: 60vh !important;
     }
 }
 
@@ -4827,8 +5097,9 @@ body::after {
     width: 100%;
     height: 100%;
     pointer-events: none;
-    z-index: 5000;
-    opacity: 0.12;
+    z-index: -1; /* Detrás de todo el contenido */
+    opacity: 0.55;
+    mix-blend-mode: overlay; /* Visible en fondos claros y oscuros */
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
     background-repeat: repeat;
     background-size: 180px 180px;

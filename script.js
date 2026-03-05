@@ -479,7 +479,48 @@ if (trackClean) {
     slidesClean.forEach(slide => observerClean.observe(slide));
 }
 
+// ==========================================
+// CARRUSEL GALERÍA FINAL LC2 (LA COLUMNA)
+// ==========================================
+const trackLC2   = document.getElementById('trackLC2');
+const lc2BtnPrev = document.getElementById('lc2BtnPrev');
+const lc2BtnNext = document.getElementById('lc2BtnNext');
+const slidesLC2  = document.querySelectorAll('#trackLC2 .lc2-slide');
 
+if (trackLC2) {
+
+    /* Calcula desplazamiento: ancho de 1 slide + gap */
+    const getLC2Scroll = () => {
+        const slide = trackLC2.querySelector('.lc2-slide');
+        if (!slide) return 0;
+        return slide.offsetWidth + 20; /* 20px = gap */
+    };
+
+    if (lc2BtnNext) {
+        lc2BtnNext.addEventListener('click', () => {
+            trackLC2.scrollBy({ left: getLC2Scroll(), behavior: 'smooth' });
+        });
+    }
+
+    if (lc2BtnPrev) {
+        lc2BtnPrev.addEventListener('click', () => {
+            trackLC2.scrollBy({ left: -getLC2Scroll(), behavior: 'smooth' });
+        });
+    }
+
+    /* IntersectionObserver: is-active dispara efecto de entrada */
+    const observerLC2 = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('is-active');
+            } else {
+                entry.target.classList.remove('is-active');
+            }
+        });
+    }, { root: trackLC2, threshold: 0.2 });
+
+    slidesLC2.forEach(slide => observerLC2.observe(slide));
+}
 
 
 // ==========================================
@@ -1250,6 +1291,41 @@ function setupCpCarousel() {
             if (e.deltaX > 20) cpNext.click();
             if (e.deltaX < -20) cpPrev.click();
         }, { passive: false });
+
+        /* --- Swipe táctil con el dedo (móvil) ---
+           Registramos la posición X inicial al tocar,
+           comparamos con la posición al levantar el dedo,
+           y si el delta supera el umbral de 50px, avanzamos o retrocedemos. */
+        let touchStartX = 0;
+        let touchStartY = 0;
+        let isSwiping = false;
+
+        cpTrack.parentElement.addEventListener('touchstart', (e) => {
+            touchStartX = e.touches[0].clientX;
+            touchStartY = e.touches[0].clientY;
+            isSwiping = false;
+        }, { passive: true });
+
+        cpTrack.parentElement.addEventListener('touchmove', (e) => {
+            if (!touchStartX) return;
+            const deltaX = Math.abs(e.touches[0].clientX - touchStartX);
+            const deltaY = Math.abs(e.touches[0].clientY - touchStartY);
+            // Si el movimiento es más horizontal que vertical, bloqueamos el scroll vertical
+            if (deltaX > deltaY && deltaX > 8) {
+                isSwiping = true;
+                e.preventDefault();
+            }
+        }, { passive: false });
+
+        cpTrack.parentElement.addEventListener('touchend', (e) => {
+            if (!isSwiping) return;
+            const deltaX = e.changedTouches[0].clientX - touchStartX;
+            // Umbral de 50px para considerar un swipe intencional
+            if (deltaX < -50) cpNext.click();
+            if (deltaX > 50) cpPrev.click();
+            touchStartX = 0;
+            isSwiping = false;
+        }, { passive: true });
     }
 }
 
@@ -1331,12 +1407,25 @@ const btnCerrarTicket = document.getElementById('cerrarModalTicket'); // La X de
 function abrirCarpeta() {
     if (overlayCarpeta) {
         overlayCarpeta.classList.add('active');
+        // Técnica position:fixed: único método que bloquea el scroll en iOS Safari
+        // Guardamos scrollY para restaurarlo exactamente al cerrar
+        const scrollY = window.scrollY;
+        document.body.style.position = 'fixed';
+        document.body.style.top = `-${scrollY}px`;
+        document.body.style.width = '100%';
+        document.body.dataset.scrollY = scrollY;
     }
 }
 
 function cerrarCarpeta() {
     if (overlayCarpeta) {
         overlayCarpeta.classList.remove('active');
+        // Restauramos posición exacta sin salto visual
+        const scrollY = parseInt(document.body.dataset.scrollY || '0');
+        document.body.style.position = '';
+        document.body.style.top = '';
+        document.body.style.width = '';
+        window.scrollTo(0, scrollY);
     }
 }
 
