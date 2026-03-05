@@ -98,6 +98,15 @@ function smoothScrollTo(to, duration) {
     requestAnimationFrame(step);
 }
 
+/* --- Posición absoluta de un elemento en el documento ---
+   Suma todos los offsetTop de los padres para obtener
+   la posición real sin depender del scroll actual. */
+function getAbsoluteTop(el) {
+    let top = 0;
+    while (el) { top += el.offsetTop; el = el.offsetParent; }
+    return top;
+}
+
 /* --- Listener para todos los anchor links (#seccion) ---
    En móvil agrega un delay de 120ms antes de arrancar el scroll.
    Esto le da tiempo al efecto :active (scale+opacity) de ser
@@ -111,14 +120,6 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 
         const target = document.querySelector(targetId);
         if (!target) return;
-
-        // Calculamos la posición absoluta del target en el documento
-        // (offsetTop puede ser relativo al padre, getAbsoluteTop lo resuelve)
-        function getAbsoluteTop(el) {
-            let top = 0;
-            while (el) { top += el.offsetTop; el = el.offsetParent; }
-            return top;
-        }
 
         const absoluteTop = getAbsoluteTop(target);
         const targetHeight = target.offsetHeight;

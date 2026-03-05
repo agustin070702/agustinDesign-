@@ -7,19 +7,13 @@
 }
 
 html {
-    /* 1. Altura completa para evitar cortes */
-    height: 100%;
-    
-    /* 2. TRUCO VISUAL: Pintamos el fondo base del color del menú (#202020)
-       o del color de tu web (#dddddd). Si el menú es el que se ve cortado, usa #202020.
-       Si es la página la que se corta, usa #dddddd. 
-       Yo recomiendo el GRIS para que se funda con la web. */
+    /* min-height para que el fondo #202020 cubra hasta el final */
+    min-height: 100%;
     background-color: #202020;
-    
-    scroll-behavior: smooth;
-    
-    /* 3. Evita el rebote lateral */
-    overflow-x: hidden;
+    /* IMPORTANTE: NO poner overflow-x:hidden aquí — si html Y body tienen
+       overflow-x:hidden al mismo tiempo, Chrome convierte al body en un
+       scroll container independiente y genera DOBLE scrollbar.
+       Tampoco scroll-behavior: el JS ya maneja el smooth scroll. */
 }
 
 body {
@@ -118,13 +112,14 @@ body {
     display: flex;
     flex-direction: column;
     padding: 100px 0 40px 40px;
-    overflow-y: auto;
+    overflow-y: hidden;
     -webkit-overflow-scrolling: touch;
     transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .side-menu.active {
     left: 0;
+    overflow-y: auto;
 }
 
 /* --- 4. LISTA PRINCIPAL --- */
@@ -1458,10 +1453,8 @@ body {
     .works-header h2 {
         font-size: 28px !important; 
     }
-/* =========================================
-   OCULTAR FLECHAS DEL CARRUSEL EN MÓVIL
-   ========================================= */
-@media screen and (max-width: 768px) {
+
+    /* Ocultar flechas del carrusel en móvil */
     .works-section .works-header .carousel-controls.works-controls-anim {
         display: none !important;
     }
@@ -1487,6 +1480,8 @@ body {
     max-width: 1200px;
     width: 100%;
     margin: 0 auto;
+    display: flex;
+    flex-direction: column;
 }
 
 /* --- CONTENIDO PRINCIPAL (PC: DOS COLUMNAS) --- */
@@ -1768,7 +1763,9 @@ body {
     border-top: 1px solid rgba(32, 32, 32, 0.1); /* Línea sutil separadora */
     border-bottom: 1px solid rgba(32, 32, 32, 0.1);
     display: flex;
-    align-items: center;
+    flex-direction: column; /* FIX: apila las dos cintas verticalmente */
+    gap: 16px;              /* Espacio entre cinta superior e inferior */
+    align-items: flex-start;
 }
 
 .marquee-content {
@@ -2192,8 +2189,7 @@ body {
 }
 
 
-/* Llave de seguridad por si algo quedó abierto antes */
-}
+/* (llave de seguridad removida - no era necesaria) */
 
 /* =========================================
    CARRUSEL CUADRADO (VERSIÓN SOMBRA SUAVE)
@@ -2537,7 +2533,7 @@ body {
 
 
 
-}
+/* orphaned brace removed */
 
 
 /* =======================================================
@@ -2756,7 +2752,7 @@ body {
 
 
 
-/* } <--- CIERRE DE SEGURIDAD (Por si quedó algo abierto antes) */
+/* orphaned brace removed */
 
 /* =========================================
    ARREGLO DEFINITIVO: HEADER MÓVIL
@@ -2839,7 +2835,7 @@ body {
 
 
 
-/* } <--- LLAVE DE SEGURIDAD */
+/* orphaned brace removed */
 
 /* =========================================
    ZONA INFERIOR MÓVIL: COMPACTA Y CENTRADA
@@ -2944,7 +2940,7 @@ body {
 
 
 
-/* } <--- LLAVE DE SEGURIDAD */
+/* orphaned brace removed */
 
 /* =========================================
    ZONA INFERIOR MÓVIL: MÁRGENES TIPO "ABOUT"
