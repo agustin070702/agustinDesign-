@@ -87,7 +87,7 @@ body {
 /* Cálculo X: línea superior baja 8px y rota; línea media sale; inferior sube y rota */
 .menu-toggle.active span:nth-child(1) {
     transform: translateY(8px) rotate(45deg);
-    background-color: #ffffff;
+    background-color: #f0efe9;
 }
 .menu-toggle.active span:nth-child(2) {
     opacity: 0;
@@ -95,7 +95,7 @@ body {
 }
 .menu-toggle.active span:nth-child(3) {
     transform: translateY(-8px) rotate(-45deg);
-    background-color: #ffffff;
+    background-color: #f0efe9;
 }
 
 /* --- 3. PANEL LATERAL --- */
@@ -107,6 +107,7 @@ body {
     left: -30%;
     width: 30%;
     height: auto;
+    /* Fondo negro */
     background-color: #202020;
     z-index: 999;
     display: flex;
@@ -153,7 +154,8 @@ body {
     font-weight: 200;
     font-style: italic;
     letter-spacing: -0.05em;
-    color: #dddddd;
+    /* Texto claro sobre fondo oscuro */
+    color: #f0efe9;
     text-decoration: none;
     display: inline-block;
     cursor: pointer;
@@ -179,14 +181,14 @@ body {
 /* Flecha + → × al expandirse */
 .arrow {
     font-size: 1.2rem;
-    color: #888;
+    color: rgba(240,239,233,0.6);
     transition: transform 0.3s ease, color 0.3s ease;
 }
 
 .has-submenu.open .arrow,
 .submenu-toggle.open .arrow {
     transform: rotate(45deg);
-    color: #fff;
+    color: #f0efe9;
 }
 
 /* Estado colapsado */
@@ -216,7 +218,8 @@ body {
 .submenu li a {
     font-size: 1.1rem;
     font-weight: 300;
-    color: #888888;
+    /* Texto claro sobre fondo oscuro */
+    color: rgba(240,239,233,0.5);
     text-decoration: none;
     display: block;
     padding-left: 10px;
@@ -226,24 +229,24 @@ body {
 /* Hover de submenú solo para PC */
 @media (hover: hover) {
     .submenu li a:hover {
-        color: #ffffff;
+        color: #f0efe9;
         padding-left: 18px;
     }
 }
 
-/* Feedback táctil en submenú: reacción instantánea al tocar */
+/* Feedback táctil en submenú */
 .submenu li a:active {
-    color: #ffffff;
+    color: #f0efe9;
     padding-left: 16px;
     transition: color 0.08s ease, padding-left 0.08s ease;
 }
 
 /* Ítem activo (página actual) */
 .submenu li a.active {
-    color: #ffffff;
+    color: #f0efe9;
     font-weight: 400;
     padding-left: 18px;
-    border-left: 2px solid #fff;
+    border-left: 2px solid #f0efe9;
 }
 
 /* --- 7. OVERLAY --- */
@@ -2058,12 +2061,12 @@ body {
 
 /* Footer del Proyecto */
 .project-footer {
-    background-color: #f9f9f9;
-    padding: 40px 60px; /* Un poco más de aire a los lados */
+    background-color: transparent; /* Hereda el fondo — sin fondo propio */
+    padding: 40px 60px;
     text-align: center;
     display: flex;
     justify-content: space-between;
-    align-items: center; /* Alineación vertical centrada */
+    align-items: center;
     font-size: 0.9rem;
     color: #666;
 }
@@ -5199,3 +5202,1522 @@ body::after {
     opacity: 0.6;
     transition: transform 0.1s ease, opacity 0.1s ease;
 }
+
+/* =======================================================
+   TAP IN PAGE — Estilos exclusivos de proyecto-tapin.html
+   Prefijo tp- en todas las clases para no colisionar con
+   el resto del sitio.
+   ======================================================= */
+
+
+/* --- 1. VARIABLES LOCALES ---
+   Todas las constantes de color y tipografía de la página.
+   Cambiar aquí afecta a toda la página sin buscar valores. */
+.tp-page {
+    --tp-white:     #FFFFFF;
+    --tp-w80:       rgba(255,255,255,0.80);
+    --tp-w55:       rgba(255,255,255,0.55);
+    --tp-w25:       rgba(255,255,255,0.25);
+    --tp-w12:       rgba(255,255,255,0.12);
+    --tp-w06:       rgba(255,255,255,0.06);
+    --tp-accent:    #7C6CF6;
+    --tp-acc-soft:  rgba(124,108,246,0.35);
+    --tp-acc-bdr:   rgba(124,108,246,0.55);
+    --tp-radius:    14px;
+    --tp-max:       1160px;
+    --tp-pad:       64px;
+
+    /* Fondo degradado azul-violeta, fijo para no moverse con scroll */
+    background: linear-gradient(
+        160deg,
+        #5856c9 0%, #4e4bbf 20%, #5555cc 40%,
+        #5e5bd0 60%, #4a48be 75%, #4340b8 85%,
+        #5540cc 92%, #5c3fe8 100%
+    ) fixed;
+    color: var(--tp-white);
+    font-family: 'Poppins', 'Inter', sans-serif;
+}
+
+
+/* =======================================================
+   FONDO — ORBES DE LUZ Y GRAIN
+   ======================================================= */
+
+/* --- 2. ORBES ---
+   Tres círculos de gradiente radial posicionados fixed
+   (no se mueven con el scroll). Animan lentamente para
+   dar sensación de profundidad sin distraer. */
+.tp-orb {
+    position: fixed;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Orbe superior derecho — el más visible */
+.tp-orb-tr {
+    top: -20vh; right: -15vw;
+    width: 60vw; height: 60vw;
+    background: radial-gradient(circle,
+        rgba(160,140,255,0.18) 0%,
+        rgba(100,80,220,0.07) 45%,
+        transparent 70%
+    );
+    animation: tpOrbDrift 18s ease-in-out infinite alternate;
+}
+
+/* Orbe inferior izquierdo — más cálido / morado */
+.tp-orb-bl {
+    bottom: -10vh; left: -10vw;
+    width: 50vw; height: 50vw;
+    background: radial-gradient(circle,
+        rgba(80,60,200,0.22) 0%,
+        rgba(60,40,180,0.07) 45%,
+        transparent 70%
+    );
+    animation: tpOrbDrift2 22s ease-in-out infinite alternate;
+}
+
+/* Orbe central — muy sutil, solo añade calidez */
+.tp-orb-center {
+    top: 35vh; left: 50%;
+    transform: translateX(-50%);
+    width: 40vw; height: 40vw;
+    background: radial-gradient(circle,
+        rgba(120,100,255,0.10) 0%,
+        transparent 65%
+    );
+    animation: tpOrbCenter 28s ease-in-out infinite alternate;
+}
+
+@keyframes tpOrbDrift  { from { transform: translate(0,0) scale(1);       } to { transform: translate(-3vw,4vh)  scale(1.06); } }
+@keyframes tpOrbDrift2 { from { transform: translate(0,0) scale(1);       } to { transform: translate(4vw,-3vh)  scale(1.08); } }
+@keyframes tpOrbCenter { from { transform: translateX(-50%) scale(1);     } to { transform: translateX(-50%) scale(1.15);      } }
+
+/* --- 3. CANVAS GRAIN ---
+   Canvas relleno por JS con pixel noise random.
+   Opacity muy baja (0.04) — solo rompe la planitud del fondo. */
+#tp-grain {
+    position: fixed;
+    inset: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.04;
+}
+
+/* Todo el contenido de la página queda sobre los orbes y el grain.
+   EXCLUIDOS: menu-toggle, side-menu, overlay y lightbox
+   porque son position:fixed y no deben ser afectados por z-index. */
+.tp-page > *:not(.tp-orb):not(#tp-grain):not(.menu-toggle):not(.side-menu):not(#overlay):not(.lightbox-modal) {
+    position: relative;
+    z-index: 1;
+}
+
+
+/* =======================================================
+   ANIMACIONES DE ENTRADA (SCROLL REVEAL)
+   ======================================================= */
+
+/* --- 4. CLASE BASE tp-fade ---
+   Estado inicial: invisible y desplazada 28px hacia abajo.
+   JS agrega .tp-vis cuando el elemento entra al viewport,
+   disparando la transición a visible + posición original. */
+.tp-fade {
+    opacity: 0;
+    transform: translateY(28px);
+    transition:
+        opacity  0.75s cubic-bezier(0.16, 1, 0.3, 1),
+        transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.tp-fade.tp-vis {
+    opacity: 1;
+    transform: none;
+}
+
+/* --- 4b. BLUR SLIDE DESDE LA IZQUIERDA ---
+   Para títulos de sección. Timing igualado al home: 0.8s ease-out. */
+.tp-slide-left {
+    opacity: 0;
+    transform: translateX(-50px);
+    filter: blur(8px);
+    transition:
+        opacity   0.8s ease-out,
+        transform 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+        filter    0.8s ease-out;
+}
+.tp-slide-left.tp-vis {
+    opacity: 1;
+    transform: none;
+    filter: blur(0px);
+}
+
+/* --- 4c. BLUR SLIDE DESDE LA DERECHA ---
+   Para párrafos y cuerpos de texto. Timing igualado al home. */
+.tp-slide-right {
+    opacity: 0;
+    transform: translateX(50px);
+    filter: blur(8px);
+    transition:
+        opacity   0.8s ease-out,
+        transform 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+        filter    0.8s ease-out;
+}
+.tp-slide-right.tp-vis {
+    opacity: 1;
+    transform: none;
+    filter: blur(0px);
+}
+
+/* Delays escalonados para animar elementos en secuencia */
+.tp-d1 { transition-delay: 0.06s; }
+.tp-d2 { transition-delay: 0.14s; }
+.tp-d3 { transition-delay: 0.22s; }
+.tp-d4 { transition-delay: 0.30s; }
+
+/* --- 5. ANIMACIONES DEL HERO (CSS puro, no necesita JS) ---
+   El hero es lo primero que se ve, así que anima al cargar,
+   no al hacer scroll. Cada elemento tiene un delay mayor. */
+@keyframes tpEnter {
+    from { opacity: 0; transform: translateY(32px); }
+    to   { opacity: 1; transform: translateY(0);    }
+}
+
+.tp-hero-tag     { animation: tpEnter 0.8s cubic-bezier(0.16,1,0.3,1) both 0.10s; }
+.tp-hero-logo,
+.tp-hero-logo-fallback { animation: tpEnter 0.8s cubic-bezier(0.16,1,0.3,1) both 0.22s; }
+.tp-hero-divider { animation: tpEnter 0.8s cubic-bezier(0.16,1,0.3,1) both 0.32s; }
+.tp-hero-desc    { animation: tpEnter 0.8s cubic-bezier(0.16,1,0.3,1) both 0.42s; }
+.tp-hero-pills   { animation: tpEnter 0.8s cubic-bezier(0.16,1,0.3,1) both 0.52s; }
+/* Mockup entra desde la derecha con blur */
+.tp-hero-mockup  { animation: tpEnterRight 1.1s cubic-bezier(0.16,1,0.3,1) both 0.35s; }
+
+@keyframes tpEnterRight {
+    from {
+        opacity: 0;
+        transform: translateX(40px) rotate(1.5deg);
+        filter: drop-shadow(0 40px 60px rgba(20,15,60,0.70))
+                drop-shadow(0 0 80px rgba(124,108,246,0.28))
+                blur(8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0px) rotate(1.5deg);
+        filter: drop-shadow(0 40px 60px rgba(20,15,60,0.70))
+                drop-shadow(0 0 80px rgba(124,108,246,0.28))
+                blur(0px);
+    }
+}
+
+
+/* =======================================================
+   CONTENEDOR GENERAL
+   ======================================================= */
+
+/* --- 6. tp-wrap ---
+   Contenedor centrado con padding lateral consistente.
+   Todas las secciones narrativas lo usan. */
+.tp-wrap {
+    max-width: var(--tp-max);
+    margin: 0 auto;
+    padding: 0 var(--tp-pad);
+}
+
+
+/* =======================================================
+   HERO
+   ======================================================= */
+
+/* --- 7. SECCIÓN HERO ---
+   Layout 2 columnas: contenido izquierda + mockup derecha. */
+.tp-hero {
+    padding: 110px var(--tp-pad) 40px;
+    max-width: var(--tp-max);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 60px;
+}
+
+/* Columna izquierda — agrupa tag, logo, divider, desc, pills */
+.tp-hero-content {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Mockup derecho — flota animado con sombra */
+.tp-hero-mockup {
+    width: 360px;
+    height: auto;
+    display: block;
+    flex-shrink: 0;
+    filter:
+        drop-shadow(0 40px 60px rgba(20, 15, 60, 0.70))
+        drop-shadow(0 0 80px rgba(124, 108, 246, 0.28));
+    animation: tpHeroFloat 8s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+    transform-origin: center bottom;
+    transition: scale 0.5s cubic-bezier(0.16,1,0.3,1);
+}
+/* Hover: zoom suave sin interrumpir el float */
+.tp-hero-mockup:hover {
+    scale: 1.02;
+}
+
+@keyframes tpHeroFloat {
+    0%   { transform: translateY(0px)   rotate(1.5deg)  scale(1);      filter: drop-shadow(0 40px 60px rgba(20,15,60,0.70)) drop-shadow(0 0 80px rgba(124,108,246,0.28)); }
+    25%  { transform: translateY(-10px) rotate(2.2deg)  scale(1.008);  filter: drop-shadow(0 50px 70px rgba(20,15,60,0.60)) drop-shadow(0 0 110px rgba(124,108,246,0.40)); }
+    50%  { transform: translateY(-20px) rotate(0.6deg)  scale(1.012);  filter: drop-shadow(0 60px 80px rgba(20,15,60,0.50)) drop-shadow(0 0 140px rgba(124,108,246,0.50)); }
+    75%  { transform: translateY(-10px) rotate(-0.8deg) scale(1.006);  filter: drop-shadow(0 50px 70px rgba(20,15,60,0.60)) drop-shadow(0 0 110px rgba(124,108,246,0.38)); }
+    100% { transform: translateY(0px)   rotate(1.5deg)  scale(1);      filter: drop-shadow(0 40px 60px rgba(20,15,60,0.70)) drop-shadow(0 0 80px rgba(124,108,246,0.28)); }
+}
+
+/* Tag superior con dot pulsante */
+.tp-hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    width: fit-content;
+}
+.tp-tag-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--tp-accent);
+    animation: tpPulse 2.2s ease infinite;
+}
+.tp-hero-tag span {
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--tp-w55);
+}
+
+@keyframes tpPulse {
+    0%,100% { opacity:1; transform:scale(1);    }
+    50%      { opacity:.35; transform:scale(.6); }
+}
+
+/* Wrapper del logo — aquí vive el ::after (los img no admiten pseudo-elementos) */
+.tp-hero-logo-wrap {
+    display: inline-block;
+    position: relative;
+    margin-bottom: 24px;
+    cursor: pointer;
+}
+
+
+/* Logo — transición de transform y filter en la img */
+.tp-hero-logo {
+    width: 400px; height: auto;
+    display: block;
+    transition: filter  0.45s cubic-bezier(0.16,1,0.3,1),
+                transform 0.45s cubic-bezier(0.16,1,0.3,1);
+}
+/* Hover: sube, zoom leve, glow violeta + sombra oscura */
+.tp-hero-logo-wrap:hover .tp-hero-logo {
+    transform: translateY(-6px) scale(1.03);
+    filter:
+        drop-shadow(0 14px 28px rgba(0,0,0,0.3))
+        drop-shadow(0 0 18px rgba(124,108,246,0.6))
+        brightness(1.15);
+}
+
+/* Fallback de texto — se muestra si el SVG no carga */
+.tp-hero-logo-fallback {
+    display: none; /* JS/onerror lo muestra si el SVG falla */
+    font-size: 4.5rem; font-weight: 900;
+    letter-spacing: -0.05em; color: var(--tp-white);
+    margin-bottom: 36px; line-height: 1;
+}
+
+/* Línea divisoria */
+.tp-hero-divider {
+    width: 48px; height: 1px;
+    background: var(--tp-w25);
+    margin-bottom: 20px;
+}
+
+/* Descripción del proyecto */
+.tp-hero-desc {
+    font-size: 16px; font-weight: 300;
+    line-height: 1.8; color: var(--tp-w80);
+    max-width: 500px; margin-bottom: 24px;
+}
+.tp-hero-desc strong { font-weight: 600; color: var(--tp-white); }
+
+/* Pills de rol / herramientas */
+.tp-hero-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+.tp-pill {
+    padding: 7px 16px;
+    border: 1px solid var(--tp-w25); border-radius: 100px;
+    font-size: 11px; font-weight: 500;
+    color: var(--tp-w80); letter-spacing: 0.06em;
+    transition: border-color 0.3s ease,
+                color        0.3s ease,
+                background   0.3s ease,
+                transform    0.3s cubic-bezier(0.16,1,0.3,1);
+    cursor: default;
+}
+.tp-pill:hover {
+    border-color: rgba(124,108,246,0.55);
+    color: var(--tp-white);
+    background: rgba(124,108,246,0.1);
+    transform: translateY(-2px);
+}
+.tp-pill-accent {
+    background: var(--tp-acc-soft);
+    border-color: var(--tp-acc-bdr);
+    color: var(--tp-white);
+}
+.tp-pill-accent:hover {
+    background: rgba(124,108,246,0.28);
+    border-color: rgba(168,157,249,0.75);
+    box-shadow: 0 4px 16px rgba(124,108,246,0.25);
+}
+
+
+/* =======================================================
+   STATS ROW
+   ======================================================= */
+
+/* --- 8. CONTENEDOR CENTRADO ---
+   La tabla vive justo debajo del hero — sin gap extra */
+.tp-stats-outer {
+    display: flex;
+    justify-content: center;
+    padding: 0 var(--tp-pad) 0;
+    margin-bottom: 0;
+}
+
+/* --- 9. GRID DE 4 COLUMNAS ---
+   Solo bordes como separadores, cero fondo,
+   border-radius para suavizar. */
+.tp-stats {
+    border: 1px solid var(--tp-w25);
+    border-radius: 20px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    overflow: hidden;
+    width: 100%;
+    max-width: 900px;
+}
+.tp-stat {
+    padding: 24px 28px;
+    border-right: 1px solid var(--tp-w25);
+    display: flex; flex-direction: column; gap: 5px;
+}
+.tp-stat:last-child { border-right: none; }
+
+.tp-stat-label {
+    font-size: 9px; font-weight: 700;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--tp-w55);
+}
+.tp-stat-value { font-size: 13px; font-weight: 400; color: var(--tp-white); line-height: 1.4; }
+
+
+/* =======================================================
+   GIANT SECTION + PHONES
+   ======================================================= */
+
+/* --- 10. WRAPPER POSICIONADO ---
+   Relativo para que los phones absolutos se anclen aquí.
+   overflow:visible para que los phones sobresalgan. */
+.tp-giant {
+    position: relative;
+    padding: 200px var(--tp-pad) 60px;
+    max-width: var(--tp-max);
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    overflow: visible;
+}
+
+/* --- 11. TEXTO ENORME "tap in" ---
+   Outline decorativo (stroke muy suave) para no competir
+   con los phones. user-select:none porque es decorativo. */
+.tp-giant-text {
+    font-size: clamp(6rem, 16vw, 14rem);
+    font-weight: 900;
+    line-height: 0.85;
+    letter-spacing: -0.06em;
+    color: transparent;
+    -webkit-text-stroke: 1.5px rgba(255,255,255,0.20);
+    text-transform: lowercase;
+    user-select: none;
+    text-align: center;
+    position: relative; z-index: 1;
+}
+
+/* Subtítulo bajo el texto gigante */
+.tp-giant-sub {
+    font-size: 11px; font-weight: 600;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--tp-w55); text-align: center;
+    position: relative; z-index: 1;
+    margin-top: 50px;
+}
+
+/* --- 12. MOCKUP DE 2 CELULARES ---
+   Centrado sobre el texto gigante, flota animado.
+   z-index 2 para ir encima del texto decorativo. */
+.tp-giant-phones {
+    position: absolute;
+    margin-top: 0px;
+    z-index: 2;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -54%);
+    pointer-events: auto;
+    transition: transform 0.7s cubic-bezier(0.16,1,0.3,1),
+                filter     0.7s ease;
+    will-change: transform, filter;
+}
+.tp-giant-phones:hover {
+    transform: translate(-50%, -54%) scale(1.04);
+    filter: drop-shadow(0 20px 40px rgba(20,15,60,0.28))
+            drop-shadow(0 0 55px rgba(124,108,246,0.18));
+}
+
+.tp-giant-mockup {
+    width: 560px;
+    height: auto;
+    display: block;
+    filter:
+        drop-shadow(0 40px 80px rgba(20, 15, 60, 0.60))
+        drop-shadow(0 0 100px rgba(124, 108, 246, 0.22));
+    animation: tpGiantFloat 7s ease-in-out infinite;
+}
+
+@keyframes tpGiantFloat {
+    0%, 100% { transform: translateY(0px);   }
+    50%       { transform: translateY(-14px); }
+}
+
+/* Glow difuso bajo el mockup — más ancho para los 2 celulares */
+.tp-phone-glow {
+    position: absolute;
+    width: 480px; height: 200px;
+    background: radial-gradient(ellipse, rgba(124,108,246,0.28) 0%, transparent 70%);
+    border-radius: 50%;
+    filter: blur(50px);
+    bottom: 60px;
+    z-index: 0;
+}
+
+
+/* =======================================================
+   MARQUEE DOBLE
+   ======================================================= */
+
+/* --- 13. WRAPPER ---
+   Dos cintas una sobre otra, con bordes sutiles. */
+.tp-marquee-wrap {
+    padding: 32px 0;
+    overflow: hidden;
+    border-top: 1px solid var(--tp-w12);
+    border-bottom: 1px solid var(--tp-w12);
+    display: flex; flex-direction: column; gap: 10px;
+    margin: 40px 0 80px;
+}
+
+/* Cada fila es flex sin wrap (texto en una sola línea) */
+.tp-mq-row { display: flex; white-space: nowrap; }
+
+/* Cinta 1: de izquierda a derecha */
+.tp-mq-left  { animation: tpMqLeft  22s linear infinite; }
+/* Cinta 2: de derecha a izquierda */
+.tp-mq-right { animation: tpMqRight 28s linear infinite; }
+
+/* Texto outline en el marquee */
+.tp-mq-row span {
+    font-size: 2.2rem; font-weight: 800;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(255,255,255,0.18);
+    text-transform: uppercase; letter-spacing: 0.07em;
+    padding-right: 28px;
+}
+
+/* Pills de color dentro del marquee */
+.tp-mq-pill {
+    font-size: 0.75rem !important; font-weight: 700 !important;
+    background: var(--tp-acc-soft) !important;
+    border: 1px solid var(--tp-acc-bdr) !important;
+    -webkit-text-stroke: 0 !important; color: var(--tp-white) !important;
+    border-radius: 100px !important;
+    padding: 5px 16px !important; margin-right: 24px !important;
+    letter-spacing: 0.12em !important;
+    display: inline-flex !important; align-items: center !important;
+    vertical-align: middle !important;
+}
+
+@keyframes tpMqLeft  { from { transform:translateX(0);    } to { transform:translateX(-50%); } }
+@keyframes tpMqRight { from { transform:translateX(-50%); } to { transform:translateX(0);    } }
+
+
+/* =======================================================
+   SECCIONES NARRATIVAS (01 / 02 / 03)
+   ======================================================= */
+
+/* --- 14. PADDING DE SECCIÓN --- */
+.tp-section { padding: 80px 0; max-width: var(--tp-max); margin: 0 auto; }
+
+/* --- 15. NÚMERO DE SECCIÓN ---
+   Etiqueta pequeña + línea horizontal a la derecha. */
+.tp-section-num {
+    display: flex; align-items: center; gap: 14px;
+    margin-bottom: 52px;
+}
+.tp-section-num-num {
+    font-size: 9px; font-weight: 800;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: rgba(124,108,246,0.9);
+}
+.tp-section-num-line {
+    flex: 1; height: 1px;
+    background: var(--tp-w25); max-width: 80px;
+}
+
+/* --- 16. GRID TEXTO: título pegajoso + cuerpo de texto --- */
+.tp-text-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.6fr;
+    gap: 80px; align-items: start;
+}
+
+/* Título de la sección — sticky mientras se lee el cuerpo */
+.tp-section-title {
+    font-size: clamp(1.8rem, 2.8vw, 2.8rem);
+    font-weight: 700; line-height: 1.1;
+    letter-spacing: -0.03em; color: var(--tp-white);
+    position: sticky; top: 40px;
+}
+/* Parte en peso fino del título */
+.tp-section-title span {
+    font-weight: 200; display: block;
+}
+
+/* Cuerpo de texto de las secciones */
+.tp-text-body { display: flex; flex-direction: column; gap: 18px; }
+.tp-text-body p {
+    font-size: 15px; font-weight: 300;
+    line-height: 1.85; color: var(--tp-w80);
+}
+.tp-text-body p strong { font-weight: 600; color: var(--tp-white); }
+
+
+/* =======================================================
+   BRAND SECTION — SISTEMA VISUAL REDISEÑADO
+   Concepto editorial: sin fondos sólidos. El diseño
+   emerge de tipografía, líneas y color puro.
+   ======================================================= */
+
+/* --- 17. SECCIÓN BRAND --- */
+.tp-brand-section { padding: 0 0 80px; max-width: var(--tp-max); margin: 0 auto; }
+
+/* Etiqueta de sección */
+.tp-brand-label {
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--tp-w55); margin-bottom: 40px;
+    display: flex; align-items: center; gap: 12px;
+}
+.tp-brand-label::after {
+    content: ''; flex: 1; height: 1px;
+    background: var(--tp-w12); max-width: 80px;
+}
+
+/* Grid: 3 columnas sin fondo — separadas por líneas */
+.tp-brand-grid {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr 1fr;
+    /* Línea vertical entre columnas */
+    gap: 0;
+    border-top: 1px solid var(--tp-w25);
+}
+
+/* --- 18. COLUMNA GENÉRICA ---
+   Sin background. Padding lateral + borde derecho como separador. */
+.tp-bc {
+    background: transparent;
+    border: none;
+    border-right: 1px solid var(--tp-w12);
+    border-radius: 0;
+    padding: 36px 40px 36px 0;
+    display: flex; flex-direction: column; gap: 0;
+    cursor: default;
+    position: relative;
+    overflow: visible;
+    /* Sin box-shadow de hover */
+    transition: none;
+}
+.tp-bc:last-child { border-right: none; padding-right: 0; }
+.tp-bc:not(:first-child) { padding-left: 40px; }
+/* Sin ::before de brillo */
+.tp-bc::before { display: none; }
+.tp-bc:hover { transform: none; box-shadow: none; border-color: var(--tp-w12); }
+
+/* Label de cada columna — misma lógica del resto */
+.tp-bc-card-label {
+    font-size: 9px; font-weight: 700;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: rgba(124,108,246,0.8);
+    margin-bottom: 32px;
+    display: block;
+}
+
+/* --- 19. COLUMNA: PALETA ---
+/* =======================================================
+   PALETA DE COLOR — DISPLAY REDISEÑADO
+   Círculos grandes apilados con nombre y hex visibles.
+   ======================================================= */
+
+/* Columna paleta — sin min-height forzado */
+.tp-bc-colors { min-height: 0; }
+
+/* Stack vertical de filas de color */
+.tp-bc-swatches {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 1;
+    margin-bottom: 16px;
+}
+
+/* Cada swatch: fila con barra + nombre + hex */
+.tp-swatch {
+    flex: none !important;
+    display: grid;
+    grid-template-columns: 52px 1fr auto;
+    align-items: center;
+    gap: 16px;
+    cursor: default;
+    padding: 3px 0;
+}
+
+/* Barra de color — más alta en reposo, crece más al hover */
+.tp-swatch-bar {
+    height: 20px;
+    border-radius: 5px;
+    transition: height 0.35s cubic-bezier(0.16,1,0.3,1),
+                box-shadow 0.35s ease;
+    flex-shrink: 0;
+}
+.tp-swatch:hover .tp-swatch-bar {
+    height: 30px;
+    box-shadow: 0 4px 18px var(--swatch-color, rgba(124,108,246,0.5));
+}
+
+/* Nombre del color */
+.tp-swatch-name {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    color: rgba(255,255,255,0.5);
+    transition: color 0.25s ease;
+}
+.tp-swatch:hover .tp-swatch-name { color: rgba(255,255,255,0.9); }
+
+/* Hex code */
+.tp-swatch-hex {
+    font-size: 11px;
+    font-family: monospace;
+    letter-spacing: 0.06em;
+    color: rgba(255,255,255,0.28);
+    transition: color 0.25s ease;
+}
+.tp-swatch:hover .tp-swatch-hex { color: rgba(255,255,255,0.65); }
+
+/* Fila de códigos hex — ocultar, ahora está inline */
+.tp-bc-hex-row { display: none; }
+
+/* --- 20. COLUMNA: TIPOGRAFÍA ---
+   La letra "Aa" domina el espacio. Pesos como escala visual. */
+.tp-type-sample {
+    font-size: clamp(5rem, 9vw, 8rem);
+    font-weight: 900;
+    letter-spacing: -0.07em; line-height: 0.85;
+    /* Gradient blanco → violeta */
+    background: linear-gradient(140deg, #ffffff 50%, rgba(124,108,246,0.7) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 20px;
+}
+.tp-type-name {
+    font-size: 10px; font-weight: 600;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: rgba(124,108,246,0.75);
+    margin-bottom: 24px;
+}
+/* Escala de pesos como lista editorial */
+.tp-type-weights {
+    display: flex; flex-direction: column; gap: 8px;
+    padding-top: 20px;
+    border-top: 1px solid var(--tp-w12);
+    margin-top: 0;
+}
+.tp-type-weights span {
+    font-size: 14px; color: var(--tp-w80);
+    letter-spacing: -0.01em; line-height: 1.2;
+    display: flex; align-items: baseline; gap: 12px;
+}
+/* Número de peso en monospace pequeño */
+.tp-type-weights span::before {
+    content: attr(data-w);
+    font-size: 9px; font-family: monospace;
+    color: rgba(124,108,246,0.6);
+    letter-spacing: 0.08em;
+    min-width: 28px;
+}
+
+/* --- 21. COLUMNA: ÍCONO ---
+   El isotipo SVG a gran escala con glow al hover. */
+.tp-bc-icon { justify-content: flex-start; }
+.tp-icon-display {
+    flex: 1; display: flex;
+    align-items: center; justify-content: center;
+    position: relative;
+    min-height: 120px;
+}
+/* Sin ::before de glow */
+.tp-icon-display::before { display: none; }
+
+/* Isotipo SVG real — tamaño triplicado */
+.tp-isotipo {
+    height: 270px;
+    width: auto;
+    object-fit: contain;
+    display: block;
+    filter: drop-shadow(0 0 20px rgba(124,108,246,0.0));
+    transition: transform 0.45s cubic-bezier(0.16,1,0.3,1),
+                filter    0.45s cubic-bezier(0.16,1,0.3,1);
+}
+.tp-bc-icon:hover .tp-isotipo {
+    transform: scale(1.08) translateY(-4px);
+    filter: drop-shadow(0 0 24px rgba(124,108,246,0.7))
+            drop-shadow(0 0 55px rgba(124,108,246,0.35));
+}
+
+.tp-icon-fork {
+    display: flex; gap: 6px;
+    align-items: flex-end; height: 100px;
+    justify-content: center;
+    position: relative; z-index: 1;
+}
+.tp-fork-piece {
+    background: linear-gradient(180deg,
+        rgba(124,108,246,0.9) 0%,
+        rgba(255,255,255,0.95) 100%
+    );
+    border-radius: 4px;
+    transition: height 0.45s cubic-bezier(0.16,1,0.3,1);
+}
+.tp-bc-icon:hover .tp-fork-piece { height: 92% !important; }
+
+.tp-icon-note {
+    font-size: 10px; font-weight: 600;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: rgba(124,108,246,0.7);
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid var(--tp-w12);
+}
+
+
+/* =======================================================
+   GALERÍA KINÉTICA — ENFOQUE DE DISEÑO
+   Scroll horizontal con drag + imágenes en alturas variables.
+   Diferente del carrusel infinito: es estático, se arrastra.
+   ======================================================= */
+
+/* --- Wrapper externo: padding y overflow clip */
+.tp-kgallery {
+    padding: 0 0 80px;
+    overflow: hidden;
+    position: relative;
+    cursor: grab;
+    user-select: none;
+}
+.tp-kgallery:active { cursor: grabbing; }
+
+/* --- Fades laterales: gradientes suaves en los bordes */
+.tp-kgallery::before,
+.tp-kgallery::after {
+    content: '';
+    position: absolute;
+    top: 0; bottom: 60px;
+    width: 120px; z-index: 2;
+    pointer-events: none;
+}
+.tp-kgallery::before {
+    left: 0;
+    background: linear-gradient(to right, var(--tp-bg), transparent);
+}
+.tp-kgallery::after {
+    right: 0;
+    background: linear-gradient(to left, var(--tp-bg), transparent);
+}
+
+/* --- Track draggable: flex horizontal sin wrap.
+   Sin transition aquí: el drag debe ser INSTANTÁNEO al píxel.
+   will-change delega transform al compositor del navegador. */
+.tp-kgallery-track {
+    display: flex;
+    gap: 16px;
+    padding: 20px 80px;
+    width: max-content;
+    will-change: transform;
+    transform: translateZ(0); /* fuerza compositing layer propio */
+}
+
+/* --- Item base.
+   transform: translateZ(0) saca cada card a su propio layer
+   para que el drag no repinte el DOM. */
+.tp-kgallery-item {
+    border-radius: 20px;
+    overflow: hidden;
+    flex-shrink: 0;
+    position: relative;
+    border: 1px solid var(--tp-w12);
+    transform: translateZ(0);
+    transition: transform 0.5s cubic-bezier(0.16,1,0.3,1),
+                box-shadow 0.45s ease,
+                opacity 0.7s cubic-bezier(0.16,1,0.3,1);
+}
+.tp-kgallery-item img {
+    width: 100%; height: 100%;
+    object-fit: cover; display: block;
+    pointer-events: none;
+    transition: transform 0.6s cubic-bezier(0.16,1,0.3,1);
+    will-change: transform;
+}
+
+/* --- Entrada stagger: estado inicial de las cards antes del reveal */
+.tp-kgallery-item.kg-hidden {
+    opacity: 0;
+    transform: translateY(40px) scale(0.96) translateZ(0);
+}
+/* Estado final tras el reveal */
+.tp-kgallery-item.kg-visible {
+    opacity: 1;
+    transform: translateY(0) scale(1) translateZ(0);
+}
+.tp-kgallery-item:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(10,8,40,0.4),
+                0 0 27px rgba(124,108,246,0.08);
+}
+.tp-kgallery-item:hover img { transform: scale(1.05); }
+
+/* Proporciones alternadas: wide + tall para ritmo visual */
+.tp-kgallery-wide {
+    width: 442px;
+    height: 289px;
+}
+.tp-kgallery-tall {
+    width: 238px;
+    height: 289px;
+}
+
+/* --- Hint "Drag to explore" centrado debajo */
+.tp-kgallery-hint {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    padding-top: 20px;
+}
+.tp-kgallery-hint-line {
+    flex: 1; max-width: 60px; height: 1px;
+    background: var(--tp-w25);
+}
+.tp-kgallery-hint-text {
+    font-size: 9px; font-weight: 700;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--tp-w55);
+}
+
+/* Responsive */
+@media screen and (max-width: 768px) {
+    .tp-kgallery-wide  { width: 78vw;  height: 240px; }
+    .tp-kgallery-tall  { width: 55vw;  height: 240px; }
+    .tp-kgallery-track { padding: 16px 40px; gap: 12px; }
+}
+
+
+/* =======================================================
+   CAROUSEL INFINITO
+   ======================================================= */
+
+/* =======================================================
+   CAROUSEL INFINITO — MOCKUPS DE CELULAR
+   ======================================================= */
+
+/* --- 23. WRAPPER EXTERNO ---
+   overflow:hidden aquí corta la pista en X.
+   No tiene padding/margin tricks que generen el rectángulo visible. */
+.tp-inf-wrap {
+    padding: 0 0 70px;
+    overflow: hidden;
+}
+
+/* --- 24. CABECERA ---
+   Espacio generoso entre label y el carrusel. */
+.tp-inf-head {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 56px;
+    padding: 0 var(--tp-pad);
+}
+.tp-inf-label {
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--tp-w55);
+}
+
+/* --- 24b. CONTENEDOR DE LA PISTA ---
+   overflow:visible permite que drop-shadow salga por arriba y abajo.
+   El recorte lateral lo maneja .tp-inf-wrap con overflow:hidden.
+   padding vertical da aire a la sombra del hover sin crear rectángulo. */
+.tp-inf-track-outer {
+    overflow: visible;
+    padding: 10px 0;
+}
+
+/* --- 24c. PISTA INFINITA ---
+   gap de 100px para amplia separación entre mockups.
+   Velocidad 55s para 11 slides a ritmo cómodo. */
+.tp-inf-track {
+    display: flex;
+    gap: 80px;
+    width: max-content;
+    animation: tpInfScroll 55s linear infinite;
+    align-items: center;
+}
+
+/* --- 24d. SLIDE INDIVIDUAL — MOCKUP CELULAR ---
+   134px ≈ 200px reducido un tercio.
+   overflow:visible imprescindible para que drop-shadow no se recorte. */
+.tp-inf-slide {
+    flex: 0 0 160px;
+    width: 160px;
+    aspect-ratio: 9 / 19;
+    overflow: visible;
+    border: none;
+    background: transparent;
+}
+
+/* --- 24e. IMAGEN DEL MOCKUP ---
+   drop-shadow sigue la silueta transparente del PNG (no es box-shadow).
+   Cada mockup tiene su sombra propia e independiente. */
+.tp-inf-slide img {
+    width: 100%; height: 100%;
+    object-fit: contain;
+    display: block;
+    filter: drop-shadow(0px 16px 32px rgba(0,0,0,0.25))
+            drop-shadow(0px 4px 10px  rgba(0,0,0,0.12));
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                filter   0.4s ease;
+}
+
+/* --- 24f. HOVER ---
+   Scale + translateY para que suba limpiamente sin salir del área visible. */
+.tp-inf-slide:hover img {
+    transform: scale(1.08) translateY(-10px);
+    filter: drop-shadow(0px 28px 48px rgba(0,0,0,0.20))
+            drop-shadow(0px 8px 18px  rgba(0,0,0,0.15));
+}
+
+/* Mueve la pista de 0 a -50% (la mitad = los slides originales) */
+@keyframes tpInfScroll {
+    from { transform: translateX(0);    }
+    to   { transform: translateX(-50%); }
+}
+
+
+/* =======================================================
+   CLAIM 65%
+   ======================================================= */
+
+/* --- 25. LAYOUT: número gigante + texto derecho --- */
+.tp-claim {
+    padding: 100px 0;
+    max-width: var(--tp-max); margin: 0 auto;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 80px; align-items: center;
+}
+
+/* Número enorme outline decorativo */
+.tp-claim-num {
+    font-size: clamp(5rem, 12vw, 10rem);
+    font-weight: 900; letter-spacing: -0.06em;
+    color: transparent;
+    -webkit-text-stroke: 1.5px rgba(255,255,255,0.42);
+    line-height: 1; user-select: none; white-space: nowrap;
+}
+
+/* Columna derecha del claim */
+.tp-claim-right { display: flex; flex-direction: column; gap: 16px; }
+.tp-claim-eyebrow {
+    font-size: 9px; font-weight: 700;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: rgba(124,108,246,0.9);
+}
+.tp-claim-title {
+    font-size: clamp(1.6rem, 2.5vw, 2.4rem);
+    font-weight: 700; line-height: 1.15;
+    letter-spacing: -0.03em; color: var(--tp-white);
+}
+.tp-claim-sub {
+    font-size: 14px; font-weight: 300;
+    line-height: 1.75; color: var(--tp-w80); max-width: 420px;
+}
+.tp-claim-sub strong { font-weight: 600; color: var(--tp-white); }
+
+
+/* =======================================================
+   BIG CLAIM FINAL
+   ======================================================= */
+
+/* .tp-bigclaim, .tp-bigclaim-sep, .tp-bigclaim-block, etc.
+   → todos definidos en el bloque OVERRIDES FINALES al final del archivo */
+
+
+
+/* =======================================================
+   SIGUIENTE PROYECTO
+   ======================================================= */
+
+/* --- 29. SECCIÓN NEXT ---
+   Centrada, con línea superior y botón pill. */
+.tp-next {
+    padding: 80px 0;
+    border-top: 1px solid var(--tp-w25);
+    max-width: var(--tp-max); margin: 0 auto;
+    display: flex; flex-direction: column;
+    align-items: center; gap: 32px;
+}
+.tp-next-label {
+    font-size: 9px; font-weight: 700;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--tp-w55);
+}
+
+/* Botón pill con fill de izquierda a derecha al hover */
+.tp-next-btn {
+    display: inline-block; padding: 16px 52px;
+    border: 1.5px solid var(--tp-white); border-radius: 100px;
+    font-family: 'Poppins', sans-serif; font-size: 15px;
+    font-weight: 500; color: var(--tp-white);
+    text-decoration: none; letter-spacing: 0.04em;
+    position: relative; overflow: hidden;
+    transition: color 0.4s;
+}
+/* El fill blanco empieza escondido y se expande al hover */
+.tp-next-btn::before {
+    content: ''; position: absolute; inset: 0;
+    background: var(--tp-white);
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 0.45s cubic-bezier(0.25,1,0.5,1);
+    z-index: 0;
+}
+.tp-next-btn:hover { color: #3a38a8; }
+.tp-next-btn:hover::before { transform: scaleX(1); }
+.tp-next-btn-inner { position: relative; z-index: 1; }
+
+
+/* =======================================================
+   RESPONSIVE — TABLET (max 1024px)
+   ======================================================= */
+@media screen and (max-width: 1024px) {
+
+    /* Reducir padding lateral */
+    .tp-page { --tp-pad: 40px; }
+
+    /* Phones más pequeños y más juntos */
+    .tp-phone-wrap { width: 180px; }
+    .tp-phone-left  { transform: rotate(-16deg) translateX(-140px) translateY(20px); }
+    .tp-phone-right { transform: rotate(12deg)  translateX(140px)  translateY(10px); }
+
+    /* Stats: 2 filas de 2 columnas */
+    .tp-stats { grid-template-columns: repeat(2, 1fr); }
+    .tp-stat:nth-child(2) { border-right: none; }
+    .tp-stat:nth-child(3) { border-top: 1px solid var(--tp-w25); }
+    .tp-stat:last-child   { border-top: 1px solid var(--tp-w25); }
+
+    /* Brand grid: apilar en 2 cols en tablet, con bordes */
+    .tp-brand-grid {
+        grid-template-columns: 1fr;
+        border-top: 1px solid var(--tp-w25);
+    }
+    .tp-bc {
+        border-right: none;
+        border-bottom: 1px solid var(--tp-w12);
+        padding: 28px 0;
+    }
+    .tp-bc:not(:first-child) { padding-left: 0; }
+    .tp-bc:last-child { border-bottom: none; }
+
+    /* Slides del carousel: mockups de celular proporcionales a tablet */
+    .tp-inf-slide { flex: 0 0 110px; width: 110px; }
+
+    /* Claim: apilado */
+    .tp-claim { grid-template-columns: 1fr; gap: 32px; padding: 60px 0; }
+    .tp-claim-num { font-size: clamp(4rem, 15vw, 8rem); }
+}
+
+
+/* =======================================================
+   RESPONSIVE — MÓVIL (max 768px)
+   ======================================================= */
+@media screen and (max-width: 768px) {
+
+    /* Padding lateral mínimo */
+    .tp-page { --tp-pad: 24px; }
+
+    /* Hero: columna única en móvil, mockup se oculta */
+    .tp-hero {
+        grid-template-columns: 1fr;
+        padding: 120px 24px 60px;
+    }
+    .tp-hero-mockup { display: none; }
+    .tp-hero-logo { width: 200px; }
+    .tp-hero-logo-fallback { font-size: 3rem; }
+    .tp-hero-desc { font-size: 14px; max-width: 100%; }
+
+    /* Stats: columna única */
+    .tp-stats {
+        grid-template-columns: 1fr;
+        max-width: 100%;
+    }
+    .tp-stat { border-right: none; border-bottom: 1px solid var(--tp-w25); }
+    .tp-stat:last-child { border-bottom: none; }
+    /* Resetear bordes especiales de tablet */
+    .tp-stat:nth-child(2),
+    .tp-stat:nth-child(3) { border-top: none; border-right: none; }
+
+    /* Giant: mockup más pequeño en móvil */
+    .tp-giant-mockup { width: 320px; }
+    .tp-giant-text  { font-size: clamp(4rem, 18vw, 8rem); }
+    .tp-giant { padding: 60px 24px 40px; }
+
+    /* Marquee: texto más pequeño */
+    .tp-mq-row span { font-size: 1.6rem; }
+
+    /* Secciones: una columna */
+    .tp-text-grid {
+        grid-template-columns: 1fr; gap: 24px;
+    }
+    .tp-section-title { position: static; font-size: 1.8rem; }
+    .tp-section { padding: 60px 0; }
+
+    /* Brand grid: columna única */
+    .tp-brand-grid { grid-template-columns: 1fr; }
+    .tp-bc-colors  { grid-column: 1; }
+
+    /* Carousel: slides de celular en móvil */
+    .tp-inf-slide { flex: 0 0 90px; width: 90px; }
+    .tp-inf-head  { padding: 0 24px; }
+
+    /* Claim: columna única */
+    .tp-claim { grid-template-columns: 1fr; gap: 24px; padding: 60px 0; }
+    .tp-claim-num { text-align: center; }
+
+    /* Big Claim: aside oculto, solo la frase */
+    .tp-bigclaim-block { grid-template-columns: 1fr; }
+    .tp-bc-aside { display: none; }
+    .tp-bigclaim { padding: 40px 24px 80px; }
+
+    /* Next: full width */
+    .tp-next { padding: 60px 0; }
+    .tp-next-btn { padding: 14px 36px; font-size: 14px; }
+}
+
+
+/* =======================================================
+   RESPONSIVE — MÓVIL PEQUEÑO (max 480px)
+   ======================================================= */
+@media screen and (max-width: 480px) {
+
+    /* Texto del hero aún más compacto */
+    .tp-hero-desc { font-size: 13px; }
+    .tp-hero-pills { gap: 6px; }
+    .tp-pill { font-size: 10px; padding: 5px 12px; }
+
+    /* Stats compactos */
+    .tp-stat { padding: 18px 20px; }
+
+    /* Marquee más pequeño */
+    .tp-mq-row span { font-size: 1.3rem; }
+}
+
+
+/* =======================================================
+   OVERRIDES FINALES — TP-PAGE
+   Aplican por encima del CSS base del sitio.
+   ======================================================= */
+
+/* --- Footer en tema oscuro Tap In (cambio 4) ---
+   El .project-footer ya es transparent, pero el texto
+   y el ícono necesitan ser blancos. */
+.tp-page .project-footer {
+    color: var(--tp-w55);
+    border-top: 1px solid var(--tp-w12);
+}
+.tp-page .back-home {
+    color: var(--tp-w80);
+}
+.tp-page .back-home svg {
+    stroke: var(--tp-w80);
+}
+@media (hover: hover) {
+    .tp-page .back-home:hover {
+        color: var(--tp-white);
+        opacity: 1;
+    }
+}
+
+/* --- Botón hamburguesa blanco en Tap In (cambio 5) ---
+   Override del border y span color del .menu-toggle base. */
+.tp-page .menu-toggle {
+    border-color: rgba(255,255,255,0.5);
+}
+.tp-page .menu-toggle span {
+    background-color: var(--tp-white);
+}
+@media (hover: hover) {
+    .tp-page .menu-toggle:hover {
+        background: rgba(255,255,255,0.12);
+    }
+    .tp-page .menu-toggle:hover span {
+        background-color: var(--tp-white);
+    }
+}
+/* Cuando el menú se abre la X debe ser oscura */
+.tp-page .menu-toggle.active span:nth-child(1),
+.tp-page .menu-toggle.active span:nth-child(3) {
+    background-color: #202020;
+}
+
+/* =======================================================
+   MENÚ LATERAL — OVERRIDE TAP IN (colores invertidos)
+   Fondo claro #f0efe9, letras oscuras #202020
+   ======================================================= */
+
+/* Fondo claro */
+.tp-page .side-menu {
+    background-color: #f0efe9;
+    font-family: 'Inter', sans-serif;
+}
+
+/* Links principales: oscuros */
+.tp-page .side-menu .main-link {
+    color: #444444;
+}
+@media (hover: hover) {
+    .tp-page .side-menu .main-link:hover {
+        color: #202020;
+    }
+}
+
+/* Flecha + */
+.tp-page .arrow {
+    color: rgba(68,68,68,0.6);
+}
+.tp-page .has-submenu.open .arrow,
+.tp-page .submenu-toggle.open .arrow {
+    color: #202020;
+}
+
+/* Items del submenu: oscuros */
+.tp-page .submenu li a {
+    color: #888888;
+}
+@media (hover: hover) {
+    .tp-page .submenu li a:hover {
+        color: #202020;
+    }
+}
+.tp-page .submenu li a:active {
+    color: #202020;
+}
+.tp-page .submenu li a.active {
+    color: #202020;
+    border-left-color: #202020;
+}
+
+/* Sin círculos en ambos contextos */
+.tp-page .submenu {
+    list-style: none;
+}
+
+/* --- Carousel: sin pausa hover (cambio 7) ---
+   Override explícito que anula cualquier
+   animation-play-state: paused residual. */
+.tp-inf-track,
+.tp-inf-track:hover {
+    animation-play-state: running !important;
+}
+
+/* =======================================================
+   BIG CLAIM — PROPUESTA CENTRADA CON GLOW (cambio 8 v2)
+   Todo el contenido centrado. Glow radial morado de fondo.
+   ======================================================= */
+
+/* Wrapper con glow radial — se aplica sobre el padding del bigclaim */
+.tp-bigclaim {
+    padding: 60px var(--tp-pad) 120px;
+    max-width: var(--tp-max); margin: 0 auto;
+    /* Glow radial morado centrado detrás del texto */
+    position: relative;
+}
+.tp-bigclaim::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 700px; height: 400px;
+    background: radial-gradient(ellipse,
+        rgba(124,108,246,0.22) 0%,
+        rgba(80,60,200,0.10)   40%,
+        transparent            70%
+    );
+    filter: blur(60px);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Línea horizontal separadora */
+.tp-bigclaim-sep {
+    width: 100%; height: 1px;
+    background: var(--tp-w25); margin-bottom: 80px;
+    position: relative; z-index: 1;
+}
+
+/* Bloque centrado */
+.tp-bigclaim-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;    /* ← centrado horizontal */
+    text-align: center;     /* ← texto centrado */
+    gap: 0;
+    position: relative;
+    z-index: 1;
+}
+
+/* Número decorativo de fondo — sutil, detrás de la frase */
+.tp-bc-aside {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none; user-select: none;
+    white-space: nowrap;
+}
+.tp-bc-aside-line { display: none; }
+.tp-bc-aside-num {
+    font-size: clamp(14rem, 30vw, 28rem);
+    font-weight: 900; letter-spacing: -0.08em;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(255,255,255,0.04);
+    line-height: 1;
+}
+
+/* Frase — hover interactivo en el bloque completo */
+.tp-bc-phrase {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    position: relative;
+    z-index: 1;
+    transition: transform 0.7s cubic-bezier(0.16,1,0.3,1);
+    cursor: default;
+    will-change: transform;
+}
+.tp-bc-phrase:hover {
+    transform: scale(1.06);
+}
+
+/* Etiqueta violeta pequeña */
+.tp-bc-top {
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 0.25em; text-transform: uppercase;
+    color: rgba(124,108,246,0.9);
+    line-height: 1; margin-bottom: 20px;
+    display: flex; align-items: center; gap: 12px;
+    transition: opacity 0.6s ease;
+}
+.tp-bc-phrase:hover .tp-bc-top {
+    opacity: 0.85;
+}
+.tp-bc-top::before {
+    content: '';
+    display: inline-block;
+    width: 32px; height: 1px;
+    background: rgba(124,108,246,0.6);
+    transition: width 0.6s cubic-bezier(0.16,1,0.3,1);
+}
+.tp-bc-top::after {
+    content: '';
+    display: inline-block;
+    width: 32px; height: 1px;
+    background: rgba(124,108,246,0.6);
+    transition: width 0.6s cubic-bezier(0.16,1,0.3,1);
+}
+.tp-bc-phrase:hover .tp-bc-top::before,
+.tp-bc-phrase:hover .tp-bc-top::after {
+    width: 56px;
+}
+
+/* Contenedor de las dos palabras gigantes */
+.tp-bc-mid { display: block; line-height: 0.85; }
+
+/* "decisiones" — rellena blanco */
+.tp-bc-mid-big {
+    font-size: clamp(4rem, 9.5vw, 9rem);
+    font-weight: 900; letter-spacing: -0.055em;
+    color: var(--tp-white); display: block;
+    text-shadow: 0 0 80px rgba(40,30,120,0.5);
+}
+
+/* "intuición." — outline */
+.tp-bc-mid-small {
+    font-size: clamp(4rem, 9.5vw, 9rem);
+    font-weight: 900; letter-spacing: -0.055em;
+    color: transparent;
+    -webkit-text-stroke: 1.5px rgba(255,255,255,0.5);
+    display: block; line-height: 0.88;
+    margin-top: 20px;
+}
+
+/* Frase de cierre */
+.tp-bc-bot {
+    font-size: clamp(0.95rem, 1.5vw, 1.3rem);
+    font-weight: 300; letter-spacing: 0.01em;
+    color: var(--tp-w55); font-style: normal;
+    line-height: 1.5; margin-top: 32px;
+    max-width: 440px;
+    transition: opacity 0.6s ease;
+}
+.tp-bc-phrase:hover .tp-bc-bot {
+    opacity: 0.88;
+}
+.tp-bc-bot strong {
+    font-weight: 600; color: var(--tp-white);
+}
+
+/* Responsive bigclaim */
+@media screen and (max-width: 768px) {
+    .tp-bigclaim { padding: 40px 24px 80px; }
+    .tp-bc-aside { display: none; }
+    .tp-bc-mid-big,
+    .tp-bc-mid-small { font-size: clamp(3rem, 15vw, 6rem); }
+    .tp-bc-bot { max-width: 100%; }
+}
+
+/* =======================================================
+   FIN TAP IN PAGE
+   ======================================================= */

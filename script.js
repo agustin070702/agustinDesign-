@@ -1469,3 +1469,130 @@ if (modalTicket) {
         }
     });
 }
+
+/* =======================================================
+   TAP IN PAGE — JavaScript exclusivo de proyecto-tapin.html
+   Todo el código vive en un IIFE para no contaminar el
+   scope global del resto del sitio.
+   El primer if() aborta si no estamos en esta página.
+   ======================================================= */
+(function () {
+
+    /* --- 0. GUARD: solo correr en la página Tap In ---
+       Si el canvas de grain no existe, no estamos aquí. */
+    var grainCanvas = document.getElementById('tp-grain');
+    if (!grainCanvas) return;
+
+
+    /* =======================================================
+       1. GRAIN CANVAS
+       Rellena el canvas fixed con pixel noise aleatorio.
+       Se redibuja cada 80ms (≈12fps) para dar vida al grano
+       sin afectar el rendimiento como lo haría 60fps.
+       ======================================================= */
+    var grainCtx = grainCanvas.getContext('2d');
+
+    /* Ajusta el canvas al tamaño actual de la ventana */
+    function tpResizeGrain() {
+        grainCanvas.width  = window.innerWidth;
+        grainCanvas.height = window.innerHeight;
+    }
+    tpResizeGrain();
+    window.addEventListener('resize', tpResizeGrain);
+
+    /* Dibuja un pixel random (0–255) en cada celda */
+    function tpDrawNoise() {
+        var w = grainCanvas.width;
+        var h = grainCanvas.height;
+        var img = grainCtx.createImageData(w, h);
+        var d = img.data;
+        for (var i = 0; i < d.length; i += 4) {
+            var v = (Math.random() * 255) | 0;
+            d[i] = d[i + 1] = d[i + 2] = v;
+            d[i + 3] = 255;
+        }
+        grainCtx.putImageData(img, 0, 0);
+    }
+    tpDrawNoise();
+    setInterval(tpDrawNoise, 80); /* Refresco del grain */
+
+
+    /* =======================================================
+       2. SCROLL REVEAL — IntersectionObserver propio
+       Observa .tp-fade, .tp-slide-left y .tp-slide-right.
+       Cuando el 8% de un elemento es visible, agrega .tp-vis
+       que dispara la transición CSS de entrada.
+       Una vez visible, deja de observarlo (unobserve).
+       ======================================================= */
+    var tpRevealObs = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('tp-vis');
+                tpRevealObs.unobserve(entry.target); /* Una sola vez */
+            }
+        });
+    }, { threshold: 0.08 });
+
+    /* Registrar todos los elementos animables de la página */
+    document.querySelectorAll('.tp-fade, .tp-slide-left, .tp-slide-right').forEach(function (el) {
+        tpRevealObs.observe(el);
+    });
+
+
+    /* =======================================================
+       3. CAROUSEL INFINITO — respeto al prefers-reduced-motion
+       El carousel CSS puro funciona solo.
+       Este bloque solo pausa la animación si el usuario
+       prefiere menos movimiento (accesibilidad).
+       ======================================================= */
+    var infTrack = document.getElementById('tp-inf-track');
+    if (infTrack) {
+        /* Si el sistema tiene "reduce motion" activado,
+           detenemos la animación infinita */
+        var mediaMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+        if (mediaMotion.matches) {
+            infTrack.style.animationPlayState = 'paused';
+        }
+    }
+
+
+    /* =======================================================
+       4. BENTO GRID — tilt 3D al mover el mouse
+       En cada bento-item, calcula la posición relativa
+       del cursor dentro del card y aplica una pequeña
+       rotación en perspectiva.
+       Al salir el mouse, vuelve suavemente a 0.
+       ======================================================= */
+    document.querySelectorAll('.tp-bento-item').forEach(function (card) {
+
+        /* Tilt mientras se mueve el mouse */
+        card.addEventListener('mousemove', function (e) {
+            var rect = card.getBoundingClientRect();
+            /* Posición normalizada de -0.5 a 0.5 */
+            var x = (e.clientX - rect.left)  / rect.width  - 0.5;
+            var y = (e.clientY - rect.top)   / rect.height - 0.5;
+            card.style.transition = 'transform 0.1s ease';
+            card.style.transform  =
+                'perspective(900px) rotateY(' + (x * 7) + 'deg) rotateX(' + (-y * 7) + 'deg)';
+        });
+
+        /* Reset suave al salir el mouse */
+        card.addEventListener('mouseleave', function () {
+            card.style.transition = 'transform 0.7s cubic-bezier(0.25,0.46,0.45,0.94)';
+            card.style.transform  = 'perspective(900px) rotateY(0deg) rotateX(0deg)';
+        });
+    });
+
+
+    /* =======================================================
+       5. MARQUEE — corre siempre sin pausas
+       Pausa hover eliminada por petición (cambio 7).
+       El marquee y el carousel corren continuamente.
+       ======================================================= */
+    /* No se agrega ningún listener de pausa */
+
+
+})();
+/* =======================================================
+   FIN TAP IN PAGE JS
+   ======================================================= */

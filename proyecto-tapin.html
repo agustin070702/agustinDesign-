@@ -6,10 +6,20 @@
     <title>Tap In - Agustín Avendaño</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;600;700&family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,700&display=swap" rel="stylesheet">
+    <!-- Precarga de imágenes críticas above-the-fold -->
+    <link rel="preload" as="image" href="img/tap_in_mockup_hero.webp">
+    <link rel="preload" as="image" href="img/mockup_tap_in_2celularesdefrente.webp">
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="project-page"> <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú de navegación">
+
+<!-- tp-page activa el tema oscuro y los estilos exclusivos de esta página -->
+<body class="project-page tp-page">
+
+    <!-- =====================================================
+         MENÚ — idéntico al original, sin tocar
+         ===================================================== -->
+    <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú de navegación">
         <span></span>
         <span></span>
         <span></span>
@@ -21,7 +31,7 @@
             <li class="has-submenu">
                 <span class="main-link submenu-toggle">Works <span class="arrow">+</span></span>
                 <ul class="submenu">
-                     <li><a href="proyecto-tapin.html">Tap In</a></li>
+                    <li><a href="proyecto-tapin.html">Tap In</a></li>
                     <li><a href="proyecto-lacolumna.html">La Columna</a></li>
                     <li><a href="proyecto-mido.html">Mido</a></li>
                     <li><a href="proyecto-entrenapo.html">Entrena Po</a></li>
@@ -34,159 +44,597 @@
     </nav>
     <div class="overlay" id="overlay"></div>
 
-    <header class="project-header">
-        <div class="header-content scroll-animate">
-            <span class="project-category-tag">Branding & UX/UI Design</span>
-            <h1 class="project-big-title">Tap In</h1>
-            <p class="project-intro">Sistema digital que centraliza pedidos, automatiza procesos y entrega datos accionables para optimizar la operación de distintos entornos de servicio</p>
-        </div>
-    </header>
+    <!-- =====================================================
+         FONDO — orbes de luz + grain canvas
+         Los tres divs son decorativos (aria-hidden).
+         El canvas lo rellena JS con ruido animado.
+         ===================================================== -->
+    <div class="tp-orb tp-orb-tr"      aria-hidden="true"></div>
+    <div class="tp-orb tp-orb-bl"      aria-hidden="true"></div>
+    <div class="tp-orb tp-orb-center"  aria-hidden="true"></div>
+    <canvas id="tp-grain"              aria-hidden="true"></canvas>
 
-    <div class="project-hero-image scroll-animate">
-        <img src="img/tapin_portadilla.webp" alt="Tap In Portada">
+    <!-- =====================================================
+         HERO
+         ===================================================== -->
+    <section class="tp-hero">
+
+        <!-- Columna izquierda: contenido textual -->
+        <div class="tp-hero-content">
+
+            <div class="tp-hero-tag">
+                <div class="tp-tag-dot"></div>
+                <span>Branding &amp; UX/UI Design</span>
+            </div>
+
+            <div class="tp-hero-logo-wrap">
+                <img
+                    class="tp-hero-logo"
+                    src="img/logo_tap_in.svg"
+                    alt="Tap In"
+                    onerror="this.style.display='none';this.closest('.tp-hero-logo-wrap').nextElementSibling.style.display='block';"
+                >
+            </div>
+            <div class="tp-hero-logo-fallback">tap in</div>
+
+            <div class="tp-hero-divider"></div>
+
+            <p class="tp-hero-desc">
+                Sistema digital que <strong>centraliza pedidos</strong>, automatiza procesos
+                y entrega datos accionables para optimizar la operación
+                en <strong>espacios de alta afluencia.</strong>
+            </p>
+
+            <div class="tp-hero-pills">
+                <span class="tp-pill tp-pill-accent">UX Research</span>
+                <span class="tp-pill tp-pill-accent">UI Design</span>
+                <span class="tp-pill">Branding</span>
+                <span class="tp-pill">Figma</span>
+                <span class="tp-pill">Illustrator</span>
+                <span class="tp-pill">Prototyping</span>
+            </div>
+
+        </div>
+
+        <!-- Columna derecha: mockup con float animado -->
+        <img
+            class="tp-hero-mockup"
+            src="img/tap_in_mockup_hero.webp"
+            alt="Tap In App — mockup"
+            loading="eager"
+            fetchpriority="high"
+            decoding="sync"
+        >
+
+    </section>
+
+
+    <!-- =====================================================
+         STATS ROW
+         Contenedor centrado con borde redondeado, sin fondo
+         ===================================================== -->
+    <div class="tp-stats-outer tp-fade tp-d1">
+        <div class="tp-stats">
+            <div class="tp-stat tp-fade tp-d1">
+                <span class="tp-stat-label">Proyecto</span>
+                <span class="tp-stat-value">Startup multidisciplinario</span>
+            </div>
+            <div class="tp-stat tp-fade tp-d2">
+                <span class="tp-stat-label">Año</span>
+                <span class="tp-stat-value">2025</span>
+            </div>
+            <div class="tp-stat tp-fade tp-d3">
+                <span class="tp-stat-label">Rol</span>
+                <span class="tp-stat-value">Branding · UX Research · UI Design</span>
+            </div>
+            <div class="tp-stat tp-fade tp-d4">
+                <span class="tp-stat-label">Herramientas</span>
+                <span class="tp-stat-value">Figma · Illustrator · Photoshop</span>
+            </div>
+        </div>
     </div>
 
-    <div class="project-body-container">
-        
-        <div class="project-stats scroll-animate">
-            <div class="stat-item">
-                <h3>Proyecto</h3>
-                <p>Starup junto a un</p>
-                <p>equipo multidisciplinario</p>
-            </div>
-            <div class="stat-item">
-                <h3>Año</h3>
-                <p>2025</p>
-            </div>
-            <div class="stat-item">
-                <h3>Rol</h3>
-                <p>Branding, UX Research</p>
-                <p>UI Design, Prototyping</p>
-            </div>
-            <div class="stat-item">
-                <h3>Herramientas</h3>
-                <p>Figma, Illustrator, Photoshop, Canva</p>
-            </div>
+
+    <!-- =====================================================
+         GIANT SECTION
+         "tap in" enorme en outline decorativo.
+         Dos mockups de celular flotan inclinados sobre el texto.
+         Reemplazar src por los mockups reales de Tap In.
+         ===================================================== -->
+    <div class="tp-giant tp-fade tp-d2">
+
+        <div class="tp-phone-glow" aria-hidden="true"></div>
+
+        <!-- Mockup de 2 celulares de frente — reemplaza los phones individuales -->
+        <div class="tp-giant-phones">
+            <img
+                src="img/mockup_tap_in_2celularesdefrente.webp"
+                alt="Tap In App — dos pantallas"
+                class="tp-giant-mockup"
+                loading="eager"
+                fetchpriority="high"
+                decoding="async"
+            >
         </div>
 
-        <section class="project-narrative">
-            
-            <div class="text-block scroll-animate">
-                <h2>Contexto y Oportunidad</h2>
-                <p>
-                    En espacios de alta afluencia, como eventos, recintos deportivos o lugares con múltiples servicios, las personas suelen enfrentarse a largas filas, falta de información y tiempos muertos innecesarios. Por otro lado, los locales operan sin datos que les permitan anticipar demanda, planificar o gestionar sus recursos con eficiencia.
-                </p>
-                <p>
-                La oportunidad fue diseñar una solución digital que mejorara simultáneamente la experiencia de los usuarios y la operación interna de los servicios, reduciendo tiempos de espera y habilitando decisiones basadas en datos reales.
-                </p>
-            </div>
-
-            <div class="process-carousel-wrapper scroll-animate">
-                
-                <div class="process-header">
-                    <span class="image-caption" style="margin: 0; text-align: left;">Proceso de Diseño & Wireframes</span>
-                    
-                    <div class="process-controls">
-                        <button id="prevProcess" class="mini-btn">←</button>
-                        <button id="nextProcess" class="mini-btn">→</button>
-                    </div>
-                </div>
-
-                <div class="process-track" id="processTrack">
-
-                    <div class="process-slide">
-                        <img src="img/tapin_contenido11.webp" alt="Boceto 1">
-                    </div>
-                    
-                    <div class="process-slide">
-                        <img src="img/tapin_contenido10.webp" alt="Boceto 1" loading="lazy">
-                    </div>
-
-                    <div class="process-slide">
-                        <img src="img/tapin_contenido7.webp" alt="Boceto 2" loading="lazy">
-                    </div>
-
-                    <div class="process-slide">
-                        <img src="img/tapin_contenido8.webp" alt="Boceto 3" loading="lazy">
-                    </div>
-
-                    <div class="process-slide">
-                        <img src="img/tapin_contenido2.webp" alt="Boceto 3" loading="lazy">
-                    </div>
-
-                    </div>
-            </div>
-
-            <div class="text-block scroll-animate">
-                <h2>Enfoque de Diseño</h2>
-                <p>
-                    El proyecto comenzó con una investigación exploratoria para entender cómo se movían los usuarios, qué frustraciones tenían y qué puntos críticos existían dentro del flujo de compra. A partir de esto, mapeé la experiencia completa, identifiqué oportunidades y definí los requerimientos clave del sistema.
-                </p>
-                <p>
-                    El foco estuvo en diseñar una interfaz que fuera rápida de usar, visualmente clara y consistente en distintos contextos de uso.
-                </p>
-            </div>
-
-            <div class="project-gallery-grid">
-                <div class="gallery-item scroll-animate">
-                    <img src="img/tapin_contenido5.webp" alt="Pantalla Login">
-                </div>
-                <div class="gallery-item scroll-animate">
-                    <img src="img/tapin_contenido4.webp" alt="Pantalla Home">
-                </div>
-                <div class="gallery-item scroll-animate">
-                    <img src="img/tapin_contenido6.webp" alt="Pantalla Mapa">
-                </div>
-                <div class="gallery-item scroll-animate">
-                    <img src="img/tapin_contenido3.webp" alt="Pantalla Orden">
-                </div>
-            </div>
-
-            <div class="text-block scroll-animate">
-                <h2>La Propuesta</h2>
-                <p>
-                    Como diseñador del proyecto, desarrollé el sistema de interfaces de Tap In para dos tipos de usuarios: quienes hacen pedidos y los locales que gestionan su operación. Diseñé los flujos principales, la arquitectura del producto y un panel capaz de visualizar demanda, tiempos y datos clave para optimizar la gestión.
-                </p>
-                <p>
-                    A nivel visual y funcional, construí un sistema modular con componentes reutilizables, una retícula adaptable, una paleta vibrante y una jerarquía clara orientada a la rapidez y facilidad de uso. Esto permitió crear una experiencia coherente, escalable y útil tanto para usuarios finales como para los operadores del servicio.
-                </p>
-            </div>
-
-        </section>
-
-        <div class="next-project-nav scroll-animate">
-            <span class="next-label">Siguiente Proyecto</span>
-            
-            <div style="margin-top: 30px;">
-                <a href="proyecto-lacolumna.html" class="btn-projects">
-                    La Columna
-                </a>
-            </div>
-        </div>
+        <div class="tp-giant-text" aria-hidden="true">tap in</div>
+        <div class="tp-giant-sub">Plataforma de descuentos universitarios · App Móvil · 2025</div>
 
     </div>
 
+
+    <!-- =====================================================
+         MARQUEE DOBLE
+         Dos cintas en direcciones opuestas (decorativo).
+         ===================================================== -->
+    <div class="tp-marquee-wrap" aria-hidden="true">
+
+        <div class="tp-mq-row tp-mq-left">
+            <span>UI Design</span><span class="tp-mq-pill">UX Research</span>
+            <span>Branding</span><span class="tp-mq-pill">Prototyping</span>
+            <span>System Design</span><span class="tp-mq-pill">Figma</span>
+            <span>UI Design</span><span class="tp-mq-pill">UX Research</span>
+            <span>Branding</span><span class="tp-mq-pill">Prototyping</span>
+            <span>System Design</span><span class="tp-mq-pill">Figma</span>
+        </div>
+
+        <div class="tp-mq-row tp-mq-right">
+            <span>Tap In</span><span class="tp-mq-pill">2025</span>
+            <span>Startup</span><span class="tp-mq-pill">App Móvil</span>
+            <span>Dashboard</span><span class="tp-mq-pill">Illustrator</span>
+            <span>Tap In</span><span class="tp-mq-pill">2025</span>
+            <span>Startup</span><span class="tp-mq-pill">App Móvil</span>
+            <span>Dashboard</span><span class="tp-mq-pill">Illustrator</span>
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         01 — CONTEXTO Y OPORTUNIDAD
+         ===================================================== -->
+    <div class="tp-wrap">
+        <div class="tp-section">
+
+            <div class="tp-section-num tp-slide-left">
+                <span class="tp-section-num-num">01</span>
+                <div class="tp-section-num-line"></div>
+            </div>
+
+            <div class="tp-text-grid">
+                <h2 class="tp-section-title tp-slide-left tp-d1">
+                    Contexto
+                    <span>y Oportunidad</span>
+                </h2>
+                <div class="tp-text-body tp-slide-right tp-d2">
+                    <p>En espacios de alta afluencia —eventos, recintos deportivos o lugares con múltiples servicios— las personas enfrentan <strong>largas filas, falta de información y tiempos muertos innecesarios.</strong></p>
+                    <p>Por otro lado, los locales operan sin datos que les permitan anticipar demanda, planificar o gestionar sus recursos con eficiencia.</p>
+                    <p>La oportunidad fue diseñar una solución digital que mejorara simultáneamente la <strong>experiencia de los usuarios y la operación interna</strong> de los servicios.</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- =====================================================
+         BRAND CARDS — sistema visual de la marca
+         Tres cards: paleta · tipografía · ícono
+         ===================================================== -->
+    <div class="tp-wrap">
+        <div class="tp-brand-section tp-fade">
+
+            <div class="tp-brand-label tp-slide-left">Sistema Visual</div>
+
+            <div class="tp-brand-grid">
+
+                <!-- Columna paleta -->
+                <div class="tp-bc tp-bc-colors tp-fade tp-d1">
+                    <span class="tp-bc-card-label">Paleta de Color</span>
+                    <div class="tp-bc-swatches">
+                        <div class="tp-swatch">
+                            <div class="tp-swatch-bar" style="background:#7C6CF6; --swatch-color:rgba(124,108,246,0.6);"></div>
+                            <span class="tp-swatch-name">Principal</span>
+                            <span class="tp-swatch-hex">#7C6CF6</span>
+                        </div>
+                        <div class="tp-swatch">
+                            <div class="tp-swatch-bar" style="background:#5B55C4; --swatch-color:rgba(91,85,196,0.6);"></div>
+                            <span class="tp-swatch-name">Oscuro</span>
+                            <span class="tp-swatch-hex">#5B55C4</span>
+                        </div>
+                        <div class="tp-swatch">
+                            <div class="tp-swatch-bar" style="background:#A89DF9; --swatch-color:rgba(168,157,249,0.6);"></div>
+                            <span class="tp-swatch-name">Claro</span>
+                            <span class="tp-swatch-hex">#A89DF9</span>
+                        </div>
+                        <div class="tp-swatch">
+                            <div class="tp-swatch-bar" style="background:#FFFFFF; --swatch-color:rgba(255,255,255,0.4);"></div>
+                            <span class="tp-swatch-name">Blanco</span>
+                            <span class="tp-swatch-hex">#FFFFFF</span>
+                        </div>
+                        <div class="tp-swatch">
+                            <div class="tp-swatch-bar" style="background:#171622; border:1px solid rgba(255,255,255,0.15); --swatch-color:rgba(100,100,180,0.4);"></div>
+                            <span class="tp-swatch-name">Fondo</span>
+                            <span class="tp-swatch-hex">#171622</span>
+                        </div>
+                    </div>
+                    <div class="tp-bc-hex-row"></div>
+                </div>
+
+                <!-- Columna tipografía -->
+                <div class="tp-bc tp-bc-type tp-fade tp-d2">
+                    <span class="tp-bc-card-label">Tipografía</span>
+                    <div class="tp-type-sample">Aa</div>
+                    <div class="tp-type-name">Poppins</div>
+                    <div class="tp-type-weights">
+                        <span data-w="900" style="font-weight:900;">Black</span>
+                        <span data-w="700" style="font-weight:700;">Bold</span>
+                        <span data-w="500" style="font-weight:500;">Medium</span>
+                        <span data-w="300" style="font-weight:300;">Light</span>
+                    </div>
+                </div>
+
+                <!-- Columna ícono — isotipo SVG real -->
+                <div class="tp-bc tp-bc-icon tp-fade tp-d3">
+                    <span class="tp-bc-card-label">Ícono Marca</span>
+                    <div class="tp-icon-display">
+                        <img
+                            src="img/isotipo_tap_in.svg"
+                            alt="Isotipo Tap In"
+                            class="tp-isotipo"
+                            onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
+                        >
+                        <!-- Fallback al fork si el SVG no carga -->
+                        <div class="tp-icon-fork" style="display:none;">
+                            <div class="tp-fork-piece" style="width:9px; height:50%;"></div>
+                            <div class="tp-fork-piece" style="width:9px; height:70%;"></div>
+                            <div class="tp-fork-piece" style="width:9px; height:58%;"></div>
+                            <div style="width:8px;"></div>
+                            <div class="tp-fork-piece" style="width:9px; height:78%; border-radius:4px 4px 10px 10px;"></div>
+                        </div>
+                    </div>
+                    <span class="tp-icon-note">Isotipo · Tap In</span>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <!-- =====================================================
+         02 — ENFOQUE DE DISEÑO
+         ===================================================== -->
+    <div class="tp-wrap">
+        <div class="tp-section">
+
+            <div class="tp-section-num tp-slide-left">
+                <span class="tp-section-num-num">02</span>
+                <div class="tp-section-num-line"></div>
+            </div>
+
+            <div class="tp-text-grid">
+                <h2 class="tp-section-title tp-slide-left tp-d1">
+                    Enfoque
+                    <span>de Diseño</span>
+                </h2>
+                <div class="tp-text-body tp-slide-right tp-d2">
+                    <p>El proyecto comenzó con una <strong>investigación exploratoria</strong> para entender cómo se movían los usuarios, qué frustraciones tenían y qué puntos críticos existían dentro del flujo de compra.</p>
+                    <p>A partir de esto, mapeé la experiencia completa, identifiqué oportunidades y definí los requerimientos clave del sistema.</p>
+                    <p>El foco estuvo en diseñar una interfaz <strong>rápida de usar, visualmente clara y consistente</strong> en distintos contextos de uso.</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- =====================================================
+         GALERÍA KINÉTICA — Enfoque de Diseño
+         Desplazamiento horizontal con drag nativo + parallax CSS.
+         Diferente del carrusel infinito de pantallas que viene después.
+         ===================================================== -->
+    <div class="tp-kgallery">
+        <div class="tp-kgallery-track" id="tp-kgallery-track">
+            <div class="tp-kgallery-item tp-kgallery-wide kg-hidden"><img src="img/tapin_contenido9.webp" alt="Login Screen" loading="eager"></div>
+            <div class="tp-kgallery-item tp-kgallery-tall kg-hidden"><img src="img/tapin_contenido5.webp" alt="Home Screen" loading="eager"></div>
+            <div class="tp-kgallery-item tp-kgallery-wide kg-hidden"><img src="img/tapin_contenido6.webp" alt="Map Screen" loading="eager"></div>
+            <div class="tp-kgallery-item tp-kgallery-tall kg-hidden"><img src="img/tapin_contenido3.webp" alt="Order Screen" loading="eager"></div>
+            <!-- Copias para que el drag sea más largo y no choque -->
+            <div class="tp-kgallery-item tp-kgallery-wide kg-hidden" aria-hidden="true"><img src="img/tapin_contenido4.webp" alt="" loading="lazy"></div>
+            <div class="tp-kgallery-item tp-kgallery-tall kg-hidden" aria-hidden="true"><img src="img/tapin_contenido8.webp" alt="" loading="lazy"></div>
+            <div class="tp-kgallery-item tp-kgallery-wide kg-hidden" aria-hidden="true"><img src="img/tapin_contenido12.webp" alt="" loading="lazy"></div>
+            <div class="tp-kgallery-item tp-kgallery-tall kg-hidden" aria-hidden="true"><img src="img/tapin_contenido7.webp" alt="" loading="lazy"></div>
+        </div>
+        <!-- Indicador de drag -->
+        <div class="tp-kgallery-hint">
+            <span class="tp-kgallery-hint-line"></span>
+            <span class="tp-kgallery-hint-text">Drag to explore</span>
+            <span class="tp-kgallery-hint-line"></span>
+        </div>
+    </div>
+
+
+    <!-- =====================================================
+         03 — LA PROPUESTA
+         ===================================================== -->
+    <div class="tp-wrap">
+        <div class="tp-section">
+
+            <div class="tp-section-num tp-slide-left">
+                <span class="tp-section-num-num">03</span>
+                <div class="tp-section-num-line"></div>
+            </div>
+
+            <div class="tp-text-grid">
+                <h2 class="tp-section-title tp-slide-left tp-d1">
+                    La
+                    <span>Propuesta</span>
+                </h2>
+                <div class="tp-text-body tp-slide-right tp-d2">
+                    <p>Como diseñador del proyecto, desarrollé el <strong>sistema de interfaces de Tap In</strong> para dos tipos de usuarios: quienes hacen pedidos y los locales que gestionan su operación.</p>
+                    <p>Diseñé los flujos principales, la <strong>arquitectura del producto</strong> y un panel capaz de visualizar demanda, tiempos y datos clave para optimizar la gestión.</p>
+                    <p>Construí un <strong>sistema modular con componentes reutilizables</strong>, una retícula adaptable, una paleta vibrante y una jerarquía clara orientada a la rapidez y facilidad de uso.</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- =====================================================
+         CAROUSEL INFINITO — mockups de pantallas de la app
+         11 slides originales + 11 copias para el loop CSS puro.
+         Las sombras se aplican vía CSS sobre la img (.tp-inf-slide--phone img).
+         ===================================================== -->
+    <div class="tp-inf-wrap tp-fade">
+        <div class="tp-inf-head">
+            <span class="tp-inf-label">Pantallas de la App</span>
+        </div>
+        <div class="tp-inf-track-outer">
+            <div class="tp-inf-track" id="tp-inf-track">
+                <!-- Slides originales -->
+                <div class="tp-inf-slide tp-inf-slide--phone"><img src="img/mockup_scroll_infinito1.webp"  alt="Pantalla App 1"  loading="lazy" decoding="async"></div>
+                <div class="tp-inf-slide tp-inf-slide--phone"><img src="img/mockup_scroll_infinito3.webp"  alt="Pantalla App 3"  loading="lazy" decoding="async"></div>
+                <div class="tp-inf-slide tp-inf-slide--phone"><img src="img/mockup_scroll_infinito2.webp"  alt="Pantalla App 2"  loading="lazy" decoding="async"></div>
+                <div class="tp-inf-slide tp-inf-slide--phone"><img src="img/mockup_scroll_infinito4.webp"  alt="Pantalla App 4"  loading="lazy" decoding="async"></div>
+                <div class="tp-inf-slide tp-inf-slide--phone"><img src="img/mockup_scroll_infinito6.webp"  alt="Pantalla App 6"  loading="lazy" decoding="async"></div>
+                <div class="tp-inf-slide tp-inf-slide--phone"><img src="img/mockup_scroll_infinito5.webp"  alt="Pantalla App 5"  loading="lazy" decoding="async"></div>
+                <div class="tp-inf-slide tp-inf-slide--phone"><img src="img/mockup_scroll_infinito7.webp"  alt="Pantalla App 7"  loading="lazy" decoding="async"></div>
+                <div class="tp-inf-slide tp-inf-slide--phone"><img src="img/mockup_scroll_infinito8.webp"  alt="Pantalla App 8"  loading="lazy" decoding="async"></div>
+                <div class="tp-inf-slide tp-inf-slide--phone"><img src="img/mockup_scroll_infinito11.webp" alt="Pantalla App 11" loading="lazy" decoding="async"></div>
+                <div class="tp-inf-slide tp-inf-slide--phone"><img src="img/mockup_scroll_infinito9.webp"  alt="Pantalla App 9"  loading="lazy" decoding="async"></div>
+                <div class="tp-inf-slide tp-inf-slide--phone"><img src="img/mockup_scroll_infinito10.webp" alt="Pantalla App 10" loading="lazy" decoding="async"></div>
+                <!-- Copia para loop sin corte visible -->
+                <div class="tp-inf-slide tp-inf-slide--phone"><img src="img/mockup_scroll_infinito1.webp"  alt="Pantalla App 1"  loading="lazy" decoding="async"></div>
+                <div class="tp-inf-slide tp-inf-slide--phone"><img src="img/mockup_scroll_infinito3.webp"  alt="Pantalla App 3"  loading="lazy" decoding="async"></div>
+                <div class="tp-inf-slide tp-inf-slide--phone"><img src="img/mockup_scroll_infinito2.webp"  alt="Pantalla App 2"  loading="lazy" decoding="async"></div>
+                <div class="tp-inf-slide tp-inf-slide--phone"><img src="img/mockup_scroll_infinito4.webp"  alt="Pantalla App 4"  loading="lazy" decoding="async"></div>
+                <div class="tp-inf-slide tp-inf-slide--phone"><img src="img/mockup_scroll_infinito6.webp"  alt="Pantalla App 6"  loading="lazy" decoding="async"></div>
+                <div class="tp-inf-slide tp-inf-slide--phone"><img src="img/mockup_scroll_infinito5.webp"  alt="Pantalla App 5"  loading="lazy" decoding="async"></div>
+                <div class="tp-inf-slide tp-inf-slide--phone"><img src="img/mockup_scroll_infinito7.webp"  alt="Pantalla App 7"  loading="lazy" decoding="async"></div>
+                <div class="tp-inf-slide tp-inf-slide--phone"><img src="img/mockup_scroll_infinito8.webp"  alt="Pantalla App 8"  loading="lazy" decoding="async"></div>
+                <div class="tp-inf-slide tp-inf-slide--phone"><img src="img/mockup_scroll_infinito11.webp" alt="Pantalla App 11" loading="lazy" decoding="async"></div>
+                <div class="tp-inf-slide tp-inf-slide--phone"><img src="img/mockup_scroll_infinito9.webp"  alt="Pantalla App 9"  loading="lazy" decoding="async"></div>
+                <div class="tp-inf-slide tp-inf-slide--phone"><img src="img/mockup_scroll_infinito10.webp" alt="Pantalla App 10" loading="lazy" decoding="async"></div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- =====================================================
+         CLAIM 65%
+         ===================================================== -->
+    <div class="tp-wrap">
+        <div class="tp-claim tp-fade">
+            <div class="tp-claim-num tp-slide-left">65%</div>
+            <div class="tp-claim-right tp-slide-right tp-d2">
+                <span class="tp-claim-eyebrow">El resultado</span>
+                <p class="tp-claim-title">Reducción de tiempos de espera en el proceso de compra.</p>
+                <p class="tp-claim-sub">
+                    Un sistema que no solo mejoró la experiencia del usuario final,
+                    sino que entregó a los operadores datos concretos para
+                    <strong>tomar decisiones en tiempo real.</strong>
+                </p>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- =====================================================
+         BIG CLAIM FINAL
+         Tres líneas con pesos tipográficos radicalmente distintos:
+         light gris / enorme blanco + pequeño gris / bold italic
+         ===================================================== -->
+    <div class="tp-bigclaim">
+        <div class="tp-bigclaim-sep"></div>
+        <div class="tp-bigclaim-block tp-fade">
+
+            <!-- Número decorativo de fondo — "100" outline sutil -->
+            <div class="tp-bc-aside">
+                <span class="tp-bc-aside-num">100</span>
+            </div>
+
+            <!-- Frase: etiqueta + palabra rellena + palabra outline + cierre -->
+            <div class="tp-bc-phrase">
+                <span class="tp-bc-top">El principio de diseño</span>
+                <span class="tp-bc-mid">
+                    <span class="tp-bc-mid-big">decisiones</span>
+                    <span class="tp-bc-mid-small">intuición.</span>
+                </span>
+                <span class="tp-bc-bot">
+                    Las mejores soluciones nacen de <strong>datos reales</strong>,
+                    no de supuestos.
+                </span>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- =====================================================
+         SIGUIENTE PROYECTO
+         ===================================================== -->
+    <div class="tp-wrap">
+        <div class="tp-next tp-fade">
+            <span class="tp-next-label">Siguiente Proyecto</span>
+            <a href="proyecto-lacolumna.html" class="tp-next-btn">
+                <span class="tp-next-btn-inner">La Columna</span>
+            </a>
+        </div>
+    </div>
+
+
+    <!-- =====================================================
+         FOOTER — idéntico al original
+         ===================================================== -->
     <footer class="project-footer">
         <p>© 2025 Agustín Avendaño</p>
-        
         <a href="index.html" class="back-home">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
                 <polyline points="9 22 9 12 15 12 15 22"></polyline>
             </svg>
             Home
         </a>
     </footer>
-    
+
+    <!-- Lightbox — idéntico al original -->
     <div id="imageModal" class="lightbox-modal">
         <span class="close-btn">&times;</span>
-        
         <button class="nav-btn prev-btn" id="lbPrev">&#10094;</button>
         <button class="nav-btn next-btn" id="lbNext">&#10095;</button>
-        
         <img class="lightbox-content" id="lightboxImg">
         <div id="caption"></div>
     </div>
+
+    <!-- =======================================================
+         GALERÍA KINÉTICA — Entrada stagger + drag con inercia
+         ======================================================= -->
+    <script>
+    (function(){
+        const track = document.getElementById('tp-kgallery-track');
+        if (!track) return;
+
+        /* --- 1. ENTRADA STAGGER CON INTERSECTIONOBSERVER ---
+           Observa el wrapper (.tp-kgallery). Cuando entra al viewport,
+           revela cada card con un delay escalonado de 80ms. */
+        const wrapper = track.closest('.tp-kgallery');
+        const items   = track.querySelectorAll('.tp-kgallery-item');
+
+        const revealGallery = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (!entry.isIntersecting) return;
+                items.forEach(function(item, i) {
+                    setTimeout(function() {
+                        item.classList.remove('kg-hidden');
+                        item.classList.add('kg-visible');
+                    }, i * 130); /* 130ms entre card y card */
+                });
+                revealGallery.unobserve(wrapper);
+            });
+        }, { threshold: 0.15 });
+
+        revealGallery.observe(wrapper);
+
+        /* --- 2. DRAG CON INERCIA ---
+           currentX: posición actual del track.
+           targetX:  destino al que el RAF anima suavemente.
+           En mousedown/touchstart se congela targetX = currentX
+           para que arranque desde donde está sin salto. */
+        let currentX  = 0;
+        let targetX   = 0;
+        let isDown    = false;
+        let startX    = 0;
+        let startOff  = 0;
+        let rafId     = null;
+        const LERP    = 0.13;   /* suavidad de inercia: más bajo = más suave */
+        const MULT    = 1.4;    /* multiplicador de velocidad de drag */
+
+        function getMax() {
+            return -(track.scrollWidth - wrapper.offsetWidth);
+        }
+        function clamp(v) {
+            return Math.max(getMax(), Math.min(0, v));
+        }
+
+        /* Bucle RAF: interpola currentX → targetX */
+        function rafLoop() {
+            currentX += (targetX - currentX) * LERP;
+            track.style.transform = 'translateX(' + currentX + 'px)';
+            if (Math.abs(targetX - currentX) > 0.1) {
+                rafId = requestAnimationFrame(rafLoop);
+            } else {
+                currentX = targetX;
+                track.style.transform = 'translateX(' + currentX + 'px)';
+                rafId = null;
+            }
+        }
+
+        function startRaf() {
+            if (!rafId) rafId = requestAnimationFrame(rafLoop);
+        }
+
+        /* --- Mouse events --- */
+        wrapper.addEventListener('mousedown', function(e) {
+            isDown   = true;
+            startX   = e.pageX;
+            startOff = targetX;          /* captura targetX, no currentX */
+            wrapper.classList.add('grabbing');
+            cancelAnimationFrame(rafId);
+            rafId    = null;
+            currentX = targetX;          /* congela donde está */
+        });
+
+        document.addEventListener('mouseup', function() {
+            if (!isDown) return;
+            isDown = false;
+            wrapper.classList.remove('grabbing');
+            startRaf();
+        });
+
+        wrapper.addEventListener('mouseleave', function() {
+            if (isDown) {
+                isDown = false;
+                wrapper.classList.remove('grabbing');
+                startRaf();
+            }
+        });
+
+        wrapper.addEventListener('mousemove', function(e) {
+            if (!isDown) return;
+            e.preventDefault();
+            const walk = (e.pageX - startX) * MULT;
+            targetX    = clamp(startOff + walk);
+            /* Actualización directa durante drag — sin inercia para 1:1 */
+            currentX   = targetX;
+            track.style.transform = 'translateX(' + currentX + 'px)';
+        });
+
+        /* --- Touch events --- */
+        let touchStart = 0, touchOff = 0;
+
+        wrapper.addEventListener('touchstart', function(e) {
+            touchStart = e.touches[0].pageX;
+            touchOff   = targetX;
+            cancelAnimationFrame(rafId);
+            rafId      = null;
+            currentX   = targetX;
+        }, { passive: true });
+
+        wrapper.addEventListener('touchmove', function(e) {
+            const walk = (e.touches[0].pageX - touchStart) * MULT;
+            targetX    = clamp(touchOff + walk);
+            currentX   = targetX;
+            track.style.transform = 'translateX(' + currentX + 'px)';
+        }, { passive: true });
+
+        wrapper.addEventListener('touchend', function() {
+            startRaf();
+        }, { passive: true });
+
+    })();
+    </script>
 
     <script src="script.js" defer></script>
 
