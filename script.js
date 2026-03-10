@@ -1497,19 +1497,19 @@ if (modalTicket) {
        2. SCROLL REVEAL — IntersectionObserver propio
        Observa .tp-fade, .tp-slide-left y .tp-slide-right.
        Cuando el 8% de un elemento es visible, agrega .tp-vis
-       que dispara la transición CSS de entrada.
+       que dispara la transición CSS de entrada (opacity + transform,
+       sin blur para no generar lag).
        Una vez visible, deja de observarlo (unobserve).
        ======================================================= */
     var tpRevealObs = new IntersectionObserver(function (entries) {
         entries.forEach(function (entry) {
             if (entry.isIntersecting) {
                 entry.target.classList.add('tp-vis');
-                tpRevealObs.unobserve(entry.target); /* Una sola vez */
+                tpRevealObs.unobserve(entry.target);
             }
         });
     }, { threshold: 0.08 });
 
-    /* Registrar todos los elementos animables de la página */
     document.querySelectorAll('.tp-fade, .tp-slide-left, .tp-slide-right').forEach(function (el) {
         tpRevealObs.observe(el);
     });
