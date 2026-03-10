@@ -1485,36 +1485,12 @@ if (modalTicket) {
 
 
     /* =======================================================
-       1. GRAIN CANVAS
-       Rellena el canvas fixed con pixel noise aleatorio.
-       Se redibuja cada 80ms (≈12fps) para dar vida al grano
-       sin afectar el rendimiento como lo haría 60fps.
+       1. GRAIN CANVAS — desactivado
+       La textura de noise ahora se aplica vía CSS (background-image
+       SVG feTurbulence en #tp-grain). El canvas ya no necesita JS.
        ======================================================= */
-    var grainCtx = grainCanvas.getContext('2d');
-
-    /* Ajusta el canvas al tamaño actual de la ventana */
-    function tpResizeGrain() {
-        grainCanvas.width  = window.innerWidth;
-        grainCanvas.height = window.innerHeight;
-    }
-    tpResizeGrain();
-    window.addEventListener('resize', tpResizeGrain);
-
-    /* Dibuja un pixel random (0–255) en cada celda */
-    function tpDrawNoise() {
-        var w = grainCanvas.width;
-        var h = grainCanvas.height;
-        var img = grainCtx.createImageData(w, h);
-        var d = img.data;
-        for (var i = 0; i < d.length; i += 4) {
-            var v = (Math.random() * 255) | 0;
-            d[i] = d[i + 1] = d[i + 2] = v;
-            d[i + 3] = 255;
-        }
-        grainCtx.putImageData(img, 0, 0);
-    }
-    tpDrawNoise();
-    setInterval(tpDrawNoise, 80); /* Refresco del grain */
+    /* Sin código de dibujo — el elemento existe en el DOM
+       pero queda vacío y transparente. */
 
 
     /* =======================================================
@@ -1590,6 +1566,139 @@ if (modalTicket) {
        El marquee y el carousel corren continuamente.
        ======================================================= */
     /* No se agrega ningún listener de pausa */
+
+
+    /* =======================================================
+       6. BLOQUEO DE SCROLL EN LÍMITES — solo táctil (iOS)
+       overscroll-behavior: none funciona en Android/Chrome pero
+       iOS Safari lo ignora. Este listener bloquea touchmove
+       cuando el scroll ya está en el tope (0) o en el fondo
+       (scrollHeight - innerHeight), evitando que aparezca el
+       fondo del html por debajo del footer o encima del hero.
+       ======================================================= */
+    if (window.matchMedia('(hover: none) and (pointer: coarse)').matches) {
+
+        var lastTouchY = 0;
+
+        document.addEventListener('touchstart', function(e) {
+            lastTouchY = e.touches[0].clientY;
+        }, { passive: true });
+
+        document.addEventListener('touchmove', function(e) {
+            var touchY    = e.touches[0].clientY;
+            var direction = touchY - lastTouchY; /* + = hacia arriba (scroll down) */
+            lastTouchY    = touchY;
+
+            var atTop    = window.scrollY <= 0;
+            var atBottom = window.scrollY + window.innerHeight >= document.body.scrollHeight - 1;
+
+            /* Bloquear: intenta bajar más cuando está al fondo,
+               o subir más cuando está al tope */
+            if ((atBottom && direction < 0) || (atTop && direction > 0)) {
+                e.preventDefault();
+            }
+        }, { passive: false }); /* passive:false es obligatorio para poder llamar preventDefault */
+
+    }
+
+
+    /* =======================================================
+       7. GALERÍA KINÉTICA — Drag con inercia
+       currentX: posición actual del track.
+       targetX:  destino al que el RAF anima suavemente.
+       En mousedown/touchstart se congela targetX = currentX
+       para que arranque desde donde está sin salto.
+       ======================================================= */
+    var kgTrack = document.getElementById('tp-kgallery-track');
+    if (kgTrack) {
+
+        var kgWrapper = kgTrack.closest('.tp-kgallery');
+        var kgCurrentX = 0, kgTargetX = 0;
+        var kgIsDown   = false;
+        var kgStartX   = 0, kgStartOff = 0;
+        var kgRafId    = null;
+        var KG_LERP    = 0.13;  /* suavidad de inercia */
+        var KG_MULT    = 1.4;   /* multiplicador velocidad drag */
+
+        function kgGetMax() {
+            return -(kgTrack.scrollWidth - kgWrapper.offsetWidth);
+        }
+        function kgClamp(v) {
+            return Math.max(kgGetMax(), Math.min(0, v));
+        }
+
+        /* Bucle RAF: interpola kgCurrentX → kgTargetX */
+        function kgRafLoop() {
+            kgCurrentX += (kgTargetX - kgCurrentX) * KG_LERP;
+            kgTrack.style.transform = 'translateX(' + kgCurrentX + 'px)';
+            if (Math.abs(kgTargetX - kgCurrentX) > 0.1) {
+                kgRafId = requestAnimationFrame(kgRafLoop);
+            } else {
+                kgCurrentX = kgTargetX;
+                kgTrack.style.transform = 'translateX(' + kgCurrentX + 'px)';
+                kgRafId = null;
+            }
+        }
+        function kgStartRaf() {
+            if (!kgRafId) kgRafId = requestAnimationFrame(kgRafLoop);
+        }
+
+        /* --- Mouse events --- */
+        kgWrapper.addEventListener('mousedown', function(e) {
+            kgIsDown   = true;
+            kgStartX   = e.pageX;
+            kgStartOff = kgTargetX;
+            kgWrapper.classList.add('grabbing');
+            cancelAnimationFrame(kgRafId);
+            kgRafId    = null;
+            kgCurrentX = kgTargetX;
+        });
+        document.addEventListener('mouseup', function() {
+            if (!kgIsDown) return;
+            kgIsDown = false;
+            kgWrapper.classList.remove('grabbing');
+            kgStartRaf();
+        });
+        kgWrapper.addEventListener('mouseleave', function() {
+            if (kgIsDown) {
+                kgIsDown = false;
+                kgWrapper.classList.remove('grabbing');
+                kgStartRaf();
+            }
+        });
+        kgWrapper.addEventListener('mousemove', function(e) {
+            if (!kgIsDown) return;
+            e.preventDefault();
+            var walk = (e.pageX - kgStartX) * KG_MULT;
+            kgTargetX  = kgClamp(kgStartOff + walk);
+            kgCurrentX = kgTargetX;
+            kgTrack.style.transform = 'translateX(' + kgCurrentX + 'px)';
+        });
+
+        /* --- Touch events ---
+           En táctil (móvil) el scroll es nativo (CSS scroll-snap).
+           El JS de drag solo corre en desktop. */
+        if (!window.matchMedia('(hover: none) and (pointer: coarse)').matches) {
+            var kgTouchStart = 0, kgTouchOff = 0;
+            kgWrapper.addEventListener('touchstart', function(e) {
+                kgTouchStart = e.touches[0].pageX;
+                kgTouchOff   = kgTargetX;
+                cancelAnimationFrame(kgRafId);
+                kgRafId      = null;
+                kgCurrentX   = kgTargetX;
+            }, { passive: true });
+            kgWrapper.addEventListener('touchmove', function(e) {
+                var walk = (e.touches[0].pageX - kgTouchStart) * KG_MULT;
+                kgTargetX  = kgClamp(kgTouchOff + walk);
+                kgCurrentX = kgTargetX;
+                kgTrack.style.transform = 'translateX(' + kgCurrentX + 'px)';
+            }, { passive: true });
+            kgWrapper.addEventListener('touchend', function() {
+                kgStartRaf();
+            }, { passive: true });
+        }
+
+    } /* fin kgTrack */
 
 
 })();

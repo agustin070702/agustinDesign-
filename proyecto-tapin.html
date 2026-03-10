@@ -2,7 +2,9 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <!-- theme-color coincide con el color del top del degradé -->
+    <meta name="theme-color" content="#6b6ed8">
     <title>Tap In - Agustín Avendaño</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -10,6 +12,15 @@
     <!-- Precarga de imágenes críticas above-the-fold -->
     <link rel="preload" as="image" href="img/tap_in_mockup_hero.webp">
     <link rel="preload" as="image" href="img/mockup_tap_in_2celularesdefrente.webp">
+    <!-- Precarga del carrusel "Drag to explore" -->
+    <link rel="preload" as="image" href="img/tapin_contenido9.webp">
+    <link rel="preload" as="image" href="img/tapin_contenido5.webp">
+    <link rel="preload" as="image" href="img/tapin_contenido6.webp">
+    <link rel="preload" as="image" href="img/tapin_contenido3.webp">
+    <link rel="preload" as="image" href="img/tapin_contenido4.webp">
+    <link rel="preload" as="image" href="img/tapin_contenido8.webp">
+    <link rel="preload" as="image" href="img/tapin_contenido12.webp">
+    <link rel="preload" as="image" href="img/tapin_contenido7.webp">
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -333,24 +344,34 @@
          Desplazamiento horizontal con drag nativo + parallax CSS.
          Diferente del carrusel infinito de pantallas que viene después.
          ===================================================== -->
-    <div class="tp-kgallery">
-        <div class="tp-kgallery-track" id="tp-kgallery-track">
-            <div class="tp-kgallery-item tp-kgallery-wide kg-hidden"><img src="img/tapin_contenido9.webp" alt="Login Screen" loading="eager"></div>
-            <div class="tp-kgallery-item tp-kgallery-tall kg-hidden"><img src="img/tapin_contenido5.webp" alt="Home Screen" loading="eager"></div>
-            <div class="tp-kgallery-item tp-kgallery-wide kg-hidden"><img src="img/tapin_contenido6.webp" alt="Map Screen" loading="eager"></div>
-            <div class="tp-kgallery-item tp-kgallery-tall kg-hidden"><img src="img/tapin_contenido3.webp" alt="Order Screen" loading="eager"></div>
-            <!-- Copias para que el drag sea más largo y no choque -->
-            <div class="tp-kgallery-item tp-kgallery-wide kg-hidden" aria-hidden="true"><img src="img/tapin_contenido4.webp" alt="" loading="lazy"></div>
-            <div class="tp-kgallery-item tp-kgallery-tall kg-hidden" aria-hidden="true"><img src="img/tapin_contenido8.webp" alt="" loading="lazy"></div>
-            <div class="tp-kgallery-item tp-kgallery-wide kg-hidden" aria-hidden="true"><img src="img/tapin_contenido12.webp" alt="" loading="lazy"></div>
-            <div class="tp-kgallery-item tp-kgallery-tall kg-hidden" aria-hidden="true"><img src="img/tapin_contenido7.webp" alt="" loading="lazy"></div>
+    <!-- tp-kgallery-outer: envuelve el scroll + el hint.
+         En móvil, el hint queda fuera del elemento scrolleable
+         para que siempre sea visible al hacer swipe. -->
+    <div class="tp-kgallery-outer">
+
+        <div class="tp-kgallery">
+            <div class="tp-kgallery-track" id="tp-kgallery-track">
+                <div class="tp-kgallery-item tp-kgallery-wide"><img src="img/tapin_contenido9.webp" alt="Login Screen" loading="eager"></div>
+                <div class="tp-kgallery-item tp-kgallery-tall"><img src="img/tapin_contenido5.webp" alt="Home Screen" loading="eager"></div>
+                <div class="tp-kgallery-item tp-kgallery-wide"><img src="img/tapin_contenido6.webp" alt="Map Screen" loading="eager"></div>
+                <div class="tp-kgallery-item tp-kgallery-tall"><img src="img/tapin_contenido3.webp" alt="Order Screen" loading="eager"></div>
+                <!-- Copias para que el drag sea más largo y no choque -->
+                <div class="tp-kgallery-item tp-kgallery-wide" aria-hidden="true"><img src="img/tapin_contenido4.webp" alt="" loading="eager"></div>
+                <div class="tp-kgallery-item tp-kgallery-tall" aria-hidden="true"><img src="img/tapin_contenido8.webp" alt="" loading="eager"></div>
+                <div class="tp-kgallery-item tp-kgallery-wide" aria-hidden="true"><img src="img/tapin_contenido12.webp" alt="" loading="eager"></div>
+                <div class="tp-kgallery-item tp-kgallery-tall" aria-hidden="true"><img src="img/tapin_contenido7.webp" alt="" loading="eager"></div>
+            </div>
         </div>
-        <!-- Indicador de drag -->
+
+        <!-- Indicador: en desktop muestra "Drag to explore",
+             en móvil el CSS lo reemplaza por "SWIPE TO EXPLORE".
+             Vive fuera del scroll para que siempre sea visible. -->
         <div class="tp-kgallery-hint">
             <span class="tp-kgallery-hint-line"></span>
             <span class="tp-kgallery-hint-text">Drag to explore</span>
             <span class="tp-kgallery-hint-line"></span>
         </div>
+
     </div>
 
 
@@ -507,134 +528,6 @@
         <img class="lightbox-content" id="lightboxImg">
         <div id="caption"></div>
     </div>
-
-    <!-- =======================================================
-         GALERÍA KINÉTICA — Entrada stagger + drag con inercia
-         ======================================================= -->
-    <script>
-    (function(){
-        const track = document.getElementById('tp-kgallery-track');
-        if (!track) return;
-
-        /* --- 1. ENTRADA STAGGER CON INTERSECTIONOBSERVER ---
-           Observa el wrapper (.tp-kgallery). Cuando entra al viewport,
-           revela cada card con un delay escalonado de 80ms. */
-        const wrapper = track.closest('.tp-kgallery');
-        const items   = track.querySelectorAll('.tp-kgallery-item');
-
-        const revealGallery = new IntersectionObserver(function(entries) {
-            entries.forEach(function(entry) {
-                if (!entry.isIntersecting) return;
-                items.forEach(function(item, i) {
-                    setTimeout(function() {
-                        item.classList.remove('kg-hidden');
-                        item.classList.add('kg-visible');
-                    }, i * 130); /* 130ms entre card y card */
-                });
-                revealGallery.unobserve(wrapper);
-            });
-        }, { threshold: 0.15 });
-
-        revealGallery.observe(wrapper);
-
-        /* --- 2. DRAG CON INERCIA ---
-           currentX: posición actual del track.
-           targetX:  destino al que el RAF anima suavemente.
-           En mousedown/touchstart se congela targetX = currentX
-           para que arranque desde donde está sin salto. */
-        let currentX  = 0;
-        let targetX   = 0;
-        let isDown    = false;
-        let startX    = 0;
-        let startOff  = 0;
-        let rafId     = null;
-        const LERP    = 0.13;   /* suavidad de inercia: más bajo = más suave */
-        const MULT    = 1.4;    /* multiplicador de velocidad de drag */
-
-        function getMax() {
-            return -(track.scrollWidth - wrapper.offsetWidth);
-        }
-        function clamp(v) {
-            return Math.max(getMax(), Math.min(0, v));
-        }
-
-        /* Bucle RAF: interpola currentX → targetX */
-        function rafLoop() {
-            currentX += (targetX - currentX) * LERP;
-            track.style.transform = 'translateX(' + currentX + 'px)';
-            if (Math.abs(targetX - currentX) > 0.1) {
-                rafId = requestAnimationFrame(rafLoop);
-            } else {
-                currentX = targetX;
-                track.style.transform = 'translateX(' + currentX + 'px)';
-                rafId = null;
-            }
-        }
-
-        function startRaf() {
-            if (!rafId) rafId = requestAnimationFrame(rafLoop);
-        }
-
-        /* --- Mouse events --- */
-        wrapper.addEventListener('mousedown', function(e) {
-            isDown   = true;
-            startX   = e.pageX;
-            startOff = targetX;          /* captura targetX, no currentX */
-            wrapper.classList.add('grabbing');
-            cancelAnimationFrame(rafId);
-            rafId    = null;
-            currentX = targetX;          /* congela donde está */
-        });
-
-        document.addEventListener('mouseup', function() {
-            if (!isDown) return;
-            isDown = false;
-            wrapper.classList.remove('grabbing');
-            startRaf();
-        });
-
-        wrapper.addEventListener('mouseleave', function() {
-            if (isDown) {
-                isDown = false;
-                wrapper.classList.remove('grabbing');
-                startRaf();
-            }
-        });
-
-        wrapper.addEventListener('mousemove', function(e) {
-            if (!isDown) return;
-            e.preventDefault();
-            const walk = (e.pageX - startX) * MULT;
-            targetX    = clamp(startOff + walk);
-            /* Actualización directa durante drag — sin inercia para 1:1 */
-            currentX   = targetX;
-            track.style.transform = 'translateX(' + currentX + 'px)';
-        });
-
-        /* --- Touch events --- */
-        let touchStart = 0, touchOff = 0;
-
-        wrapper.addEventListener('touchstart', function(e) {
-            touchStart = e.touches[0].pageX;
-            touchOff   = targetX;
-            cancelAnimationFrame(rafId);
-            rafId      = null;
-            currentX   = targetX;
-        }, { passive: true });
-
-        wrapper.addEventListener('touchmove', function(e) {
-            const walk = (e.touches[0].pageX - touchStart) * MULT;
-            targetX    = clamp(touchOff + walk);
-            currentX   = targetX;
-            track.style.transform = 'translateX(' + currentX + 'px)';
-        }, { passive: true });
-
-        wrapper.addEventListener('touchend', function() {
-            startRaf();
-        }, { passive: true });
-
-    })();
-    </script>
 
     <script src="script.js" defer></script>
 

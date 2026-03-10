@@ -5091,22 +5091,8 @@ body {
 
 
 
-/* Textura granulada sutil sobre toda la página */
-body::after {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: -1; /* Detrás de todo el contenido */
-    opacity: 0.55;
-    mix-blend-mode: overlay; /* Visible en fondos claros y oscuros */
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-    background-repeat: repeat;
-    background-size: 180px 180px;
-}
+/* Textura granulada eliminada — causaba artefactos visuales
+   al hacer scroll rápido en iOS en todas las páginas del sitio */
 
 
 /* =======================================================
@@ -5227,13 +5213,15 @@ body::after {
     --tp-max:       1160px;
     --tp-pad:       64px;
 
-    /* Fondo degradado azul-violeta, fijo para no moverse con scroll */
-    background: linear-gradient(
-        160deg,
-        #5856c9 0%, #4e4bbf 20%, #5555cc 40%,
-        #5e5bd0 60%, #4a48be 75%, #4340b8 85%,
-        #5540cc 92%, #5c3fe8 100%
-    ) fixed;
+    /* Fondo por focos de luz radiales — no lineal, más atmosférico */
+    background-color: #4830c8; /* Color base sólido — cubre overscroll en iOS */
+    background-image:
+        radial-gradient(ellipse 80% 60% at 20% 0%,   #7272e8 0%, transparent 60%),
+        radial-gradient(ellipse 60% 50% at 80% 15%,  #5858d8 0%, transparent 55%),
+        radial-gradient(ellipse 70% 60% at 50% 50%,  #5050cc 0%, transparent 65%),
+        radial-gradient(ellipse 80% 50% at 10% 80%,  #4030c8 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 90% 90%,  #3a10e0 0%, transparent 55%);
+    background-attachment: fixed;
     color: var(--tp-white);
     font-family: 'Poppins', 'Inter', sans-serif;
 }
@@ -5294,17 +5282,14 @@ body::after {
 @keyframes tpOrbDrift2 { from { transform: translate(0,0) scale(1);       } to { transform: translate(4vw,-3vh)  scale(1.08); } }
 @keyframes tpOrbCenter { from { transform: translateX(-50%) scale(1);     } to { transform: translateX(-50%) scale(1.15);      } }
 
-/* --- 3. CANVAS GRAIN ---
-   Canvas relleno por JS con pixel noise random.
-   Opacity muy baja (0.04) — solo rompe la planitud del fondo. */
+/* --- 3. TEXTURA ---
+   Eliminada por petición: el ::before con dot grid se quitó
+   para evitar que se vea más allá del footer en overscroll. */
 #tp-grain {
-    position: fixed;
-    inset: 0;
-    width: 100%; height: 100%;
-    pointer-events: none;
-    z-index: 0;
-    opacity: 0.04;
+    display: none;
 }
+
+/* tp-page no tiene ::before de textura */
 
 /* Todo el contenido de la página queda sobre los orbes y el grain.
    EXCLUIDOS: menu-toggle, side-menu, overlay y lightbox
@@ -5335,38 +5320,30 @@ body::after {
     transform: none;
 }
 
-/* --- 4b. BLUR SLIDE DESDE LA IZQUIERDA ---
-   Para títulos de sección. Timing igualado al home: 0.8s ease-out. */
+/* --- 4b. SLIDE DESDE LA IZQUIERDA --- */
 .tp-slide-left {
     opacity: 0;
     transform: translateX(-50px);
-    filter: blur(8px);
     transition:
         opacity   0.8s ease-out,
-        transform 0.8s cubic-bezier(0.4, 0, 0.2, 1),
-        filter    0.8s ease-out;
+        transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .tp-slide-left.tp-vis {
     opacity: 1;
     transform: none;
-    filter: blur(0px);
 }
 
-/* --- 4c. BLUR SLIDE DESDE LA DERECHA ---
-   Para párrafos y cuerpos de texto. Timing igualado al home. */
+/* --- 4c. SLIDE DESDE LA DERECHA --- */
 .tp-slide-right {
     opacity: 0;
     transform: translateX(50px);
-    filter: blur(8px);
     transition:
         opacity   0.8s ease-out,
-        transform 0.8s cubic-bezier(0.4, 0, 0.2, 1),
-        filter    0.8s ease-out;
+        transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .tp-slide-right.tp-vis {
     opacity: 1;
     transform: none;
-    filter: blur(0px);
 }
 
 /* Delays escalonados para animar elementos en secuencia */
@@ -5384,7 +5361,7 @@ body::after {
 }
 
 .tp-hero-tag     { animation: tpEnter 0.8s cubic-bezier(0.16,1,0.3,1) both 0.10s; }
-.tp-hero-logo,
+.tp-hero-logo-wrap,
 .tp-hero-logo-fallback { animation: tpEnter 0.8s cubic-bezier(0.16,1,0.3,1) both 0.22s; }
 .tp-hero-divider { animation: tpEnter 0.8s cubic-bezier(0.16,1,0.3,1) both 0.32s; }
 .tp-hero-desc    { animation: tpEnter 0.8s cubic-bezier(0.16,1,0.3,1) both 0.42s; }
@@ -5459,9 +5436,11 @@ body::after {
     transform-origin: center bottom;
     transition: scale 0.5s cubic-bezier(0.16,1,0.3,1);
 }
-/* Hover: zoom suave sin interrumpir el float */
-.tp-hero-mockup:hover {
-    scale: 1.02;
+/* Hover: zoom suave — solo desktop */
+@media (hover: hover) {
+    .tp-hero-mockup:hover {
+        scale: 1.02;
+    }
 }
 
 @keyframes tpHeroFloat {
@@ -5506,20 +5485,24 @@ body::after {
 }
 
 
-/* Logo — transición de transform y filter en la img */
+/* Logo — sin transform ni filter en reposo para evitar rasterizado iOS */
 .tp-hero-logo {
     width: 400px; height: auto;
     display: block;
-    transition: filter  0.45s cubic-bezier(0.16,1,0.3,1),
-                transform 0.45s cubic-bezier(0.16,1,0.3,1);
 }
-/* Hover: sube, zoom leve, glow violeta + sombra oscura */
-.tp-hero-logo-wrap:hover .tp-hero-logo {
-    transform: translateY(-6px) scale(1.03);
-    filter:
-        drop-shadow(0 14px 28px rgba(0,0,0,0.3))
-        drop-shadow(0 0 18px rgba(124,108,246,0.6))
-        brightness(1.15);
+/* Hover solo en dispositivos con cursor real — evita rasterizado en táctil */
+@media (hover: hover) {
+    .tp-hero-logo {
+        transition: filter  0.45s cubic-bezier(0.16,1,0.3,1),
+                    transform 0.45s cubic-bezier(0.16,1,0.3,1);
+    }
+    .tp-hero-logo-wrap:hover .tp-hero-logo {
+        transform: translateY(-6px) scale(1.03);
+        filter:
+            drop-shadow(0 14px 28px rgba(0,0,0,0.3))
+            drop-shadow(0 0 18px rgba(124,108,246,0.6))
+            brightness(1.15);
+    }
 }
 
 /* Fallback de texto — se muestra si el SVG no carga */
@@ -5558,21 +5541,25 @@ body::after {
                 transform    0.3s cubic-bezier(0.16,1,0.3,1);
     cursor: default;
 }
-.tp-pill:hover {
-    border-color: rgba(124,108,246,0.55);
-    color: var(--tp-white);
-    background: rgba(124,108,246,0.1);
-    transform: translateY(-2px);
+@media (hover: hover) {
+    .tp-pill:hover {
+        border-color: rgba(124,108,246,0.55);
+        color: var(--tp-white);
+        background: rgba(124,108,246,0.1);
+        transform: translateY(-2px);
+    }
 }
 .tp-pill-accent {
     background: var(--tp-acc-soft);
     border-color: var(--tp-acc-bdr);
     color: var(--tp-white);
 }
-.tp-pill-accent:hover {
-    background: rgba(124,108,246,0.28);
-    border-color: rgba(168,157,249,0.75);
-    box-shadow: 0 4px 16px rgba(124,108,246,0.25);
+@media (hover: hover) {
+    .tp-pill-accent:hover {
+        background: rgba(124,108,246,0.28);
+        border-color: rgba(168,157,249,0.75);
+        box-shadow: 0 4px 16px rgba(124,108,246,0.25);
+    }
 }
 
 
@@ -5675,10 +5662,12 @@ body::after {
                 filter     0.7s ease;
     will-change: transform, filter;
 }
-.tp-giant-phones:hover {
-    transform: translate(-50%, -54%) scale(1.04);
-    filter: drop-shadow(0 20px 40px rgba(20,15,60,0.28))
-            drop-shadow(0 0 55px rgba(124,108,246,0.18));
+@media (hover: hover) {
+    .tp-giant-phones:hover {
+        transform: translate(-50%, -54%) scale(1.04);
+        filter: drop-shadow(0 20px 40px rgba(20,15,60,0.28))
+                drop-shadow(0 0 55px rgba(124,108,246,0.18));
+    }
 }
 
 .tp-giant-mockup {
@@ -5857,7 +5846,8 @@ body::after {
 .tp-bc:not(:first-child) { padding-left: 40px; }
 /* Sin ::before de brillo */
 .tp-bc::before { display: none; }
-.tp-bc:hover { transform: none; box-shadow: none; border-color: var(--tp-w12); }
+/* tp-bc no tiene hover en ningún dispositivo — reset explícito */
+.tp-bc { transform: none; box-shadow: none; }
 
 /* Label de cada columna — misma lógica del resto */
 .tp-bc-card-label {
@@ -5905,9 +5895,11 @@ body::after {
                 box-shadow 0.35s ease;
     flex-shrink: 0;
 }
-.tp-swatch:hover .tp-swatch-bar {
-    height: 30px;
-    box-shadow: 0 4px 18px var(--swatch-color, rgba(124,108,246,0.5));
+@media (hover: hover) {
+    .tp-swatch:hover .tp-swatch-bar {
+        height: 30px;
+        box-shadow: 0 4px 18px var(--swatch-color, rgba(124,108,246,0.5));
+    }
 }
 
 /* Nombre del color */
@@ -5918,7 +5910,9 @@ body::after {
     color: rgba(255,255,255,0.5);
     transition: color 0.25s ease;
 }
-.tp-swatch:hover .tp-swatch-name { color: rgba(255,255,255,0.9); }
+@media (hover: hover) {
+    .tp-swatch:hover .tp-swatch-name { color: rgba(255,255,255,0.9); }
+}
 
 /* Hex code */
 .tp-swatch-hex {
@@ -5928,7 +5922,9 @@ body::after {
     color: rgba(255,255,255,0.28);
     transition: color 0.25s ease;
 }
-.tp-swatch:hover .tp-swatch-hex { color: rgba(255,255,255,0.65); }
+@media (hover: hover) {
+    .tp-swatch:hover .tp-swatch-hex { color: rgba(255,255,255,0.65); }
+}
 
 /* Fila de códigos hex — ocultar, ahora está inline */
 .tp-bc-hex-row { display: none; }
@@ -5985,20 +5981,25 @@ body::after {
 /* Sin ::before de glow */
 .tp-icon-display::before { display: none; }
 
-/* Isotipo SVG real — tamaño triplicado */
+/* Isotipo SVG — sin transform/filter en reposo para evitar rasterizado iOS */
 .tp-isotipo {
     height: 270px;
     width: auto;
     object-fit: contain;
     display: block;
-    filter: drop-shadow(0 0 20px rgba(124,108,246,0.0));
-    transition: transform 0.45s cubic-bezier(0.16,1,0.3,1),
-                filter    0.45s cubic-bezier(0.16,1,0.3,1);
 }
-.tp-bc-icon:hover .tp-isotipo {
-    transform: scale(1.08) translateY(-4px);
-    filter: drop-shadow(0 0 24px rgba(124,108,246,0.7))
-            drop-shadow(0 0 55px rgba(124,108,246,0.35));
+/* Hover solo en dispositivos con cursor real */
+@media (hover: hover) {
+    .tp-isotipo {
+        transition: transform 0.45s cubic-bezier(0.16,1,0.3,1),
+                    filter    0.45s cubic-bezier(0.16,1,0.3,1);
+    }
+    .tp-bc-icon:hover .tp-isotipo {
+        transform: scale(1.08) translateY(-4px);
+        filter: drop-shadow(0 0 24px rgba(124,108,246,0.7))
+                drop-shadow(0 0 55px rgba(124,108,246,0.35));
+    }
+    .tp-bc-icon:hover .tp-fork-piece { height: 92% !important; }
 }
 
 .tp-icon-fork {
@@ -6015,7 +6016,6 @@ body::after {
     border-radius: 4px;
     transition: height 0.45s cubic-bezier(0.16,1,0.3,1);
 }
-.tp-bc-icon:hover .tp-fork-piece { height: 92% !important; }
 
 .tp-icon-note {
     font-size: 10px; font-weight: 600;
@@ -6073,26 +6073,21 @@ body::after {
     transform: translateZ(0); /* fuerza compositing layer propio */
 }
 
-/* --- Item base.
-   transform: translateZ(0) saca cada card a su propio layer
-   para que el drag no repinte el DOM. */
+/* --- Item base. */
 .tp-kgallery-item {
     border-radius: 20px;
     overflow: hidden;
     flex-shrink: 0;
     position: relative;
     border: 1px solid var(--tp-w12);
-    transform: translateZ(0);
     transition: transform 0.5s cubic-bezier(0.16,1,0.3,1),
-                box-shadow 0.45s ease,
-                opacity 0.7s cubic-bezier(0.16,1,0.3,1);
+                box-shadow 0.45s ease;
 }
 .tp-kgallery-item img {
     width: 100%; height: 100%;
     object-fit: cover; display: block;
     pointer-events: none;
     transition: transform 0.6s cubic-bezier(0.16,1,0.3,1);
-    will-change: transform;
 }
 
 /* --- Entrada stagger: estado inicial de las cards antes del reveal */
@@ -6105,12 +6100,15 @@ body::after {
     opacity: 1;
     transform: translateY(0) scale(1) translateZ(0);
 }
-.tp-kgallery-item:hover {
-    transform: translateY(-8px) scale(1.02);
-    box-shadow: 0 20px 40px rgba(10,8,40,0.4),
-                0 0 27px rgba(124,108,246,0.08);
+/* Hover solo en dispositivos con cursor real */
+@media (hover: hover) {
+    .tp-kgallery-item:hover {
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: 0 20px 40px rgba(10,8,40,0.4),
+                    0 0 27px rgba(124,108,246,0.08);
+    }
+    .tp-kgallery-item:hover img { transform: scale(1.05); }
 }
-.tp-kgallery-item:hover img { transform: scale(1.05); }
 
 /* Proporciones alternadas: wide + tall para ritmo visual */
 .tp-kgallery-wide {
@@ -6144,7 +6142,47 @@ body::after {
 @media screen and (max-width: 768px) {
     .tp-kgallery-wide  { width: 78vw;  height: 240px; }
     .tp-kgallery-tall  { width: 55vw;  height: 240px; }
-    .tp-kgallery-track { padding: 16px 40px; gap: 12px; }
+
+    /* En táctil: scroll nativo con snap — se deshabilita el drag JS
+       añadiendo overflow-x al wrapper y pointer-events al track.
+       scroll-padding-inline: 50% permite que snap-align: center
+       funcione correctamente desde el primer y último ítem. */
+    .tp-kgallery {
+        overflow-x: scroll;
+        overflow-y: hidden;
+        cursor: default;
+        -webkit-overflow-scrolling: touch;
+        scroll-snap-type: x mandatory;
+        scroll-padding-inline: 50%; /* primer ítem arranca centrado */
+        scrollbar-width: none;
+    }
+    .tp-kgallery::-webkit-scrollbar { display: none; }
+
+    /* El track vuelve a posición estática — JS no lo mueve.
+       padding lateral = 50% - mitad del ítem wide (39vw) → centra el primer y último ítem. */
+    .tp-kgallery-track {
+        padding: 16px calc(50% - 39vw);
+        gap: 12px;
+        transform: none !important;
+        will-change: auto;
+    }
+
+    /* Snap al centro de cada card */
+    .tp-kgallery-item {
+        scroll-snap-align: center;
+        scroll-snap-stop: always;
+    }
+
+    /* Hint cambia texto en táctil */
+    .tp-kgallery-hint-text::after {
+        content: 'SWIPE TO EXPLORE';
+    }
+    .tp-kgallery-hint-text {
+        font-size: 0; /* Oculta el texto original */
+    }
+    .tp-kgallery-hint-text::after {
+        font-size: 9px;
+    }
 }
 
 
@@ -6222,12 +6260,13 @@ body::after {
                 filter   0.4s ease;
 }
 
-/* --- 24f. HOVER ---
-   Scale + translateY para que suba limpiamente sin salir del área visible. */
-.tp-inf-slide:hover img {
-    transform: scale(1.08) translateY(-10px);
-    filter: drop-shadow(0px 28px 48px rgba(0,0,0,0.20))
-            drop-shadow(0px 8px 18px  rgba(0,0,0,0.15));
+/* --- 24f. HOVER — solo desktop con cursor real */
+@media (hover: hover) {
+    .tp-inf-slide:hover img {
+        transform: scale(1.08) translateY(-10px);
+        filter: drop-shadow(0px 28px 48px rgba(0,0,0,0.20))
+                drop-shadow(0px 8px 18px  rgba(0,0,0,0.15));
+    }
 }
 
 /* Mueve la pista de 0 a -50% (la mitad = los slides originales) */
@@ -6324,8 +6363,10 @@ body::after {
     transition: transform 0.45s cubic-bezier(0.25,1,0.5,1);
     z-index: 0;
 }
-.tp-next-btn:hover { color: #3a38a8; }
-.tp-next-btn:hover::before { transform: scaleX(1); }
+@media (hover: hover) {
+    .tp-next-btn:hover { color: #3a38a8; }
+    .tp-next-btn:hover::before { transform: scaleX(1); }
+}
 .tp-next-btn-inner { position: relative; z-index: 1; }
 
 
@@ -6378,13 +6419,27 @@ body::after {
     /* Padding lateral mínimo */
     .tp-page { --tp-pad: 24px; }
 
+    /* iOS Safari no soporta background-attachment: fixed.
+       Se reemplaza por background-attachment: scroll manteniendo
+       el mismo fondo radial. background-color cubre el overscroll. */
+    .tp-page {
+        background-color: #4830c8;
+        background-image:
+            radial-gradient(ellipse 120% 50% at 20% 0%,   #7272e8 0%, transparent 60%),
+            radial-gradient(ellipse 100% 45% at 80% 15%,  #5858d8 0%, transparent 55%),
+            radial-gradient(ellipse 120% 55% at 50% 50%,  #5050cc 0%, transparent 65%),
+            radial-gradient(ellipse 120% 45% at 10% 80%,  #4030c8 0%, transparent 60%),
+            radial-gradient(ellipse 100% 40% at 90% 100%, #3a10e0 0%, transparent 55%);
+        background-attachment: scroll;
+    }
+
     /* Hero: columna única en móvil, mockup se oculta */
     .tp-hero {
         grid-template-columns: 1fr;
         padding: 120px 24px 60px;
     }
     .tp-hero-mockup { display: none; }
-    .tp-hero-logo { width: 200px; }
+    .tp-hero-logo { width: 260px; }
     .tp-hero-logo-fallback { font-size: 3rem; }
     .tp-hero-desc { font-size: 14px; max-width: 100%; }
 
@@ -6459,6 +6514,14 @@ body::after {
    OVERRIDES FINALES — TP-PAGE
    Aplican por encima del CSS base del sitio.
    ======================================================= */
+
+/* --- Overscroll color fix ---
+   html tiene background-color: #202020 globalmente.
+   En tp-page lo sobreescribimos al color del fondo
+   para que el overscroll de iOS se vea consistente. */
+html:has(.tp-page) {
+    background-color: #4830c8;
+}
 
 /* --- Footer en tema oscuro Tap In (cambio 4) ---
    El .project-footer ya es transparent, pero el texto
@@ -6557,8 +6620,7 @@ body::after {
 /* --- Carousel: sin pausa hover (cambio 7) ---
    Override explícito que anula cualquier
    animation-play-state: paused residual. */
-.tp-inf-track,
-.tp-inf-track:hover {
+.tp-inf-track {
     animation-play-state: running !important;
 }
 
@@ -6625,7 +6687,7 @@ body::after {
     line-height: 1;
 }
 
-/* Frase — hover interactivo en el bloque completo */
+/* Frase — hover interactivo en el bloque completo — solo desktop */
 .tp-bc-phrase {
     display: flex;
     flex-direction: column;
@@ -6633,12 +6695,16 @@ body::after {
     gap: 4px;
     position: relative;
     z-index: 1;
-    transition: transform 0.7s cubic-bezier(0.16,1,0.3,1);
     cursor: default;
-    will-change: transform;
 }
-.tp-bc-phrase:hover {
-    transform: scale(1.06);
+@media (hover: hover) {
+    .tp-bc-phrase {
+        transition: transform 0.7s cubic-bezier(0.16,1,0.3,1);
+        will-change: transform;
+    }
+    .tp-bc-phrase:hover {
+        transform: scale(1.06);
+    }
 }
 
 /* Etiqueta violeta pequeña */
@@ -6650,8 +6716,10 @@ body::after {
     display: flex; align-items: center; gap: 12px;
     transition: opacity 0.6s ease;
 }
-.tp-bc-phrase:hover .tp-bc-top {
-    opacity: 0.85;
+@media (hover: hover) {
+    .tp-bc-phrase:hover .tp-bc-top {
+        opacity: 0.85;
+    }
 }
 .tp-bc-top::before {
     content: '';
@@ -6667,9 +6735,11 @@ body::after {
     background: rgba(124,108,246,0.6);
     transition: width 0.6s cubic-bezier(0.16,1,0.3,1);
 }
-.tp-bc-phrase:hover .tp-bc-top::before,
-.tp-bc-phrase:hover .tp-bc-top::after {
-    width: 56px;
+@media (hover: hover) {
+    .tp-bc-phrase:hover .tp-bc-top::before,
+    .tp-bc-phrase:hover .tp-bc-top::after {
+        width: 56px;
+    }
 }
 
 /* Contenedor de las dos palabras gigantes */
@@ -6690,7 +6760,6 @@ body::after {
     color: transparent;
     -webkit-text-stroke: 1.5px rgba(255,255,255,0.5);
     display: block; line-height: 0.88;
-    margin-top: 20px;
 }
 
 /* Frase de cierre */
@@ -6702,8 +6771,10 @@ body::after {
     max-width: 440px;
     transition: opacity 0.6s ease;
 }
-.tp-bc-phrase:hover .tp-bc-bot {
-    opacity: 0.88;
+@media (hover: hover) {
+    .tp-bc-phrase:hover .tp-bc-bot {
+        opacity: 0.88;
+    }
 }
 .tp-bc-bot strong {
     font-weight: 600; color: var(--tp-white);
