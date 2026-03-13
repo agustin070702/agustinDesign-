@@ -6790,3 +6790,1241 @@ html:has(.tp-page) {
 /* =======================================================
    FIN TAP IN PAGE
    ======================================================= */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* =======================================================
+   LA COLUMNA PAGE — lc-page
+   PEGAR AL FINAL DE style.css, REEMPLAZANDO TODO LO QUE
+   EXISTA DESDE LA LÍNEA "LC-PAGE" HASTA EL FINAL DEL ARCHIVO
+   ======================================================= */
+
+
+/* =======================================================
+   VARIABLES Y BASE
+   ======================================================= */
+
+/* --- 1. VARIABLES DE TEMA --- */
+.lc-page {
+    --lc-bg:        #111111;
+    --lc-bg2:       #181818;
+    --lc-text:      #f0ede6;
+    --lc-muted:     rgba(240,237,230,0.38);
+    --lc-accent:    #dcd7cb;
+    --lc-border:    rgba(240,237,230,0.10);
+    --lc-font:      'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --lc-max:       860px;
+    --lc-pad:       48px;
+
+    font-family: var(--lc-font);
+    background-color: var(--lc-bg);
+    color: var(--lc-text);
+}
+
+/* --- 2. OVERSCROLL COLOR --- */
+html:has(.lc-page) {
+    background-color: #111111;
+}
+
+/* --- 3. GRAIN ESTÁTICO --- */
+.lc-page::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    pointer-events: none;
+    opacity: 0.048;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 200px 200px;
+    background-repeat: repeat;
+}
+
+
+/* =======================================================
+   HERO — PORTADA DE DIARIO CON JUGADORES LATERALES
+   ======================================================= */
+
+/* --- 1. CONTENEDOR PRINCIPAL --- */
+.lc-hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+    background-color: var(--lc-bg);
+}
+
+/* --- 2. LÍNEA ACENTO SUPERIOR --- */
+/* Se despliega de izquierda a derecha */
+.lc-hero-accentbar {
+    height: 2px;
+    background: var(--lc-accent);
+    transform-origin: left;
+    transform: scaleX(0);
+    animation: lcLineIn 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.1s forwards;
+    flex-shrink: 0;
+}
+
+@keyframes lcLineIn {
+    to { transform: scaleX(1); }
+}
+
+/* --- 3. MASTHEAD --- */
+/* padding-left 96px para no chocar con el botón hamburguesa (≈72px de ancho) */
+.lc-hero-masthead {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 13px 40px 13px 96px;
+    border-bottom: 1px solid var(--lc-border);
+    flex-shrink: 0;
+    opacity: 0;
+    animation: lcFadeIn 0.6s ease 0.3s forwards;
+}
+
+.lc-masthead-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.lc-masthead-name {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--lc-accent);
+    margin-left: 375px;
+}
+
+.lc-masthead-divider {
+    width: 1px;
+    height: 16px;
+    background: var(--lc-border);
+}
+
+.lc-masthead-cat {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--lc-muted);
+}
+
+/* --- 4. GRID PRINCIPAL: jugador | divisor | centro | divisor | jugador --- */
+/* 1.3fr a los jugadores para que no se corten las fotos */
+.lc-hero-body {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1.3fr 1px 2fr 1px 1.3fr;
+    min-height: 0;
+}
+
+/* Divisores verticales */
+.lc-hero-vdivider {
+    background: var(--lc-border);
+    align-self: stretch;
+}
+
+/* --- 5. COLUMNAS DE JUGADORES --- */
+.lc-hero-col-player {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Imagen de jugador — fondo negro ya integrado en el PNG */
+.lc-player-img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    opacity: 0;
+}
+
+.lc-player-img--left {
+    animation: lcPlayerLeft 1s cubic-bezier(0.4, 0, 0.2, 1) 0.6s forwards;
+}
+
+.lc-player-img--right {
+    animation: lcPlayerRight 1s cubic-bezier(0.4, 0, 0.2, 1) 0.8s forwards;
+}
+
+@keyframes lcPlayerLeft {
+    from { opacity: 0; transform: translateX(-16px); }
+    to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes lcPlayerRight {
+    from { opacity: 0; transform: translateX(16px); }
+    to   { opacity: 1; transform: translateX(0); }
+}
+
+/* --- 6. COLUMNA CENTRAL --- */
+.lc-hero-col-center {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 28px 40px 32px;
+}
+
+/* Fila de categoría */
+.lc-hero-cat-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    opacity: 0;
+    animation: lcFadeUp 0.7s ease 0.5s forwards;
+}
+
+.lc-hero-cat-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--lc-accent);
+    flex-shrink: 0;
+}
+
+.lc-hero-cat-row span {
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--lc-accent);
+}
+
+/* --- 7. ÁREA DEL TITULAR --- */
+.lc-hero-headline-wrap {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 16px 0;
+    opacity: 0;
+    animation: lcFadeUp 1s cubic-bezier(0.4, 0, 0.2, 1) 0.65s forwards;
+}
+
+/* Número grande decorativo al fondo */
+.lc-hero-bgnum {
+    position: absolute;
+    bottom: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: clamp(120px, 18vw, 200px);
+    font-weight: 700;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(240,237,230,0.04);
+    letter-spacing: -0.04em;
+    pointer-events: none;
+    user-select: none;
+    z-index: 0;
+    line-height: 1;
+    white-space: nowrap;
+}
+
+.lc-hero-headline-inner {
+    text-align: center;
+    position: relative;
+    z-index: 1;
+    width: 100%;
+}
+
+/* Separador de edición */
+.lc-hero-edition-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.lc-hero-edition-line {
+    flex: 1;
+    height: 1px;
+    background: var(--lc-border);
+}
+
+.lc-hero-edition-num {
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--lc-muted);
+    white-space: nowrap;
+}
+
+/* --- 8. SELLO CON LOGO COMPLETO --- */
+/* Logo LA COLUMNA horizontal, tamaño notorio pero no dominante */
+.lc-hero-stamp {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px;
+    padding: 10px 20px;
+    border: 1px solid rgba(240,237,230,0.20);
+    opacity: 0.75;
+}
+
+.lc-hero-stamp-svg {
+    /* Ancho generoso para que el logotipo sea legible */
+    width: clamp(160px, 22vw, 260px);
+    height: auto;
+    fill: var(--lc-accent);
+    display: block;
+}
+
+/* --- 9. KICKER Y TÍTULO --- */
+.lc-hero-kicker {
+    display: block;
+    font-size: 9px;
+    letter-spacing: 0.20em;
+    text-transform: uppercase;
+    color: var(--lc-muted);
+    margin-bottom: 10px;
+}
+
+/* Título principal */
+.lc-hero-title {
+    font-family: var(--lc-font);
+    font-size: clamp(56px, 7.5vw, 100px);
+    font-weight: 700;
+    line-height: 0.88;
+    letter-spacing: -0.04em;
+    color: var(--lc-text);
+    text-align: center;
+    margin: 0;
+}
+
+/* "Columna" en outline */
+.lc-hero-title em {
+    font-style: normal;
+    color: transparent;
+    -webkit-text-stroke: 1px var(--lc-text);
+}
+
+/* --- 10. STANDFIRST --- */
+.lc-hero-standfirst {
+    opacity: 0;
+    animation: lcFadeUp 0.8s ease 0.95s forwards;
+}
+
+.lc-hero-sf-rule {
+    height: 1px;
+    background: var(--lc-border);
+    margin-bottom: 16px;
+}
+
+.lc-hero-standfirst p {
+    font-size: 12px;
+    font-weight: 300;
+    line-height: 1.8;
+    color: var(--lc-muted);
+    text-align: center;
+    margin: 0 0 20px;
+}
+
+.lc-hero-byline {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.lc-hero-byline-dash {
+    width: 16px;
+    height: 1px;
+    background: var(--lc-accent);
+}
+
+.lc-hero-byline span {
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--lc-accent);
+}
+
+/* --- 11. BARRA INFERIOR --- */
+.lc-hero-footbar {
+    border-top: 1px solid var(--lc-border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 40px;
+    flex-shrink: 0;
+    opacity: 0;
+    animation: lcFadeIn 0.6s ease 1.1s forwards;
+}
+
+.lc-hero-footbar span {
+    font-size: 9px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--lc-muted);
+}
+
+.lc-hero-footbar-dots {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+
+.lc-footdot {
+    display: block;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--lc-border);
+}
+
+.lc-footdot--on {
+    background: var(--lc-accent);
+}
+
+/* --- 12. KEYFRAMES COMPARTIDOS --- */
+@keyframes lcFadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes lcFadeIn {
+    to { opacity: 1; }
+}
+
+
+/* =======================================================
+   ANIMACIONES DE SCROLL — lc-fade / lc-visible
+   ======================================================= */
+
+/* --- 1. ESTADO INICIAL (invisible, abajo) --- */
+.lc-fade {
+    opacity: 0;
+    transform: translateY(36px);
+    transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* --- 2. ESTADO ACTIVO (visible) --- */
+.lc-fade.lc-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* --- 3. DELAYS ESCALONADOS para los stats --- */
+.lc-fd1 { transition-delay: 0.10s; }
+.lc-fd2 { transition-delay: 0.20s; }
+.lc-fd3 { transition-delay: 0.32s; }
+
+
+/* =======================================================
+   STATS BAR
+   ======================================================= */
+
+/* --- 1. GRID DE 4 COLUMNAS --- */
+.lc-stats-bar {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border-top: 1px solid var(--lc-border);
+    border-bottom: 1px solid var(--lc-border);
+    background-color: var(--lc-bg);
+}
+
+/* --- 2. CELDA INDIVIDUAL --- */
+.lc-stat {
+    padding: 28px 24px;
+    border-right: 1px solid var(--lc-border);
+}
+
+.lc-stat:last-child {
+    border-right: none;
+}
+
+/* --- 3. ETIQUETA DE COLUMNA --- */
+/* Guiño tipográfico al formato de periódico */
+.lc-stat-colnum {
+    font-size: 8px;
+    letter-spacing: 0.20em;
+    text-transform: uppercase;
+    color: rgba(240,237,230,0.18);
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px dotted rgba(240,237,230,0.10);
+}
+
+/* --- 4. TIPOGRAFÍA --- */
+.lc-stat-label {
+    font-size: 9px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--lc-muted);
+    margin-bottom: 8px;
+}
+
+.lc-stat-value {
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.55;
+    color: var(--lc-text);
+}
+
+
+/* =======================================================
+   CUERPO DEL CONTENIDO
+   ======================================================= */
+
+/* --- 1. CONTENEDOR PRINCIPAL --- */
+.lc-body {
+    background-color: var(--lc-bg);
+}
+
+/* --- 2. SECCIONES DE TEXTO --- */
+.lc-section {
+    max-width: var(--lc-max);
+    margin: 0 auto;
+    padding: 64px var(--lc-pad);
+}
+
+/* Etiqueta de sección con número y línea */
+.lc-section-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.lc-section-num {
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    color: var(--lc-accent);
+    flex-shrink: 0;
+}
+
+.lc-section-tag {
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--lc-muted);
+    flex-shrink: 0;
+}
+
+.lc-section-rule {
+    flex: 1;
+    height: 1px;
+    background: var(--lc-border);
+}
+
+/* Títulos H2 de sección */
+.lc-section h2 {
+    font-family: var(--lc-font);
+    font-size: clamp(26px, 3.5vw, 40px);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--lc-text);
+    margin-bottom: 24px;
+}
+
+/* Párrafos de sección */
+.lc-section p {
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 1.85;
+    color: var(--lc-muted);
+    max-width: 580px;
+    margin-bottom: 18px;
+}
+
+/* --- 3. PULL QUOTE (borde acento lateral) --- */
+.lc-pull-quote {
+    border-left: 2px solid var(--lc-accent);
+    padding-left: 20px;
+    margin: 32px 0;
+}
+
+.lc-pull-quote p {
+    font-size: 18px !important;
+    font-weight: 300;
+    line-height: 1.6;
+    color: var(--lc-text) !important;
+    max-width: 500px;
+    margin-bottom: 0 !important;
+}
+
+
+/* =======================================================
+   CARRUSELES — CABECERA Y CONTROLES
+   ======================================================= */
+
+/* --- 1. ENVOLTORIO DE CARRUSEL --- */
+/* Sin fondo: el carrusel no tiene contenedor visible, flota sobre la página */
+.lc-carousel-wrap {
+    background-color: transparent;
+    padding: 48px 0;
+    overflow: hidden;
+}
+
+/* --- 2. CABECERA (label + flechas) --- */
+.lc-carousel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 var(--lc-pad) 24px;
+    max-width: var(--lc-max);
+    margin: 0 auto;
+}
+
+.lc-carousel-label {
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--lc-muted);
+}
+
+/* --- 3. CONTROLES DE FLECHA --- */
+/* Flechas editoriales: sin borde, sin fondo — solo el trazo del SVG */
+.lc-ctrl-btn {
+    width: auto;
+    height: auto;
+    border: none;
+    background: transparent;
+    color: rgba(240, 237, 230, 0.28);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 0;
+    transition: color 0.25s ease, transform 0.25s ease;
+}
+
+@media (hover: hover) {
+    .lc-ctrl-btn:hover {
+        background: transparent;
+        border: none;
+        color: var(--lc-text);
+    }
+}
+
+/* --- 4. OVERRIDES PARA SLIDES EN CONTEXTO OSCURO --- */
+.lc-page #trackClean,
+.lc-page #trackLC2 {
+    padding-left: var(--lc-pad);
+    padding-right: var(--lc-pad);
+}
+
+/* Elimina el rectángulo claro: fondo transparente, sin radio ni sombra */
+.lc-page .slide-clean,
+.lc-page .lc2-slide {
+    background: transparent !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+}
+
+.lc-page .slide-clean img,
+.lc-page .lc2-slide img {
+    box-shadow: none;
+    border-radius: 0 !important;
+    background: transparent !important;
+}
+
+/* Elimina el aspect-ratio forzado que crea espacio vacío debajo de la imagen */
+.lc-page .slide-clean {
+    aspect-ratio: unset !important;
+    height: auto !important;
+}
+
+
+/* =======================================================
+   SIGUIENTE PROYECTO — patrón idéntico a Tap In
+   ======================================================= */
+
+/* --- 1. ENVOLTORIO --- */
+.lc-next-wrap {
+    background-color: var(--lc-bg);
+    max-width: var(--lc-max);
+    margin: 0 auto;
+}
+
+/* --- 2. CONTENIDO CENTRADO --- */
+.lc-next {
+    padding: 72px var(--lc-pad);
+    border-top: 1px solid var(--lc-border);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 28px;
+}
+
+/* --- 3. LABEL --- */
+.lc-next-label {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--lc-muted);
+}
+
+/* --- 4. BOTÓN PILL — fill de izquierda a derecha al hover --- */
+.lc-next-btn {
+    display: inline-block;
+    padding: 16px 52px;
+    border: 1.5px solid var(--lc-accent);
+    border-radius: 100px;
+    font-family: var(--lc-font);
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--lc-accent);
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    position: relative;
+    overflow: hidden;
+    transition: color 0.4s;
+}
+
+.lc-next-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--lc-accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.45s cubic-bezier(0.25, 1, 0.5, 1);
+    z-index: 0;
+}
+
+@media (hover: hover) {
+    .lc-next-btn:hover { color: #111111; }
+    .lc-next-btn:hover::before { transform: scaleX(1); }
+}
+
+.lc-next-btn-inner {
+    position: relative;
+    z-index: 1;
+}
+
+
+/* =======================================================
+   FOOTER — overrides de color para lc-page
+   ======================================================= */
+
+.lc-page .project-footer {
+    background-color: var(--lc-bg);
+    color: rgba(220, 215, 203, 0.35);
+    border-top: 1px solid rgba(220, 215, 203, 0.08);
+}
+
+.lc-page .back-home {
+    color: rgba(220, 215, 203, 0.55);
+}
+
+.lc-page .back-home svg {
+    stroke: rgba(220, 215, 203, 0.55);
+}
+
+@media (hover: hover) {
+    .lc-page .back-home:hover {
+        color: var(--lc-accent);
+        opacity: 1;
+    }
+    .lc-page .back-home:hover svg {
+        stroke: var(--lc-accent);
+    }
+}
+
+/* --- MENÚ HAMBURGUESA EN TEMA OSCURO --- */
+.lc-page .menu-toggle {
+    border-color: rgba(240, 237, 230, 0.35);
+}
+.lc-page .menu-toggle span {
+    background-color: var(--lc-text);
+}
+
+
+/* =======================================================
+   RESPONSIVE — TABLET (max 1024px)
+   ======================================================= */
+@media screen and (max-width: 1024px) {
+    .lc-page { --lc-pad: 32px; }
+
+    .lc-stats-bar { grid-template-columns: repeat(2, 1fr); }
+    .lc-stat:nth-child(2) { border-right: none; }
+    .lc-stat:nth-child(3) { border-top: 1px solid var(--lc-border); }
+    .lc-stat:last-child   { border-top: 1px solid var(--lc-border); border-right: none; }
+
+    /* Hero: colapsar jugadores — solo columna central */
+    .lc-hero-body {
+        grid-template-columns: 1fr;
+    }
+
+    .lc-hero-col-player,
+    .lc-hero-vdivider {
+        display: none;
+    }
+
+    .lc-hero-col-center {
+        padding: 24px 32px 28px;
+    }
+
+    .lc-hero-masthead {
+        padding-left: 88px;
+    }
+}
+
+
+/* =======================================================
+   RESPONSIVE — MÓVIL (max 768px)
+   ======================================================= */
+@media screen and (max-width: 768px) {
+    .lc-page { --lc-pad: 24px; }
+
+    .lc-hero { min-height: 100svh; }
+
+    .lc-hero-masthead {
+        padding: 12px 20px 12px 80px;
+    }
+
+    .lc-hero-col-center {
+        padding: 20px 24px 24px;
+    }
+
+    .lc-hero-title {
+        font-size: clamp(48px, 14vw, 72px);
+    }
+
+    .lc-stats-bar { grid-template-columns: 1fr; }
+    .lc-stat { border-right: none; border-bottom: 1px solid var(--lc-border); }
+    .lc-stat:last-child { border-bottom: none; }
+    .lc-stat:nth-child(2),
+    .lc-stat:nth-child(3) { border-top: none; }
+
+    .lc-section h2 { font-size: clamp(22px, 7vw, 32px); }
+
+    .lc-next { padding: 56px var(--lc-pad); }
+    .lc-next-btn { padding: 14px 36px; font-size: 14px; }
+}
+
+/* =======================================================
+   FIN LA COLUMNA PAGE
+   ======================================================= */
+
+/* =======================================================
+   ANIMACIONES ESCALONADAS — HIJOS DE .lc-section (lc-page)
+   Estado inicial: ocultos y desplazados hacia abajo.
+   Se activan con .lc-anim-in cuando el padre .lc-fade
+   entra en viewport (gestionado desde script.js).
+   ======================================================= */
+
+/* --- 1. ESTADO INICIAL --- */
+/* translateY más pronunciado para que el movimiento sea perceptible */
+.lc-page .lc-anim {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0.75s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 0.75s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* --- 2. ESTADO ACTIVO --- */
+.lc-page .lc-anim.lc-anim-in {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* --- 3. DELAYS ESCALONADOS --- */
+/* d0 = label de sección, d1 = título, d2 = primer párrafo, d3 = segundo párrafo */
+.lc-page .lc-anim-d0 { transition-delay: 0.00s; }
+.lc-page .lc-anim-d1 { transition-delay: 0.14s; }
+.lc-page .lc-anim-d2 { transition-delay: 0.28s; }
+.lc-page .lc-anim-d3 { transition-delay: 0.42s; }
+
+/* --- 4. LAS SECCIONES QUE TIENEN HIJOS .lc-anim NO NECESITAN FADE PROPIO ---
+   Si el padre tiene lc-fade Y los hijos tienen lc-anim, hay doble opacidad.
+   Sobreescribimos: el contenedor lc-section lc-fade no anima, sus hijos sí. */
+.lc-page .lc-section.lc-fade {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+}
+
+/* =======================================================
+   LA COLUMNA — OVERRIDES PÁGINA (proyecto-lacolumna.html)
+   Todos los estilos específicos de esta página, con prefijo
+   .lc-page o selectores de ID únicos de La Columna.
+   ======================================================= */
+
+/* --- 1. ISOTIPO --- */
+.lc-hero-isotipo {
+    display: flex;
+    justify-content: center;
+    margin: 0 auto 18px;
+}
+.lc-hero-isotipo-svg {
+    width: clamp(35px, 4vw, 54px);
+    height: auto;
+    color: var(--lc-accent);
+    display: block;
+    opacity: 0.85;
+}
+
+/* --- 2. LOGOTIPO TIPOGRÁFICO --- */
+.lc-hero-logotipo {
+    display: flex;
+    justify-content: center;
+    margin: 0 auto 8px;
+}
+.lc-hero-logotipo-svg {
+    width: clamp(160px, 20vw, 280px);
+    height: auto;
+    color: var(--lc-text);
+    display: block;
+}
+
+/* --- 3. KICKER --- */
+.lc-hero-kicker {
+    margin-top: 4px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* --- 4. MASTHEAD: layout horizontal, baseline inferior --- */
+.lc-hero-masthead {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: flex-end !important;
+    justify-content: space-between !important;
+    gap: 0 !important;
+    border-bottom: none !important;
+    position: relative;
+}
+.lc-masthead-left {
+    display: flex;
+    align-items: flex-end;
+    gap: 16px;
+}
+.lc-masthead-cat--right { align-self: flex-end; }
+.lc-hero-masthead::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 90px;
+    right: 0;
+    height: 1px;
+    background: var(--lc-border);
+}
+
+/* --- 5. STANDFIRST CENTRADO --- */
+.lc-hero-standfirst { text-align: center !important; }
+.lc-hero-standfirst p {
+    width: 240px !important;
+    max-width: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    text-align: center !important;
+}
+
+/* --- 6. BYLINE CON CARÁCTER --- */
+.lc-hero-byline { justify-content: center; margin-top: 20px; gap: 0; }
+.lc-hero-byline-dash { display: none; }
+.lc-hero-byline span {
+    font-size: 8px !important;
+    letter-spacing: 0.28em !important;
+    text-transform: uppercase;
+    color: var(--lc-muted);
+    padding: 7px 18px;
+    border: 1px solid var(--lc-border);
+    display: inline-block;
+}
+
+/* --- 7. OCULTAR ACCENTBAR Y BGNUM --- */
+.lc-hero-accentbar { display: none !important; }
+.lc-hero-bgnum     { display: none !important; }
+.lc-hero-title     { display: none !important; }
+
+/* --- 8. EDICIÓN REPOSICIONADA --- */
+.lc-hero-cat-row--edition {
+    display: flex !important;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 0;
+}
+.lc-hero-cat-row--edition .lc-hero-edition-line {
+    flex: 1; height: 1px; background: var(--lc-border);
+}
+.lc-hero-cat-row--edition .lc-hero-edition-num {
+    white-space: nowrap;
+    font-size: 8px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--lc-muted);
+}
+
+/* --- 9. SOMBRA JUGADORES --- */
+.lc-hero-col-player { padding: 0 12px; }
+.lc-player-img {
+    filter: drop-shadow(0 16px 40px rgba(0,0,0,0.45))
+            drop-shadow(0 4px 16px rgba(0,0,0,0.30));
+}
+
+/* --- 10. STATS BAR: margen lateral generoso --- */
+.lc-stats-bar {
+    padding-left: clamp(40px, 7vw, 96px) !important;
+    padding-right: clamp(40px, 7vw, 96px) !important;
+}
+
+/* --- 11. TEXTURA MÁS NOTORIA --- */
+.lc-page::after { opacity: 0.30 !important; }
+
+/* =======================================================
+   CARRUSELES — SISTEMA TRANSFORM (SIN SCROLL NATIVO)
+   El wrap clipea en X con overflow:hidden.
+   El track NO tiene overflow:auto — es solo flex container.
+   JS mueve el track con transform:translateX.
+   Esto elimina el scroll interno y permite que el hover
+   suba las imágenes sin ser cortadas (padding-top en track).
+   ======================================================= */
+
+/* --- Wrap externo: clip horizontal --- */
+/* max-width reducido de 68vw a 55vw (~1/5 más pequeño) */
+.lc-carousel-wrap {
+    padding: 24px 0 0 !important;
+    overflow: hidden !important;
+    background: transparent !important;
+    max-width: 55vw !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+.lc-carousel-header {
+    padding: 0 0 16px !important;
+}
+
+/* --- Track: flex, SIN overflow ni scroll nativo --- */
+.lc-page #trackClean,
+.lc-page #trackLC2 {
+    display: flex !important;
+    gap: 12px !important;
+    padding: 20px 0 32px !important;
+    overflow: visible !important;
+    touch-action: pan-y !important;
+    scroll-snap-type: none !important;
+    transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    will-change: transform;
+}
+
+/* --- Slides: fórmula actualizada sobre 55vw --- */
+.lc-page .slide-clean {
+    flex: 0 0 calc((55vw - 24px) / 3) !important;
+    width: calc((55vw - 24px) / 3) !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    aspect-ratio: unset !important;
+    height: auto !important;
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    will-change: transform;
+}
+.lc-page .slide-clean img {
+    width: 100% !important;
+    height: auto !important;
+    object-fit: contain !important;
+    border-radius: 8px !important;
+    display: block !important;
+}
+.lc-page .lc2-slide {
+    flex: 0 0 calc((55vw - 24px) / 3) !important;
+    width: calc((55vw - 24px) / 3) !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    will-change: transform;
+}
+.lc-page .lc2-slide img {
+    width: 100% !important;
+    height: auto !important;
+    object-fit: contain !important;
+    border-radius: 8px !important;
+    display: block !important;
+}
+
+/* --- Estado inicial / activo de slides --- */
+.lc-page .slide-clean,
+.lc-page .lc2-slide {
+    opacity: 0;
+    transform: translateY(20px);
+}
+.lc-page .slide-clean.is-active,
+.lc-page .lc2-slide.is-active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* =======================================================
+   FLECHAS EDITORIALES — CHEVRON LIMPIO
+   ======================================================= */
+.lc-ctrl-btn {
+    border: none !important;
+    background: transparent !important;
+    padding: 8px 4px !important;
+    width: auto !important;
+    height: auto !important;
+    color: rgba(240,237,230,0.28) !important;
+    cursor: pointer;
+    display: flex !important;
+    align-items: center !important;
+    transition: color 0.25s ease, transform 0.25s ease !important;
+}
+@media (hover: hover) {
+    .lc-ctrl-btn:hover {
+        color: var(--lc-text) !important;
+        background: transparent !important;
+        border: none !important;
+    }
+    #btnPrevClean:hover, #lc2BtnPrev:hover { transform: translateX(-4px); }
+    #btnNextClean:hover, #lc2BtnNext:hover { transform: translateX(4px); }
+}
+.lc-carousel-controls {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 28px !important;
+}
+
+/* =======================================================
+   ANIMACIONES DE ENTRADA — IZQUIERDA Y DERECHA
+   lc-anim-left: labels y títulos h2 entran desde izquierda.
+   lc-anim-right: párrafos entran desde derecha.
+   Activadas por .lc-anim-in (gestionado por lcObs en script.js).
+   Sin filter:blur — solo opacity + transform (compositor-safe).
+   ======================================================= */
+
+/* --- 1. ESTADO INICIAL IZQUIERDA --- */
+.lc-page .lc-anim-left {
+    opacity: 0;
+    transform: translateX(-40px);
+    transition: opacity 0.75s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 0.75s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* --- 2. ESTADO INICIAL DERECHA --- */
+.lc-page .lc-anim-right {
+    opacity: 0;
+    transform: translateX(40px);
+    transition: opacity 0.75s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 0.75s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* --- 3. ESTADO ACTIVO (ambos) --- */
+.lc-page .lc-anim-left.lc-anim-in,
+.lc-page .lc-anim-right.lc-anim-in {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* =======================================================
+   HOVER CARRUSELES — SOMBRA COMPOSITOR-SAFE
+   box-shadow en el slide: GPU, sin repaints.
+   Especificidad reforzada para pisar box-shadow:none del
+   bloque global de .lc-page .slide-clean/.lc2-slide.
+   ======================================================= */
+@media (hover: hover) {
+    .lc-page .lc-carousel-wrap .slide-clean:hover,
+    .lc-page .lc-carousel-wrap .lc2-slide:hover {
+        transform: translateY(-14px) !important;
+        box-shadow: 0 20px 44px rgba(0,0,0,0.48),
+                    0 6px 14px rgba(0,0,0,0.28) !important;
+        z-index: 10;
+    }
+}
+/* =======================================================
+   COLOFÓN EDITORIAL — sección gráfica antes del siguiente
+   proyecto. Evoca el cierre de una edición impresa:
+   regla doble, datos de producción, número de edición.
+   Coherente con la estética de diario de La Columna.
+   ======================================================= */
+
+/* --- 1. CONTENEDOR --- */
+.lc-colofon {
+    max-width: var(--lc-max);
+    margin: 0 auto;
+    padding: 72px var(--lc-pad) 64px;
+    border-top: 1px solid var(--lc-border);
+}
+
+/* --- 2. REGLA DOBLE SUPERIOR (marca de cierre editorial) --- */
+.lc-colofon-rule {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 48px;
+}
+.lc-colofon-rule span {
+    display: block;
+    height: 1px;
+    background: var(--lc-border);
+    width: 100%;
+}
+.lc-colofon-rule span:first-child {
+    background: var(--lc-text);
+    opacity: 0.6;
+}
+
+/* --- 3. GRID DE DATOS (3 columnas tipográficas) --- */
+.lc-colofon-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0;
+    border-top: 1px solid var(--lc-border);
+}
+.lc-colofon-col {
+    padding: 20px 0;
+    border-right: 1px solid var(--lc-border);
+    padding-right: 24px;
+    padding-left: 24px;
+}
+.lc-colofon-col:first-child { padding-left: 0; border-left: none; }
+.lc-colofon-col:last-child  { padding-right: 0; border-right: none; }
+
+/* --- 4. TIPOGRAFÍA INTERNA --- */
+.lc-colofon-tag {
+    display: block;
+    font-size: 7px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--lc-muted);
+    margin-bottom: 8px;
+}
+.lc-colofon-val {
+    display: block;
+    font-size: clamp(12px, 1.1vw, 15px);
+    font-weight: 500;
+    color: var(--lc-text);
+    line-height: 1.3;
+    opacity: 0.85;
+}
+
+/* --- 5. NÚMERO DE EDICIÓN GRANDE (acento visual central) --- */
+.lc-colofon-num {
+    font-size: clamp(48px, 7vw, 96px);
+    font-weight: 700;
+    color: var(--lc-text);
+    opacity: 0.06;
+    line-height: 1;
+    text-align: right;
+    margin-top: 32px;
+    letter-spacing: -0.04em;
+    user-select: none;
+}

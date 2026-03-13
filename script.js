@@ -1470,6 +1470,16 @@ if (modalTicket) {
     });
 }
 
+
+
+
+
+
+
+
+
+
+
 /* =======================================================
    TAP IN PAGE — JavaScript exclusivo de proyecto-tapin.html
    Todo el código vive en un IIFE para no contaminar el
@@ -1704,4 +1714,283 @@ if (modalTicket) {
 })();
 /* =======================================================
    FIN TAP IN PAGE JS
+   ======================================================= */
+
+
+
+
+
+
+
+
+
+
+/* =======================================================
+   LA COLUMNA PAGE JS
+   Solo se ejecuta si el body tiene la clase lc-page
+   ======================================================= */
+(function () {
+
+    if (!document.body.classList.contains('lc-page')) return;
+
+
+    /* =======================================================
+       1. GRAIN — textura papel arrugado con Canvas
+       Ruido aleatorio + fibras horizontales que simulan
+       las fibras del papel. mix-blend-mode: screen en CSS
+       hace que el grano sea visible sobre el fondo oscuro.
+       ======================================================= */
+    var canvas = document.getElementById('lc-grain');
+    if (canvas) {
+        var ctx = canvas.getContext('2d');
+
+        function lcResizeGrain() {
+            canvas.width  = window.innerWidth;
+            canvas.height = window.innerHeight;
+            lcDrawGrain();
+        }
+
+        function lcDrawGrain() {
+            var w = canvas.width, h = canvas.height;
+            var img = ctx.createImageData(w, h);
+            var d   = img.data;
+            for (var i = 0; i < d.length; i += 4) {
+                var n = Math.random();
+                var y = Math.floor(i / 4 / w);
+                /* Fibras horizontales: aparecen cuando sin(y) supera umbral */
+                var fiber = (Math.sin(y * 0.9 + Math.random() * 0.4) > 0.90) ? 0.20 : 0;
+                var v = Math.floor((n + fiber) * 255);
+                d[i]     = d[i + 1] = d[i + 2] = v;
+                /* Alpha más alto = grano más visible */
+                d[i + 3] = Math.floor(n * 55 + fiber * 70);
+            }
+            ctx.putImageData(img, 0, 0);
+        }
+
+        window.addEventListener('resize', lcResizeGrain);
+        lcResizeGrain();
+    }
+
+
+    /* =======================================================
+       2. SCROLL ANIMATIONS — lc-fade → lc-visible + lc-anim → lc-anim-in
+       Un solo observer maneja:
+       a) La transición de opacidad/translateY del contenedor (.lc-fade)
+       b) Las animaciones escalonadas de hijos (.lc-anim) con sus delays CSS
+       ======================================================= */
+    var lcObs = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+            if (e.isIntersecting) {
+                /* Activa el contenedor */
+                e.target.classList.add('lc-visible');
+                /* Activa los hijos con animación escalonada (delays en CSS) */
+                e.target.querySelectorAll('.lc-anim').forEach(function (child) {
+                    child.classList.add('lc-anim-in');
+                });
+                lcObs.unobserve(e.target);
+            }
+        });
+    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.lc-fade').forEach(function (el) {
+        lcObs.observe(el);
+    });
+
+
+    /* =======================================================
+       3. CARRUSELES — avance de a 1 slide, 3 visibles
+       Cada carrusel se maneja de forma independiente por ID.
+       El selector de slides acepta tanto .slide-clean como .lc2-slide.
+       ======================================================= */
+    function lcInitCarousel(trackId, prevBtnId, nextBtnId) {
+        var track   = document.getElementById(trackId);
+        var btnPrev = document.getElementById(prevBtnId);
+        var btnNext = document.getElementById(nextBtnId);
+        if (!track || !btnPrev || !btnNext) return;
+
+        /* Soporta ambos tipos de slide dentro del mismo carrusel */
+        var slides = track.querySelectorAll('.slide-clean, .lc2-slide');
+        var totalSlides = slides.length;
+        if (totalSlides === 0) return;
+
+        var current = 0;
+
+        /* Cuántos slides son visibles a la vez (3 desktop, 1 móvil) */
+        function getVisible() {
+            return window.innerWidth <= 768 ? 1 : 3;
+        }
+
+        function getSlideWidth() {
+            /* Ancho de un slide + gap (12px) */
+            if (slides[0]) {
+                return slides[0].offsetWidth + 12;
+            }
+            return 0;
+        }
+
+        function goTo(index) {
+            var visible  = getVisible();
+            var maxIndex = Math.max(0, totalSlides - visible);
+            current = Math.max(0, Math.min(index, maxIndex));
+            track.scrollTo({ left: current * getSlideWidth(), behavior: 'smooth' });
+        }
+
+        btnPrev.addEventListener('click', function () { goTo(current - 1); });
+        btnNext.addEventListener('click', function () { goTo(current + 1); });
+
+        /* Resetear posición si cambia el tamaño de ventana */
+        window.addEventListener('resize', function () { goTo(current); });
+    }
+
+    /* Carrusel 1: Galería de Piezas */
+    lcInitCarousel('trackClean', 'btnPrevClean', 'btnNextClean');
+
+    /* Carrusel 2: Galería Final */
+    lcInitCarousel('trackLC2', 'lc2BtnPrev', 'lc2BtnNext');
+
+
+    /* =======================================================
+       4. CARRUSELES TRANSFORM — reemplaza el sistema scrollTo()
+       Mueve el track con translateX en lugar de scrollLeft.
+       Sin scroll nativo: el track tiene overflow:visible y
+       touch-action:pan-y (definido en style.css).
+       Activa los slides en bloque (un solo observer por carrusel)
+       para evitar reflows múltiples en la primera carga.
+       ======================================================= */
+
+    /* --- 4a. Sistema de navegación por transform --- */
+    function lcInitTransformCarousel(trackId, prevId, nextId) {
+        var track   = document.getElementById(trackId);
+        var btnPrev = document.getElementById(prevId);
+        var btnNext = document.getElementById(nextId);
+        if (!track || !btnPrev || !btnNext) return;
+
+        var slides = track.querySelectorAll('.slide-clean, .lc2-slide');
+        var total  = slides.length;
+        if (total === 0) return;
+
+        var current = 0;
+
+        function getVisible() {
+            return window.innerWidth <= 768 ? 1 : 3;
+        }
+
+        function getSlideW() {
+            /* Ancho de slide + gap (12px definido en CSS) */
+            return slides[0] ? slides[0].offsetWidth + 12 : 0;
+        }
+
+        function goTo(index) {
+            var visible = getVisible();
+            var max     = Math.max(0, total - visible);
+            current     = Math.max(0, Math.min(index, max));
+            track.style.transform = 'translateX(' + (-(current * getSlideW())) + 'px)';
+        }
+
+        /* Clonar botones para eliminar los listeners previos de lcInitCarousel */
+        var newPrev = btnPrev.cloneNode(true);
+        var newNext = btnNext.cloneNode(true);
+        btnPrev.parentNode.replaceChild(newPrev, btnPrev);
+        btnNext.parentNode.replaceChild(newNext, btnNext);
+
+        newPrev.addEventListener('click', function() { goTo(current - 1); });
+        newNext.addEventListener('click', function() { goTo(current + 1); });
+
+        window.addEventListener('resize', function() { goTo(current); });
+
+        /* --- Trackpad: wheel horizontal (deltaX) --- */
+        /* wheelAccum acumula el delta para no disparar en cada micro-movimiento */
+        var wheelAccum = 0;
+        var wheelTimer = null;
+        var wrap = track.closest('.lc-carousel-wrap');
+        if (wrap) {
+            wrap.addEventListener('wheel', function(e) {
+                var absX = Math.abs(e.deltaX);
+                var absY = Math.abs(e.deltaY);
+                /* Solo interceptar si el gesto es predominantemente horizontal */
+                if (absX < absY * 0.7) return;
+                e.preventDefault();
+                wheelAccum += e.deltaX;
+                clearTimeout(wheelTimer);
+                wheelTimer = setTimeout(function() { wheelAccum = 0; }, 300);
+                if (wheelAccum >  80) { wheelAccum = 0; goTo(current + 1); }
+                if (wheelAccum < -80) { wheelAccum = 0; goTo(current - 1); }
+            }, { passive: false });
+        }
+
+        /* --- Touch swipe (dedos en móvil / trackpad táctil) --- */
+        var dragStartX = 0;
+        var isDragging = false;
+        var dragTarget = wrap || track;
+
+        dragTarget.addEventListener('pointerdown', function(e) {
+            if (e.pointerType === 'mouse') return; /* mouse lo maneja wheel */
+            isDragging  = true;
+            dragStartX  = e.clientX;
+            track.style.transition = 'none';
+        });
+
+        dragTarget.addEventListener('pointermove', function(e) {
+            if (!isDragging) return;
+            var dx = e.clientX - dragStartX;
+            if (Math.abs(dx) > 8) e.preventDefault();
+        }, { passive: false });
+
+        dragTarget.addEventListener('pointerup', function(e) {
+            if (!isDragging) return;
+            isDragging = false;
+            track.style.transition = '';
+            var delta = e.clientX - dragStartX;
+            if (delta < -40)      goTo(current + 1);
+            else if (delta > 40)  goTo(current - 1);
+            else                  goTo(current);
+        });
+
+        dragTarget.addEventListener('pointerleave', function() {
+            if (!isDragging) return;
+            isDragging = false;
+            track.style.transition = '';
+            goTo(current);
+        });
+
+        /* Posición inicial explícita */
+        track.style.transform = 'translateX(0)';
+    }
+
+    /* --- 4b. Activar slides en bloque al entrar en viewport --- */
+    /* Un solo IntersectionObserver por carrusel (no uno por slide)
+       para evitar múltiples callbacks y reflows en primera carga. */
+    function lcActivateSlidesOnEntry(trackId) {
+        var track = document.getElementById(trackId);
+        if (!track) return;
+        var slides = track.querySelectorAll('.slide-clean, .lc2-slide');
+        if (slides.length === 0) return;
+
+        var obs = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    /* Aparición escalonada: 60ms entre cada slide */
+                    slides.forEach(function(slide, i) {
+                        setTimeout(function() {
+                            slide.classList.add('is-active');
+                        }, i * 60);
+                    });
+                    obs.disconnect();
+                }
+            });
+        }, { threshold: 0.1 });
+
+        obs.observe(track);
+    }
+
+    lcInitTransformCarousel('trackClean', 'btnPrevClean', 'btnNextClean');
+    lcInitTransformCarousel('trackLC2',   'lc2BtnPrev',  'lc2BtnNext');
+
+    lcActivateSlidesOnEntry('trackClean');
+    lcActivateSlidesOnEntry('trackLC2');
+
+
+})();
+/* =======================================================
+   FIN LA COLUMNA PAGE JS
    ======================================================= */
