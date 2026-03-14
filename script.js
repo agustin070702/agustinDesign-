@@ -451,7 +451,7 @@ if (trackClean) {
     const getCleanScroll = () => {
         const slide = trackClean.querySelector('.slide-clean');
         if (!slide) return 0;
-        return slide.offsetWidth + 30; 
+        return slide.offsetWidth + 30;
     };
 
     if (btnNextClean) {
@@ -459,24 +459,71 @@ if (trackClean) {
             trackClean.scrollBy({ left: getCleanScroll(), behavior: 'smooth' });
         });
     }
-
     if (btnPrevClean) {
         btnPrevClean.addEventListener('click', () => {
             trackClean.scrollBy({ left: -getCleanScroll(), behavior: 'smooth' });
         });
     }
 
+    /* Guardar posición del scroll horizontal del carrusel.
+       iOS Safari resetea scrollLeft cuando el elemento sale del viewport.
+       Salvamos el valor en cada scroll y lo restauramos cuando el track
+       vuelve a ser visible. */
+    let savedCleanScroll = 0;
+
+    trackClean.addEventListener('scroll', () => {
+        savedCleanScroll = trackClean.scrollLeft;
+    }, { passive: true });
+
+    const wrapClean = trackClean.closest('.lc-carousel-wrap');
+    if (wrapClean) {
+        const restoreClean = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && savedCleanScroll > 0) {
+                    // Restaurar sin animación para que sea instantáneo
+                    trackClean.scrollLeft = savedCleanScroll;
+                }
+            });
+        }, { root: null, threshold: 0 });
+        restoreClean.observe(wrapClean);
+    }
+
+    /* Observer de slides: solo añade is-active, nunca quita */
     const observerClean = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('is-active');
-            } else {
-                entry.target.classList.remove('is-active');
             }
         });
-    }, { root: trackClean, threshold: 0.2 });
+    }, { root: null, threshold: 0.2 });
 
     slidesClean.forEach(slide => observerClean.observe(slide));
+
+    /* Detección de dirección del gesto en móvil */
+    let tcStartX = 0, tcStartY = 0, tcLocked = false;
+
+    trackClean.addEventListener('touchstart', (e) => {
+        tcStartX = e.touches[0].clientX;
+        tcStartY = e.touches[0].clientY;
+        tcLocked = false;
+    }, { passive: true });
+
+    trackClean.addEventListener('touchmove', (e) => {
+        if (tcLocked) return;
+        const dx = Math.abs(e.touches[0].clientX - tcStartX);
+        const dy = Math.abs(e.touches[0].clientY - tcStartY);
+        tcLocked = true;
+        if (dy > dx) {
+            trackClean.style.overflowX = 'hidden';
+        } else {
+            trackClean.style.overflowX = 'scroll';
+        }
+    }, { passive: true });
+
+    trackClean.addEventListener('touchend', () => {
+        tcLocked = false;
+        trackClean.style.overflowX = 'scroll';
+    }, { passive: true });
 }
 
 // ==========================================
@@ -489,11 +536,10 @@ const slidesLC2  = document.querySelectorAll('#trackLC2 .lc2-slide');
 
 if (trackLC2) {
 
-    /* Calcula desplazamiento: ancho de 1 slide + gap */
     const getLC2Scroll = () => {
         const slide = trackLC2.querySelector('.lc2-slide');
         if (!slide) return 0;
-        return slide.offsetWidth + 20; /* 20px = gap */
+        return slide.offsetWidth + 20;
     };
 
     if (lc2BtnNext) {
@@ -501,25 +547,67 @@ if (trackLC2) {
             trackLC2.scrollBy({ left: getLC2Scroll(), behavior: 'smooth' });
         });
     }
-
     if (lc2BtnPrev) {
         lc2BtnPrev.addEventListener('click', () => {
             trackLC2.scrollBy({ left: -getLC2Scroll(), behavior: 'smooth' });
         });
     }
 
-    /* IntersectionObserver: is-active dispara efecto de entrada */
+    /* Guardar y restaurar posición horizontal del carrusel LC2 */
+    let savedLC2Scroll = 0;
+
+    trackLC2.addEventListener('scroll', () => {
+        savedLC2Scroll = trackLC2.scrollLeft;
+    }, { passive: true });
+
+    const wrapLC2 = trackLC2.closest('.lc-carousel-wrap');
+    if (wrapLC2) {
+        const restoreLC2 = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && savedLC2Scroll > 0) {
+                    trackLC2.scrollLeft = savedLC2Scroll;
+                }
+            });
+        }, { root: null, threshold: 0 });
+        restoreLC2.observe(wrapLC2);
+    }
+
+    /* Observer de slides: solo añade is-active, nunca quita */
     const observerLC2 = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('is-active');
-            } else {
-                entry.target.classList.remove('is-active');
             }
         });
-    }, { root: trackLC2, threshold: 0.2 });
+    }, { root: null, threshold: 0.2 });
 
     slidesLC2.forEach(slide => observerLC2.observe(slide));
+
+    /* Detección de dirección del gesto en móvil */
+    let lc2StartX = 0, lc2StartY = 0, lc2Locked = false;
+
+    trackLC2.addEventListener('touchstart', (e) => {
+        lc2StartX = e.touches[0].clientX;
+        lc2StartY = e.touches[0].clientY;
+        lc2Locked = false;
+    }, { passive: true });
+
+    trackLC2.addEventListener('touchmove', (e) => {
+        if (lc2Locked) return;
+        const dx = Math.abs(e.touches[0].clientX - lc2StartX);
+        const dy = Math.abs(e.touches[0].clientY - lc2StartY);
+        lc2Locked = true;
+        if (dy > dx) {
+            trackLC2.style.overflowX = 'hidden';
+        } else {
+            trackLC2.style.overflowX = 'scroll';
+        }
+    }, { passive: true });
+
+    trackLC2.addEventListener('touchend', () => {
+        lc2Locked = false;
+        trackLC2.style.overflowX = 'scroll';
+    }, { passive: true });
 }
 
 
@@ -1885,6 +1973,12 @@ if (modalTicket) {
             var max     = Math.max(0, total - visible);
             current     = Math.max(0, Math.min(index, max));
             track.style.transform = 'translateX(' + (-(current * getSlideW())) + 'px)';
+            /* En móvil: is-active solo en el slide central — el resto atenuado */
+            if (window.innerWidth <= 768) {
+                slides.forEach(function(slide, i) {
+                    slide.classList.toggle('is-active', i === current);
+                });
+            }
         }
 
         /* Clonar botones para eliminar los listeners previos de lcInitCarousel */
@@ -1899,9 +1993,13 @@ if (modalTicket) {
         window.addEventListener('resize', function() { goTo(current); });
 
         /* --- Trackpad: wheel horizontal (deltaX) --- */
-        /* wheelAccum acumula el delta para no disparar en cada micro-movimiento */
-        var wheelAccum = 0;
-        var wheelTimer = null;
+        /* wheelAccum acumula el delta para no disparar en cada micro-movimiento.
+           wheelLocked bloquea nuevas transiciones durante el cooldown para
+           garantizar avance de exactamente una foto por gesto, sin importar
+           cuánto delta acumule un trackpad con inercia fuerte. */
+        var wheelAccum  = 0;
+        var wheelTimer  = null;
+        var wheelLocked = false;
         var wrap = track.closest('.lc-carousel-wrap');
         if (wrap) {
             wrap.addEventListener('wheel', function(e) {
@@ -1910,11 +2008,21 @@ if (modalTicket) {
                 /* Solo interceptar si el gesto es predominantemente horizontal */
                 if (absX < absY * 0.7) return;
                 e.preventDefault();
+                if (wheelLocked) return;           /* cooldown activo → ignorar */
                 wheelAccum += e.deltaX;
                 clearTimeout(wheelTimer);
                 wheelTimer = setTimeout(function() { wheelAccum = 0; }, 300);
-                if (wheelAccum >  80) { wheelAccum = 0; goTo(current + 1); }
-                if (wheelAccum < -80) { wheelAccum = 0; goTo(current - 1); }
+                if (wheelAccum >  60) {
+                    wheelAccum  = 0;
+                    wheelLocked = true;
+                    goTo(current + 1);
+                    setTimeout(function() { wheelLocked = false; }, 420);
+                } else if (wheelAccum < -60) {
+                    wheelAccum  = 0;
+                    wheelLocked = true;
+                    goTo(current - 1);
+                    setTimeout(function() { wheelLocked = false; }, 420);
+                }
             }, { passive: false });
         }
 
@@ -1969,12 +2077,17 @@ if (modalTicket) {
         var obs = new IntersectionObserver(function(entries) {
             entries.forEach(function(entry) {
                 if (entry.isIntersecting) {
-                    /* Aparición escalonada: 60ms entre cada slide */
-                    slides.forEach(function(slide, i) {
-                        setTimeout(function() {
-                            slide.classList.add('is-active');
-                        }, i * 60);
-                    });
+                    if (window.innerWidth <= 768) {
+                        /* Móvil: activar solo el primer slide (index 0) */
+                        slides[0].classList.add('is-active');
+                    } else {
+                        /* PC: activar todos con aparición escalonada */
+                        slides.forEach(function(slide, i) {
+                            setTimeout(function() {
+                                slide.classList.add('is-active');
+                            }, i * 60);
+                        });
+                    }
                     obs.disconnect();
                 }
             });
