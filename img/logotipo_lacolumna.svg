@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Capa_2" data-name="Capa 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1069.63 240.09">
+  <defs>
+    <style>
+      .cls-1, .cls-2 {
+        fill: #fff;
+      }
+
+      .cls-3 {
+        letter-spacing: -.01em;
+      }
+
+      .cls-2 {
+        font-family: 'AntipodaVariable_501.000wght_0ital', 'Antipoda Variable';
+        font-size: 135.69px;
+        font-variation-settings: 'wdth' 50, 'wght' 501;
+      }
+
+      .cls-4 {
+        letter-spacing: 0em;
+      }
+    </style>
+  </defs>
+  <g id="Capa_3" data-name="Capa 3">
+    <path class="cls-1" d="M927.04,111.46l-2.19-3.24c-4.92-7.27-8.81-13.02-28.29-26.38-1.75-1.2-17.8-11.86-41.25-16.03-24.2-4.31-33.11-2.83-42.55-1.26l-4.09.68,4.64-63.55,16.8,32.19,13.67-33.87,21.46,44.39,32.18-27.49,2.54,41.94,46.33-13.52-15.25,32.8,34.27-7.95-38.27,41.28Z"/>
+    <text class="cls-2" transform="translate(158.15 195.18)"><tspan x="0" y="0">LA </tspan><tspan class="cls-4" x="139.21" y="0">C</tspan><tspan x="203.39" y="0">O</tspan><tspan class="cls-3" x="266.49" y="0">L</tspan><tspan x="316.02" y="0">UMNA PL</tspan></text>
+  </g>
+</svg>
