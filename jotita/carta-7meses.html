@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carta — 7 Meses</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20id%3D%22Capa_2%22%20data-name%3D%22Capa%202%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2059.18%2068.86%22%3E%0A%20%20%3Cg%20id%3D%22Capa_2-2%22%20data-name%3D%22Capa%202%22%3E%0A%20%20%20%20%3Cg%3E%0A%20%20%20%20%20%20%3Cpolygon%20points%3D%2235.36%2011.95%2032.14%2040.41%2024.69%2040.41%2021.61%2011.95%2035.36%2011.95%22%2F%3E%0A%20%20%20%20%20%20%3Cpolygon%20points%3D%2221.61%2068.86%2024.83%2047.51%2032.28%2047.52%2035.36%2068.86%2021.61%2068.86%22%2F%3E%0A%20%20%20%20%20%20%3Cpolygon%20points%3D%2219.24%2011.95%2022.32%2040.4%2016.39%2040.4%2010.94%2011.95%2019.24%2011.95%22%2F%3E%0A%20%20%20%20%20%20%3Cpolygon%20points%3D%2244.85%2011.95%2040.58%2040.4%2034.65%2040.4%2037.73%2011.95%2044.85%2011.95%22%2F%3E%0A%20%20%20%20%20%20%3Cpath%20d%3D%22M40.58%2C47.52l4.25%2C18.11c-.14.48-6.08%2C2.26-6.97%2C2.76l-3.2-20.87h5.93Z%22%2F%3E%0A%20%20%20%20%20%20%3Cpolygon%20points%3D%2222.32%2047.52%2019.12%2068.39%2012.11%2065.63%2016.39%2047.52%2022.32%2047.52%22%2F%3E%0A%20%20%20%20%20%20%3Cpath%20d%3D%22M42%2C9.58H14.97c1.19-1%2C3.19-3.83%2C4.37-4.52.4-.23.53-.2.95-.24%2C5.29-.52%2C11.46.42%2C16.84.02%2C1.79%2C1.29%2C3.34%2C3.1%2C4.87%2C4.74Z%22%2F%3E%0A%20%20%20%20%20%20%3Cpath%20d%3D%22M57.18%2C33.29h-4.51l3.07-11.96c-.06-.85-4.03-4.64-4.38-4.64h-4.86l.71-4.74c1.59.2%2C3.83-.28%2C5.33%2C0%2C1.06.2%2C5.34%2C5.48%2C6.63%2C6.38l-2%2C14.95Z%22%2F%3E%0A%20%20%20%20%20%20%3Cpath%20d%3D%22M8.57%2C11.95l3.44%2C18.26c-1.26-.62-2-1.93-2.53-3.16-1.41-3.26-2.03-7.34-3.4-10.59s-3.34-2.66-5.74-3.98c-.27-.15-.4.02-.3-.53h8.54Z%22%2F%3E%0A%20%20%20%20%20%20%3Crect%20x%3D%2219%22%20y%3D%2242.78%22%20width%3D%2218.97%22%20height%3D%222.37%22%2F%3E%0A%20%20%20%20%20%20%3Cpath%20d%3D%22M29.38.39c.4.4.28%2C1.52.29%2C2.08h-2.37c-.53-1.39.86-3.3%2C2.08-2.08Z%22%2F%3E%0A%20%20%20%20%3C%2Fg%3E%0A%20%20%3C%2Fg%3E%0A%3C%2Fsvg%3E">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { background-color: #dddddd; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #dddddd;
+            color: #202020;
+            min-height: 100vh;
+            opacity: 0;
+            animation: fadeIn 1s cubic-bezier(0.4, 0, 0.2, 1) 0.1s forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(12px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* HEADER */
+        .carta-header {
+            padding: 64px 16vw 0 16vw;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .carta-label {
+            font-size: 0.62rem;
+            font-weight: 300;
+            letter-spacing: 0.28em;
+            color: #999;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .carta-titulo {
+            font-size: clamp(2rem, 3.5vw, 3rem);
+            font-weight: 200;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+        }
+
+        .carta-subtitulo {
+            font-size: 0.62rem;
+            font-weight: 300;
+            letter-spacing: 0.2em;
+            color: #aaa;
+            text-transform: uppercase;
+            text-align: right;
+            line-height: 1.9;
+        }
+
+        .carta-divider {
+            width: calc(100% - 32vw);
+            margin: 36px 16vw 0 16vw;
+            height: 1px;
+            background-color: #c4c4c4;
+        }
+
+        /* BODY */
+        .carta-body {
+            padding: 56px 16vw 80px 16vw;
+        }
+
+        .carta-intro {
+            font-size: 0.62rem;
+            font-weight: 300;
+            letter-spacing: 0.2em;
+            color: #aaa;
+            text-transform: uppercase;
+            margin-bottom: 52px;
+        }
+
+        .carta-texto p {
+            font-size: clamp(0.95rem, 1.1vw, 1.05rem);
+            font-weight: 300;
+            line-height: 1.95;
+            color: #202020;
+            margin-bottom: 1.6em;
+        }
+
+        .carta-texto p:last-child { margin-bottom: 0; }
+
+        /* Sección La Cafetera */
+        .carta-seccion {
+            margin-top: 56px;
+            padding-top: 56px;
+            border-top: 1px solid #c4c4c4;
+        }
+
+        .carta-seccion-titulo {
+            font-size: 0.62rem;
+            font-weight: 400;
+            letter-spacing: 0.28em;
+            color: #999;
+            text-transform: uppercase;
+            margin-bottom: 36px;
+        }
+
+        /* Firma */
+        .carta-firma {
+            margin-top: 64px;
+            padding-top: 40px;
+            border-top: 1px solid #c4c4c4;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .carta-firma-nombre {
+            font-size: 1.1rem;
+            font-weight: 200;
+            letter-spacing: 0.02em;
+        }
+
+        .carta-firma-meta {
+            font-size: 0.62rem;
+            font-weight: 300;
+            letter-spacing: 0.2em;
+            color: #aaa;
+            text-transform: uppercase;
+            text-align: right;
+        }
+
+        /* Footer */
+        .carta-footer {
+            padding: 0 16vw 60px 16vw;
+        }
+
+        .carta-footer a {
+            font-size: 0.6rem;
+            font-weight: 300;
+            letter-spacing: 0.22em;
+            color: #bbb;
+            text-decoration: none;
+            text-transform: uppercase;
+            transition: color 0.2s ease;
+        }
+
+        @media (hover: hover) {
+            .carta-footer a:hover { color: #202020; }
+        }
+
+        /* MOBILE */
+        @media (max-width: 768px) {
+            .carta-header {
+                padding: 48px 6vw 0 6vw;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+            .carta-subtitulo { text-align: left; }
+            .carta-divider { width: calc(100% - 12vw); margin: 28px 6vw 0 6vw; }
+            .carta-body { padding: 44px 6vw 64px 6vw; }
+            .carta-firma { flex-direction: column; align-items: flex-start; }
+            .carta-firma-meta { text-align: left; }
+            .carta-footer { padding: 0 6vw 48px 6vw; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="carta-header">
+        <div>
+            <p class="carta-label">CafelitoTime · Sesión Nº 02 · La Inauguración</p>
+            <h1 class="carta-titulo">Carta — 7 Meses</h1>
+        </div>
+        <p class="carta-subtitulo">20 · 03 · 2026<br>Barcelona, España</p>
+    </div>
+
+    <div class="carta-divider"></div>
+
+    <div class="carta-body">
+
+        <p class="carta-intro">Escrita el 20 de marzo de 2026. Para ser leída antes de preparar el café.</p>
+
+        <div class="carta-texto">
+
+            <p>Jotita,</p>
+
+            <p>Siete meses. Wn, siete meses. No sé si me doy cuenta del todo de lo que eso significa, pero sí sé que cuando me siento a pensarlos de verdad, me llena el pecho de algo que no sé cómo describir bien, pero que en el fondo conozco perfectamente.</p>
+
+            <p>Es gratitud. Pura, honesta, de la guata.</p>
+
+            <p>Y es que mira el contexto en el que nos tocó vivir estos siete meses, Jo. Yo al otro lado del mundo, metido de cabeza en un intercambio que ha sido tan increíble como agotador, aprendiendo a vivir solo en una ciudad que no es la mía, en un idioma que no es el mío, construyendo una rutina nueva desde cero. Y tú, en pleno internado, viviendo lo que probablemente sea el año más exigente de toda tu carrera, durmiendo poco, estudiando mucho, dando lo mejor de ti en cada turno aunque estés raja. No era fácil esto. No lo era para nada. Y sin embargo, acá estamos. Eligiéndonos todos los días, aunque sea a la distancia, aunque sea en los ratos que quedan después de todo lo demás. Eso, para mí, dice más que cualquier cosa que pueda escribirte en esta carta.</p>
+
+            <p>Porque hay parejas que lo tienen todo a favor y aun así no pueden. Y nosotros, con la distancia, con el internado, con la diferencia de horarios y con todo lo que eso implica, seguimos y seguimos. No sin costo, no sin momentos difíciles, no sin conversaciones que dolieron. Pero seguimos igual. Y eso no es poca cosa, Jo. Eso habla de algo que va mucho más allá de las ganas del momento.</p>
+
+            <p>Me acuerdo cuando fuimos a la Carretera Austral, y te juro que fue ahí donde me dí cuenta de lo valiosa que eres en mi vida. No fue un momento puntual, no hubo un instante específico donde me cayó la teja, sino que fue la acumulación de todos y cada uno de esos días. Fue despertarnos sin apuro y quedarnos hablando weas mientras hacía frío afuera. Fue que nos cagamos de la risa de cosas que si se las cuento a alguien más no le hacen ninguna gracia. Fue esa mirada antes de comer algo rico, ese bailecito de la felicidad juntos, esa dinámica tan nuestra que se ve completa cuando estamos juntos y que no se puede fingir ni fabricar. Ese viaje me mostró quiénes somos cuando estamos bien, cuando estamos conectados, y me dejó con una imagen grabada en la cabeza que no se me va a borrar fácil.</p>
+
+            <p>Y luego caer en esta realidad de no tenerte en el día a día fue duro. Fue honestamente de las cosas más difíciles que me ha tocado en estos meses. Porque una cosa es saber que va a costar y otra muy distinta es vivirlo. Extraño nuestra dinámica de compañeros más que cualquier otra cosa. Extraño hacer cualquier wea contigo al lado y que eso solo, sin necesidad de nada más, ya mejore el momento. Extraño contarte algo random del día y saber que te va a dar risa. Pedirte consejo y saber que me vas a decir la firme, sin filtros. Esa sensación de equipo para las cosas chicas, no solo para las grandes. Eso que parece tan simple pero que cuando no está se nota en todo.</p>
+
+            <p>Y mirarte en lo que estás haciendo ahora, Jo. El internado te está exigiendo cosas que poca gente está dispuesta a dar, y tú lo estás dando todo igual. Me impresiona tu fuerza de voluntad, cómo sigues y sigues sin parar, a pesar del cansancio, a pesar de los días largos, a pesar de todo. Eso no es algo que cualquiera tiene. La mujer que estás siendo en esta etapa me tiene loco, para bien, y no me canso de decírtelo.</p>
+
+            <p>Hay algo que me da vueltas en la cabeza desde hace un rato y que hoy quiero decirte bien dicho. Yo llegué a Barcelona con muchas ganas, con mucha energía, con la mochila lista y con la cabeza puesta en vivir esta experiencia al máximo. Y la he vivido, de verdad que sí. Pero nadie me contó que iba a haber noches en que me iba a costar tanto estar lejos de todo lo que quiero. Y cuando digo todo, Jo, estás tú bien en el centro de ese todo.</p>
+
+            <p>Hubo momentos en este intercambio en que me senté solo en algún lugar de esta ciudad, mirando para ningún lado, y lo único que quería era tenerte al lado. No para hacer nada en especial. Solo para tenerte ahí. Eso me pasó varias veces, y cada vez que me pasó me di cuenta un poco más de lo que significas en mi vida. Porque hay personas que uno quiere y hay personas que uno necesita, y tú, sin que yo lo haya planificado ni decidido conscientemente, te convertiste en las dos cosas al mismo tiempo.</p>
+
+            <p>Y lo más impresionante de todo esto, lo que de verdad me llega profundo cuando me pongo a pensar, es que tú estás viviendo algo igual de intenso al otro lado del mundo. Tú también estás eligiendo esto, eligiéndome, en medio de uno de los años más exigentes de tu vida. Cuando estás agotada después de un turno largo, cuando tienes la cabeza llena de cosas que estudiar, cuando el tiempo no alcanza para nada, igual buscas el espacio para estar. Y eso, Jo, no es un detalle menor. Eso es una declaración de amor tan grande como cualquier cosa que yo pueda escribirte acá.</p>
+
+            <p>Me pasa también que pienso mucho en lo que vamos a ser cuando esto pase. Cuando yo vuelva, cuando el internado afloje un poco, cuando podamos volver a tener esa relación de compañeros que tanto extraño. Me imagino un montón de escenarios y en todos sin excepción estás tú. No es que me lo proponga, es que mi cabeza automáticamente te pone ahí. En los planes chicos y en los grandes, en los sueños que tengo clarísimos y en los que todavía no tienen forma.</p>
+
+            <p>Y eso me hace muy feliz, Jo. Me hace feliz saber que encontré a alguien con quien quiero construir cosas. No es algo que me haya pasado antes de esta forma, con esta claridad y con esta calma. Contigo no tengo que convencerme de nada, no tengo que forzar nada. Todo lo que siento por ti es natural, es genuino, es de los que duran. Y eso, en un mundo donde todo cambia tan rápido, vale muchísimo.</p>
+
+            <p>Así que gracias, cachito. Gracias por elegirme cuando es fácil y también cuando cuesta. Gracias por quedarte cuando las cosas se pusieron difíciles. Gracias por ser tan tú, con toda tu inteligencia y tu garra y tus mañas y tu humor a veces malísimo que igual me da risa. Eres lo mejor que me ha pasado en mucho tiempo, y hoy, en este día que cumplimos siete meses, quiero que lo sepas bien dicho, bien escrito, sin filtros.</p>
+
+        </div>
+
+        <div class="carta-seccion">
+            <p class="carta-seccion-titulo">La Cafetera</p>
+            <div class="carta-texto">
+                <p>Bueno para partir te tengo que contar algo, porque esto tiene su historia.</p>
+                <p>Hace un rato se me vino una imagen a la cabeza. La de los dos, cada uno en su cocina, preparando un café al mismo tiempo. Tú allá en Santiago, yo acá en Barcelona. Y me gustó tanto esa imagen que no pude soltarla.</p>
+                <p>Por eso hoy te mando tu misión: conseguirte una cafetera italiana. La tuya. Una chiquita, de esas italianas clásicas que hacen ese ruido tan rico cuando el café está listo.</p>
+                <p>Por qué una cafetera. Porque necesitábamos un objeto. Un símbolo. Algo físico y concreto que represente este hábito que nos propusimos y que queremos de verdad agarrar en serio. El CafelitoTime. Cuando los dos tengamos nuestra cafetera, ya no es solo una videollamada con un café en la mano. Es un ritual. Es nuestro ritual. Es la misma cafetera, en distinta cocina, pero el mismo momento.</p>
+                <p>Y me gusta que sea así de simple. Porque en el fondo el CafelitoTime es eso. Conexión contigo y desconexión de todo lo demás. Un momento cortito, de los nuestros, que no le pertenece a la distancia ni al internado ni al intercambio. Que nos pertenece solo a nosotros.</p>
+                <p>Guarda esa cafetera. Va a ser nuestro objeto más bacán quizás en algún momento.</p>
+                <p>Y ya para ir cerrando, te tengo que decir algo sobre el próximo mes. Porque los ocho meses los vamos a celebrar distinto. Nada de FaceTime. Nada de coordenadas. Nada de tickets.</p>
+                <p>El próximo cumplemes lo celebramos en Roma, en persona, con tiempo y como se merece. Y sí, ya sé que tú estás haciendo un esfuerzo enorme para lograr venir, y quiero que sepas que eso no se me pasa por alto para nada. Al contrario. Es el gesto de amor más grande que alguien ha tenido conmigo, y me tiene con una emoción que no te imaginas. Aunque eso sí, tanto sacrificio de tu parte tiene un precio. Cuando lleguemos a Italia, me tratas como rey. Considérame el operador logístico oficial de este viaje, así que te voy a pasar la factura en comodidad, en besos y en carne.</p>
+                <p>Te amo, Jotita. Te amo con una intensidad que a veces me sorprende incluso a mí. Estoy muy feliz de tenerte, muy feliz de estos siete meses, de los buenos, de los difíciles, de todos, y estoy muy feliz de lo que viene.</p>
+                <p>Ahora anda a buscar esa cafetera.</p>
+            </div>
+
+            <div class="carta-firma">
+                <p class="carta-firma-nombre">taxss agus</p>
+                <p class="carta-firma-meta">20 · 03 · 2026 · Barcelona &nbsp;·&nbsp; CafelitoTime · Sesión Nº 02</p>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="carta-footer">
+        <a href="../">← agustindesign.cl</a>
+    </div>
+
+</body>
+</html>
