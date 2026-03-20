@@ -4663,11 +4663,13 @@ body {
     left: 0;
     width: 100%;
     height: 100vh;
-    background-color: #f2f2f2; /* Gris neutro facha */
-    z-index: 10000; /* Por encima de todo */
+    background-color: #f2f2f2;
+    z-index: 10000;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+    overflow-y: auto;
     opacity: 0;
     visibility: hidden;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -4819,10 +4821,20 @@ body {
     /* --- 4. IMAGEN DEL TICKET DENTRO DE LA CARPETA --- */
     /* Reposicionamos para que encaje en la carpeta pequeña */
     .folder-image-container {
-        width: 200px !important;
+        width: 220px !important;
+        height: 160px !important;
         top: 6px !important;
-        left: 70px !important;
-        transform: rotate(-28deg) translateY(-18px) !important;
+        left: 40px !important;
+    }
+
+    .folder-image-container .cafelito-image:nth-child(1) {
+        width: 190px !important;
+        transform: rotate(-8deg) translateY(-20px) !important;
+    }
+
+    .folder-image-container .cafelito-image:nth-child(2) {
+        width: 171px !important;
+        transform: rotate(5deg) translateY(-28px) !important;
     }
 
     /* --- 5. LOGO CAFELITO TIME --- */
@@ -4910,39 +4922,102 @@ body {
 /* 5. CONTENEDOR DE LA IMAGEN (Tilted & Out) */
 .folder-image-container {
     position: absolute;
-    width: 360px; 
-    
-    /* CAMBIO 1: Quitamos los 200px y le ponemos auto para que respete tu diseño */
-    height: auto; 
-    
-    top: 10px;   
-    left: 120px; 
-    z-index: 10002; 
-    transform: rotate(-30deg) translateY(-30px); 
+    width: 360px;
+    height: 260px;
+    top: 10px;
+    left: 60px;
+    z-index: 10002;
     transition: transform 0.4s ease;
 }
 
 
 /* Solo activa el efecto hover en dispositivos con mouse real */
 @media (hover: hover) {
-    .folder-wrapper:hover .folder-image-container {
-        transform: rotate(-18deg) translateY(-40px);
+    .folder-wrapper:hover .cafelito-image:nth-child(1) {
+        transform: rotate(-22deg) translateY(-50px);
+    }
+    .folder-wrapper:hover .cafelito-image:nth-child(2) {
+        transform: rotate(8deg) translateY(-60px);
     }
 }
 
+/* Estilos base para ambos tickets dentro de la carpeta */
 .cafelito-image {
+    display: block;
     width: 100%;
-    height: 100%;
-    object-fit: cover;
-    
-    /* MAGIA AQUÍ: Cambiamos a 0 para que las esquinas sean rectas */
-    border-radius: 0; 
-    
-    
-    
-    /* OJO: Aquí tienes un borde blanco. 
-       Si tu ticket negro ya se ve bien sin este marco, puedes borrar 
-       la línea de abajo o comentarla: */
+    height: auto;
+    object-fit: contain;
+    border-radius: 0;
+    cursor: pointer;
+}
+
+/* TICKET 1 — posición original restaurada */
+.folder-image-container .cafelito-image:nth-child(1) {
+    position: absolute;
+    width: 320px;
+    top: 0px;
+    left: 60px;
+    transform: rotate(-30deg) translateY(-30px);
+    transition: transform 0.4s ease;
+    z-index: 1;
+}
+
+/* TICKET 2 — 10% más pequeño, encima, desplazado a la derecha */
+.folder-image-container .cafelito-image:nth-child(2) {
+    position: absolute;
+    width: 288px;
+    top: -5px;
+    left: 100px;
+    transform: rotate(5deg) translateY(-45px);
+    transition: transform 0.4s ease;
+    z-index: 2;
+}
+
+/* --- Botón Ver Carta (dentro del ticket-modal) --- */
+.btn-ver-carta {
+    display: block;
+    width: fit-content;
+    margin: 24px auto 0 auto;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 300;
+    letter-spacing: 0.25em;
+    color: #f2f2f2;
+    text-decoration: none;
+    border: 1px solid rgba(242, 242, 242, 0.5);
+    padding: 10px 22px;
+    text-transform: lowercase;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(8px);
+    transition: opacity 0.35s ease,
+                transform 0.35s ease,
+                visibility 0.35s ease,
+                background-color 0.2s ease,
+                color 0.2s ease;
+    position: relative;
+    z-index: 100000;
+}
+
+.btn-ver-carta.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+@media (hover: hover) {
+    .btn-ver-carta:hover {
+        background-color: #f2f2f2;
+        color: #202020;
+        border-color: #f2f2f2;
+    }
+}
+
+@media (max-width: 768px) {
+    .btn-ver-carta {
+        font-size: 0.65rem;
+        padding: 8px 18px;
+    }
 }
 
 /* --- Logo debajo de la carpeta --- */
@@ -5013,14 +5088,12 @@ body {
     left: 0;
     width: 100%;
     height: 100vh;
-    background-color: rgba(15, 15, 15, 0.9); /* Negro casi opaco */
-    
-    z-index: 99999; /* Por encima de TODO */
+    background-color: rgba(15, 15, 15, 0.9);
+    z-index: 99999;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    
-    /* Oculto por defecto */
     opacity: 0;
     visibility: hidden;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);

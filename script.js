@@ -1537,7 +1537,22 @@ if (btnCerrarCarpeta) {
 // C. Abrir el Ticket gigante al hacer clic en la foto de la carpeta
 if (ticketEnCarpeta && modalTicket) {
     ticketEnCarpeta.addEventListener('click', function(e) {
-        e.stopPropagation(); // Evita que el clic traspase hacia atrás
+        const clickedTicket = e.target.closest('.cafelito-image');
+        if (!clickedTicket) return;
+        e.stopPropagation();
+
+        const ticketNum = clickedTicket.dataset.ticket;
+        const ticketImgEl = document.getElementById('ticketAmpliadoImg');
+        const btnCarta = document.querySelector('.btn-ver-carta');
+
+        if (ticketNum === '1') {
+            ticketImgEl.src = 'img/ticket_cafelitotime_2.webp';
+            if (btnCarta) btnCarta.classList.remove('visible');
+        } else if (ticketNum === '2') {
+            ticketImgEl.src = 'img/ticket_cafelitotime_7meses.png';
+            if (btnCarta) btnCarta.classList.add('visible');
+        }
+
         modalTicket.classList.add('active');
     });
 }
@@ -1546,6 +1561,8 @@ if (ticketEnCarpeta && modalTicket) {
 if (btnCerrarTicket && modalTicket) {
     btnCerrarTicket.addEventListener('click', function() {
         modalTicket.classList.remove('active');
+        const btnCarta = document.querySelector('.btn-ver-carta');
+        if (btnCarta) btnCarta.classList.remove('visible');
     });
 }
 
@@ -1554,6 +1571,8 @@ if (modalTicket) {
     modalTicket.addEventListener('click', function(e) {
         if (e.target === modalTicket) {
             modalTicket.classList.remove('active');
+            const btnCarta = document.querySelector('.btn-ver-carta');
+            if (btnCarta) btnCarta.classList.remove('visible');
         }
     });
 }
