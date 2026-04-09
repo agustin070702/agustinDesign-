@@ -4837,6 +4837,11 @@ body {
         transform: rotate(5deg) translateY(-28px) !important;
     }
 
+    .folder-image-container .cafelito-image:nth-child(3) {
+        width: 95px !important;
+        transform: rotate(-8deg) translateY(-35px) !important;
+    }
+
     /* --- 5. LOGO CAFELITO TIME --- */
     /* Subimos el logo para que sea visible dentro del viewport */
     .folder-logo {
@@ -4939,6 +4944,9 @@ body {
     .folder-wrapper:hover .cafelito-image:nth-child(2) {
         transform: rotate(8deg) translateY(-60px);
     }
+    .folder-wrapper:hover .cafelito-image:nth-child(3) {
+        transform: rotate(-50deg) translateY(-75px);
+    }
 }
 
 /* Estilos base para ambos tickets dentro de la carpeta */
@@ -4971,6 +4979,17 @@ body {
     transform: rotate(5deg) translateY(-45px);
     transition: transform 0.4s ease;
     z-index: 2;
+}
+
+/* TICKET 3 — vertical, más angosto, encima de los dos, rotado al centro */
+.folder-image-container .cafelito-image:nth-child(3) {
+    position: absolute;
+    width: 110px;
+    top: -35px;
+    left: 185px;
+    transform: rotate(-50deg) translateY(-60px);
+    transition: transform 0.4s ease;
+    z-index: 3;
 }
 
 /* --- Botón Ver Carta (dentro del ticket-modal) --- */
