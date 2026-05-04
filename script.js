@@ -805,7 +805,8 @@ window.addEventListener('scroll', () => {
 
     // Fade out + movimiento suave del contenido del hero
     if (heroContent) {
-        heroContent.style.cssText += `opacity: ${1 - progress} !important; transform: translateY(-${progress * 20}px) !important;`;
+        heroContent.style.setProperty('opacity', `${1 - progress}`, 'important');
+        heroContent.style.setProperty('transform', `translateY(-${progress * 20}px)`, 'important');
     }
 
     // Zoom out suave en la imagen
@@ -988,12 +989,13 @@ const DB_PREGUNTAS = [
 
 // --- 3. BASE DE DATOS DE CUPONES ---
 const DB_CUPONES = [
-   { 
-        id: "01", 
-        title: "Kit Anti-Colapso", 
-        desc: "Canjea esto para recibir tu regalo. Ideal para no volverte loca con el estrés de la semana.", 
+   {
+        id: "01",
+        title: "Kit Anti-Colapso",
+        desc: "Canjea esto para recibir tu regalo. Ideal para no volverte loca con el estrés de la semana.",
         msg: "*[TICKET CANJEADO]* Alerta de colapso inminente. Solicito formalmente la entrega de mi regalo sorpresa para salvar la semana.",
-        img: "img/cupon1.jpg"
+        img: "img/cupon1.jpg",
+        estado: "canjeado"
     },
     { 
         id: "02", 
@@ -1002,12 +1004,13 @@ const DB_CUPONES = [
         msg: "[TICKET CANJEADO] Vengo a cobrar mi Bajón Auspiciado. El refri no se la banca y mi guata exige la inyección de comida prometida.",
         img: "img/cupon2.jpg"
     },
-    { 
-        id: "03", 
-        title: "Bypass de Trámites", 
-        desc: "Pásame ese cacho administrativo. Yo redacto el mail con tono formal para que tú no te estreses, o te traduzco y resumo los papers que quieras.", 
+    {
+        id: "03",
+        title: "Bypass de Trámites",
+        desc: "Pásame ese cacho administrativo. Yo redacto el mail con tono formal para que tú no te estreses, o te traduzco y resumo los papers que quieras.",
         msg: "[TICKET CANJEADO] Hola, señor secretario. Vengo a canjear mi cupón para que te hagas cargo de este trámite o paper que me da demasiada lata.",
-        img: "img/cupon3.jpg"
+        img: "img/cupon3.jpg",
+        estado: "reutilizable"
     },
     { 
         id: "04", 
@@ -1023,12 +1026,13 @@ const DB_CUPONES = [
         msg: "[TICKET CANJEADO] Alerta roja. Necesito putear al universo un rato. Canjeando mi pase libre, responde cuando estés listo.",
         img: "img/cupon52.jpg"
     },
-    { 
-        id: "06", 
-        title: "Inyección de Azúcar Express", 
-        desc: "Sobredosis de glucosa auspiciada por tu pololo para salvar la tarde.", 
+    {
+        id: "06",
+        title: "Inyección de Azúcar Express",
+        desc: "Sobredosis de glucosa auspiciada por tu pololo para salvar la tarde.",
         msg: "[TICKET CANJEADO] Mi cuerpo pide azúcar urgente. Vengo a cobrar el dulcecito auspiciado.",
-        img: "img/cupon63.jpg"
+        img: "img/cupon63.jpg",
+        estado: "canjeado"
     },
     { 
         id: "07", 
@@ -1037,12 +1041,13 @@ const DB_CUPONES = [
         msg: "[TICKET CANJEADO] Vengo a cobrar mi paseo virtual. Ponte en modo guía turístico que quiero conocer ...",
         img: "img/cupon7.jpg"
     },
-    { 
-        id: "08", 
-        title: "Despertador VIP", 
-        desc: "Servicio de alarma humana. No me rindo hasta que escuche por el micrófono que te estás sentando a estudiar o yendo al gym.", 
+    {
+        id: "08",
+        title: "Despertador VIP",
+        desc: "Servicio de alarma humana. No me rindo hasta que escuche por el micrófono que te estás sentando a estudiar o yendo al gym.",
         msg: "[TICKET CANJEADO] Programando mi Despertador VIP. Necesito que me llames a las ... y no me dejes dormir, asegúrate que me levanté.",
-        img: "img/cupon8.jpg"
+        img: "img/cupon8.jpg",
+        estado: "reutilizable"
     },
     { 
         id: "09", 
@@ -1058,12 +1063,13 @@ const DB_CUPONES = [
         msg: "[TICKET CANJEADO] Prepara la billetera. Te voy a mandar a una tienda y me llamas para vitrinear juntos.",
         img: "img/cupon10.jpg"
     },
-    { 
-        id: "11", 
-        title: "Co-Working Mudo", 
-        desc: "Prendemos la cámara y nos hacemos compañía en silencio mientras cada uno hace lo suyo.", 
+    {
+        id: "11",
+        title: "Co-Working Mudo",
+        desc: "Prendemos la cámara y nos hacemos compañía en silencio mientras cada uno hace lo suyo.",
         msg: "[TICKET CANJEADO] Canjeando Co-Working Mudo. Prendamos la cámara que no quiero estar sola haciendo esto.",
-        img: "img/cupon113.jpg"
+        img: "img/cupon113.jpg",
+        estado: "reutilizable"
     },
     { 
         id: "12", 
@@ -1247,23 +1253,39 @@ function mostrarPantallaCupones(couponsScreen) {
 function renderizarCupones() {
     const track = document.getElementById('cpCarouselTrack');
     if (!track) return;
-    
-    track.innerHTML = ''; 
+
+    track.innerHTML = '';
 
     DB_CUPONES.forEach((ticket) => {
-        // Estructura semántica, limpia y con clases 100% independientes
+        const esCanjeado     = ticket.estado === 'canjeado';
+        const esReutilizable = ticket.estado === 'reutilizable';
+
+        const claseWrapper  = esCanjeado ? 'coupon-canjeado' : (esReutilizable ? 'coupon-reutilizable' : '');
+        const onclickAttr   = esCanjeado ? '' : `onclick="canjearCupón('${ticket.msg}')"`;
+        const textoBtnAttr  = esCanjeado ? '[ YA UTILIZADO ]' : (esReutilizable ? 'CANJEAR NUEVAMENTE' : 'CANJEAR RECURSO');
+
+        const stampHtml = esCanjeado
+            ? `<div class="coupon-stamp-overlay"><span class="coupon-stamp-text">CANJEADO</span></div>`
+            : '';
+
+        const badgeHtml = esReutilizable
+            ? `<span class="coupon-usos-badge">[ USOS LIMITADOS ]</span>`
+            : '';
+
         const html = `
-            <div class="coupon-wrapper">
-                <div class="coupon-card" onclick="canjearCupón('${ticket.msg}')">
+            <div class="coupon-wrapper ${claseWrapper}">
+                <div class="coupon-card" ${onclickAttr}>
                     <div class="coupon-image">
                         <img src="${ticket.img}" alt="${ticket.title}">
                     </div>
+                    ${stampHtml}
                     <div class="coupon-content">
+                        ${badgeHtml}
                         <span class="coupon-category">CUPÓN Nº ${ticket.id}</span>
                         <h3 class="coupon-title">${ticket.title}</h3>
                         <p class="coupon-desc">${ticket.desc}</p>
-                        
-                        <button class="coupon-btn">CANJEAR RECURSO</button>
+
+                        <button class="coupon-btn">${textoBtnAttr}</button>
                     </div>
                 </div>
             </div>
@@ -1767,6 +1789,8 @@ if (modalTicket) {
                 kgCurrentX = kgTargetX;
                 kgTrack.style.transform = 'translateX(' + kgCurrentX + 'px)';
                 kgRafId = null;
+                /* Liberar GPU layer cuando la inercia termina */
+                kgTrack.style.willChange = 'auto';
             }
         }
         function kgStartRaf() {
@@ -1782,6 +1806,8 @@ if (modalTicket) {
             cancelAnimationFrame(kgRafId);
             kgRafId    = null;
             kgCurrentX = kgTargetX;
+            /* Promover a GPU layer solo al empezar el drag */
+            kgTrack.style.willChange = 'transform';
         });
         document.addEventListener('mouseup', function() {
             if (!kgIsDown) return;
@@ -1830,6 +1856,105 @@ if (modalTicket) {
 
     } /* fin kgTrack */
 
+
+    /* =======================================================
+       CONTADOR ANIMADO — 65%
+       Arranca desde 0% cuando el número entra en viewport.
+       easeOutExpo: rápido al inicio, desacelera suavemente.
+       ======================================================= */
+    var claimNum = document.querySelector('.tp-claim-num');
+    if (claimNum) {
+        var claimDone   = false;
+        var claimTarget = 65;
+        var claimFinalW = claimNum.offsetWidth;
+        claimNum.style.minWidth  = claimFinalW + 'px';
+        claimNum.style.display   = 'inline-block';
+        claimNum.textContent = '0%';
+
+        var claimObs = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting && !claimDone) {
+                    claimDone = true;
+                    claimObs.disconnect();
+                    var start = null;
+                    var dur   = 1800;
+                    function stepClaim(ts) {
+                        if (!start) start = ts;
+                        var p     = Math.min((ts - start) / dur, 1);
+                        var eased = p < 1 ? 1 - Math.pow(2, -9 * p) : 1;
+                        claimNum.textContent = Math.round(eased * claimTarget) + '%';
+                        if (p < 1) requestAnimationFrame(stepClaim);
+                    }
+                    requestAnimationFrame(stepClaim);
+                }
+            });
+        }, { threshold: 0.3 });
+
+        claimObs.observe(claimNum);
+    }
+
+
+    /* =======================================================
+       BIG CLAIM — REVEAL STAGGERED
+       Observa .bc-block y agrega bc-vis para disparar las
+       transiciones CSS individuales de cada línea de texto.
+       ======================================================= */
+    var bcBlock = document.querySelector('.bc-block');
+    if (bcBlock) {
+        var bcObs = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('bc-vis');
+                    bcObs.disconnect();
+                }
+            });
+        }, { threshold: 0.2 });
+        bcObs.observe(bcBlock);
+    }
+
+    /* ---- Partículas flotantes ---- */
+    (function() {
+        var page = document.querySelector('.tp-page');
+        if (!page) return;
+
+        var container = document.createElement('div');
+        container.id = 'tp-particles';
+        page.appendChild(container);
+
+        var anims  = ['tp-float-a', 'tp-float-b', 'tp-float-c'];
+        var colors = [
+            'rgba(124,108,246,VAL)',
+            'rgba(148,130,255,VAL)',
+            'rgba(183,170,255,VAL)',
+            'rgba(100, 85,220,VAL)',
+            'rgba(200,190,255,VAL)'
+        ];
+        var count = 28;
+
+        for (var i = 0; i < count; i++) {
+            var el      = document.createElement('div');
+            el.className = 'tp-particle';
+
+            var size    = 2 + Math.random() * 3;          // 2–5 px
+            var left    = Math.random() * 100;             // 0–100 vw
+            var delay   = Math.random() * 18;              // spread starts
+            var dur     = 14 + Math.random() * 18;         // 14–32s
+            var alpha   = (0.35 + Math.random() * 0.55).toFixed(2);
+            var color   = colors[i % colors.length].replace('VAL', alpha);
+            var anim    = anims[i % anims.length];
+
+            el.style.cssText = [
+                'width:'  + size + 'px',
+                'height:' + size + 'px',
+                'left:'   + left + 'vw',
+                'bottom: -10px',
+                'background:' + color,
+                'animation:' + anim + ' ' + dur + 's ' + delay + 's linear infinite'
+            ].join(';');
+
+            container.appendChild(el);
+        }
+    }());
 
 })();
 /* =======================================================
@@ -1887,7 +2012,11 @@ if (modalTicket) {
             ctx.putImageData(img, 0, 0);
         }
 
-        window.addEventListener('resize', lcResizeGrain);
+        var lcResizeTimer;
+        window.addEventListener('resize', function() {
+            clearTimeout(lcResizeTimer);
+            lcResizeTimer = setTimeout(lcResizeGrain, 200);
+        });
         lcResizeGrain();
     }
 

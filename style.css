@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Libre+Barcode+39+Text&display=swap');
-
 * {
     margin: 0;
     padding: 0;
@@ -4406,6 +4404,7 @@ body {
     cursor: pointer;
     border: 1px solid transparent;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative; /* Necesario para anclar el sello CANJEADO */
 }
 
 /* Solo activa el efecto hover en dispositivos con mouse real */
@@ -4626,6 +4625,142 @@ body {
 }
 
 
+/* =======================================================
+   VISTA CUPONES: ESTADO — CANJEADO (uso único agotado)
+   ======================================================= */
+
+.coupon-canjeado .coupon-card {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+/* Anulamos hover en dispositivos con mouse */
+@media (hover: hover) {
+    .coupon-canjeado .coupon-card:hover {
+        transform: none;
+        box-shadow: none;
+        border-color: transparent;
+        background-color: #f0f0f0;
+    }
+
+    .coupon-canjeado .coupon-card:hover .coupon-image img {
+        transform: none;
+    }
+
+    .coupon-canjeado .coupon-card:hover .coupon-btn {
+        background-color: #cccccc;
+        color: #999999;
+    }
+}
+
+.coupon-canjeado .coupon-image img {
+    filter: grayscale(100%) brightness(0.72);
+}
+
+/* Sello CANJEADO: se posiciona relativo al .coupon-card (overflow:hidden lo contiene) */
+.coupon-stamp-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 200px; /* idéntico a .coupon-image */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.coupon-stamp-text {
+    font-family: 'Space Mono', monospace;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #202020;
+    border: 2.5px solid #202020;
+    padding: 5px 14px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    transform: rotate(-15deg);
+    opacity: 0.82;
+    animation: stampIn 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.5s both;
+}
+
+@keyframes stampIn {
+    from { transform: rotate(-15deg) scale(1.6); opacity: 0; }
+    to   { transform: rotate(-15deg) scale(1);   opacity: 0.82; }
+}
+
+.coupon-canjeado .coupon-btn {
+    background-color: #cccccc;
+    color: #999999;
+    cursor: not-allowed;
+    letter-spacing: 1.5px;
+}
+
+.coupon-canjeado .coupon-title,
+.coupon-canjeado .coupon-desc {
+    color: #aaaaaa;
+}
+
+.coupon-canjeado .coupon-category {
+    color: #bbbbbb;
+}
+
+/* Anulamos hover táctil también */
+@media screen and (max-width: 968px) {
+    .coupon-canjeado .coupon-card:active,
+    .coupon-canjeado .coupon-card:hover {
+        transform: none !important;
+        box-shadow: none !important;
+        background-color: #f0f0f0 !important;
+    }
+
+    .coupon-canjeado .coupon-card:active .coupon-btn,
+    .coupon-canjeado .coupon-card:hover .coupon-btn {
+        background-color: #cccccc !important;
+        color: #999999 !important;
+    }
+}
+
+
+/* =======================================================
+   VISTA CUPONES: ESTADO — REUTILIZABLE (uso previo, quedan usos)
+   ======================================================= */
+
+.coupon-reutilizable .coupon-image img {
+    filter: grayscale(30%) brightness(0.88);
+    transition: filter 0.5s ease, transform 0.5s ease;
+}
+
+@media (hover: hover) {
+    .coupon-reutilizable .coupon-card:hover .coupon-image img {
+        filter: grayscale(0%) brightness(1);
+    }
+}
+
+/* Badge de aviso: "usos limitados" */
+.coupon-usos-badge {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.52rem;
+    color: #888888;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 3px;
+}
+
+.coupon-reutilizable .coupon-btn {
+    background-color: #e8e3db;
+    color: #555555;
+    letter-spacing: 1px;
+}
+
+@media (hover: hover) {
+    .coupon-reutilizable .coupon-card:hover .coupon-btn {
+        background-color: #202020;
+        color: #ffffff;
+    }
+}
 
 
 
@@ -5320,18 +5455,29 @@ body {
     --tp-radius:    14px;
     --tp-max:       1160px;
     --tp-pad:       64px;
+    --tp-bg:        #4830c8;
 
-    /* Fondo por focos de luz radiales — no lineal, más atmosférico */
-    background-color: #4830c8; /* Color base sólido — cubre overscroll en iOS */
+    background-color: #4830c8;
+    color: var(--tp-white);
+    font-family: 'Poppins', 'Inter', sans-serif;
+}
+
+/* Fondo de gradientes radiales en capa fixed separada.
+   Usar background-attachment:fixed en el body fuerza repaint CPU en cada
+   frame de scroll. Un ::before position:fixed se maneja en el compositor
+   GPU y no bloquea el hilo principal. */
+.tp-page::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
     background-image:
         radial-gradient(ellipse 80% 60% at 20% 0%,   #7272e8 0%, transparent 60%),
         radial-gradient(ellipse 60% 50% at 80% 15%,  #5858d8 0%, transparent 55%),
         radial-gradient(ellipse 70% 60% at 50% 50%,  #5050cc 0%, transparent 65%),
         radial-gradient(ellipse 80% 50% at 10% 80%,  #4030c8 0%, transparent 60%),
         radial-gradient(ellipse 60% 40% at 90% 90%,  #3a10e0 0%, transparent 55%);
-    background-attachment: fixed;
-    color: var(--tp-white);
-    font-family: 'Poppins', 'Inter', sans-serif;
 }
 
 
@@ -6146,6 +6292,7 @@ body {
     position: relative;
     cursor: grab;
     user-select: none;
+    transform: translateZ(0);
 }
 .tp-kgallery:active { cursor: grabbing; }
 
@@ -6167,47 +6314,40 @@ body {
     background: linear-gradient(to left, var(--tp-bg), transparent);
 }
 
-/* --- Track draggable: flex horizontal sin wrap.
-   Sin transition aquí: el drag debe ser INSTANTÁNEO al píxel.
-   will-change delega transform al compositor del navegador. */
+/* --- Track draggable: will-change se gestiona por JS solo durante el drag.
+   Sin él en CSS, el browser no crea una GPU layer permanente que se
+   evicte al salir de pantalla — las imágenes no "parpadean" al volver. */
 .tp-kgallery-track {
     display: flex;
     gap: 16px;
     padding: 20px 80px;
     width: max-content;
-    will-change: transform;
-    transform: translateZ(0); /* fuerza compositing layer propio */
 }
 
-/* --- Item base. */
+/* --- Item base: sin transitions aquí — solo se añaden dentro de
+   @media (hover:hover) para que no disparen al re-entrar al viewport. */
 .tp-kgallery-item {
     border-radius: 20px;
     overflow: hidden;
     flex-shrink: 0;
     position: relative;
     border: 1px solid var(--tp-w12);
-    transition: transform 0.5s cubic-bezier(0.16,1,0.3,1),
-                box-shadow 0.45s ease;
 }
 .tp-kgallery-item img {
     width: 100%; height: 100%;
     object-fit: cover; display: block;
     pointer-events: none;
-    transition: transform 0.6s cubic-bezier(0.16,1,0.3,1);
 }
 
-/* --- Entrada stagger: estado inicial de las cards antes del reveal */
-.tp-kgallery-item.kg-hidden {
-    opacity: 0;
-    transform: translateY(40px) scale(0.96) translateZ(0);
-}
-/* Estado final tras el reveal */
-.tp-kgallery-item.kg-visible {
-    opacity: 1;
-    transform: translateY(0) scale(1) translateZ(0);
-}
 /* Hover solo en dispositivos con cursor real */
 @media (hover: hover) {
+    .tp-kgallery-item {
+        transition: transform 0.5s cubic-bezier(0.16,1,0.3,1),
+                    box-shadow 0.45s ease;
+    }
+    .tp-kgallery-item img {
+        transition: transform 0.6s cubic-bezier(0.16,1,0.3,1);
+    }
     .tp-kgallery-item:hover {
         transform: translateY(-8px) scale(1.02);
         box-shadow: 0 20px 40px rgba(10,8,40,0.4),
@@ -6893,6 +7033,170 @@ html:has(.tp-page) {
     .tp-bc-mid-big,
     .tp-bc-mid-small { font-size: clamp(3rem, 15vw, 6rem); }
     .tp-bc-bot { max-width: 100%; }
+}
+
+/* =======================================================
+   BIG CLAIM — REVEAL STAGGERED (reemplaza tp-fade del bloque)
+   Cada línea entra desde una dirección distinta con delays escalonados.
+   ======================================================= */
+
+/* Hijos ocultos hasta que el bloque recibe bc-vis */
+.bc-block .tp-bc-aside {
+    opacity: 0;
+    /* Mantiene el translate(-50%,-50%) del absolute + agrega scale */
+    transform: translate(-50%, -50%) scale(1.12);
+    transition: opacity 1.8s ease, transform 2.2s cubic-bezier(0.16,1,0.3,1);
+}
+.bc-block .tp-bc-top {
+    opacity: 0;
+    transform: translateY(22px);
+    transition: opacity 0.65s ease 0.1s, transform 0.65s cubic-bezier(0.16,1,0.3,1) 0.1s;
+}
+.bc-block .tp-bc-mid-big {
+    opacity: 0;
+    transform: translateX(-55px) skewX(-5deg);
+    transition: opacity 0.85s ease 0.26s, transform 0.85s cubic-bezier(0.16,1,0.3,1) 0.26s;
+    will-change: transform, opacity;
+}
+.bc-block .tp-bc-mid-small {
+    opacity: 0;
+    transform: translateX(55px) skewX(5deg);
+    transition: opacity 0.85s ease 0.42s, transform 0.85s cubic-bezier(0.16,1,0.3,1) 0.42s;
+    will-change: transform, opacity;
+}
+.bc-block .tp-bc-bot {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease 0.65s, transform 0.8s cubic-bezier(0.16,1,0.3,1) 0.65s;
+}
+
+/* Estados revelados */
+.bc-block.bc-vis .tp-bc-aside    { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+.bc-block.bc-vis .tp-bc-top      { opacity: 1; transform: none; }
+.bc-block.bc-vis .tp-bc-mid-big  { opacity: 1; transform: none; }
+.bc-block.bc-vis .tp-bc-mid-small{ opacity: 1; transform: none; }
+.bc-block.bc-vis .tp-bc-bot      { opacity: 1; transform: none; }
+
+/* En móvil el número de fondo ya está display:none — no necesita ajuste */
+
+/* =======================================================
+   PARTÍCULAS FLOTANTES + ACENTOS DE SECCIÓN
+   ======================================================= */
+
+/* ---- Partículas fijas flotantes ---- */
+#tp-particles {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+}
+.tp-particle {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0;
+    will-change: transform, opacity;
+}
+
+@keyframes tp-float-a {
+    0%   { transform: translateY(0)   translateX(0);    opacity: 0; }
+    10%  { opacity: 1; }
+    90%  { opacity: 0.7; }
+    100% { transform: translateY(-110vh) translateX(18px);  opacity: 0; }
+}
+@keyframes tp-float-b {
+    0%   { transform: translateY(0)   translateX(0);    opacity: 0; }
+    15%  { opacity: 0.8; }
+    85%  { opacity: 0.5; }
+    100% { transform: translateY(-100vh) translateX(-22px); opacity: 0; }
+}
+@keyframes tp-float-c {
+    0%   { transform: translateY(0)   translateX(0) scale(1);    opacity: 0; }
+    20%  { opacity: 0.9; }
+    80%  { opacity: 0.6; }
+    100% { transform: translateY(-105vh) translateX(10px) scale(1.4); opacity: 0; }
+}
+
+/* ---- Scan line en la galería ---- */
+.tp-kgallery-outer { position: relative; }
+.tp-kgallery-outer::before {
+    content: '';
+    position: absolute;
+    left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent 0%, rgba(124,108,246,0.55) 40%, rgba(183,170,255,0.7) 55%, rgba(124,108,246,0.55) 70%, transparent 100%);
+    top: -2px;
+    animation: tp-scan 6s linear infinite;
+    pointer-events: none;
+    z-index: 4;
+}
+@keyframes tp-scan {
+    0%   { top: -2px; opacity: 0; }
+    5%   { opacity: 1; }
+    95%  { opacity: 0.6; }
+    100% { top: 100%; opacity: 0; }
+}
+
+/* ---- Anillos pulsantes alrededor del número 65% ---- */
+.tp-claim-num {
+    position: relative;
+}
+.tp-claim-num::before,
+.tp-claim-num::after {
+    content: '';
+    position: absolute;
+    inset: -12px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(124,108,246,0.5);
+    animation: tp-ring-pulse 2.4s ease-out infinite;
+    pointer-events: none;
+}
+.tp-claim-num::after {
+    inset: -22px;
+    border-color: rgba(124,108,246,0.25);
+    animation-delay: 1.2s;
+}
+@keyframes tp-ring-pulse {
+    0%   { transform: scale(0.85); opacity: 0.8; }
+    100% { transform: scale(1.35); opacity: 0; }
+}
+
+/* ---- Shimmer en el separador bigclaim ---- */
+.tp-bigclaim-sep {
+    position: relative;
+    overflow: hidden;
+}
+.tp-bigclaim-sep::after {
+    content: '';
+    position: absolute;
+    top: 0; left: -60%;
+    width: 50%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(183,170,255,0.45), transparent);
+    animation: tp-shimmer 3.5s ease-in-out infinite;
+    pointer-events: none;
+}
+@keyframes tp-shimmer {
+    0%   { left: -60%; }
+    100% { left: 120%; }
+}
+
+/* ---- Dot-grid respirando en brand section ---- */
+.tp-brand-section {
+    position: relative;
+}
+.tp-brand-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle, rgba(124,108,246,0.18) 1px, transparent 1px);
+    background-size: 28px 28px;
+    animation: tp-dot-breathe 5s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 0;
+}
+@keyframes tp-dot-breathe {
+    0%, 100% { opacity: 0.4; transform: scale(1); }
+    50%       { opacity: 0.9; transform: scale(1.04); }
 }
 
 /* =======================================================
