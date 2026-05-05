@@ -10,7 +10,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <!-- CSS del ranking oculto temporalmente — descomentar para reactivar
     <link rel="stylesheet" href="photo-ranking-gate.css">
+    -->
 
 </head>
 <body>
@@ -382,10 +384,13 @@
 </section>
 
 <script src="script.js" defer></script>
+<!-- JS del ranking oculto temporalmente — descomentar para reactivar
 <script src="photo-ranking-gate.js" defer></script>
+-->
 
 <!-- Overlay password del tier list (aislado, no afecta al resto) -->
-<div id="prg-overlay" class="prg-overlay" role="dialog" aria-modal="true" aria-labelledby="prg-title">
+<!-- Oculto temporalmente — quitar el atributo `hidden` y `style="display:none"` para reactivar -->
+<div id="prg-overlay" class="prg-overlay" role="dialog" aria-modal="true" aria-labelledby="prg-title" hidden style="display:none">
 
     <button type="button" class="prg-close" aria-label="cerrar">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
