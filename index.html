@@ -10,6 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="photo-ranking-gate.css">
 
 </head>
 <body>
@@ -370,6 +371,8 @@
                 <div class="easter-egg-group">
                     <span id="btnKit" class="btn-jotita">jotita <img src="img/jugo.png" class="jugo-emoji" alt="🧃"></span>
                     <span class="btn-secreto" onclick="parcheCupones()">*</span>
+                    <!-- Botón ranking oculto temporalmente — quitar el atributo `hidden` para reactivarlo -->
+                    <a href="#" id="prg-trigger" class="btn-jotita prg-trigger" hidden>ranking</a>
                 </div>
                 <a href="#home" class="back-to-top">Back to top ↑</a>
             </div>
@@ -379,6 +382,44 @@
 </section>
 
 <script src="script.js" defer></script>
+<script src="photo-ranking-gate.js" defer></script>
+
+<!-- Overlay password del tier list (aislado, no afecta al resto) -->
+<div id="prg-overlay" class="prg-overlay" role="dialog" aria-modal="true" aria-labelledby="prg-title">
+
+    <button type="button" class="prg-close" aria-label="cerrar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+    </button>
+
+    <div class="prg-card">
+        <div class="prg-tag">[ ACCESO RESTRINGIDO ]</div>
+        <h2 id="prg-title" class="prg-title">Selección Privada</h2>
+        <p class="prg-sub">
+            Esta sección está reservada para curaduría interna.<br>
+            Ingresa la <b>clave compartida</b> para continuar.
+        </p>
+
+        <form id="prg-form" class="prg-form" autocomplete="off">
+            <input
+                type="password"
+                id="prg-input"
+                class="prg-input"
+                placeholder="clave de acceso"
+                aria-label="clave de acceso"
+                autocomplete="off"
+                autocapitalize="off"
+                spellcheck="false">
+            <button type="submit" class="prg-btn">acceder</button>
+        </form>
+
+        <p id="prg-error" class="prg-error" hidden>clave incorrecta · vuelve a intentarlo</p>
+
+        <p class="prg-hint">[ acceso autorizado únicamente para invitados ]</p>
+    </div>
+</div>
 
 <div id="kitOverlay" class="kit-overlay">
     
@@ -493,6 +534,7 @@
     <img src="img/ticket_cafelitotime_2.webp" alt="Ticket Cafelito Time" class="cafelito-image" data-ticket="1">
     <img src="img/ticket_cafelitotime_7meses.png" alt="Ticket 7 Meses" class="cafelito-image" data-ticket="2">
     <img src="img/ticket_cafelitotime_n3.png" alt="Ticket Berlín" class="cafelito-image" data-ticket="3">
+    <img src="img/postal_capri.jpg" alt="Ticket N°04 Viajelito" class="cafelito-image" data-ticket="4">
 </div>
 
 <div class="folder-front"></div>
@@ -525,6 +567,12 @@
 
 
     <div class="ticket-modal" id="ticketModal">
+    <button class="btn-ticket-nav btn-ticket-prev" id="btnPrevTicket">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+    </button>
+    <button class="btn-ticket-nav btn-ticket-next" id="btnNextTicket">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+    </button>
     <button class="btn-cerrar-modal" id="cerrarModalTicket">
         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M18 6L6 18" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
@@ -532,6 +580,14 @@
         </svg>
     </button>
     <img src="" alt="Ticket" class="ticket-ampliado" id="ticketAmpliadoImg">
+    <iframe id="ticketN04Frame" class="ticket-iframe" src="" frameborder="0" title="Ticket N°04 Viajelito"></iframe>
+    <button class="btn-flip-modal" id="btnFlipModal">
+        <svg viewBox="0 0 18 18" fill="none">
+            <path d="M15 9A6 6 0 1 1 9 3" stroke-width="1.1" stroke-linecap="round"/>
+            <path d="M9 1.5 L11.5 3 L9 4.5" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        voltear
+    </button>
     <a href="jotita/carta-7meses.html" class="btn-ver-carta" target="_blank">[ leer la carta ]</a>
 </div>
 

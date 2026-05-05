@@ -1556,59 +1556,141 @@ if (btnCerrarCarpeta) {
     btnCerrarCarpeta.addEventListener('click', cerrarCarpeta);
 }
 
-// C. Abrir el Ticket gigante al hacer clic en la foto de la carpeta
+// C. Sistema de tickets con animación
+let currentTicketNum = 1;
+const totalTickets = 4;
+
+function setTicketContent(num) {
+    const ticketImgEl  = document.getElementById('ticketAmpliadoImg');
+    const iframeEl     = document.getElementById('ticketN04Frame');
+    const btnCarta     = document.querySelector('.btn-ver-carta');
+    const btnFlipModal = document.getElementById('btnFlipModal');
+
+    if (iframeEl) { iframeEl.classList.remove('visible'); iframeEl.src = ''; }
+    ticketImgEl.style.display   = '';
+    ticketImgEl.style.maxWidth  = '';
+    ticketImgEl.style.maxHeight = '';
+    if (btnCarta) btnCarta.classList.remove('visible');
+    if (btnFlipModal) btnFlipModal.classList.remove('visible');
+
+    if (num === 1) {
+        ticketImgEl.src = 'img/ticket_cafelitotime_2.webp';
+    } else if (num === 2) {
+        ticketImgEl.src = 'img/ticket_cafelitotime_7meses.png';
+        if (btnCarta) btnCarta.classList.add('visible');
+    } else if (num === 3) {
+        ticketImgEl.src = 'img/ticket_cafelitotime_n3.png';
+        ticketImgEl.style.maxWidth  = '30vw';
+        ticketImgEl.style.maxHeight = '80vh';
+    } else if (num === 4) {
+        ticketImgEl.style.display = 'none';
+        if (iframeEl) {
+            iframeEl.src = 'jotita/ticket-n04.html';
+            iframeEl.classList.add('visible');
+        }
+        if (btnFlipModal) btnFlipModal.classList.add('visible');
+    }
+}
+
+// Botón voltear externo (ticket N04)
+const btnFlipModal = document.getElementById('btnFlipModal');
+if (btnFlipModal) {
+    btnFlipModal.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const iframeEl = document.getElementById('ticketN04Frame');
+        try { iframeEl.contentWindow.flipTicket(); } catch(e) {}
+    });
+}
+
+function openTicketModal(num) {
+    currentTicketNum = num;
+    const btnCerrarOverlay = document.getElementById('cerrarCafelito');
+    if (btnCerrarOverlay) btnCerrarOverlay.style.visibility = 'hidden';
+
+    setTicketContent(num);
+    modalTicket.classList.add('active');
+}
+
+function navigateTicket(newNum, direction) {
+    const ticketImgEl = document.getElementById('ticketAmpliadoImg');
+    const iframeEl    = document.getElementById('ticketN04Frame');
+
+    const outEl   = currentTicketNum === 4 ? iframeEl : ticketImgEl;
+    const slideOut = direction === 'next' ? '-28px' : '28px';
+    const slideIn  = direction === 'next' ? '28px'  : '-28px';
+
+    if (outEl) {
+        outEl.style.transition = 'opacity 0.18s ease, transform 0.18s ease';
+        outEl.style.opacity    = '0';
+        outEl.style.transform  = `translateX(${slideOut}) scale(0.96)`;
+    }
+
+    setTimeout(() => {
+        setTicketContent(newNum);
+        currentTicketNum = newNum;
+        const inEl = newNum === 4 ? iframeEl : ticketImgEl;
+        if (inEl) {
+            inEl.style.transition = 'none';
+            inEl.style.opacity    = '0';
+            inEl.style.transform  = `translateX(${slideIn}) scale(0.96)`;
+            requestAnimationFrame(() => requestAnimationFrame(() => {
+                inEl.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+                inEl.style.opacity    = '1';
+                inEl.style.transform  = 'translateX(0) scale(1)';
+            }));
+        }
+    }, 200);
+}
+
+// Abrir ticket al hacer clic en la carpeta
 if (ticketEnCarpeta && modalTicket) {
     ticketEnCarpeta.addEventListener('click', function(e) {
         const clickedTicket = e.target.closest('.cafelito-image');
         if (!clickedTicket) return;
         e.stopPropagation();
-
-        const ticketNum = clickedTicket.dataset.ticket;
-        const ticketImgEl = document.getElementById('ticketAmpliadoImg');
-        const btnCarta = document.querySelector('.btn-ver-carta');
-
-        if (ticketNum === '1') {
-            ticketImgEl.src = 'img/ticket_cafelitotime_2.webp';
-            ticketImgEl.style.maxWidth = '';
-            ticketImgEl.style.maxHeight = '';
-            if (btnCarta) btnCarta.classList.remove('visible');
-        } else if (ticketNum === '2') {
-            ticketImgEl.src = 'img/ticket_cafelitotime_7meses.png';
-            ticketImgEl.style.maxWidth = '';
-            ticketImgEl.style.maxHeight = '';
-            if (btnCarta) btnCarta.classList.add('visible');
-        } else if (ticketNum === '3') {
-            ticketImgEl.src = 'img/ticket_cafelitotime_n3.png';
-            ticketImgEl.style.maxWidth = '30vw';
-            ticketImgEl.style.maxHeight = '80vh';
-            if (btnCarta) btnCarta.classList.remove('visible');
-        }
-
-        modalTicket.classList.add('active');
+        openTicketModal(parseInt(clickedTicket.dataset.ticket));
     });
+}
+
+// Botones prev/next
+const btnPrevTicket = document.getElementById('btnPrevTicket');
+const btnNextTicket = document.getElementById('btnNextTicket');
+if (btnPrevTicket) {
+    btnPrevTicket.addEventListener('click', function(e) {
+        e.stopPropagation();
+        navigateTicket(currentTicketNum === 1 ? totalTickets : currentTicketNum - 1, 'prev');
+    });
+}
+if (btnNextTicket) {
+    btnNextTicket.addEventListener('click', function(e) {
+        e.stopPropagation();
+        navigateTicket(currentTicketNum === totalTickets ? 1 : currentTicketNum + 1, 'next');
+    });
+}
+
+function cerrarModalTicket() {
+    modalTicket.classList.remove('active');
+    const btnCarta         = document.querySelector('.btn-ver-carta');
+    const btnFlipModal     = document.getElementById('btnFlipModal');
+    const ticketImgEl      = document.getElementById('ticketAmpliadoImg');
+    const iframeEl         = document.getElementById('ticketN04Frame');
+    const btnCerrarOverlay = document.getElementById('cerrarCafelito');
+    if (btnCarta) btnCarta.classList.remove('visible');
+    if (btnFlipModal) btnFlipModal.classList.remove('visible');
+    if (ticketImgEl) { ticketImgEl.style.maxWidth = ''; ticketImgEl.style.maxHeight = ''; ticketImgEl.style.display = ''; ticketImgEl.style.opacity = ''; ticketImgEl.style.transform = ''; }
+    if (iframeEl) { iframeEl.classList.remove('visible'); iframeEl.src = ''; iframeEl.style.opacity = ''; iframeEl.style.transform = ''; }
+    if (btnCerrarOverlay) btnCerrarOverlay.style.visibility = '';
 }
 
 // D. Cerrar el Ticket gigante al hacer clic en su "X"
 if (btnCerrarTicket && modalTicket) {
-    btnCerrarTicket.addEventListener('click', function() {
-        modalTicket.classList.remove('active');
-        const btnCarta = document.querySelector('.btn-ver-carta');
-        const ticketImgEl = document.getElementById('ticketAmpliadoImg');
-        if (btnCarta) btnCarta.classList.remove('visible');
-        if (ticketImgEl) { ticketImgEl.style.maxWidth = ''; ticketImgEl.style.maxHeight = ''; }
-    });
+    btnCerrarTicket.addEventListener('click', cerrarModalTicket);
 }
 
 // E. (Extra pro) Cerrar el Ticket gigante haciendo clic en el fondo oscuro exterior
 if (modalTicket) {
     modalTicket.addEventListener('click', function(e) {
-        if (e.target === modalTicket) {
-            modalTicket.classList.remove('active');
-            const btnCarta = document.querySelector('.btn-ver-carta');
-            const ticketImgEl = document.getElementById('ticketAmpliadoImg');
-            if (btnCarta) btnCarta.classList.remove('visible');
-            if (ticketImgEl) { ticketImgEl.style.maxWidth = ''; ticketImgEl.style.maxHeight = ''; }
-        }
+        if (e.target === modalTicket) cerrarModalTicket();
     });
 }
 
