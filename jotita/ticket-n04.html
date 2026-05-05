@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CafelitoTime — Ticket N°04</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,200;0,300;0,400;1,200;1,300&display=swap" rel="stylesheet">
+    <style>
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        ::-webkit-scrollbar { display: none; }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            background: transparent;
+            font-family: 'Montserrat', Helvetica, sans-serif;
+            padding: 40px 0 10px 0;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .ticket-scene {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+
+        /* ═══════════════════════════
+           FLIP CARD
+        ═══════════════════════════ */
+        .ticket-wrapper {
+            width: min(740px, 100%);
+            aspect-ratio: 16 / 9;
+            perspective: 3000px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .ticket-inner {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.75s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .ticket-wrapper.flipped .ticket-inner { transform: rotateY(180deg); }
+
+        .ticket-face {
+            position: absolute;
+            inset: 0;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            border: 1px solid #c8c8c8;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08), 0 12px 44px rgba(0,0,0,0.15);
+            overflow: hidden;
+        }
+
+        /* ── Botón externo ── */
+        .btn-flip {
+            background: none;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 200;
+            font-size: clamp(0.5rem, 0.95vw, 0.62rem);
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            color: rgba(245,245,245,0.9);
+            transition: color 0.25s ease;
+            padding: 4px 0;
+        }
+        .btn-flip:hover { color: #ffffff; }
+        .btn-flip svg { width: 13px; height: 13px; stroke: currentColor; transition: transform 0.55s ease; }
+        .btn-flip:hover svg { transform: rotate(180deg); }
+
+
+        /* ═══════════════════════════
+           CARA A — EL FRENTE
+        ═══════════════════════════ */
+        .face-front {
+            background: #ffffff;
+            padding: 10px 10px 22px 10px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .photo-area {
+            flex: 1;
+            background: url('../img/postal_capri.jpg') center/cover no-repeat;
+            position: relative;
+            outline: 1px solid rgba(255,255,255,0.07);
+            outline-offset: -6px;
+        }
+
+        .photo-area::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 52%;
+            background: linear-gradient(
+                to top,
+                rgba(0,0,0,0.78) 0%,
+                rgba(0,0,0,0.35) 45%,
+                transparent   100%
+            );
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .photo-badge {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 3px;
+            z-index: 2;
+        }
+
+        .badge-logo svg {
+            height: clamp(9px, 1.7vw, 14px);
+            width: auto;
+            fill: rgba(255,255,255,0.92);
+        }
+
+        .badge-num {
+            font-size: clamp(0.42rem, 0.85vw, 0.55rem);
+            font-weight: 200;
+            color: rgba(255,255,255,0.75);
+            letter-spacing: 0.32em;
+        }
+
+        .viajelito-label {
+            position: absolute;
+            bottom: 5px;
+            right: 10px;
+            font-size: clamp(0.5rem, 1vw, 0.65rem);
+            font-weight: 400;
+            font-style: italic;
+            color: #2e2e2e;
+            letter-spacing: 0.22em;
+            pointer-events: none;
+        }
+
+
+        /* ═══════════════════════════
+           CARA B — EL REVERSO
+        ═══════════════════════════ */
+        .face-back {
+            background: #fdfcf8;
+            transform: rotateY(180deg);
+            display: flex;
+        }
+
+        .postal-divider {
+            position: absolute;
+            left: 50%;
+            top: 14px; bottom: 14px;
+            width: 1px;
+            background: #b8b8b8;
+            transform: translateX(-50%);
+        }
+
+        /* ── IZQUIERDA ── */
+        .postal-left {
+            width: 50%;
+            padding: clamp(16px,2.8vw,24px) clamp(14px,2.4vw,22px) clamp(14px,2.4vw,20px) clamp(16px,2.8vw,24px);
+            display: flex;
+            align-items: stretch;
+        }
+
+        .postal-message {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            height: 100%;
+            font-family: 'Montserrat', sans-serif;
+            color: #111111;
+        }
+
+        .saludo {
+            font-size: clamp(1rem, 2.4vw, 1.55rem);
+            font-weight: 400;
+            letter-spacing: 0.015em;
+            margin-bottom: clamp(10px, 2vw, 16px);
+            color: #111;
+            line-height: 1.1;
+        }
+
+        .fecha-block {
+            display: flex;
+            flex-direction: column;
+            gap: clamp(3px, 0.7vw, 6px);
+            margin-bottom: clamp(10px, 2vw, 14px);
+            padding-bottom: clamp(9px, 1.8vw, 13px);
+            border-bottom: 1px solid #d8d8d8;
+        }
+
+        .fecha-row {
+            display: flex;
+            flex-direction: row;
+            align-items: baseline;
+            gap: clamp(6px, 1.3vw, 11px);
+        }
+
+        .fecha-label {
+            font-family: 'Courier New', ui-monospace, monospace;
+            font-size: clamp(0.4rem, 0.82vw, 0.58rem);
+            font-weight: 400;
+            color: #888;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            flex-shrink: 0;
+            min-width: clamp(36px, 6vw, 50px);
+        }
+
+        .fecha-value {
+            flex: 1;
+            font-size: clamp(0.52rem, 1.15vw, 0.82rem);
+            font-weight: 400;
+            line-height: 1.5;
+            letter-spacing: 0.02em;
+            color: #1a1a1a;
+        }
+
+        .msg-intro {
+            font-size: clamp(0.58rem, 1.28vw, 0.92rem);
+            font-weight: 400;
+            line-height: 1.75;
+            letter-spacing: 0.02em;
+            margin-bottom: clamp(6px, 1.2vw, 10px);
+            color: #1a1a1a;
+        }
+
+        .msg-list {
+            list-style: none;
+            margin: clamp(2px, 0.6vw, 5px) 0 clamp(8px, 1.6vw, 13px) clamp(10px, 1.8vw, 16px);
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            gap: clamp(2px, 0.5vw, 4px);
+        }
+
+        .msg-list li {
+            font-size: clamp(0.58rem, 1.28vw, 0.92rem);
+            font-weight: 500;
+            line-height: 1.55;
+            letter-spacing: 0.02em;
+            color: #111;
+            padding-left: 14px;
+            position: relative;
+        }
+
+        .msg-list li::before {
+            content: "·";
+            position: absolute;
+            left: 0;
+            top: -0.05em;
+            font-weight: 700;
+            font-size: 1.1em;
+        }
+
+        .msg-final {
+            font-size: clamp(0.58rem, 1.28vw, 0.92rem);
+            font-weight: 400;
+            line-height: 1.75;
+            letter-spacing: 0.02em;
+            color: #1a1a1a;
+            margin-top: clamp(2px, 0.6vw, 5px);
+        }
+
+        .firma-block {
+            display: flex;
+            flex-direction: column;
+            gap: clamp(3px, 0.7vw, 6px);
+            margin-top: auto;
+            padding-top: clamp(12px, 2.4vw, 18px);
+        }
+
+        .firma {
+            font-size: clamp(0.54rem, 1.15vw, 0.82rem);
+            font-style: italic;
+            font-weight: 300;
+            letter-spacing: 0.14em;
+            color: #111111;
+        }
+
+        .clave {
+            font-size: clamp(0.46rem, 0.98vw, 0.7rem);
+            font-weight: 300;
+            font-style: italic;
+            color: #9a9a9a;
+            letter-spacing: 0.1em;
+        }
+
+        /* ── DERECHA ── */
+        .postal-right {
+            width: 50%;
+            padding: clamp(14px,2.5vw,20px) clamp(14px,2.5vw,20px) clamp(12px,2.2vw,16px) clamp(18px,3.2vw,26px);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .postal-service-label {
+            font-size: clamp(0.32rem, 0.62vw, 0.4rem);
+            font-weight: 300;
+            letter-spacing: 0.28em;
+            color: #111111;
+            text-transform: uppercase;
+            margin-bottom: clamp(8px,1.8vw,14px);
+        }
+
+        .postal-stamp {
+            position: absolute;
+            top: clamp(12px,2.2vw,18px);
+            right: clamp(14px,2.5vw,20px);
+            width: clamp(46px,8.2vw,64px);
+            height: clamp(54px,9.6vw,76px);
+        }
+        .stamp-svg { width: 100%; height: 100%; }
+
+        .postal-recipient {
+            font-size: clamp(0.4rem, 0.78vw, 0.5rem);
+            font-weight: 400;
+            color: #111111;
+            letter-spacing: 0.24em;
+            text-transform: uppercase;
+            margin-top: clamp(10px,2vw,18px);
+            margin-bottom: clamp(10px,2vw,16px);
+        }
+
+        .address-lines {
+            display: flex;
+            flex-direction: column;
+            gap: clamp(9px,1.8vw,14px);
+            width: 83%;
+        }
+        .address-line { height: 1px; background: #aaaaaa; }
+
+        /* Nota del remitente — bloque tipo cita */
+        .nota-remitente {
+            margin-top: clamp(14px, 2.4vw, 20px);
+            padding-left: clamp(8px, 1.5vw, 12px);
+            border-left: 1px solid #cfcfcf;
+            display: flex;
+            flex-direction: column;
+            gap: clamp(4px, 0.9vw, 7px);
+            max-width: 65%;
+        }
+
+        .nota-label {
+            font-family: 'Courier New', ui-monospace, monospace;
+            font-size: clamp(0.4rem, 0.82vw, 0.58rem);
+            font-weight: 400;
+            color: #888;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+        }
+
+        .nota-body {
+            font-size: clamp(0.48rem, 1vw, 0.72rem);
+            font-weight: 400;
+            line-height: 1.6;
+            color: #1f1f1f;
+            letter-spacing: 0.015em;
+        }
+
+        /* Sello CAPRI — esquina inferior derecha */
+        .passport-stamp {
+            position: absolute;
+            bottom: clamp(10px, 2vw, 16px);
+            right: clamp(10px, 2vw, 16px);
+            width: clamp(74px, 13vw, 104px);
+            opacity: 0.78;
+            transform: rotate(-12deg);
+            transform-origin: center;
+            pointer-events: none;
+        }
+        .passport-stamp svg { width: 100%; height: 100%; display: block; }
+
+    </style>
+</head>
+<body>
+
+<div class="ticket-scene">
+
+    <div class="ticket-wrapper" id="ticket04">
+        <div class="ticket-inner">
+
+
+            <!-- ═══════════════════
+                 CARA A — FRENTE
+            ═══════════════════ -->
+            <div class="ticket-face face-front">
+                <div class="photo-area">
+
+                    <div class="photo-badge">
+                        <div class="badge-logo">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 275.68 46.38">
+                                <g>
+                                    <path d="M181.67,38.53l5.84-33.14h-12.13l.61-3.47h28.29l-.61,3.47h-12.08l-5.85,33.14h-4.08Z"/>
+                                    <path d="M200.63,38.53l4.8-27.13h3.86l-4.8,27.13h-3.86ZM205.98,8.15l1.16-6.67h3.86l-1.16,6.67h-3.86Z"/>
+                                    <path d="M241.6,38.53l2.98-16.98c.17-1.05.28-1.99.28-2.81,0-3.69-1.88-4.85-4.8-4.85-4.03,0-7.39,3.53-8.11,7.78l-2.98,16.87h-3.86l2.98-16.93c.17-1.16.33-2.15.33-2.92,0-3.97-1.65-4.69-4.96-4.69-5.24,0-7.67,4.91-8.77,11.19l-2.37,13.35h-3.86l4.8-27.13h3.64l-1.21,6.78c2.54-5.62,6.29-7.5,9.98-7.5,4.08,0,6.29,1.65,6.62,6.4,1.93-4.36,5.79-6.4,9.32-6.4,4.41,0,7.17,2.21,7.17,7,0,.83-.06,1.71-.22,2.7l-3.2,18.14h-3.75Z"/>
+                                    <path d="M254.4,25.85c-.11.88-.11,1.82-.11,2.76,0,4.91,2.54,7.56,7.28,7.56,3.58,0,6.78-2.04,8.44-5.62h4.03c-2.54,5.57-7.33,8.71-12.85,8.71-7.17,0-10.75-3.75-10.75-11.03,0-11.14,6.07-17.54,15.39-17.54,6.51,0,9.87,3.92,9.87,10.64,0,1.38-.17,2.92-.44,4.52h-20.84ZM271.71,23.31c.17-1.05.28-1.99.28-2.87,0-4.69-2.7-6.62-6.84-6.62-5.24,0-9.15,2.76-10.42,9.48h16.99Z"/>
+                                    <path d="M.89,18.34C3.72,7.76,11.78.8,21.47.8c3.18,0,6.86.85,10.39,2.29l-2.04,7.71h-.3c-1.29-3.58-4.03-8.05-8.35-8.05-5.72,0-11.14,6.81-13.47,15.56-2.49,9.25-.5,17.4,4.87,17.4,3.78,0,8.8-3.98,12.63-8.35h.3l-2.09,7.76c-3.83,1.54-7.9,2.58-11.43,2.58-9.15,0-14.12-7.95-11.09-19.34Z"/>
+                                    <path d="M30.18,23.32c3.33-8.9,8.95-11.38,12.63-11.38,2.68,0,4.62,1.24,5.32,3.13,1.84-.85,3.73-1.94,4.87-2.83h.94l-5.27,19.54c-.8,3.03,2.78.94,5.82-3.48l.4.3c-2.04,4.92-5.47,8.9-9,8.9-2.73,0-3.83-2.14-2.88-5.77l.3-.99c-3.28,4.92-6.71,6.81-9.35,6.81-4.72,0-6.96-5.67-3.78-14.22ZM36.99,33.85c2.68,0,6.31-3.98,8.4-10.79l1.59-5.77c-.05-1.59-.84-3.13-2.63-3.18-3.03-.05-6.26,4.18-8.05,9.15-2.24,6.02-2.24,10.59.7,10.59Z"/>
+                                    <path d="M58.12,32.31l4.82-18.1h-3.88l.55-1.99h3.88l.5-1.94c2.04-7.46,6.41-9.74,10.69-9.74,2.14,0,4.18.55,6.21,1.44l-1.44,5.42h-.25c-1.34-2.54-2.68-5.07-4.52-5.07-2.49,0-3.68,3.38-5.02,8.2l-.45,1.69h7.46l-.55,1.99h-7.46l-4.87,18.1c-2.68,10.14-8.1,13.92-15.36,14.07,4.97-2.83,7.56-6.11,9.69-14.07Z"/>
+                                    <path d="M75.02,23.76c2.24-7.8,8.5-11.83,14.12-11.83,4.47,0,8,2.39,7.06,6.21-.89,4.08-6.31,7.71-15.76,7.16-.89,4.97.75,8.35,4.47,8.35,2.83,0,6.96-1.74,9.79-6.21l.55.35c-2.73,5.77-7.9,9.74-12.88,9.74-5.62,0-9.79-5.32-7.36-13.77ZM80.74,24.01c6.71-.35,9.64-3.18,10.44-5.92.65-2.34-.2-4.38-2.29-4.38-3.48,0-6.66,5.07-7.95,9.54-.05.25-.15.5-.2.75Z"/>
+                                    <path d="M98.19,31.52l6.21-23.32c.85-3.08.85-6.21.75-7.11v-.1l7.11-.94-8.3,30.97c-1.09,4.28,2.68,1.49,5.67-2.93l.45.3c-2.04,4.97-5.52,8.9-8.95,8.9-2.83,0-3.93-2.24-2.93-5.77Z"/>
+                                    <path d="M112.96,30.87l3.08-11.33c.89-3.08.8-5.72.7-7.16l.05-.15h6.91l-5.17,18.79c-1.14,4.23,2.68,1.49,5.67-2.93l.45.3c-2.04,4.97-5.42,8.9-8.9,8.9-2.78,0-3.98-2.24-2.78-6.41ZM119.22,3.83c.6-2.14,2.73-3.83,4.72-3.83s3.18,1.69,2.63,3.83c-.55,2.14-2.73,3.83-4.67,3.83s-3.23-1.69-2.68-3.83Z"/>
+                                    <path d="M128.67,29.98l4.23-15.76h-3.48l.45-1.64c4.67-1.64,8.15-4.67,10.79-7.95l.55-.1-2.09,7.71h6.56l-.55,1.99h-6.51l-4.23,15.46c-.79,2.98-.05,3.68.9,3.63,1.49,0,3.93-1.69,6.36-5.52l.4.3c-2.04,4.92-5.72,9.4-9.74,9.4-3.48,0-4.82-3.33-3.63-7.51Z"/>
+                                    <path d="M145.57,24.36c2.19-8.1,8.4-12.53,14.32-12.43,5.92.1,9.89,4.77,7.71,12.88-2.24,8.25-8.4,12.98-14.27,12.88-5.92-.15-10.04-5.02-7.76-13.32ZM161.48,24.71c1.54-5.37,1.19-10.89-2.19-10.94-3.48-.1-6.06,5.37-7.61,10.74-1.59,5.47-1.39,11.24,2.14,11.29,3.38.1,6.06-5.57,7.66-11.09Z"/>
+                                </g>
+                            </svg>
+                        </div>
+                        <span class="badge-num">N° 04</span>
+                    </div>
+
+                </div>
+                <span class="viajelito-label">Viajelito</span>
+            </div>
+
+
+            <!-- ═══════════════════
+                 CARA B — REVERSO
+            ═══════════════════ -->
+            <div class="ticket-face face-back">
+
+                <div class="postal-divider"></div>
+
+                <!-- IZQUIERDA: el mensaje -->
+                <div class="postal-left">
+                    <div class="postal-message">
+
+                        <span class="saludo">Jotita —</span>
+
+                        <div class="fecha-block">
+                            <div class="fecha-row">
+                                <span class="fecha-label">Fecha</span>
+                                <span class="fecha-value">07-05-26, 16:00/22:00</span>
+                            </div>
+                            <div class="fecha-row">
+                                <span class="fecha-label">Lugar</span>
+                                <span class="fecha-value">tu escritorio, con computador y cafelito en mano</span>
+                            </div>
+                        </div>
+
+                        <p class="msg-intro">Antes de la fecha que dice arriba, necesito que hagas algo.</p>
+
+                        <p class="msg-intro">Crea un álbum compartido conmigo. Ahí vas a subir, del viaje:</p>
+
+                        <ul class="msg-list">
+                            <li>5 a 10 fotos tuyas</li>
+                            <li>5 mías (las que más te gusten)</li>
+                            <li>5 a 10 nuestras</li>
+                            <li>3 de paisajes, comida o lo que sea</li>
+                        </ul>
+
+                        <p class="msg-final">
+                            Eso es todo lo que te puedo decir.<br>
+                            No preguntes para qué. No trates de adivinar.<br>
+                            Solo arma el álbum y llega puntual con tu cafelito.
+                        </p>
+
+                        <div class="firma-block">
+                            <span class="firma">taxss, agus.</span>
+                            <span class="clave">— contraseña: viajelito</span>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- DERECHA: bloque postal -->
+                <div class="postal-right">
+
+                    <div class="postal-service-label">CafelitoTime Postal Service</div>
+
+                    <div class="postal-recipient">Para: Josefina L.</div>
+
+                    <div class="address-lines">
+                        <div class="address-line"></div>
+                        <div class="address-line"></div>
+                        <div class="address-line"></div>
+                    </div>
+
+                    <!-- Nota del remitente — bloque tipo cita -->
+                    <div class="nota-remitente">
+                        <span class="nota-label">Nota del remitente:</span>
+                        <p class="nota-body">
+                            Sé que vas a querer preguntar qué es.<br>
+                            No te voy a responder.<br>
+                            Arma el álbum y confía.
+                        </p>
+                    </div>
+
+                    <!-- Sello CAPRI — esquina inferior derecha -->
+                    <div class="passport-stamp">
+                        <svg viewBox="0 0 100 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Elipse exterior (trazo más grueso, goma del sello) -->
+                            <ellipse cx="50" cy="36" rx="46.5" ry="32"
+                                     stroke="#555" stroke-width="1.6" opacity="0.88"/>
+                            <!-- Elipse interior fina -->
+                            <ellipse cx="50" cy="36" rx="40" ry="25.5"
+                                     stroke="#555" stroke-width="0.7" opacity="0.85"/>
+                            <!-- Anillo punteado entre los dos óvalos -->
+                            <ellipse cx="50" cy="36" rx="43.4" ry="28.7"
+                                     stroke="#555" stroke-width="0.45"
+                                     stroke-dasharray="1.6 1.7" opacity="0.65"/>
+
+                            <!-- Estrellas decorativas flanqueando CAPRI -->
+                            <text x="14" y="38.4" text-anchor="middle"
+                                  font-family="Georgia, 'Times New Roman', serif"
+                                  font-size="4.6" fill="#555" opacity="0.75">✦</text>
+                            <text x="86" y="38.4" text-anchor="middle"
+                                  font-family="Georgia, 'Times New Roman', serif"
+                                  font-size="4.6" fill="#555" opacity="0.75">✦</text>
+
+                            <!-- CAPRI — serif prominente -->
+                            <text x="50" y="40" text-anchor="middle"
+                                  font-family="Georgia, 'Times New Roman', serif"
+                                  font-size="13" font-weight="700"
+                                  fill="#555" letter-spacing="2.4" opacity="0.92">CAPRI</text>
+
+                            <!-- ITALIA · 2026 — pequeño, debajo -->
+                            <text x="50" y="51" text-anchor="middle"
+                                  font-family="Georgia, 'Times New Roman', serif"
+                                  font-size="3.7" font-weight="400"
+                                  fill="#555" letter-spacing="2.6" opacity="0.85">ITALIA · 2026</text>
+
+                            <!-- Línea fina decorativa arriba y abajo del texto -->
+                            <line x1="20" y1="26" x2="80" y2="26"
+                                  stroke="#555" stroke-width="0.35" opacity="0.55"/>
+                            <line x1="20" y1="56" x2="80" y2="56"
+                                  stroke="#555" stroke-width="0.35" opacity="0.55"/>
+                        </svg>
+                    </div>
+
+                </div><!-- /postal-right -->
+
+            </div><!-- /face-back -->
+
+        </div>
+    </div>
+
+</div>
+
+<script>
+    const ticket = document.getElementById('ticket04');
+    function flip() { ticket.classList.toggle('flipped'); }
+    ticket.addEventListener('click', flip);
+    window.flipTicket = flip;
+</script>
+
+</body>
+</html>
