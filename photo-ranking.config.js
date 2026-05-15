@@ -37,11 +37,20 @@ window.PR_CONFIG = {
   //   { id: 'p01', file: 'IMG_0042.jpg' },
   //   { id: 'p02', file: 'atardecer.jpg', alt: 'atardecer en la playa' },
   photos: [
-    { id: 'p01', file: 'plaza-espana-final.webp', alt: 'Plaza España, los dos juntos' },
-    { id: 'p02', file: 'vaticano-final.webp',     alt: 'Vaticano, los dos juntos afuera' },
-    { id: 'p03', file: 'capri-juntos.webp',       alt: 'Capri, los dos juntos' },
-    { id: 'p04', file: 'coliseo-juntos.webp',     alt: 'Coliseo, los dos juntos' },
-    { id: 'p05', file: 'positano-agus.webp',      alt: 'Positano, retrato' }
+    { id: 'p01', file: 'agus-capri-mirador.webp',    alt: 'Agus en el mirador de Capri' },
+    { id: 'p02', file: 'agus-capri-roca.webp',       alt: 'Agus solo en la roca, Capri' },
+    { id: 'p03', file: 'agus-capri-roca-2.webp',     alt: 'Agus solo en la roca 2, Capri' },
+    { id: 'p04', file: 'agus-capri-roca-3.webp',     alt: 'Agus solo en la roca 3, Capri' },
+    { id: 'p05', file: 'agus-parque-recuerdo.webp',  alt: 'Agus en el Parque del Recuerdo' },
+    { id: 'p06', file: 'capri-juntos.webp',           alt: 'Los dos juntos en Capri' },
+    { id: 'p07', file: 'coliseo-agus.webp',           alt: 'Agus en el Coliseo' },
+    { id: 'p08', file: 'jo-capri-roca.webp',          alt: 'Jo sola en la roca, Capri' },
+    { id: 'p09', file: 'plaza-espana-juntos.webp',    alt: 'Los dos juntos en Plaza España' },
+    { id: 'p10', file: 'positano-espaldas-1.webp',   alt: 'Positano juntos de espaldas 1' },
+    { id: 'p11', file: 'positano-espaldas-2.webp',   alt: 'Positano juntos de espaldas 2' },
+    { id: 'p12', file: 'positano-espaldas-3.webp',   alt: 'Positano juntos de espaldas 3' },
+    { id: 'p13', file: 'vaticano-juntos-final.webp', alt: 'Los dos juntos afuera del Vaticano' },
+    { id: 'p14', file: 'vaticano-juntos-2.webp',     alt: 'Los dos juntos afuera del Vaticano 2' }
   ],
 
   /* --- 5. Carpeta de assets (no tocar salvo que la renombres) */
