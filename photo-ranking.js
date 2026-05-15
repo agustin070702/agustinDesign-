@@ -107,6 +107,7 @@
         setupSortables();
         connectSupabase();
         setupLightbox();
+        setupReset();
     }
 
     /* ---------- 2.1 Render de tiers ---------- */
@@ -256,6 +257,36 @@
         }
 
         setTimeout(() => updates.forEach(u => suppressEcho.delete(u.photo_id)), 1500);
+    }
+
+    /* ============================================================
+       2.4 Reset — vuelve todo al banco y limpia Supabase
+       ============================================================ */
+    function setupReset() {
+        const btn = $('#pr-reset-btn');
+        if (!btn) return;
+        btn.addEventListener('click', () => {
+            if (!confirm('¿Restablecer el tier list?\nTodas las fotos volverán al banco sin clasificar.')) return;
+
+            const pool = $('#pr-pool');
+            $$('.pr-card').forEach(card => {
+                if (card.parentElement !== pool) pool.appendChild(card);
+            });
+
+            Object.keys(state).forEach(id => { state[id] = { tier: POOL_TIER, position: 0 }; });
+            updatePoolCount();
+            setStatus('restablecido');
+
+            if (supabaseClient) {
+                const ids = (CFG.photos || []).map(p => p.id);
+                if (ids.length) {
+                    supabaseClient.from('photo_rankings').delete().in('photo_id', ids)
+                        .then(({ error }) => {
+                            if (error) { console.error('[PR] reset fail', error); setStatus('error al restablecer', true); }
+                        });
+                }
+            }
+        });
     }
 
     /* ============================================================
@@ -427,20 +458,29 @@
     function onCardClick(e) {
         const card = e.target.closest('.pr-card');
         if (!card) return;
-        // Aceptamos clicks en pool o en cualquier tier-row
         const parent = card.parentElement;
         if (!parent) return;
         const inPool = parent.id === 'pr-pool';
         const inTier = parent.classList && parent.classList.contains('pr-tier-row');
         if (!inPool && !inTier) return;
-        const id = card.dataset.photoId;
-        const idx = (CFG.photos || []).findIndex(p => p.id === id);
+
+        // Orden visual: tiers de arriba a abajo, luego el pool
+        const allCards = [
+            ...$$('.pr-tier-row .pr-card'),
+            ...$$('#pr-pool .pr-card')
+        ];
+        const visualPhotos = allCards
+            .map(c => (CFG.photos || []).find(p => p.id === c.dataset.photoId))
+            .filter(Boolean);
+
+        const clickedId = card.dataset.photoId;
+        const idx = visualPhotos.findIndex(p => p.id === clickedId);
         if (idx < 0) return;
-        openLightbox(idx);
+        openLightbox(idx, visualPhotos);
     }
 
-    function openLightbox(idx) {
-        lbState.photos = CFG.photos || [];
+    function openLightbox(idx, photos) {
+        lbState.photos = photos || CFG.photos || [];
         lbState.index  = idx;
         lbState.open   = true;
         resetTransformState();

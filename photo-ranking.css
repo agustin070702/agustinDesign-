@@ -316,6 +316,33 @@ html, body { scrollbar-width: thin; scrollbar-color: rgba(32, 32, 32, 0.2) trans
     .pr-back:hover .pr-back-arrow { transform: translateX(-6px); }
 }
 
+.pr-header-top-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.pr-reset-btn {
+    background: transparent;
+    border: 1px solid var(--pr-line-2);
+    border-radius: 100px;
+    color: var(--pr-mute);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: border-color 0.25s ease, color 0.25s ease;
+}
+@media (hover: hover) {
+    .pr-reset-btn:hover {
+        border-color: #c44;
+        color: #c44;
+    }
+}
+.pr-reset-btn:active { opacity: 0.7; }
+
 .pr-presence {
     display: inline-flex;
     align-items: center;
