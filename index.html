@@ -8,12 +8,20 @@
 <link rel="apple-touch-icon" href="img/av.png?v=1">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <!-- CSS del ranking oculto temporalmente — descomentar para reactivar
     <link rel="stylesheet" href="photo-ranking-gate.css">
-    -->
 
+    <!-- Precarga del carrusel "Selected Works": las cards más pesadas
+         se descargan en paralelo con el resto de la página, así nunca
+         se ve el hueco gris al scrollear hasta esa sección. -->
+    <link rel="preload" as="image" href="img/lacolumna_portada2.webp">
+    <link rel="preload" as="image" href="img/poster_portada.webp">
+    <link rel="preload" as="image" href="img/hai_portada.webp">
+    <link rel="preload" as="image" href="img/tap_in_portada.webp">
+    <link rel="preload" as="image" href="img/mido_portada.webp">
+    <link rel="preload" as="image" href="img/entrenapo_portada.webp">
+    <link rel="preload" as="image" href="img/anco_portada.webp">
 </head>
 <body>
     <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">
@@ -64,6 +72,7 @@
         <div class="hero-image" style="will-change: transform;">
             <img src="img/fotodeperfilgus5.webp" alt="Agustín Avendaño" fetchpriority="high"
     loading="eager"
+    decoding="async"
     width="1920"
     height="1080">
         </div>
@@ -75,8 +84,8 @@
             <div class="about-profile">
                 <div class="photo-wrapper scroll-animate"> 
     
-    <div class="about-photo-frame"> 
-        <img src="img/fotoaboutdelgus.webp" alt="Agustín Avendaño"> 
+    <div class="about-photo-frame">
+        <img src="img/fotoaboutdelgus.webp" alt="Agustín Avendaño" loading="lazy" decoding="async" width="800" height="1000">
     </div>
 
 </div>
@@ -88,7 +97,7 @@
                     <h3 class="about-role scroll-animate">Diseñador Gráfico y UX/UI</h3>
                     
                     <p class="about-bio scroll-animate">
-                        Curso el quinto año de Diseño Integral con especialización en Diseño Gráfico en la <strong>Universidad Católica de Santiago<strong>, Chile
+                        Curso el quinto año de Diseño Integral con especialización en Diseño Gráfico en la <strong>Universidad Católica de Santiago</strong>, Chile
                     </p>
                     <p class="about-bio scroll-animate">
                         Me caracterizo por ser una persona perseverante y detallista, con una buena gestión del tiempo y un desempeño sólido tanto en proyectos individuales como colaborativos
@@ -226,7 +235,7 @@
 
                     <div class="work-card-wrapper">
                         <a href="proyecto-tapin.html" class="project-card">
-                            <div class="card-image"><img src="img/tap_in_portada.webp" alt="Tap In"></div>
+                            <div class="card-image"><img src="img/tap_in_portada.webp" alt="Tap In" decoding="async" width="800" height="600"></div>
                             <div class="card-content">
                                 <span class="card-category">UX/UI Design</span>
                                 <h3 class="card-title">Tap In</h3>
@@ -237,7 +246,7 @@
 
                     <div class="work-card-wrapper">
                         <a href="proyecto-lacolumna.html" class="project-card">
-                            <div class="card-image"><img src="img/lacolumna_portada2.webp" alt="La Columna"></div>
+                            <div class="card-image"><img src="img/lacolumna_portada2.webp" alt="La Columna" decoding="async" width="800" height="600"></div>
                             <div class="card-content">
                                 <span class="card-category">Graphic Design</span>
                                 <h3 class="card-title">La Columna</h3>
@@ -248,7 +257,7 @@
 
                     <div class="work-card-wrapper">
                         <a href="proyecto-mido.html" class="project-card">
-                            <div class="card-image"><img src="img/mido_portada.webp" alt="Mido"></div>
+                            <div class="card-image"><img src="img/mido_portada.webp" alt="Mido" decoding="async" width="800" height="600"></div>
                             <div class="card-content">
                                 <span class="card-category">Branding</span>
                                 <h3 class="card-title">Mido</h3>
@@ -259,7 +268,7 @@
 
                     <div class="work-card-wrapper">
                         <a href="proyecto-entrenapo.html" class="project-card">
-                            <div class="card-image"><img src="img/entrenapo_portada.webp" alt="Entrena Po" loading="lazy"></div>
+                            <div class="card-image"><img src="img/entrenapo_portada.webp" alt="Entrena Po" decoding="async" width="800" height="600"></div>
                             <div class="card-content">
                                 <span class="card-category">Branding</span>
                                 <h3 class="card-title">Entrena Po</h3>
@@ -270,7 +279,7 @@
 
                     <div class="work-card-wrapper">
                         <a href="proyecto-hai.html" class="project-card">
-                            <div class="card-image"><img src="img/hai_portada.webp" alt="HAI Group" loading="lazy"></div>
+                            <div class="card-image"><img src="img/hai_portada.webp" alt="HAI Group" decoding="async" width="800" height="600"></div>
                             <div class="card-content">
                                 <span class="card-category">Corporate</span>
                                 <h3 class="card-title">HAI Group</h3>
@@ -281,7 +290,7 @@
 
                     <div class="work-card-wrapper">
                         <a href="proyecto-posters.html" class="project-card">
-                            <div class="card-image"><img src="img/poster_portada.webp" alt="Posters" loading="lazy"></div>
+                            <div class="card-image"><img src="img/poster_portada.webp" alt="Posters" decoding="async" width="800" height="600"></div>
                             <div class="card-content">
                                 <span class="card-category">Graphic Design</span>
                                 <h3 class="card-title">Posters & Afiches</h3>
@@ -292,7 +301,7 @@
 
                     <div class="work-card-wrapper">
                         <a href="proyecto-anco.html" class="project-card">
-                            <div class="card-image"><img src="img/anco_portada.webp" alt="Anco" loading="lazy"></div>
+                            <div class="card-image"><img src="img/anco_portada.webp" alt="Anco" decoding="async" width="800" height="600"></div>
                             <div class="card-content">
                                 <span class="card-category">Packaging</span>
                                 <h3 class="card-title">Anco</h3>
@@ -371,10 +380,9 @@
             </div>
             <div class="footer-row-bottom">
                 <div class="easter-egg-group">
-                    <span id="btnKit" class="btn-jotita">jotita <img src="img/jugo.png" class="jugo-emoji" alt="🧃"></span>
+                    <span id="btnKit" class="btn-jotita">jotita <img src="img/jugo.png" class="jugo-emoji" alt="🧃" loading="lazy" decoding="async" width="32" height="32"></span>
                     <span class="btn-secreto" onclick="parcheCupones()">*</span>
-                    <!-- Botón ranking oculto temporalmente — quitar el atributo `hidden` para reactivarlo -->
-                    <a href="#" id="prg-trigger" class="btn-jotita prg-trigger" hidden>ranking</a>
+                    <a href="#" id="prg-trigger" class="btn-jotita prg-trigger">ranking</a>
                 </div>
                 <a href="#home" class="back-to-top">Back to top ↑</a>
             </div>
@@ -384,13 +392,10 @@
 </section>
 
 <script src="script.js" defer></script>
-<!-- JS del ranking oculto temporalmente — descomentar para reactivar
 <script src="photo-ranking-gate.js" defer></script>
--->
 
 <!-- Overlay password del tier list (aislado, no afecta al resto) -->
-<!-- Oculto temporalmente — quitar el atributo `hidden` y `style="display:none"` para reactivar -->
-<div id="prg-overlay" class="prg-overlay" role="dialog" aria-modal="true" aria-labelledby="prg-title" hidden style="display:none">
+<div id="prg-overlay" class="prg-overlay" role="dialog" aria-modal="true" aria-labelledby="prg-title">
 
     <button type="button" class="prg-close" aria-label="cerrar">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -536,10 +541,10 @@
                 <div class="folder-back"></div>
                 
                 <div class="folder-image-container">
-    <img src="img/ticket_cafelitotime_2.webp" alt="Ticket Cafelito Time" class="cafelito-image" data-ticket="1">
-    <img src="img/ticket_cafelitotime_7meses.png" alt="Ticket 7 Meses" class="cafelito-image" data-ticket="2">
-    <img src="img/ticket_cafelitotime_n3.png" alt="Ticket Berlín" class="cafelito-image" data-ticket="3">
-    <img src="img/postal_capri.jpg" alt="Ticket N°04 Viajelito" class="cafelito-image" data-ticket="4">
+    <img src="img/ticket_cafelitotime_2.webp" alt="Ticket Cafelito Time" class="cafelito-image" data-ticket="1" loading="lazy" decoding="async">
+    <img src="img/ticket_cafelitotime_7meses.png" alt="Ticket 7 Meses" class="cafelito-image" data-ticket="2" loading="lazy" decoding="async">
+    <img src="img/ticket_cafelitotime_n3.png" alt="Ticket Berlín" class="cafelito-image" data-ticket="3" loading="lazy" decoding="async">
+    <img src="img/postal_capri.jpg" alt="Ticket N°04 Viajelito" class="cafelito-image" data-ticket="4" loading="lazy" decoding="async">
 </div>
 
 <div class="folder-front"></div>
