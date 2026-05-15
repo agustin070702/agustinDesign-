@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Selección Privada · Agustín Avendaño</title>
+    <link rel="icon" type="image/png" href="img/av.png?v=1">
+    <link rel="apple-touch-icon" href="img/av.png?v=1">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="photo-ranking.css?v=4">
+</head>
+<body class="pr-body">
+
+    <!-- ===== Password gate (paleta clara, estilo "kit-overlay") ===== -->
+    <div id="pr-gate" class="pr-gate" role="dialog" aria-modal="true" aria-labelledby="pr-gate-title">
+
+        <a href="index.html" class="pr-gate-close" aria-label="volver al portafolio">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+        </a>
+
+        <div class="pr-gate-card">
+            <div class="pr-gate-tag">[ ACCESO RESTRINGIDO ]</div>
+            <h2 id="pr-gate-title" class="pr-gate-title">Selección Privada</h2>
+            <p class="pr-gate-sub">
+                Esta sección está reservada para curaduría interna.<br>
+                Ingresa la <b>clave compartida</b> para continuar.
+            </p>
+
+            <form id="pr-gate-form" class="pr-gate-form" autocomplete="off">
+                <input
+                    type="password"
+                    id="pr-gate-input"
+                    class="pr-gate-input"
+                    placeholder="clave de acceso"
+                    aria-label="clave de acceso"
+                    autocomplete="off"
+                    autocapitalize="off"
+                    spellcheck="false">
+                <button type="submit" class="pr-gate-btn">acceder</button>
+            </form>
+
+            <p id="pr-gate-error" class="pr-gate-error" hidden>clave incorrecta · vuelve a intentarlo</p>
+
+            <p class="pr-gate-hint">[ acceso autorizado únicamente para invitados ]</p>
+        </div>
+    </div>
+
+    <!-- ===== App ===== -->
+    <main class="pr-app" hidden>
+
+        <header class="pr-header">
+            <div class="pr-header-top">
+                <a href="index.html" class="pr-back" aria-label="volver al portafolio">
+                    <span class="pr-back-arrow">←</span>
+                    <span class="pr-back-label">volver</span>
+                </a>
+
+                <div class="pr-presence" title="participantes conectados">
+                    <span class="pr-dot"></span>
+                    <span id="pr-count">1</span>
+                    <span class="pr-presence-label">en línea</span>
+                </div>
+            </div>
+
+            <div class="pr-header-main">
+                <span class="pr-section-label">/ Curaduría Compartida</span>
+                <h1 class="pr-title">Selección de fotografías</h1>
+                <p class="pr-subtitle">
+                    Arrastra cada imagen a la categoría correspondiente.
+                    Los cambios se sincronizan en vivo entre los participantes.
+                </p>
+            </div>
+        </header>
+
+        <section class="pr-board" id="pr-board">
+            <!-- filas de tiers se generan por JS desde config -->
+        </section>
+
+        <section class="pr-pool-section">
+            <header class="pr-pool-header">
+                <div>
+                    <span class="pr-pool-label">/ sin clasificar</span>
+                    <h2 class="pr-pool-title">Banco de fotografías</h2>
+                </div>
+                <span class="pr-pool-count">
+                    <span id="pr-pool-count">0</span>
+                    <span class="pr-pool-count-label">pendientes</span>
+                </span>
+            </header>
+
+            <p class="pr-pool-helper">
+                Toca una fotografía para verla en detalle, o arrástrala directamente a su categoría.
+            </p>
+
+            <div class="pr-pool-grid" data-tier="pool" id="pr-pool"></div>
+
+            <p class="pr-empty-hint" id="pr-empty-hint" hidden>
+                Aún no se han cargado fotografías. Coloca los archivos en
+                <code>/fotos-tier/</code> y agrégalos en <code>photo-ranking.config.js</code>.
+            </p>
+        </section>
+
+        <footer class="pr-footer">
+            <span class="pr-status" id="pr-status">conectado</span>
+            <span class="pr-sep">·</span>
+            <span class="pr-credit">curaduría compartida en vivo</span>
+        </footer>
+    </main>
+
+    <!-- ===== Lightbox para ver/zoom/navegar fotos del banco ===== -->
+    <div id="pr-lightbox" class="pr-lightbox" role="dialog" aria-modal="true" aria-label="visor de fotografía">
+
+        <button type="button" class="pr-lb-close" id="pr-lb-close" aria-label="cerrar">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+        </button>
+
+        <button type="button" class="pr-lb-nav pr-lb-prev" id="pr-lb-prev" aria-label="anterior">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+        </button>
+
+        <div class="pr-lb-stage" id="pr-lb-stage">
+            <img src="" alt="" class="pr-lb-img" id="pr-lb-img" draggable="false">
+        </div>
+
+        <button type="button" class="pr-lb-nav pr-lb-next" id="pr-lb-next" aria-label="siguiente">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+        </button>
+
+        <div class="pr-lb-toolbar">
+            <button type="button" class="pr-lb-tool" id="pr-lb-zoom-out" aria-label="alejar">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="7"></circle>
+                    <line x1="20" y1="20" x2="16" y2="16"></line>
+                    <line x1="8" y1="11" x2="14" y2="11"></line>
+                </svg>
+            </button>
+            <span class="pr-lb-zoom" id="pr-lb-zoom">100%</span>
+            <button type="button" class="pr-lb-tool" id="pr-lb-zoom-in" aria-label="acercar">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="7"></circle>
+                    <line x1="20" y1="20" x2="16" y2="16"></line>
+                    <line x1="8" y1="11" x2="14" y2="11"></line>
+                    <line x1="11" y1="8" x2="11" y2="14"></line>
+                </svg>
+            </button>
+            <span class="pr-lb-sep">·</span>
+            <button type="button" class="pr-lb-tool pr-lb-reset" id="pr-lb-reset" aria-label="restablecer">
+                restablecer
+            </button>
+        </div>
+
+        <div class="pr-lb-counter">
+            <span id="pr-lb-current">1</span>
+            <span class="pr-lb-counter-sep">/</span>
+            <span id="pr-lb-total">1</span>
+        </div>
+    </div>
+
+    <!-- ===== Vendor (CDN) ===== -->
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.2/Sortable.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+
+    <!-- ===== Config + lógica ===== -->
+    <script src="photo-ranking.config.js?v=5" defer></script>
+    <script src="photo-ranking.js?v=5" defer></script>
+</body>
+</html>
