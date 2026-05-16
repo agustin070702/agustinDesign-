@@ -50,7 +50,16 @@ window.PR_CONFIG = {
     { id: 'p11', file: 'positano-espaldas-2.webp',   alt: 'Positano juntos de espaldas 2' },
     { id: 'p12', file: 'positano-espaldas-3.webp',   alt: 'Positano juntos de espaldas 3' },
     { id: 'p13', file: 'vaticano-juntos-final.webp', alt: 'Los dos juntos afuera del Vaticano' },
-    { id: 'p14', file: 'vaticano-juntos-2.webp',     alt: 'Los dos juntos afuera del Vaticano 2' }
+    { id: 'p14', file: 'vaticano-juntos-2.webp',     alt: 'Los dos juntos afuera del Vaticano 2' },
+    { id: 'p15', file: 'jo-img-0008.webp',           alt: 'Jo foto 1' },
+    { id: 'p16', file: 'jo-img-0010.webp',           alt: 'Jo foto 2' },
+    { id: 'p17', file: 'jo-img-0013.webp',           alt: 'Jo foto 3' },
+    { id: 'p18', file: 'jo-img-0018.webp',           alt: 'Jo foto 4' },
+    { id: 'p19', file: 'jo-img-0019.webp',           alt: 'Jo foto 5' },
+    { id: 'p20', file: 'jo-img-0022.webp',           alt: 'Jo foto 6' },
+    { id: 'p21', file: 'jo-img-0023.webp',           alt: 'Jo foto 7' },
+    { id: 'p22', file: 'jo-panteon.webp',             alt: 'Jo en el Panteón' },
+    { id: 'p23', file: 'ravello-juntos-beso.webp',   alt: 'Los dos juntos en Ravello' }
   ],
 
   /* --- 5. Carpeta de assets (no tocar salvo que la renombres) */
