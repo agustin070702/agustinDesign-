@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Planning Session · Agustín & Jo</title>
+    <link rel="icon" type="image/png" href="img/av.png?v=1">
+    <link rel="apple-touch-icon" href="img/av.png?v=1">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="planning-session.css">
+</head>
+<body class="ps-body">
+
+    <!-- ===== Gate (clave + selector de usuario) ===== -->
+    <div id="ps-gate" class="ps-gate">
+        <a href="index.html" class="ps-gate-close" aria-label="volver al portafolio">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+        </a>
+        <div class="ps-gate-card" id="ps-gate-card">
+            <div class="ps-gate-tag">[ PLANNING SESSION ]</div>
+
+            <!-- Paso 1: clave -->
+            <div id="ps-step-pwd">
+                <h2 class="ps-gate-title">acceso</h2>
+                <p class="ps-gate-sub">clave de acceso compartida.</p>
+                <form id="ps-pwd-form" class="ps-gate-form" autocomplete="off">
+                    <input
+                        type="password"
+                        id="ps-pwd-input"
+                        class="ps-gate-input"
+                        placeholder="clave de acceso"
+                        autocomplete="off"
+                        autocapitalize="off"
+                        spellcheck="false">
+                    <button type="submit" class="ps-gate-btn">entrar</button>
+                </form>
+                <p id="ps-pwd-error" class="ps-gate-error" hidden>clave incorrecta · vuelve a intentarlo</p>
+                <p class="ps-gate-hint">[ acceso autorizado únicamente para invitados ]</p>
+            </div>
+
+            <!-- Paso 2: selector de usuario (hidden hasta que pase la clave) -->
+            <div id="ps-step-user" hidden>
+                <h2 class="ps-gate-title">quien eres</h2>
+                <p class="ps-gate-sub">Sin filtro, sin trampa.</p>
+                <div class="ps-gate-btns">
+                    <button class="ps-gate-btn" data-user="agus">soy agus</button>
+                    <button class="ps-gate-btn" data-user="jo">soy la jo</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== App ===== -->
+    <main class="ps-app" hidden>
+
+        <header class="ps-header">
+            <div class="ps-header-top">
+                <a href="index.html" class="ps-back">
+                    <span class="ps-back-arrow">←</span>
+                    <span class="ps-back-label">volver</span>
+                </a>
+                <div class="ps-header-top-right">
+                    <div id="ps-round-progress" class="ps-round-progress" hidden></div>
+                    <div class="ps-presence" id="ps-presence">
+                        <span class="ps-dot"></span>
+                        <span id="ps-count">1</span>
+                        <span class="ps-presence-label">en línea</span>
+                    </div>
+                </div>
+            </div>
+            <div class="ps-header-main">
+                <span class="ps-section-label">/ Planning Session</span>
+                <h1 class="ps-title">agosto y más allá</h1>
+                <p class="ps-subtitle">doce rondas. sin filtro de plata ni de tiempo.</p>
+            </div>
+        </header>
+
+        <!-- ===== Contenedor de rondas ===== -->
+        <div id="ps-rounds" class="ps-rounds"></div>
+
+        <footer class="ps-footer">
+            <span class="ps-status" id="ps-status">conectando</span>
+            <span class="ps-sep">·</span>
+            <span class="ps-credit">planning en vivo</span>
+        </footer>
+
+    </main>
+
+    <!-- ===== Vendor ===== -->
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.2/Sortable.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+
+    <!-- ===== Lógica ===== -->
+    <script src="planning-session.js" defer></script>
+    <script src="planning-session-ui.js" defer></script>
+
+</body>
+</html>
