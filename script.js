@@ -232,14 +232,8 @@ if (aboutResume) {
     aboutObserver.observe(aboutResume);
 }
 
-// Agregar clase al body cuando se hace scroll
-window.addEventListener('scroll', () => {
-    if (window.scrollY > 50) {
-        document.body.classList.add('scrolled');
-    } else {
-        document.body.classList.remove('scrolled');
-    }
-});
+// Marcador de scroll: lo combinamos abajo con la transición Hero→About
+// para tener UN SOLO listener de scroll throttled con rAF.
 
 
 
@@ -370,18 +364,33 @@ console.log(
 );
 
 // Reloj en tiempo real
+// Pausamos el setInterval cuando la pestaña está oculta: ahorra CPU y
+// evita reflows innecesarios mientras nadie ve el reloj.
 function updateClock() {
     const now = new Date();
-    const timeString = now.toLocaleTimeString('en-US', { 
-        hour: '2-digit', 
-        minute: '2-digit', 
-        second: '2-digit' 
+    const timeString = now.toLocaleTimeString('en-US', {
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
     });
     const clockElement = document.getElementById('clock');
     if(clockElement) clockElement.innerText = timeString;
 }
-setInterval(updateClock, 1000);
-updateClock(); // Iniciar inmediatamente
+let clockTimer = null;
+function startClock() {
+    if (clockTimer) return;
+    updateClock();
+    clockTimer = setInterval(updateClock, 1000);
+}
+function stopClock() {
+    if (!clockTimer) return;
+    clearInterval(clockTimer);
+    clockTimer = null;
+}
+document.addEventListener('visibilitychange', () => {
+    if (document.hidden) stopClock(); else startClock();
+});
+startClock();
 
 // ==========================================
 // CARRUSEL INTERNO (PÁGINA DE PROYECTO)
@@ -791,29 +800,53 @@ if (contactRight) {
 
 
 // ==========================================
-// TRANSICIÓN HERO → ABOUT
+// TRANSICIÓN HERO → ABOUT  +  Marcador "scrolled" del body
+// Un único listener de scroll, throttled con rAF: lectura única de
+// scrollY por frame, sin layout thrashing y sin redundancia.
 // ==========================================
 const heroContent = document.querySelector('.hero-content');
 const heroSection = document.querySelector('.hero');
 const heroImage = document.querySelector('.hero-image img');
 if (heroImage) heroImage.style.transform = 'scale(1.15)';
 
-window.addEventListener('scroll', () => {
-    const scrollTop = window.pageYOffset;
-    const heroHeight = heroSection ? heroSection.offsetHeight : window.innerHeight;
-    const progress = Math.min(scrollTop / (heroHeight * 0.5), 1);
+// Cacheamos heroHeight y solo lo recalculamos si la ventana cambia
+let cachedHeroHeight = heroSection ? heroSection.offsetHeight : window.innerHeight;
+window.addEventListener('resize', () => {
+    cachedHeroHeight = heroSection ? heroSection.offsetHeight : window.innerHeight;
+}, { passive: true });
 
-    // Fade out + movimiento suave del contenido del hero
-    if (heroContent) {
-        heroContent.style.setProperty('opacity', `${1 - progress}`, 'important');
-        heroContent.style.setProperty('transform', `translateY(-${progress * 20}px)`, 'important');
+let scrollRafPending = false;
+let lastScrolledClass = false;
+
+function onScrollFrame() {
+    scrollRafPending = false;
+    const scrollTop = window.scrollY;
+
+    // 1) Clase "scrolled" en body (solo togglear cuando cambia el estado)
+    const shouldBeScrolled = scrollTop > 50;
+    if (shouldBeScrolled !== lastScrolledClass) {
+        document.body.classList.toggle('scrolled', shouldBeScrolled);
+        lastScrolledClass = shouldBeScrolled;
     }
 
-    // Zoom out suave en la imagen
-if (heroImage && scrollTop < heroHeight) {
-    const imgProgress = Math.min(scrollTop / heroHeight, 1);
-heroImage.style.transform = `scale(${1.15 - imgProgress * 0.15})`;
+    // 2) Hero fade + zoom — solo si seguimos cerca del hero
+    if (scrollTop <= cachedHeroHeight) {
+        const progress = Math.min(scrollTop / (cachedHeroHeight * 0.5), 1);
+        if (heroContent) {
+            heroContent.style.setProperty('opacity', `${1 - progress}`, 'important');
+            heroContent.style.setProperty('transform', `translateY(-${progress * 20}px)`, 'important');
+        }
+        if (heroImage) {
+            const imgProgress = Math.min(scrollTop / cachedHeroHeight, 1);
+            heroImage.style.transform = `scale(${1.15 - imgProgress * 0.15})`;
+        }
+    }
 }
+
+window.addEventListener('scroll', () => {
+    if (scrollRafPending) return;
+    scrollRafPending = true;
+    requestAnimationFrame(onScrollFrame);
 }, { passive: true });
 
 
@@ -1558,7 +1591,7 @@ if (btnCerrarCarpeta) {
 
 // C. Sistema de tickets con animación
 let currentTicketNum = 1;
-const totalTickets = 4;
+const totalTickets = 5;
 
 function setTicketContent(num) {
     const ticketImgEl  = document.getElementById('ticketAmpliadoImg');
@@ -1589,6 +1622,10 @@ function setTicketContent(num) {
             iframeEl.classList.add('visible');
         }
         if (btnFlipModal) btnFlipModal.classList.add('visible');
+    } else if (num === 5) {
+        ticketImgEl.src = 'img/ticket_elau.webp';
+        ticketImgEl.style.maxWidth  = '55%';
+        ticketImgEl.style.maxHeight = '77vh';
     }
 }
 
@@ -1773,25 +1810,46 @@ if (modalTicket) {
        rotación en perspectiva.
        Al salir el mouse, vuelve suavemente a 0.
        ======================================================= */
-    document.querySelectorAll('.tp-bento-item').forEach(function (card) {
+    /* Solo activamos tilt si hay mouse real (evita listeners y trabajo
+       innecesario en táctil donde nunca dispara mousemove). */
+    if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+        document.querySelectorAll('.tp-bento-item').forEach(function (card) {
 
-        /* Tilt mientras se mueve el mouse */
-        card.addEventListener('mousemove', function (e) {
-            var rect = card.getBoundingClientRect();
-            /* Posición normalizada de -0.5 a 0.5 */
-            var x = (e.clientX - rect.left)  / rect.width  - 0.5;
-            var y = (e.clientY - rect.top)   / rect.height - 0.5;
-            card.style.transition = 'transform 0.1s ease';
-            card.style.transform  =
-                'perspective(900px) rotateY(' + (x * 7) + 'deg) rotateX(' + (-y * 7) + 'deg)';
-        });
+            /* rAF throttle: guardamos coords y aplicamos transform una vez
+               por frame en vez de hacerlo en cada mousemove (que dispara
+               60–120 veces por segundo y causa jank). */
+            var pendingFrame = false;
+            var lastX = 0, lastY = 0;
+            var cachedRect = null;
 
-        /* Reset suave al salir el mouse */
-        card.addEventListener('mouseleave', function () {
-            card.style.transition = 'transform 0.7s cubic-bezier(0.25,0.46,0.45,0.94)';
-            card.style.transform  = 'perspective(900px) rotateY(0deg) rotateX(0deg)';
+            function applyTilt() {
+                pendingFrame = false;
+                card.style.transform =
+                    'perspective(900px) rotateY(' + (lastX * 7) + 'deg) rotateX(' + (-lastY * 7) + 'deg)';
+            }
+
+            card.addEventListener('mouseenter', function () {
+                cachedRect = card.getBoundingClientRect();
+                card.style.transition = 'transform 0.1s ease';
+            });
+
+            card.addEventListener('mousemove', function (e) {
+                if (!cachedRect) cachedRect = card.getBoundingClientRect();
+                lastX = (e.clientX - cachedRect.left) / cachedRect.width  - 0.5;
+                lastY = (e.clientY - cachedRect.top)  / cachedRect.height - 0.5;
+                if (!pendingFrame) {
+                    pendingFrame = true;
+                    requestAnimationFrame(applyTilt);
+                }
+            });
+
+            card.addEventListener('mouseleave', function () {
+                cachedRect = null;
+                card.style.transition = 'transform 0.7s cubic-bezier(0.25,0.46,0.45,0.94)';
+                card.style.transform  = 'perspective(900px) rotateY(0deg) rotateX(0deg)';
+            });
         });
-    });
+    }
 
 
     /* =======================================================
@@ -1851,14 +1909,21 @@ if (modalTicket) {
         var kgIsDown   = false;
         var kgStartX   = 0, kgStartOff = 0;
         var kgRafId    = null;
-        var KG_LERP    = 0.13;  /* suavidad de inercia */
+        var KG_LERP    = 0.18;  /* suavidad de inercia (más alta = más snappy) */
         var KG_MULT    = 1.4;   /* multiplicador velocidad drag */
 
-        function kgGetMax() {
-            return -(kgTrack.scrollWidth - kgWrapper.offsetWidth);
+        /* Cache de los límites de scroll: leerlos en cada mousemove
+           (scrollWidth / offsetWidth) fuerza un layout reflow por frame.
+           Los recalculamos solo en mousedown y en resize. */
+        var kgMaxX = 0;
+        function kgRecalcMax() {
+            kgMaxX = -(kgTrack.scrollWidth - kgWrapper.offsetWidth);
         }
+        kgRecalcMax();
+        window.addEventListener('resize', kgRecalcMax, { passive: true });
+
         function kgClamp(v) {
-            return Math.max(kgGetMax(), Math.min(0, v));
+            return Math.max(kgMaxX, Math.min(0, v));
         }
 
         /* Bucle RAF: interpola kgCurrentX → kgTargetX */
@@ -1879,6 +1944,16 @@ if (modalTicket) {
             if (!kgRafId) kgRafId = requestAnimationFrame(kgRafLoop);
         }
 
+        /* --- rAF throttle para el drag ---
+           mousemove dispara hasta 120 veces/seg en pantallas modernas.
+           En vez de escribir transform en cada evento (causa jank),
+           guardamos el valor y lo aplicamos una vez por frame. */
+        var dragRafPending = false;
+        function applyDragTransform() {
+            dragRafPending = false;
+            kgTrack.style.transform = 'translateX(' + kgCurrentX + 'px)';
+        }
+
         /* --- Mouse events --- */
         kgWrapper.addEventListener('mousedown', function(e) {
             kgIsDown   = true;
@@ -1888,6 +1963,8 @@ if (modalTicket) {
             cancelAnimationFrame(kgRafId);
             kgRafId    = null;
             kgCurrentX = kgTargetX;
+            /* Recalcular límite por si las imágenes cambiaron el ancho */
+            kgRecalcMax();
             /* Promover a GPU layer solo al empezar el drag */
             kgTrack.style.willChange = 'transform';
         });
@@ -1910,7 +1987,10 @@ if (modalTicket) {
             var walk = (e.pageX - kgStartX) * KG_MULT;
             kgTargetX  = kgClamp(kgStartOff + walk);
             kgCurrentX = kgTargetX;
-            kgTrack.style.transform = 'translateX(' + kgCurrentX + 'px)';
+            if (!dragRafPending) {
+                dragRafPending = true;
+                requestAnimationFrame(applyDragTransform);
+            }
         });
 
         /* --- Touch events ---
@@ -1924,14 +2004,21 @@ if (modalTicket) {
                 cancelAnimationFrame(kgRafId);
                 kgRafId      = null;
                 kgCurrentX   = kgTargetX;
+                kgRecalcMax();
+                kgWrapper.classList.add('grabbing');
+                kgTrack.style.willChange = 'transform';
             }, { passive: true });
             kgWrapper.addEventListener('touchmove', function(e) {
                 var walk = (e.touches[0].pageX - kgTouchStart) * KG_MULT;
                 kgTargetX  = kgClamp(kgTouchOff + walk);
                 kgCurrentX = kgTargetX;
-                kgTrack.style.transform = 'translateX(' + kgCurrentX + 'px)';
+                if (!dragRafPending) {
+                    dragRafPending = true;
+                    requestAnimationFrame(applyDragTransform);
+                }
             }, { passive: true });
             kgWrapper.addEventListener('touchend', function() {
+                kgWrapper.classList.remove('grabbing');
                 kgStartRaf();
             }, { passive: true });
         }
@@ -2011,7 +2098,10 @@ if (modalTicket) {
             'rgba(100, 85,220,VAL)',
             'rgba(200,190,255,VAL)'
         ];
-        var count = 28;
+        /* 28 partículas creaban 28 GPU layers compitiendo con la
+           animación del carrusel. 16 mantienen el efecto visual
+           pero liberan presión sobre el compositor. */
+        var count = 16;
 
         for (var i = 0; i < count; i++) {
             var el      = document.createElement('div');
@@ -2349,4 +2439,353 @@ if (modalTicket) {
 })();
 /* =======================================================
    FIN LA COLUMNA PAGE JS
+   ======================================================= */
+
+
+
+
+/* =======================================================
+   MIDO PAGE JS
+   Solo se ejecuta si body tiene la clase .mi-page.
+   Encapsulado en IIFE para no contaminar el scope global.
+   ======================================================= */
+(function () {
+
+    /* Guard: abort si no estamos en la página Mido */
+    if (!document.body.classList.contains('mi-page')) return;
+
+
+    /* =======================================================
+       1. RELOJ EN STATUS BAR
+       Imita el reloj de un dashboard de hogar inteligente.
+       Pausa cuando la pestaña está oculta.
+       ======================================================= */
+    var miNow = document.getElementById('mi-now');
+    if (miNow) {
+        var miClockTimer = null;
+
+        function miUpdateClock() {
+            var d = new Date();
+            var hh = String(d.getHours()).padStart(2, '0');
+            var mm = String(d.getMinutes()).padStart(2, '0');
+            miNow.textContent = hh + ':' + mm;
+        }
+        function miStartClock() {
+            if (miClockTimer) return;
+            miUpdateClock();
+            miClockTimer = setInterval(miUpdateClock, 30000);
+        }
+        function miStopClock() {
+            if (!miClockTimer) return;
+            clearInterval(miClockTimer);
+            miClockTimer = null;
+        }
+        document.addEventListener('visibilitychange', function () {
+            if (document.hidden) miStopClock(); else miStartClock();
+        });
+        miStartClock();
+    }
+
+
+    /* =======================================================
+       2. SCROLL REVEAL (.mi-fade)
+       IntersectionObserver simple — agrega .mi-vis cuando el
+       elemento entra en viewport. Una sola pasada (unobserve).
+       ======================================================= */
+    var miRevealObs = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('mi-vis');
+                miRevealObs.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.mi-fade').forEach(function (el) {
+        miRevealObs.observe(el);
+    });
+
+
+    /* =======================================================
+       3. SPOTLIGHT QUE SIGUE AL CURSOR
+       Solo en desktop con cursor real. Actualiza --mx / --my
+       throttled con rAF para evitar layout thrashing.
+       ======================================================= */
+    var miSpotlight = document.getElementById('mi-spotlight');
+    if (miSpotlight && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+        var miMx = 0, miMy = 0;
+        var miPending = false;
+
+        function miApplySpotlight() {
+            miPending = false;
+            miSpotlight.style.setProperty('--mx', miMx + 'px');
+            miSpotlight.style.setProperty('--my', miMy + 'px');
+        }
+
+        document.addEventListener('mousemove', function (e) {
+            miMx = e.clientX;
+            miMy = e.clientY;
+            if (!miPending) {
+                miPending = true;
+                requestAnimationFrame(miApplySpotlight);
+            }
+        }, { passive: true });
+    }
+
+
+    /* =======================================================
+       4. COUNTER ANIMADO en .mi-result-num
+       Cada número con data-target sube de 0 hasta su valor
+       cuando entra en viewport. easeOutExpo para ritmo natural.
+       Soporta data-prefix (ej "+") y data-suffix (ej "%").
+       ======================================================= */
+    document.querySelectorAll('.mi-result-num').forEach(function (numEl) {
+        var target = parseInt(numEl.dataset.target, 10) || 0;
+        var prefix = numEl.dataset.prefix || '';
+        var suffix = numEl.dataset.suffix || '';
+        var done = false;
+
+        var obs = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (entry.isIntersecting && !done) {
+                    done = true;
+                    obs.disconnect();
+
+                    var start = null;
+                    var dur = 1600;
+
+                    function step(ts) {
+                        if (!start) start = ts;
+                        var p = Math.min((ts - start) / dur, 1);
+                        var eased = p < 1 ? 1 - Math.pow(2, -9 * p) : 1;
+                        numEl.textContent = prefix + Math.round(eased * target) + suffix;
+                        if (p < 1) requestAnimationFrame(step);
+                    }
+                    requestAnimationFrame(step);
+                }
+            });
+        }, { threshold: 0.4 });
+
+        obs.observe(numEl);
+    });
+
+
+    /* =======================================================
+       5. KGALLERY DRAG con inertia (mismo patrón que Tap In
+       pero con prefijo mi- y todas las optimizaciones aplicadas:
+       rAF throttle, cache de scrollWidth, GPU layer baseline).
+       ======================================================= */
+    var miKgTrack = document.getElementById('mi-kgallery-track');
+    if (miKgTrack) {
+
+        var miKgWrapper  = miKgTrack.closest('.mi-kgallery');
+        var miKgCurrentX = 0, miKgTargetX = 0;
+        var miKgIsDown   = false;
+        var miKgStartX   = 0, miKgStartOff = 0;
+        var miKgRafId    = null;
+        var MI_KG_LERP   = 0.18;
+        var MI_KG_MULT   = 1.4;
+
+        var miKgMaxX = 0;
+        function miKgRecalcMax() {
+            miKgMaxX = -(miKgTrack.scrollWidth - miKgWrapper.offsetWidth);
+        }
+        miKgRecalcMax();
+        window.addEventListener('resize', miKgRecalcMax, { passive: true });
+
+        function miKgClamp(v) {
+            return Math.max(miKgMaxX, Math.min(0, v));
+        }
+
+        /* Loop de inercia post-release */
+        function miKgRafLoop() {
+            miKgCurrentX += (miKgTargetX - miKgCurrentX) * MI_KG_LERP;
+            miKgTrack.style.transform = 'translateX(' + miKgCurrentX + 'px)';
+            if (Math.abs(miKgTargetX - miKgCurrentX) > 0.1) {
+                miKgRafId = requestAnimationFrame(miKgRafLoop);
+            } else {
+                miKgCurrentX = miKgTargetX;
+                miKgTrack.style.transform = 'translateX(' + miKgCurrentX + 'px)';
+                miKgRafId = null;
+                miKgTrack.style.willChange = 'auto';
+            }
+        }
+        function miKgStartRaf() {
+            if (!miKgRafId) miKgRafId = requestAnimationFrame(miKgRafLoop);
+        }
+
+        /* rAF throttle para los moves activos */
+        var miDragPending = false;
+        function miApplyDragTransform() {
+            miDragPending = false;
+            miKgTrack.style.transform = 'translateX(' + miKgCurrentX + 'px)';
+        }
+
+        /* --- Mouse --- */
+        miKgWrapper.addEventListener('mousedown', function (e) {
+            miKgIsDown   = true;
+            miKgStartX   = e.pageX;
+            miKgStartOff = miKgTargetX;
+            miKgWrapper.classList.add('grabbing');
+            cancelAnimationFrame(miKgRafId);
+            miKgRafId    = null;
+            miKgCurrentX = miKgTargetX;
+            miKgRecalcMax();
+            miKgTrack.style.willChange = 'transform';
+        });
+        document.addEventListener('mouseup', function () {
+            if (!miKgIsDown) return;
+            miKgIsDown = false;
+            miKgWrapper.classList.remove('grabbing');
+            miKgStartRaf();
+        });
+        miKgWrapper.addEventListener('mouseleave', function () {
+            if (miKgIsDown) {
+                miKgIsDown = false;
+                miKgWrapper.classList.remove('grabbing');
+                miKgStartRaf();
+            }
+        });
+        miKgWrapper.addEventListener('mousemove', function (e) {
+            if (!miKgIsDown) return;
+            e.preventDefault();
+            var walk = (e.pageX - miKgStartX) * MI_KG_MULT;
+            miKgTargetX  = miKgClamp(miKgStartOff + walk);
+            miKgCurrentX = miKgTargetX;
+            if (!miDragPending) {
+                miDragPending = true;
+                requestAnimationFrame(miApplyDragTransform);
+            }
+        });
+
+        /* --- Touch (sólo si no es pure-touch device, ese caso usa scroll nativo) --- */
+        if (!window.matchMedia('(hover: none) and (pointer: coarse)').matches) {
+            var miTouchStart = 0, miTouchOff = 0;
+            miKgWrapper.addEventListener('touchstart', function (e) {
+                miTouchStart = e.touches[0].pageX;
+                miTouchOff   = miKgTargetX;
+                cancelAnimationFrame(miKgRafId);
+                miKgRafId    = null;
+                miKgCurrentX = miKgTargetX;
+                miKgRecalcMax();
+                miKgWrapper.classList.add('grabbing');
+                miKgTrack.style.willChange = 'transform';
+            }, { passive: true });
+            miKgWrapper.addEventListener('touchmove', function (e) {
+                var walk = (e.touches[0].pageX - miTouchStart) * MI_KG_MULT;
+                miKgTargetX  = miKgClamp(miTouchOff + walk);
+                miKgCurrentX = miKgTargetX;
+                if (!miDragPending) {
+                    miDragPending = true;
+                    requestAnimationFrame(miApplyDragTransform);
+                }
+            }, { passive: true });
+            miKgWrapper.addEventListener('touchend', function () {
+                miKgWrapper.classList.remove('grabbing');
+                miKgStartRaf();
+            }, { passive: true });
+        }
+    }
+
+
+    /* =======================================================
+       6. ECOSYSTEM DIAGRAM — drawn-on-view
+       Cuando el diagrama entra en viewport, se añade
+       .mi-eco-active y las líneas se "dibujan" desde el
+       centro hacia afuera (CSS handle stroke-dashoffset).
+       Una sola pasada (disconnect tras dispararse).
+       ======================================================= */
+    var miEcoDiagram = document.getElementById('mi-eco-diagram');
+    if (miEcoDiagram) {
+        var miEcoObs = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (entry.isIntersecting) {
+                    miEcoDiagram.classList.add('mi-eco-active');
+                    miEcoObs.disconnect();
+                }
+            });
+        }, { threshold: 0.25, rootMargin: '0px 0px -60px 0px' });
+        miEcoObs.observe(miEcoDiagram);
+    }
+
+
+    /* =======================================================
+       7. SHOWCASE — lightbox click sobre cada pieza
+       La interacción visual (overlay, lift, scale) la maneja
+       CSS por completo. Aquí solo el wire-up al lightbox.
+       ======================================================= */
+    var miPrefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var miShowcaseCards = document.querySelectorAll('.mi-showcase-card');
+
+    /* --- Lightbox click sobre cada card del showcase --- */
+    var miLightbox    = document.getElementById('imageModal');
+    var miLightboxImg = document.getElementById('lightboxImg');
+    var miLightboxCap = document.getElementById('caption');
+    var miLightboxClose = miLightbox && miLightbox.querySelector('.close-btn');
+
+    if (miLightbox && miLightboxImg) {
+        miShowcaseCards.forEach(function (card) {
+            card.addEventListener('click', function () {
+                var src = card.getAttribute('data-mi-zoom') || (card.querySelector('img') && card.querySelector('img').src);
+                if (!src) return;
+                miLightboxImg.src = src;
+                if (miLightboxCap) miLightboxCap.textContent = card.getAttribute('aria-label') || '';
+                miLightbox.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            });
+        });
+        function miCloseLb() {
+            miLightbox.style.display = 'none';
+            document.body.style.overflow = '';
+            if (miLightboxImg) miLightboxImg.src = '';
+        }
+        if (miLightboxClose) miLightboxClose.addEventListener('click', miCloseLb);
+        miLightbox.addEventListener('click', function (e) {
+            if (e.target === miLightbox) miCloseLb();
+        });
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' && miLightbox.style.display === 'flex') miCloseLb();
+        });
+    }
+
+
+    /* =======================================================
+       8. PAUSE ANIMATIONS off-screen — libera main thread
+       Cuando una sección decorativa pesada (chain pattern,
+       eco rings, hero waves) sale de viewport, pausamos sus
+       animaciones. Mejora dramáticamente el scroll en pages
+       largas como esta.
+       ======================================================= */
+    var miHeavyEls = document.querySelectorAll(
+        '.mi-hero-waves, .mi-chain-asset, .mi-eco-rings, .mi-eco-field, .mi-eco-hub-halo, .mi-mockup-rings'
+    );
+    if (miHeavyEls.length && 'IntersectionObserver' in window) {
+        var miPauseObs = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                /* Aplica a el propio elemento + a su descendientes con animation */
+                var play = entry.isIntersecting ? 'running' : 'paused';
+                entry.target.style.animationPlayState = play;
+                /* Si el elemento contiene hijos con animation propia (ej. anillos) */
+                entry.target.querySelectorAll('[class*="mi-eco-ring"], .mi-wave').forEach(function (c) {
+                    c.style.animationPlayState = play;
+                });
+            });
+        }, { rootMargin: '100px 0px' });
+        miHeavyEls.forEach(function (el) { miPauseObs.observe(el); });
+    }
+
+
+    /* =======================================================
+       9. RESPETAR prefers-reduced-motion
+       Pause marquees (CSS no los neutraliza).
+       ======================================================= */
+    if (miPrefersReduced) {
+        document.querySelectorAll('.mi-mq-track').forEach(function (el) {
+            el.style.animationPlayState = 'paused';
+        });
+    }
+
+})();
+/* =======================================================
+   FIN MIDO PAGE JS
    ======================================================= */
